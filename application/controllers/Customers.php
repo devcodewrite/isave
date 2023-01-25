@@ -21,7 +21,7 @@ class Customers extends CI_Controller
         $data = [
             //'customer' => $this->customer_model->getById($id), //This is an example replace with actual model
         ];
-        $this->load->view('pages/customers/details', $data);
+        $this->load->view('pages/customers/detail', $data);
     }
 
      /**

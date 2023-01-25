@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script allowed');
 
-class Deposits extends CI_Controller
+class Associations extends CI_Controller
 {
     /**
      * Show a list of resources
@@ -9,7 +9,7 @@ class Deposits extends CI_Controller
      */
     public function index()
     {
-        $this->load->view('pages/deposits/list');
+        $this->load->view('pages/associations/list');
     }
 
      /**
@@ -19,9 +19,9 @@ class Deposits extends CI_Controller
     public function view(int $id = null)
     {
         $data = [
-            //'deposit' => $this->deposit_model->getById($id), //This is an example replace with actual model
+            //'association' => $this->association_model->getById($id), //This is an example replace with actual model
         ];
-        $this->load->view('pages/deposits/detail', $data);
+        $this->load->view('pages/associations/detail', $data);
     }
 
      /**
@@ -30,7 +30,7 @@ class Deposits extends CI_Controller
      */
     public function create()
     {
-        $this->load->view('pages/deposits/edit');
+        $this->load->view('pages/associations/edit');
     }
 
      /**
@@ -40,9 +40,9 @@ class Deposits extends CI_Controller
     public function edit(int $id = null)
     {
         $data = [
-            //'deposit' => $this->deposit_model->getById($id), //This is an example replace with actual model
+            //'association' => $this->association_model->getById($id), //This is an example replace with actual model
         ];
-        $this->load->view('pages/deposits/edit', $data);
+        $this->load->view('pages/associations/edit', $data);
     }
 
     /**

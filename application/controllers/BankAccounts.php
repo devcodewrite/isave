@@ -9,7 +9,7 @@ class BankAccounts extends CI_Controller
      */
     public function index()
     {
-        $this->load->view('pages/accounts/list');
+        $this->load->view('pages/bank-accounts/list');
     }
 
      /**
@@ -21,7 +21,7 @@ class BankAccounts extends CI_Controller
         $data = [
             //'account' => $this->account_model->getById($id), //This is an example replace with actual model
         ];
-        $this->load->view('pages/accounts/details', $data);
+        $this->load->view('pages/bank-accounts/detail', $data);
     }
 
      /**
@@ -30,7 +30,7 @@ class BankAccounts extends CI_Controller
      */
     public function create()
     {
-        $this->load->view('pages/accounts/edit');
+        $this->load->view('pages/bank-accounts/edit');
     }
 
      /**
@@ -42,7 +42,7 @@ class BankAccounts extends CI_Controller
         $data = [
             //'account' => $this->account_model->getById($id), //This is an example replace with actual model
         ];
-        $this->load->view('pages/accounts/edit', $data);
+        $this->load->view('pages/bank-accounts/edit', $data);
     }
 
     /**

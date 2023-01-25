@@ -67,3 +67,16 @@ if (!function_exists('load_page_styles')) {
        
     }
 }
+
+if(!function_exists('get_nav_status')){
+    function get_nav_status(string $uri){
+        $ci = (object)get_instance();
+        return $ci->uri->segment(1) === $uri? 'mm-active':'';
+    }
+}
+
+if(!function_exists('get_nav_status1')){
+    function get_nav_status1(string $uri){
+        return uri_string() === $uri? 'mm-active':'';
+    }
+}

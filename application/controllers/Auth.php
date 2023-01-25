@@ -9,7 +9,10 @@ class Auth extends CI_Controller
      */
     public function index()
     {
-        $this->load->view('pages/auth/login');
+        $data = [
+            'pageTitle' => 'Login - '.config_item('app_name'),
+        ];
+        $this->load->view('pages/auth/login', $data);
     }
 
      /**

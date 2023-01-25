@@ -46,7 +46,23 @@ $config['index_page'] = '';
 |
 |
 */
-$config['app_name'] = 'SYMANUS';
+$config['app_name'] = 'iSave';
+
+/*
+|--------------------------------------------------------------------------
+| App Version Year
+|--------------------------------------------------------------------------
+|current version year of release or update.
+*/
+$config['app_version_year'] = '2023';
+
+/*
+|--------------------------------------------------------------------------
+| App Version
+|--------------------------------------------------------------------------
+|current version of release or update.
+*/
+$config['app_version'] = 'v1.0.0';
 
 
 /*
