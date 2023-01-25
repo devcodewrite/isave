@@ -17,6 +17,9 @@
   "author": "Eric Mensah",
   "license": "MIT",
   "devDependencies": {
+    "bootstrap": "^4.6.2",
+    "jquery": "^3.6.3",
+    "jquery-validation": "^1.19.5",
     "laravel-mix": "^6.0.49"
   }
 }
