@@ -52,6 +52,22 @@ class Customers extends CI_Controller
     public function store ()
     {
         # code...
+       $customer  = null; // replace created record object
+
+        if($customer){
+            $out = [
+                'data' => $customer,
+                'status' => true,
+                'message' => 'Customer created successfully!'
+            ];
+        }
+        else {
+            $out = [
+                'status' => false,
+                'message' => "Customer couldn't be created!"
+            ];
+        }
+        httpResponseJson($out);
     }
 
     /**
