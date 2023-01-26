@@ -1,55 +1,75 @@
+let form = $(".editCustomerForm");
 
-$(".editCustomerForm").validate({
-    rules: {
-      firstname: "required",
-      lastname: "required",
-      username: { required: !0, minlength: 2 },
-      password: { required: !0, minlength: 5 },
-      confirm_password: { required: !0, minlength: 5, equalTo: "#password" },
-      email: { required: !0, email: !0 },
-      agree: "required",
+form.validate({
+  rules: {
+    title: "required",
+    firstname: "required",
+    lastname: "required",
+    sex: "required",
+    marital_status: "required",
+    primary_phone: {required:!0, min:10, digits:true},
+    address: "required",
+    city: "required",
+    email: { email: !0 },
+  },
+  messages: {
+    title: "Please choose a title",
+    firstname: "Please enter the firstname",
+    lastname: "Please enter the lastname",
+    sex: "Please select a sex",
+    marital_status: "Please choose a martial status",
+    primary_phone: {
+      required:"Please enter the primary phone number",
+      min:"Phone number should be at least 10 digits",
+      digits: "Phone number require only digits"
     },
-    messages: {
-      firstname: "Please enter your firstname",
-      lastname: "Please enter your lastname",
-      username: {
-        required: "Please enter a username",
-        minlength: "Your username must consist of at least 2 characters",
-      },
-      password: {
-        required: "Please provide a password",
-        minlength: "Your password must be at least 5 characters long",
-      },
-      confirm_password: {
-        required: "Please provide a password",
-        minlength: "Your password must be at least 5 characters long",
-        equalTo: "Please enter the same password as above",
-      },
-      email: "Please enter a valid email address",
-      agree: "Please accept our policy",
-    },
-    errorElement: "em",
-    errorPlacement: function (t, e) {
-      t.addClass("invalid-feedback"),
-        "checkbox" === e.prop("type")
-          ? t.insertAfter(e.nex$("label"))
-          : t.insertAfter(e);
-    },
-    highlight: function (e, i, n) {
-      $(e).addClass("is-invalid").removeClass("is-valid");
-    },
-    unhighlight: function (e, i, n) {
-      $(e).addClass("is-valid").removeClass("is-invalid");
-    },
-  });
-  
-  $('#toggle-use-personal-info').on('change', function(e){
-    if($(this).prop('checked')){
-      let firstname = $('#firstname').val();
-      let lastname = $('#lastname').val();
+    address: "Please enter an address",
+    city: "Please enter the city",
+    email: "Please enter a valid email address",
+  },
+  errorElement: "em",
+  errorPlacement: function (t, e) {
+    t.addClass("invalid-feedback"),
+      "checkbox" === e.prop("type")
+        ? t.insertAfter(e.nex$("label"))
+        : t.insertAfter(e);
+  },
+  highlight: function (e, i, n) {
+    $(e).addClass("is-invalid").removeClass("is-valid");
+  },
+  unhighlight: function (e, i, n) {
+    $(e).addClass("is-valid").removeClass("is-invalid");
+  },
+});
 
-      $('#account-name').val(`${firstname} ${lastname}`);
-    }else{
-      $('#account-name').val('');
-    }
-  });
+$("#toggle-use-personal-info").on("change", function (e) {
+  if ($(this).prop("checked")) {
+    let firstname = $("#firstname").val();
+    let lastname = $("#lastname").val();
+
+    $("#account-name").val(`${firstname} ${lastname}`);
+  } else {
+    $("#account-name").val("");
+  }
+});
+
+$('.select2-id-card-types,.select2-account-types').select2({
+  allowClear: true,
+  placeholder: "Select an account type",
+  selectionCssClass: 'form-select2'
+});
+
+$('.select2-associations').select2({
+  ajax: {
+    url: "/api/select2/associations",
+        dataType: "json",
+        data: function (params) {
+            params.api_token = $('meta[name="api-token"]').attr("content");
+            return params;
+        },
+  },
+  allowClear: true,
+  placeholder: "Select an association",
+  selectionCssClass: 'form-select2',
+  templateResult: formatPeopleResult,
+});

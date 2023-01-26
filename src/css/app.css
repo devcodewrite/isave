@@ -1,0 +1,7 @@
+@import "/node_modules/select2/dist/css/select2.min.css";
+
+.form-select2 {
+    line-height: 40px;
+    padding: 4px;
+    height: 38px !important;
+}

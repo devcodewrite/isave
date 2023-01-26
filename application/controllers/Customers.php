@@ -20,6 +20,8 @@ class Customers extends CI_Controller
     {
         $data = [
             //'customer' => $this->customer_model->getById($id), //This is an example replace with actual model
+            'id_card_types' => [], // replace [] with query of id types
+            'account_types' => [], // replace [] with query of account types
         ];
         $this->load->view('pages/customers/detail', $data);
     }

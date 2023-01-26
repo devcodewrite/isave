@@ -30,7 +30,13 @@ class Associations extends CI_Controller
      */
     public function create()
     {
-        $this->load->view('pages/associations/edit');
+        $row1 = (object)['community' => 'example community']; // example
+        $row2 = (object)['cluster_office_address' => 'NB123, Main Street, Kumasi'];
+        $data = [
+            'communities' => [$row1,], // replace with a query of existing coummnunities in associations table
+            'clusterOfficeAddresses' => [$row2,],  // replace with a query of existing cluter office address in associations table
+        ];
+        $this->load->view('pages/associations/edit', $data);
     }
 
      /**
