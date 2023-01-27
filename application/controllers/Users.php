@@ -21,7 +21,7 @@ class Users extends CI_Controller
         $data = [
             //'user' => $this->user_model->getById($id), //This is an example replace with actual model
         ];
-        $this->load->view('pages/users/details', $data);
+        $this->load->view('pages/users/detail', $data);
     }
 
      /**

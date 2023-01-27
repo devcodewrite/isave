@@ -21,7 +21,7 @@ class Payments extends CI_Controller
         $data = [
             //'payment' => $this->payment_model->getById($id), //This is an example replace with actual model
         ];
-        $this->load->view('pages/payments/details', $data);
+        $this->load->view('pages/payments/detail', $data);
     }
 
      /**

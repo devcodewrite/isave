@@ -21,7 +21,7 @@ class Loans extends CI_Controller
         $data = [
             //'loan' => $this->loan_model->getById($id), //This is an example replace with actual model
         ];
-        $this->load->view('pages/loans/details', $data);
+        $this->load->view('pages/loans/detail', $data);
     }
 
      /**
