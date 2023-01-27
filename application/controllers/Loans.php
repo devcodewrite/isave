@@ -18,8 +18,10 @@ class Loans extends CI_Controller
      */
     public function view(int $id = null)
     {
+        $table = "loans";
+        $column = "id";
         $data = [
-            //'loan' => $this->loan_model->getById($id), //This is an example replace with actual model
+            'loan' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
         ];
         $this->load->view('pages/loans/details', $data);
     }
@@ -39,8 +41,10 @@ class Loans extends CI_Controller
      */
     public function edit(int $id = null)
     {
+        $table = "loans";
+        $column = "id";
         $data = [
-            //'loan' => $this->loan_model->getById($id), //This is an example replace with actual model
+            'loan' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
         ];
         $this->load->view('pages/loans/edit', $data);
     }
@@ -49,9 +53,24 @@ class Loans extends CI_Controller
      * Store a resource
      * print json Response
      */
-    public function store ()
+    public function list ()
     {
-        # code...
+       # code...
+       $loan  = $this->common->get_loans_data(); // replace created record object
+       if($loan){
+           $out = [
+               'data' => $loan,
+               'status' => true,
+               'message' => 'Customer loan created successfully!'
+           ];
+       }
+       else {
+           $out = [
+               'status' => false,
+               'message' => "Customer loan couldn't be created!"
+           ];
+       }
+       httpResponseJson($out);
     }
 
     /**
@@ -60,7 +79,23 @@ class Loans extends CI_Controller
      */
     public function update (int $id = null)
     {
-        # code...
+        $data = array();
+        $table="loans";
+        $column = "id";
+        $loan = $this->common->update_data($id,$data,$table,$column); // replace created record object
+        if($loan){
+            $out = [
+                'status' => true,
+                'message' => 'Loan data updated successfully!'
+            ];
+        }
+        else {
+            $out = [
+                'status' => false,
+                'message' => "Loan data couldn't be update!"
+            ];
+        }
+        httpResponseJson($out);
     }
 
     /**
@@ -69,6 +104,41 @@ class Loans extends CI_Controller
      */
     public function delete (int $id = null)
     {
-        # code...
+        $data = array();
+        $table="loans";
+        $column = "id";
+        $loan = $this->common->update_data($id,$data,$table,$column); // replace created record object
+        if($loan){
+            $out = [
+                'status' => true,
+                'message' => 'Loan data deleted successfully!'
+            ];
+        }
+        else {
+            $out = [
+                'status' => false,
+                'message' => "Loan data couldn't be deleted!"
+            ];
+        }
+        httpResponseJson($out);
+    }
+    public function insert ()
+    {
+        $data = array();
+        $table="loans";
+        $loan  = $this->common->insert_data($table,$data); // replace created record object
+        if($loan){
+            $out = [
+                'status' => true,
+                'message' => 'Loan data created successfully!'
+            ];
+        }
+        else {
+            $out = [
+                'status' => false,
+                'message' => "Loan data couldn't be created!"
+            ];
+        }
+        httpResponseJson($out);
     }
 }

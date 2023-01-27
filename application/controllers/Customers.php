@@ -18,8 +18,10 @@ class Customers extends CI_Controller
      */
     public function view(int $id = null)
     {
+        $table = "members";
+        $column = "id";
         $data = [
-            //'customer' => $this->customer_model->getById($id), //This is an example replace with actual model
+            'customer' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
         ];
         $this->load->view('pages/customers/detail', $data);
     }
@@ -39,8 +41,10 @@ class Customers extends CI_Controller
      */
     public function edit(int $id = null)
     {
+        $table = "members";
+        $column = "id";
         $data = [
-            //'customer' => $this->customer_model->getById($id), //This is an example replace with actual model
+            'customer' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
         ];
         $this->load->view('pages/customers/edit', $data);
     }
@@ -49,11 +53,10 @@ class Customers extends CI_Controller
      * Store a resource
      * print json Response
      */
-    public function store ()
+    public function list ()
     {
         # code...
-       $customer  = null; // replace created record object
-
+       $customer  = $this->common->get_members_data(); // replace created record object
         if($customer){
             $out = [
                 'data' => $customer,
@@ -76,7 +79,23 @@ class Customers extends CI_Controller
      */
     public function update (int $id = null)
     {
-        # code...
+        $data = array();
+        $table="members";
+        $column = "id";
+        $customer  = $this->common->update_data($id,$data,$table,$column); // replace created record object
+        if($customer){
+            $out = [
+                'status' => true,
+                'message' => 'Customer data updated successfully!'
+            ];
+        }
+        else {
+            $out = [
+                'status' => false,
+                'message' => "Customer data couldn't be updated!"
+            ];
+        }
+        httpResponseJson($out);
     }
 
     /**
@@ -85,7 +104,41 @@ class Customers extends CI_Controller
      */
     public function delete (int $id = null)
     {
-        # code...
+        $data = array();
+        $table="members";
+        $column = "id";
+        $customer  = $this->common->update_data($id,$data,$table,$column); // replace created record object
+        if($customer){
+            $out = [
+                'status' => true,
+                'message' => 'Customer data deleted successfully!'
+            ];
+        }
+        else {
+            $out = [
+                'status' => false,
+                'message' => "Customer data couldn't be deleted!"
+            ];
+        }
+        httpResponseJson($out);
+    }
+    public function insert ()
+    {
+        $data = array();
+        $table="members";
+        $customer  = $this->common->insert_data($table,$data); // replace created record object
+        if($customer){
+            $out = [
+                'status' => true,
+                'message' => 'Customer data updated successfully!'
+            ];
+        }
+        else {
+            $out = [
+                'status' => false,
+                'message' => "Customer data couldn't be updated!"
+            ];
+        }
+        httpResponseJson($out);
     }
 }
-

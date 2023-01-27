@@ -39,8 +39,10 @@ class Associations extends CI_Controller
      */
     public function edit(int $id = null)
     {
+        $table = "associations";
+        $column = "id";
         $data = [
-            //'association' => $this->association_model->getById($id), //This is an example replace with actual model
+            'association' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
         ];
         $this->load->view('pages/associations/edit', $data);
     }
@@ -49,9 +51,24 @@ class Associations extends CI_Controller
      * Store a resource
      * print json Response
      */
-    public function store ()
+    public function list ()
     {
         # code...
+       $association  = $this->common->get_associations_data(); // replace created record object
+       if($association){
+           $out = [
+               'data' => $association,
+               'status' => true,
+               'message' => 'Association created successfully!'
+           ];
+       }
+       else {
+           $out = [
+               'status' => false,
+               'message' => "Association couldn't be created!"
+           ];
+       }
+       httpResponseJson($out);
     }
 
     /**
@@ -60,7 +77,23 @@ class Associations extends CI_Controller
      */
     public function update (int $id = null)
     {
-        # code...
+        $data = array();
+        $table="associations";
+        $column = "id";
+        $accounts = $this->common->update_data($id,$data,$table,$column); // replace created record object
+        if($accounts){
+            $out = [
+                'status' => true,
+                'message' => 'Association data updated successfully!'
+            ];
+        }
+        else {
+            $out = [
+                'status' => false,
+                'message' => "Association data couldn't be updated!"
+            ];
+        }
+        httpResponseJson($out);
     }
 
     /**
@@ -69,7 +102,41 @@ class Associations extends CI_Controller
      */
     public function delete (int $id = null)
     {
-        # code...
+        $data = array();
+        $table="associations";
+        $column = "id";
+        $accounts = $this->common->update_data($id,$data,$table,$column); // replace created record object
+        if($accounts){
+            $out = [
+                'status' => true,
+                'message' => 'Association data updated successfully!'
+            ];
+        }
+        else {
+            $out = [
+                'status' => false,
+                'message' => "Association data couldn't be updated!"
+            ];
+        }
+        httpResponseJson($out);
+    }
+    public function insert ()
+    {
+        $data = array();
+        $table="association";
+        $association  = $this->common->insert_data($table,$data); // replace created record object
+        if($association){
+            $out = [
+                'status' => true,
+                'message' => 'Association data created successfully!'
+            ];
+        }
+        else {
+            $out = [
+                'status' => false,
+                'message' => "Association data couldn't be created!"
+            ];
+        }
+        httpResponseJson($out);
     }
 }
-

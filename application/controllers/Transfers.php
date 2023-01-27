@@ -18,8 +18,10 @@ class Transfers extends CI_Controller
      */
     public function view(int $id = null)
     {
+        $table = "internal_transfers";
+        $column = "id";
         $data = [
-            //'transfer' => $this->transfer_model->getById($id), //This is an example replace with actual model
+            'transfer' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
         ];
         $this->load->view('pages/transfers/details', $data);
     }
@@ -39,8 +41,10 @@ class Transfers extends CI_Controller
      */
     public function edit(int $id = null)
     {
+        $table = "internal_transfers";
+        $column = "id";
         $data = [
-            //'transfer' => $this->transfer_model->getById($id), //This is an example replace with actual model
+            'transfer' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
         ];
         $this->load->view('pages/transfers/edit', $data);
     }
@@ -49,9 +53,24 @@ class Transfers extends CI_Controller
      * Store a resource
      * print json Response
      */
-    public function store ()
+    public function list ()
     {
         # code...
+       $transfer  = $this->common->get_internal_transfers_data(); // replace created record object
+       if($transfer){
+           $out = [
+               'data' => $transfer,
+               'status' => true,
+               'message' => 'Transfer created successfully!'
+           ];
+       }
+       else {
+           $out = [
+               'status' => false,
+               'message' => "Transfer couldn't be created!"
+           ];
+       }
+       httpResponseJson($out);
     }
 
     /**
@@ -60,7 +79,23 @@ class Transfers extends CI_Controller
      */
     public function update (int $id = null)
     {
-        # code...
+        $data = array();
+        $table="internal_transfers";
+        $column = "id";
+        $transfer = $this->common->update_data($id,$data,$table,$column); // replace created record object
+        if($transfer){
+            $out = [
+                'status' => true,
+                'message' => 'Transfer data updated successfully!'
+            ];
+        }
+        else {
+            $out = [
+                'status' => false,
+                'message' => "Transfer data couldn't be update!"
+            ];
+        }
+        httpResponseJson($out);
     }
 
     /**
@@ -69,6 +104,41 @@ class Transfers extends CI_Controller
      */
     public function delete (int $id = null)
     {
-        # code...
+        $data = array();
+        $table="internal_transfers";
+        $column = "id";
+        $transfer = $this->common->update_data($id,$data,$table,$column); // replace created record object
+        if($transfer){
+            $out = [
+                'status' => true,
+                'message' => 'Transfer data deleted successfully!'
+            ];
+        }
+        else {
+            $out = [
+                'status' => false,
+                'message' => "Transfer data couldn't be deleted!"
+            ];
+        }
+        httpResponseJson($out);
+    }
+    public function insert ()
+    {
+        $data = array();
+        $table="internal_transfers";
+        $loan  = $this->common->insert_data($table,$data); // replace created record object
+        if($loan){
+            $out = [
+                'status' => true,
+                'message' => 'Transfer data created successfully!'
+            ];
+        }
+        else {
+            $out = [
+                'status' => false,
+                'message' => "Transfer data couldn't be created!"
+            ];
+        }
+        httpResponseJson($out);
     }
 }

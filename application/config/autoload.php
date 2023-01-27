@@ -134,4 +134,5 @@ $autoload['language'] = array();
 */
 $autoload['model'] = array(
     'setting_model' => 'setting',
+    'common_model' => 'common'
 );

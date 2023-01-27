@@ -18,8 +18,10 @@ class BankAccounts extends CI_Controller
      */
     public function view(int $id = null)
     {
+        $table = "accounts";
+        $column = "id";
         $data = [
-            //'account' => $this->account_model->getById($id), //This is an example replace with actual model
+            'account' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
         ];
         $this->load->view('pages/bank-accounts/detail', $data);
     }
@@ -39,8 +41,10 @@ class BankAccounts extends CI_Controller
      */
     public function edit(int $id = null)
     {
+        $table = "accounts";
+        $column = "id";
         $data = [
-            //'account' => $this->account_model->getById($id), //This is an example replace with actual model
+            'account' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
         ];
         $this->load->view('pages/bank-accounts/edit', $data);
     }
@@ -49,9 +53,24 @@ class BankAccounts extends CI_Controller
      * Store a resource
      * print json Response
      */
-    public function store ()
+    public function list ()
     {
         # code...
+       $account  = $this->common->get_accounts_data(); // replace created record object
+       if($account){
+           $out = [
+               'data' => $account,
+               'status' => true,
+               'message' => 'Account created successfully!'
+           ];
+       }
+       else {
+           $out = [
+               'status' => false,
+               'message' => "Account couldn't be created!"
+           ];
+       }
+       httpResponseJson($out);
     }
 
     /**
@@ -60,7 +79,23 @@ class BankAccounts extends CI_Controller
      */
     public function update (int $id = null)
     {
-        # code...
+        $data = array();
+        $table="accounts";
+        $column = "id";
+        $accounts = $this->common->update_data($id,$data,$table,$column); // replace created record object
+        if($accounts){
+            $out = [
+                'status' => true,
+                'message' => 'Account data updated successfully!'
+            ];
+        }
+        else {
+            $out = [
+                'status' => false,
+                'message' => "Account data couldn't be updated!"
+            ];
+        }
+        httpResponseJson($out);
     }
 
     /**
@@ -69,6 +104,41 @@ class BankAccounts extends CI_Controller
      */
     public function delete (int $id = null)
     {
-        # code...
+        $data = array();
+        $table="accounts";
+        $column = "id";
+        $accounts = $this->common->update_data($id,$data,$table,$column); // replace created record object
+        if($accounts){
+            $out = [
+                'status' => true,
+                'message' => 'Account data updated successfully!'
+            ];
+        }
+        else {
+            $out = [
+                'status' => false,
+                'message' => "Account data couldn't be updated!"
+            ];
+        }
+        httpResponseJson($out);
+    }
+    public function insert ()
+    {
+        $data = array();
+        $table="association";
+        $customer  = $this->common->insert_data($table,$data); // replace created record object
+        if($customer){
+            $out = [
+                'status' => true,
+                'message' => 'Account created successfully!'
+            ];
+        }
+        else {
+            $out = [
+                'status' => false,
+                'message' => "Account data couldn't be creted!"
+            ];
+        }
+        httpResponseJson($out);
     }
 }

@@ -18,8 +18,10 @@ class Users extends CI_Controller
      */
     public function view(int $id = null)
     {
+        $table = "users";
+        $column = "id";
         $data = [
-            //'user' => $this->user_model->getById($id), //This is an example replace with actual model
+            'user' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
         ];
         $this->load->view('pages/users/details', $data);
     }
@@ -39,8 +41,10 @@ class Users extends CI_Controller
      */
     public function edit(int $id = null)
     {
+        $table = "users";
+        $column = "id";
         $data = [
-            //'user' => $this->user_model->getById($id), //This is an example replace with actual model
+            'user' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
         ];
         $this->load->view('pages/users/edit', $data);
     }
@@ -51,7 +55,22 @@ class Users extends CI_Controller
      */
     public function store ()
     {
-        # code...
+         # code...
+       $user  = $this->common->get_users_data(); // replace created record object
+       if($user){
+           $out = [
+               'data' => $user,
+               'status' => true,
+               'message' => 'Users created successfully!'
+           ];
+       }
+       else {
+           $out = [
+               'status' => false,
+               'message' => "Users couldn't be created!"
+           ];
+       }
+       httpResponseJson($out);
     }
 
     /**
@@ -60,7 +79,23 @@ class Users extends CI_Controller
      */
     public function update (int $id = null)
     {
-        # code...
+        $data = array();
+        $table="users";
+        $column = "id";
+        $transfer = $this->common->update_data($id,$data,$table,$column); // replace created record object
+        if($transfer){
+            $out = [
+                'status' => true,
+                'message' => 'User data updated successfully!'
+            ];
+        }
+        else {
+            $out = [
+                'status' => false,
+                'message' => "User data couldn't be updated!"
+            ];
+        }
+        httpResponseJson($out);
     }
 
     /**
@@ -69,6 +104,41 @@ class Users extends CI_Controller
      */
     public function delete (int $id = null)
     {
-        # code...
+        $data = array();
+        $table="users";
+        $column = "id";
+        $transfer = $this->common->update_data($id,$data,$table,$column); // replace created record object
+        if($transfer){
+            $out = [
+                'status' => true,
+                'message' => 'User data deleted successfully!'
+            ];
+        }
+        else {
+            $out = [
+                'status' => false,
+                'message' => "User data couldn't be deleted!"
+            ];
+        }
+        httpResponseJson($out);
+    }
+    public function list ()
+    {
+        $data = array();
+        $table="users";
+        $loan  = $this->common->insert_data($table,$data); // replace created record object
+        if($loan){
+            $out = [
+                'status' => true,
+                'message' => 'User data created successfully!'
+            ];
+        }
+        else {
+            $out = [
+                'status' => false,
+                'message' => "User data couldn't be created!"
+            ];
+        }
+        httpResponseJson($out);
     }
 }
