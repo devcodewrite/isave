@@ -24,6 +24,15 @@ class Loans extends CI_Controller
         $this->load->view('pages/loans/detail', $data);
     }
 
+    /**
+     * Show a form page for creating resource
+     * html view
+     */
+    public function payouts()
+    {
+        $this->load->view('pages/loans/payout');
+    }
+
      /**
      * Show a form page for creating resource
      * html view

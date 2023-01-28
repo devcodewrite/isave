@@ -8,7 +8,7 @@ $("#editCustomerForm").validate({
     email: { required: !0, email: !0 },
     agree: "required",
   },
-  messages: {
+  messages: { 
     firstname: "Please enter your firstname",
     lastname: "Please enter your lastname",
     username: {

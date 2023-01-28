@@ -71,5 +71,4 @@ $('.select2-associations').select2({
   allowClear: true,
   placeholder: "Select an association",
   selectionCssClass: 'form-select2',
-  templateResult: formatPeopleResult,
 });

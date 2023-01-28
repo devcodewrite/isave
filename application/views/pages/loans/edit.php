@@ -32,7 +32,7 @@
                         <div class="form-row mb-3">
                             <div class="col-md-12 border-bottom pb-2">
                                 <div class="form-group">
-                                    <label for="search-customer-account">Accounnt ID</label>
+                                    <label for="search-customer-account">Account ID</label>
                                     <div class="input-group">
                                         <input type="text" name="account_number" id="account_number" class="form-control border-rounded" placeholder="Enter the account number" required>
                                         <button class="ml-2 btn-icon btn-pill btn btn-outline-primary">

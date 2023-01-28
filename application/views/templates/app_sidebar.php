@@ -133,11 +133,6 @@
                                 <i class="metismenu-icon"></i>Payout Schedule
                             </a>
                         </li>
-                        <li>
-                            <a href="<?= site_url('loans/settlements') ?>" class="<?= get_nav_status1('loans/settlements') ?>">
-                                <i class="metismenu-icon"></i>Settlements
-                            </a>
-                        </li>
                     </ul>
                 </li>
 
