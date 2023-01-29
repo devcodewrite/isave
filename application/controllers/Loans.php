@@ -23,7 +23,16 @@ class Loans extends CI_Controller
         $data = [
             'loan' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
         ];
-        $this->load->view('pages/loans/details', $data);
+        $this->load->view('pages/loans/detail', $data);
+    }
+
+    /**
+     * Show a form page for creating resource
+     * html view
+     */
+    public function payouts()
+    {
+        $this->load->view('pages/loans/payout');
     }
 
      /**

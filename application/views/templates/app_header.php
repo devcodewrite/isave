@@ -525,10 +525,10 @@
                                                 <li class="nav-item-header nav-item">My Account
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a href="javascript:void(0);" class="nav-link">Profile</a>
+                                                    <a href="<?=site_url('account/profile') ?>" class="nav-link">Profile</a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a href="javascript:void(0);" class="nav-link">Setting</a>
+                                                    <a href="<?=site_url('account/update-profile'); ?>" class="nav-link">Update Profile</a>
                                                 </li>
                                             </ul>
                                         </div>

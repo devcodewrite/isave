@@ -34,7 +34,7 @@
             <ul class="vertical-nav-menu">
                 <li class="app-sidebar__heading">Home</li>
                 <li>
-                    <a href="<?=site_url('dashboard') ?>" class="<?= get_nav_status('dashboard') ?>">
+                    <a href="<?= site_url('dashboard') ?>" class="<?= get_nav_status('dashboard') ?>">
                         <i class="metismenu-icon pe-7s-rocket"></i>Dashboard
                     </a>
                 </li>
@@ -46,12 +46,12 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="<?=site_url('bankaccounts/create') ?>" class="<?= get_nav_status1('bankaccounts/create') ?>">
+                            <a href="<?= site_url('bankaccounts/create') ?>" class="<?= get_nav_status1('bankaccounts/create') ?>">
                                 <i class="metismenu-icon"></i> New Account
                             </a>
                         </li>
                         <li>
-                            <a href="<?=site_url('bankaccounts') ?>" class="<?= get_nav_status1('bankaccounts') ?>">
+                            <a href="<?= site_url('bankaccounts') ?>" class="<?= get_nav_status1('bankaccounts') ?>">
                                 <i class="metismenu-icon"></i>List Accounts
                             </a>
                         </li>
@@ -64,12 +64,12 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="<?=site_url('deposits/create') ?>" class="<?= get_nav_status1('deposits/create') ?>">
+                            <a href="<?= site_url('deposits/create') ?>" class="<?= get_nav_status1('deposits/create') ?>">
                                 <i class="metismenu-icon"></i> New Deposit
                             </a>
                         </li>
                         <li>
-                            <a href="<?=site_url('deposits') ?>" class="<?= get_nav_status1('deposits') ?>">
+                            <a href="<?= site_url('deposits') ?>" class="<?= get_nav_status1('deposits') ?>">
                                 <i class="metismenu-icon"></i>List Deposits
                             </a>
                         </li>
@@ -82,12 +82,12 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="<?=site_url('withdrawals/create') ?>" class="<?= get_nav_status1('withdrawals/create') ?>">
+                            <a href="<?= site_url('withdrawals/create') ?>" class="<?= get_nav_status1('withdrawals/create') ?>">
                                 <i class="metismenu-icon"></i> New Withdrawal
                             </a>
                         </li>
                         <li>
-                            <a href="<?=site_url('withdrawals') ?>" class="<?= get_nav_status1('withdrawals') ?>">
+                            <a href="<?= site_url('withdrawals') ?>" class="<?= get_nav_status1('withdrawals') ?>">
                                 <i class="metismenu-icon"></i>List Withdrawals
                             </a>
                         </li>
@@ -100,12 +100,12 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="<?=site_url('transfers/create') ?>" class="<?= get_nav_status1('transfers/create') ?>">
+                            <a href="<?= site_url('transfers/create') ?>" class="<?= get_nav_status1('transfers/create') ?>">
                                 <i class="metismenu-icon"></i> New Internal Transfer
                             </a>
                         </li>
                         <li>
-                            <a href="<?=site_url('transfers') ?>" class="<?= get_nav_status1('transfers') ?>">
+                            <a href="<?= site_url('transfers') ?>" class="<?= get_nav_status1('transfers') ?>">
                                 <i class="metismenu-icon"></i>List Internal Transfers
                             </a>
                         </li>
@@ -119,28 +119,23 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="<?=site_url('loans/create') ?>" class="<?= get_nav_status1('loans/create') ?>">
+                            <a href="<?= site_url('loans/create') ?>" class="<?= get_nav_status1('loans/create') ?>">
                                 <i class="metismenu-icon"></i> New Loan Request
                             </a>
                         </li>
                         <li>
-                            <a href="<?=site_url('loans') ?>" class="<?= get_nav_status1('loans') ?>">
+                            <a href="<?= site_url('loans') ?>" class="<?= get_nav_status1('loans') ?>">
                                 <i class="metismenu-icon"></i>List Loan Requests
                             </a>
                         </li>
                         <li>
-                            <a href="<?=site_url('loans/payouts') ?>" class="<?= get_nav_status1('loans/payouts') ?>">
+                            <a href="<?= site_url('loans/payouts') ?>" class="<?= get_nav_status1('loans/payouts') ?>">
                                 <i class="metismenu-icon"></i>Payout Schedule
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?=site_url('loans/settlements') ?>" class="<?= get_nav_status1('loans/settlements') ?>">
-                                <i class="metismenu-icon"></i>Settlements
                             </a>
                         </li>
                     </ul>
                 </li>
-             
+
                 <li class="app-sidebar__heading">Customers & Associations</li>
                 <li class="<?= get_nav_status('customers') ?>">
                     <a href="#">
@@ -149,12 +144,12 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="<?=site_url('customers/create') ?>" class="<?= get_nav_status1('customers/create') ?>">
+                            <a href="<?= site_url('customers/create') ?>" class="<?= get_nav_status1('customers/create') ?>">
                                 <i class="metismenu-icon"></i> New Customer
                             </a>
                         </li>
                         <li>
-                            <a href="<?=site_url('customers') ?>" class="<?= get_nav_status1('customers') ?>">
+                            <a href="<?= site_url('customers') ?>" class="<?= get_nav_status1('customers') ?>">
                                 <i class="metismenu-icon"></i>List Customers
                             </a>
                         </li>
@@ -167,12 +162,12 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="<?=site_url('associations/create') ?>" class="<?= get_nav_status1('associations/create') ?>">
+                            <a href="<?= site_url('associations/create') ?>" class="<?= get_nav_status1('associations/create') ?>">
                                 <i class="metismenu-icon"></i> New Association
                             </a>
                         </li>
                         <li>
-                            <a href="<?=site_url('associations') ?>" class="<?= get_nav_status1('associations') ?>">
+                            <a href="<?= site_url('associations') ?>" class="<?= get_nav_status1('associations') ?>">
                                 <i class="metismenu-icon"></i>List Associations
                             </a>
                         </li>
@@ -187,12 +182,12 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="<?=site_url('reporting/income/by-accounts') ?>" class="<?= get_nav_status1('deposits/create') ?>">
-                                <i class="metismenu-icon"></i>Income by accounts 
+                            <a href="<?= site_url('reporting/income/by-accounts') ?>" class="<?= get_nav_status1('deposits/create') ?>">
+                                <i class="metismenu-icon"></i>Income by accounts
                             </a>
                         </li>
                         <li>
-                            <a href="<?=site_url('reporting/income') ?>" class="<?= get_nav_status1('deposits') ?>">
+                            <a href="<?= site_url('reporting/income') ?>" class="<?= get_nav_status1('deposits') ?>">
                                 <i class="metismenu-icon"></i>List Deposits
                             </a>
                         </li>
@@ -205,18 +200,18 @@
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
                     <ul>
-                    <li>
-                            <a href="<?=site_url('reporting/deposit-by-accounts') ?>" class="<?= get_nav_status1('reporting/deposit-by-accounts') ?>">
+                        <li>
+                            <a href="<?= site_url('reporting/deposit-by-accounts') ?>" class="<?= get_nav_status1('reporting/deposit-by-accounts') ?>">
                                 <i class="metismenu-icon"></i>Deposit by Accounts
                             </a>
                         </li>
                         <li>
-                            <a href="<?=site_url('reporting/withdrawal-by-accounts') ?>" class="<?= get_nav_status1('reporting/withdrawal-by-accounts') ?>">
+                            <a href="<?= site_url('reporting/withdrawal-by-accounts') ?>" class="<?= get_nav_status1('reporting/withdrawal-by-accounts') ?>">
                                 <i class="metismenu-icon"></i>Withdrawal by Accounts
                             </a>
                         </li>
                         <li>
-                            <a href="<?=site_url('reporting/transfer-by-accounts') ?>" class="<?= get_nav_status1('reporting/withdrawal-by-accounts') ?>">
+                            <a href="<?= site_url('reporting/transfer-by-accounts') ?>" class="<?= get_nav_status1('reporting/withdrawal-by-accounts') ?>">
                                 <i class="metismenu-icon"></i>Transfer by Accounts
                             </a>
                         </li>
@@ -231,12 +226,12 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="<?=site_url('users/create') ?>" class="<?= get_nav_status1('users/create') ?>">
+                            <a href="<?= site_url('users/create') ?>" class="<?= get_nav_status1('users/create') ?>">
                                 <i class="metismenu-icon"></i> New User
                             </a>
                         </li>
                         <li>
-                            <a href="<?=site_url('users') ?>" class="<?= get_nav_status1('users') ?>">
+                            <a href="<?= site_url('users') ?>" class="<?= get_nav_status1('users') ?>">
                                 <i class="metismenu-icon"></i>List User
                             </a>
                         </li>
@@ -246,42 +241,50 @@
                 <li class="app-sidebar__heading">Setup & Settings</li>
                 <li class="<?= get_nav_status('setup') ?>">
                     <a href="#">
-                        <i class="metismenu-icon pe-7s-box2"></i>Attributes
+                        <i class="metismenu-icon pe-7s-box2"></i>Setup
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
                     <ul>
-                        <li>
-                            <a href="<?=site_url('setup/account-types/create') ?>" class="<?= get_nav_status1('setup/account-types/create') ?>">
-                                <i class="metismenu-icon"></i> Account Types
+                        <li class="<?= get_nav_status('setup') ?>">
+                            <a href="#">
+                                <i class="metismenu-icon pe-7s-box2"></i>Attributes
+                                <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                             </a>
-                        </li>
-                        <li>
-                            <a href="<?=site_url('setup/id-types/create') ?>" class="<?= get_nav_status1('setup/id-types/create') ?>">
-                                <i class="metismenu-icon"></i> Identity Card Types
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?=site_url('setup/districts/create') ?>" class="<?= get_nav_status1('setup/districts/create') ?>">
-                                <i class="metismenu-icon"></i> Districts
-                            </a>
-                        </li>
+                            <ul>
+                                <li>
+                                    <a href="<?= site_url('setup/account-types/create') ?>" class="<?= get_nav_status1('setup/account-types/create') ?>">
+                                        <i class="metismenu-icon"></i> Account Types
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?= site_url('setup/id-types/create') ?>" class="<?= get_nav_status1('setup/id-types/create') ?>">
+                                        <i class="metismenu-icon"></i> Identity Card Types
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?= site_url('setup/districts/create') ?>" class="<?= get_nav_status1('setup/districts/create') ?>">
+                                        <i class="metismenu-icon"></i> Districts
+                                    </a>
+                                </li>
 
-                        <li>
-                            <a href="<?=site_url('setup/areas/create') ?>" class="<?= get_nav_status1('setup/areas/create') ?>">
-                                <i class="metismenu-icon"></i> Areas
-                            </a>
+                                <li>
+                                    <a href="<?= site_url('setup/areas/create') ?>" class="<?= get_nav_status1('setup/areas/create') ?>">
+                                        <i class="metismenu-icon"></i> Areas
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?= site_url('setup/societies/create') ?>" class="<?= get_nav_status1('setup/societies/create') ?>">
+                                        <i class="metismenu-icon"></i> Societies
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
-                            <a href="<?=site_url('setup/societies/create') ?>" class="<?= get_nav_status1('setup/societies/create') ?>">
-                                <i class="metismenu-icon"></i> Societies
+                            <a href="<?= site_url('settings') ?>" class="<?= get_nav_status('settings') ?>">
+                                <i class="metismenu-icon pe-7s-config"></i>Settings
                             </a>
                         </li>
                     </ul>
-                </li>
-                <li>
-                    <a href="<?=site_url('settings') ?>" class="<?= get_nav_status('settings') ?>">
-                        <i class="metismenu-icon pe-7s-config"></i>Settings
-                    </a>
                 </li>
             </ul>
         </div>

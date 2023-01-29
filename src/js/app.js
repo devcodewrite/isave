@@ -7,6 +7,19 @@ window.Swal = Swal;
 
 require('jquery-validation/dist/jquery.validate');
 
+window.JSZip = require("jszip");
+let pdfmake = require("pdfmake");
+let pdffonts = require("pdfmake/build/vfs_fonts.js");
+pdfmake.vfs = pdffonts.pdfMake.vfs;
+
+require("datatables.net");
+require("datatables.net-responsive");
+require("datatables.net-bs4");
+require("datatables.net-buttons");
+require("datatables.net-buttons/js/buttons.print.min.mjs");
+require("datatables.net-buttons/js/buttons.html5.min.mjs");
+require("datatables.net-buttons-bs4");
+
 window.readURL = function(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();

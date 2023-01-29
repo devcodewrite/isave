@@ -23,7 +23,7 @@ class Users extends CI_Controller
         $data = [
             'user' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
         ];
-        $this->load->view('pages/users/details', $data);
+        $this->load->view('pages/users/detail', $data);
     }
 
      /**

@@ -23,7 +23,7 @@ class Withdrawals extends CI_Controller
         $data = [
             'withdrawal' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
         ];
-        $this->load->view('pages/withdrawals/details', $data);
+        $this->load->view('pages/withdrawals/detail', $data);
     }
 
      /**
