@@ -35,7 +35,11 @@ class Customers extends CI_Controller
      */
     public function create()
     {
-        $this->load->view('pages/customers/edit');
+        $data = [
+            'id_card_types' => [], // replace [] with query of id types
+            'account_types' => [], // replace [] with query of account types
+        ];
+        $this->load->view('pages/customers/edit', $data);
     }
 
      /**
