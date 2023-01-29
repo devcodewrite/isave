@@ -16,6 +16,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta name="msapplication-tap-highlight" content="no">
     <link rel="shortcut icon" href="<?= $this->setting->get('org_logo',base_url('assets/images/logo.png'))??base_url('assets/images/logo.png') ?>" type="image/x-icon">
     <link href="<?= base_url("assets/css/main.css"); ?>" rel="stylesheet">
+    <link href="<?= base_url("assets/css/app.css"); ?>" rel="stylesheet">
 </head>
 <body>
 <div class="app-container app-theme-white body-tabs-shadow fixed-header fixed-sidebar">

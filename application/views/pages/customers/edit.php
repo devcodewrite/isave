@@ -31,31 +31,31 @@
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-body">
-                        <div id="smartwizard">
+                        <form id="smartwizard" class="editCustomerForm" novalidate action="">
                             <ul class="forms-wizard">
                                 <li>
-                                    <a href="#step-1">
+                                    <a class="form-step" href="#step-1">
                                         <em>1</em><span>Personal Information</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#step-2">
+                                    <a class="form-step" href="#step-2">
                                         <em>2</em><span>Account Information</span>
                                     </a>
                                 </li>
-                                <li>
+                                <li class="form-step">
                                     <a href="#step-3">
-                                        <em>3</em><span>Finish Wizard</span>
+                                        <em>3</em><span>Finish</span>
                                     </a>
                                 </li>
                             </ul>
                             <div class="form-wizard-content">
-                                <form id="step-1" class="editCustomerForm" onvalidate action="" method="post">
+                                <div id="step-1" onvalidate action="" method="post">
                                     <div class="form-row">
                                         <div class="col-md-2">
                                             <div class="position-relative form-group">
-                                                <label for="sex">Title</label>
-                                                <select name="sex" class="form-control">
+                                                <label for="title">Title</label>
+                                                <select name="title" class="form-control">
                                                     <option value="">Select a title</option>
                                                     <option value="Mr.">Mr.</option>
                                                     <option value="Miss">Miss</option>
@@ -101,8 +101,8 @@
                                         </div>
                                         <div class="col-md-3">
                                             <div class="position-relative form-group">
-                                                <label for="sex">Marital status</label>
-                                                <select name="sex" class="form-control" required>
+                                                <label for="marital_status">Marital status</label>
+                                                <select name="marital_status" class="form-control" required>
                                                     <option value="">Select a status</option>
                                                     <option value="single">Single</option>
                                                     <option value="married">Married</option>
@@ -142,13 +142,13 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="position-relative form-group">
-                                                <label for="exampleAddress">Address</label>
+                                                <label for="address">Address</label>
                                                 <input name="address" placeholder="e.g. CR123, Main Street" type="text" class="form-control">
                                             </div>
                                         </div>
                                     </div>
-                                </form>
-                                <form id="step-2" method="post" action="">
+                                </div>
+                                <div id="step-2" method="post" action="">
                                     <div id="accordion" class="accordion-wrapper mb-3">
                                         <div class="card">
                                             <div id="headingOne" class="card-header">
@@ -158,6 +158,17 @@
                                             </div>
                                             <div data-parent="#accordion" id="collapseOne" aria-labelledby="headingOne" class="collapse show">
                                                 <div class="card-body">
+                                                    <div class="form-row text-center">
+                                                        <div style="width: 200px;" class="mx-auto">
+                                                            <div class="card">
+                                                                <img class="photo-placeholder" height="200" width="200" src="<?= base_url('assets/images/no-image.png') ?>" alt="Passport Photo">
+                                                            </div>
+                                                            <div class="position-relative form-group">
+                                                                <input name="photo" id="photo" placeholder="Choose a photo" onchange="readURL(this)" type="file" class="form-control">
+                                                                <label for="photo">Passport Photo</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <div class="form-row">
                                                         <div class="col-md-6">
                                                             <div class="position-relative form-group">
@@ -174,6 +185,10 @@
                                                             <div class="position-relative form-group">
                                                                 <label for="acc_type_id">Account type</label>
                                                                 <select name="acc_type_id" class="form-control select2-account-types" required>
+                                                                    <option value=""></option>
+                                                                    <?php foreach ($id_card_types as $row) { ?>
+                                                                        <option value="<?= $row->id; ?>"><?= $row->label; ?></option>
+                                                                    <?php } ?>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -183,6 +198,10 @@
                                                             <div class="position-relative form-group">
                                                                 <label for="identity_card_type_id">ID card type</label>
                                                                 <select name="identity_card_type_id" class="form-control select2-id-card-types" required>
+                                                                <option value=""></option>
+                                                                    <?php foreach ($id_card_types as $row) { ?>
+                                                                        <option value="<?= $row->id; ?>"><?= $row->label; ?></option>
+                                                                    <?php } ?>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -193,11 +212,21 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <div class="form-row">
+                                                        <div class="col-md-6">
+                                                            <div class="position-relative form-group">
+                                                                <label for="association_id">Association</label>
+                                                                <select name="association_id" class="form-control select2-associations" required>
+                                                                <option value=""></option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </form>
+                                </div>
                                 <div id="step-3">
                                     <div class="no-results">
                                         <div class="swal2-icon swal2-success swal2-animate-success-icon">
@@ -217,12 +246,12 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                         <div class="divider"></div>
                         <div class="clearfix">
                             <button type="button" id="reset-btn" class="btn-shadow float-left btn btn-link">Reset</button>
-                            <button type="button" id="next-btn" class="btn-shadow btn-wide float-right btn-pill btn-hover-shine btn btn-primary">Next</button>
-                            <button type="button" id="prev-btn" class="btn-shadow float-right btn-wide btn-pill mr-3 btn btn-outline-secondary">Previous</button>
+                            <button type="button" id="next-btn" class="form-step btn-shadow btn-wide float-right btn-pill btn-hover-shine btn btn-primary">Next</button>
+                            <button type="button" id="prev-btn" class="form-step btn-shadow float-right btn-wide btn-pill mr-3 btn btn-outline-secondary">Previous</button>
                         </div>
                     </div>
                 </div>
@@ -233,5 +262,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= site_url('assets/js/customers/edit.js') ?>" defer></script>
+<script src="<?= site_url('assets/js/customers/edit.js?v=' . uniqid()) ?>" defer></script>
 <?php app_end(); ?>
