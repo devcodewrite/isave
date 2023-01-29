@@ -252,29 +252,13 @@
                             </a>
                             <ul>
                                 <li>
-                                    <a href="<?= site_url('setup/account-types/create') ?>" class="<?= get_nav_status1('setup/account-types/create') ?>">
+                                    <a href="<?= site_url('setup/account-types') ?>" class="<?= get_nav_status1('setup/account-types') ?>">
                                         <i class="metismenu-icon"></i> Account Types
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="<?= site_url('setup/id-types/create') ?>" class="<?= get_nav_status1('setup/id-types/create') ?>">
+                                    <a href="<?= site_url('setup/id-types') ?>" class="<?= get_nav_status1('setup/id-types') ?>">
                                         <i class="metismenu-icon"></i> Identity Card Types
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="<?= site_url('setup/districts/create') ?>" class="<?= get_nav_status1('setup/districts/create') ?>">
-                                        <i class="metismenu-icon"></i> Districts
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a href="<?= site_url('setup/areas/create') ?>" class="<?= get_nav_status1('setup/areas/create') ?>">
-                                        <i class="metismenu-icon"></i> Areas
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="<?= site_url('setup/societies/create') ?>" class="<?= get_nav_status1('setup/societies/create') ?>">
-                                        <i class="metismenu-icon"></i> Societies
                                     </a>
                                 </li>
                             </ul>

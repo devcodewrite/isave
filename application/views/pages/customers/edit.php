@@ -31,7 +31,13 @@
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-body">
-                        <form id="smartwizard" class="editCustomerForm" novalidate action="">
+                        <div id="smartwizard">
+                            <?php if (isset($customer)) { ?>
+                                <input type="hidden" name="_method" value="put">
+                                <input type="hidden" name="id" value="<?= $customer->id ?>">
+                            <?php } else { ?>
+                                <input type="hidden" name="_method" value="post">
+                            <?php } ?>
                             <ul class="forms-wizard">
                                 <li>
                                     <a class="form-step" href="#step-1">
@@ -49,8 +55,8 @@
                                     </a>
                                 </li>
                             </ul>
-                            <div class="form-wizard-content">
-                                <div id="step-1" onvalidate action="" method="post">
+                            <form class="form-wizard-content" action="<?= site_url('customers/store') ?>">
+                                <div id="step-1">
                                     <div class="form-row">
                                         <div class="col-md-2">
                                             <div class="position-relative form-group">
@@ -148,7 +154,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="step-2" method="post" action="">
+                                <div id="step-2">
                                     <div id="accordion" class="accordion-wrapper mb-3">
                                         <div class="card">
                                             <div id="headingOne" class="card-header">
@@ -195,10 +201,10 @@
                                                     </div>
                                                     <div class="form-row">
                                                         <div class="col-md-6">
-                                                            <div class="position-relative form-group">
+                                                            <div class="form-group">
                                                                 <label for="identity_card_type_id">ID card type</label>
                                                                 <select name="identity_card_type_id" class="form-control select2-id-card-types" required>
-                                                                <option value=""></option>
+                                                                    <option value=""></option>
                                                                     <?php foreach ($id_card_types as $row) { ?>
                                                                         <option value="<?= $row->id; ?>"><?= $row->label; ?></option>
                                                                     <?php } ?>
@@ -206,7 +212,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <div class="position-relative form-group">
+                                                            <div class="form-group">
                                                                 <label for="identity_card_number">ID card number</label>
                                                                 <input name="identity_card_number" id="identity_card_number" placeholder="Enter id number" type="text" class="form-control">
                                                             </div>
@@ -214,10 +220,10 @@
                                                     </div>
                                                     <div class="form-row">
                                                         <div class="col-md-6">
-                                                            <div class="position-relative form-group">
+                                                            <div class="form-group">
                                                                 <label for="association_id">Association</label>
                                                                 <select name="association_id" class="form-control select2-associations" required>
-                                                                <option value=""></option>
+                                                                    <option value=""></option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -238,15 +244,15 @@
                                             <div class="swal2-success-circular-line-right" style="background-color: rgb(255, 255, 255);"></div>
                                         </div>
                                         <div class="results-subtitle mt-4">Finished!</div>
-                                        <div class="results-title">You arrived at the last form wizard step!</div>
+                                        <div class="results-title">You arrived at the last form step!</div>
                                         <div class="mt-3 mb-3"></div>
                                         <div class="text-center">
-                                            <button class="btn-shadow btn-wide btn btn-success btn-lg">Finish</button>
+                                            <button class="btn-shadow btn-wide btn btn-success btn-lg">Submit Form</button>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                         <div class="divider"></div>
                         <div class="clearfix">
                             <button type="button" id="reset-btn" class="btn-shadow float-left btn btn-link">Reset</button>

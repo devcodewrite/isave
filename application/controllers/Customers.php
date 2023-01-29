@@ -176,9 +176,10 @@ class Customers extends CI_Controller
             $insert_id = $this->db->insert_id();
             $customer = $this->common->get_data_by_id($table, $insert_id, $column);
         
+        $customer = $this->db->get_where($table,['id'=>$this->db->insert_id()])->row();
+
         if($customer){
             $out = [
-                'data'=>$customer,
                 'status' => true,
                 'message' => 'Customer data updated successfully!'
             ];

@@ -1,4 +1,4 @@
-let form = $(".editAccountForm");
+let form = $(".editLoanForm");
 
 form.validate({
   rules: {
