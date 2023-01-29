@@ -34,9 +34,9 @@
                                     <label for="search-customer-account">From Account ID</label>
                                     <div class="input-group">
                                         <input type="text" name="account_number" id="account_number" class="form-control border-rounded" placeholder="From account no." required>
-                                        <button class="ml-2 btn-icon btn-pill btn btn-outline-primary">
+                                        <a href="javascript:;" class="ml-2 btn-icon btn-pill btn btn-outline-primary find-account">
                                             <i class="pe-7s-search btn-icon-wrapper"> </i>
-                                        </button>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -47,9 +47,9 @@
                                     <label for="search-customer-account">To Account ID</label>
                                     <div class="input-group">
                                         <input type="text" name="account_number" id="account_number" class="form-control border-rounded" placeholder="To account no." required>
-                                        <button class="ml-2 btn-icon btn-pill btn btn-outline-primary">
+                                        <a href="javascript:;" class="ml-2 btn-icon btn-pill btn btn-outline-primary find-account">
                                             <i class="pe-7s-search btn-icon-wrapper"> </i>
-                                        </button>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -78,19 +78,23 @@
                 </div>
                 <div class="card-body p-5">
                     <div class="text-center">
-                        <img id="passport-photo" height="150" width="150" src="<?= base_url('assets/images/photo-placeholder.jpeg') ?>" alt="Passport Photo">
+                        <img id="from-cus-passport-photo" height="150" width="150" src="<?= base_url('assets/images/photo-placeholder.jpeg') ?>" alt="Passport Photo">
                     </div>
                     <div class="row text-uppercase mt-3 border-bottom">
-                        <p class="col-6 text-black-50">Acc. No.</p>
-                        <p class="col-6 input-placeholder text-primary">xxxx xxx xxxx</p>
+                        <p class="col-6 text-black-50">Acc. NO.</p>
+                        <p class="col-6 input-placeholder text-primary from-acc-number">xxxx xxx xxxx</p>
                     </div>
                     <div class="row text-uppercase mt-3 border-bottom">
-                        <p class="col-6 text-black-50">Name</p>
-                        <p class="col-6 input-placeholder text-black h-5 bg-light"></p>
+                        <p class="col-6 text-black-50">Acc. Name</p>
+                        <p class="col-6 input-placeholder text-black h-5 bg-light from-acc-name"></p>
+                    </div>
+                    <div class="row text-uppercase mt-3 border-bottom">
+                        <p class="col-6 text-black-50">Acc. Bal.</p>
+                        <p class="col-6 input-placeholder text-black h-5 bg-light from-acc-balance"></p>
                     </div>
                     <div class="row text-uppercase mt-3 border-bottom">
                         <p class="col-6 text-black-50">Phone No.</p>
-                        <p class="col-6 input-placeholder text-black  h-5 bg-light"></p>
+                        <p class="col-6 input-placeholder text-black  h-5 bg-light from-cus-primary-phone"></p>
                     </div>
                 </div>
             </div>
@@ -102,19 +106,23 @@
                 </div>
                 <div class="card-body p-5">
                     <div class="text-center">
-                        <img id="passport-photo" height="150" width="150" src="<?= base_url('assets/images/photo-placeholder.jpeg') ?>" alt="Passport Photo">
+                        <img id="to-cus-passport-photo" height="150" width="150" src="<?= base_url('assets/images/photo-placeholder.jpeg') ?>" alt="Passport Photo">
                     </div>
                     <div class="row text-uppercase mt-3 border-bottom">
-                        <p class="col-6 text-black-50">Acc. No.</p>
-                        <p class="col-6 input-placeholder text-primary">xxxx xxx xxxx</p>
+                        <p class="col-6 text-black-50">Acc. NO.</p>
+                        <p class="col-6 input-placeholder text-primary to-acc-number">xxxx xxx xxxx</p>
                     </div>
                     <div class="row text-uppercase mt-3 border-bottom">
-                        <p class="col-6 text-black-50">Name</p>
-                        <p class="col-6 input-placeholder text-black h-5 bg-light"></p>
+                        <p class="col-6 text-black-50">Acc. Name</p>
+                        <p class="col-6 input-placeholder text-black h-5 bg-light to-acc-name"></p>
+                    </div>
+                    <div class="row text-uppercase mt-3 border-bottom">
+                        <p class="col-6 text-black-50">Acc. Bal.</p>
+                        <p class="col-6 input-placeholder text-black h-5 bg-light to-acc-balance"></p>
                     </div>
                     <div class="row text-uppercase mt-3 border-bottom">
                         <p class="col-6 text-black-50">Phone No.</p>
-                        <p class="col-6 input-placeholder text-black  h-5 bg-light"></p>
+                        <p class="col-6 input-placeholder text-black  h-5 bg-light to-cus-primary-phone"></p>
                     </div>
                 </div>
             </div>

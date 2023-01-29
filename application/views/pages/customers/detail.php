@@ -99,7 +99,7 @@
                 </div>
                 <div class="d-block text-right card-footer">
                     <button class="btn btn-info btn-lg">Modify</button>
-                    <button class="btn btn-warning btn-lg">Suspend</button>
+                    <button class="btn btn-warning btn-lg">Close</button>
                 </div>
             </div>
         </div>

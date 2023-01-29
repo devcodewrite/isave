@@ -1,13 +1,12 @@
-let table; 
+let table;
 
 $(function () {
-    table = $('#dt-related-accounts').DataTable({
-        responsive:!0,
-        dom:'lBftip',
-        buttons:[
-            'print',
-            'pdf',
-            'excel'
-        ],
-    });
+  table = $("#dt-related-accounts").DataTable({
+    responsive: !0,
+    dom: "lBftip",
+    buttons: ["print", "pdf", "excel"],
+  });
+  $(".print").on("click", function (e) {
+    $(".withdrawal-slip").printThis();
+  });
 });

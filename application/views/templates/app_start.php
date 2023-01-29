@@ -14,6 +14,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta name="description" content="This is an example dashboard created using build-in elements and components.">
 
     <meta name="msapplication-tap-highlight" content="no">
+    <meta name="base-url" content="<?= base_url(); ?>">
     <link rel="shortcut icon" href="<?= $this->setting->get('org_logo',base_url('assets/images/logo.png'))??base_url('assets/images/logo.png') ?>" type="image/x-icon">
     <link href="<?= base_url("assets/css/main.css"); ?>" rel="stylesheet">
     <link href="<?= base_url("assets/css/app.css"); ?>" rel="stylesheet">

@@ -1,6 +1,8 @@
 import $ from "jquery";
 import Swal from "sweetalert2";
+
 require('select2')
+//require('bootstrap');
 
 window.$ = window.jQuery = $;
 window.Swal = Swal;
@@ -19,6 +21,7 @@ require("datatables.net-buttons");
 require("datatables.net-buttons/js/buttons.print.min.mjs");
 require("datatables.net-buttons/js/buttons.html5.min.mjs");
 require("datatables.net-buttons-bs4");
+require("print-this");
 
 window.readURL = function(input) {
     if (input.files && input.files[0]) {
@@ -55,3 +58,37 @@ window.formatPeopleResult = function (data) {
     );
     return $container;
 }
+
+$('.find-account').on('click', function(e){
+    let accNumber = $(this).prev('input').val();
+    let baseUrl = $('meta[name="base-url"]').attr("content");
+
+    Swal.fire({
+        title: "Searching...",
+        icon:"info",
+        showCloseButton:false,
+        allowOutsideClick:false,
+        didOpen:()=>{
+            Swal.showLoading();
+        }
+    });
+
+    $.ajax({
+        url: baseUrl+`api/accounts/find?account_number=${accNumber}`,
+        method: 'GET',
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function(d, r){
+            Swal.close();
+
+        },
+        error: function(r){
+            Swal.close();
+            Swal.fire({
+                title:"Something Went Wrong!",
+                text: "Sorry, couldn't find what you are looking for! Please try again!",
+                icon:'error',
+            });
+        }
+    });
+})

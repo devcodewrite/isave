@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script allowed');
 
-class Customer extends CI_Controller
+class Setup extends CI_Controller
 {
     /**
      * Show a list of resources
@@ -28,9 +28,9 @@ class Customer extends CI_Controller
      * Show a form page for creating resource
      * html view
      */
-    public function create()
+    public function account_types()
     {
-        $this->load->view('pages/customers/edit');
+        $this->load->view('pages/setup/account_types');
     }
 
      /**

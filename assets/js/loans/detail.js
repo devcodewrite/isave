@@ -1,7 +1,7 @@
-let table; 
+let settlementTable; 
 
 $(function () {
-    table = $('#dt-related-accounts').DataTable({
+    settlementTable = $('#dt-related-settlements').DataTable({
         responsive:!0,
         dom:'lBftip',
         buttons:[
