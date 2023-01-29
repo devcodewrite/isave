@@ -171,9 +171,14 @@ class Customers extends CI_Controller
             ];
         }else{
             $table="members";
-        $customer  = $this->common->insert_data($table,$data); // replace created record object
+            $column = "id";
+            $insert_data  = $this->common->insert_data($table,$data);
+            $insert_id = $this->db->insert_id();
+            $customer = $this->common->get_data_by_id($table, $insert_id, $column);
+        
         if($customer){
             $out = [
+                'data'=>$customer,
                 'status' => true,
                 'message' => 'Customer data updated successfully!'
             ];
