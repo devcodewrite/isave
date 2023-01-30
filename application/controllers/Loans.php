@@ -18,10 +18,8 @@ class Loans extends CI_Controller
      */
     public function view(int $id = null)
     {
-        $table = "loans";
-        $column = "id";
         $data = [
-            'loan' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
+            'loan' =>null, //This is an example replace with actual model
         ];
         $this->load->view('pages/loans/detail', $data);
     }
@@ -41,7 +39,10 @@ class Loans extends CI_Controller
      */
     public function create()
     {
-        $this->load->view('pages/loans/edit');
+        $data = [
+            'loanTypes' => $this->loantype->all()->get()->result(),
+        ];
+        $this->load->view('pages/loans/edit', $data);
     }
 
      /**
@@ -50,10 +51,8 @@ class Loans extends CI_Controller
      */
     public function edit(int $id = null)
     {
-        $table = "loans";
-        $column = "id";
         $data = [
-            'loan' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
+            'loanTypes' => $this->loantype->all()->get()->result(),
         ];
         $this->load->view('pages/loans/edit', $data);
     }

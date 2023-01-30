@@ -77,6 +77,7 @@
                     <tr>
                         <th>#ID</th>
                         <th>Name</th>
+                        <th>Community</th>
                         <th>Cluster Office</th>
                         <th>Assigned To</th>
                         <th>Total Members</th>
@@ -89,6 +90,7 @@
                     <tr>
                         <th>#ID</th>
                         <th>Name</th>
+                        <th>Community</th>
                         <th>Cluster Office</th>
                         <th>Assigned To</th>
                         <th>Total Members</th>

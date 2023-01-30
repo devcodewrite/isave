@@ -89,7 +89,7 @@ $autoload['drivers'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array('url', 'file', 'datatable', 'page_builder');
+$autoload['helper'] = array('url', 'file', 'datatable', 'page_builder', 'inflector');
 
 /*
 | -------------------------------------------------------------------
@@ -134,5 +134,11 @@ $autoload['language'] = array();
 */
 $autoload['model'] = array(
     'setting_model' => 'setting',
-    'common_model' => 'common'
+    'user_model' => 'user',
+    'member_model' => 'member',
+    'account_model' => 'account',
+    'association_model' => 'association',
+    'identitycardtype_model' => 'idcardtype',
+    'accounttype_model' => 'acctype',
+    'loantype_model' => 'loantype',
 );

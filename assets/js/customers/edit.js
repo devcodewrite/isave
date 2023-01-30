@@ -65,10 +65,10 @@ $('.select2-id-card-types,.select2-account-types').select2({
 
 $('.select2-associations').select2({
   ajax: {
-    url: "/api/select2/associations",
+    url: `${baseUrl}associations/select2`,
         dataType: "json",
         data: function (params) {
-            params.api_token = $('meta[name="api-token"]').attr("content");
+            params._token = $('meta[name="token"]').attr("content");
             return params;
         },
   },

@@ -17,22 +17,25 @@
     </div>
 
     <div class="main-card mb-3 card">
+        <div class="card-header">
+            <i class="header-icon lnr-license icon-gradient bg-plum-plate"> </i> Account Types
+        </div>
         <div class="card-body">
-            <form class="d-flex flex-row align-items-center">
-                    <div class="form-group">
-                        <label for="label">Label</label>
-                        <input type="text" name="label" id="label" placeholder="Enter the account type" class="form-control">
-                    </div>
-      
+            <form class="d-flex flex-row align-items-end">
+                <div class="form-group">
+                    <label for="label">Label</label>
+                    <input type="text" name="label" id="label" placeholder="Enter the account type" class="form-control">
+                </div>
+                <div class="form-group ml-5">
                     <button type="submit" class="btn btn-primary text-uppercase">Add</button>
-                
+                </div>
+
             </form>
             <table style="width: 100%;" id="dt-account-types" class="table table-hover table-striped table-bordered">
                 <thead class="text-uppercase">
                     <tr>
                         <th>#ID</th>
                         <th>Label</th>
-                        <th>Status</th>
                         <th>Created On</th>
                         <th>Action</th>
                     </tr>
@@ -41,7 +44,6 @@
                     <tr>
                         <th>#ID</th>
                         <th>Label</th>
-                        <th>Status</th>
                         <th>Created On</th>
                         <th>Action</th>
                     </tr>
@@ -52,5 +54,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/setup/ccount-types.js?v=' . uniqid()) ?>" defer></script>
+<script src="<?= base_url('assets/js/setup/account-types.js?v=' . uniqid()) ?>" defer></script>
 <?php app_end(); ?>

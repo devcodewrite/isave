@@ -257,7 +257,12 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="<?= site_url('setup/id-types') ?>" class="<?= get_nav_status1('setup/id-types') ?>">
+                                    <a href="<?= site_url('setup/loan-types') ?>" class="<?= get_nav_status1('setup/loan-types') ?>">
+                                        <i class="metismenu-icon"></i> Loan Types
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?= site_url('setup/id-card-types') ?>" class="<?= get_nav_status1('setup/id-card-types') ?>">
                                         <i class="metismenu-icon"></i> Identity Card Types
                                     </a>
                                 </li>

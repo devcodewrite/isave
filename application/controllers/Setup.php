@@ -33,6 +33,24 @@ class Setup extends CI_Controller
         $this->load->view('pages/setup/account_types');
     }
 
+    /**
+     * Show a form page for creating resource
+     * html view
+     */
+    public function id_card_types()
+    {
+        $this->load->view('pages/setup/account_types');
+    }
+
+    /**
+     * Show a form page for creating resource
+     * html view
+     */
+    public function loan_types()
+    {
+        $this->load->view('pages/setup/account_types');
+    }
+
      /**
      * Show a form page for updating resource
      * html view

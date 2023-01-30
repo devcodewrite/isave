@@ -19,7 +19,7 @@ class Associations extends CI_Controller
     public function view(int $id = null)
     {
         $data = [
-            //'association' => $this->association_model->getById($id), //This is an example replace with actual model
+        'association' => $this->association->find($id),
         ];
         $this->load->view('pages/associations/detail', $data);
     }
@@ -30,11 +30,9 @@ class Associations extends CI_Controller
      */
     public function create()
     {
-        $row1 = (object)['community' => 'example community']; // example
-        $row2 = (object)['cluster_office_address' => 'NB123, Main Street, Kumasi'];
         $data = [
-            'communities' => [$row1,], // replace with a query of existing coummnunities in associations table
-            'clusterOfficeAddresses' => [$row2,],  // replace with a query of existing cluter office address in associations table
+            'communities' => $this->association->communities(), // replace with a query of existing coummnunities in associations table
+            'clusterOfficeAddresses' => $this->association->clusterOffices(),  // replace with a query of existing cluter office address in associations table
         ];
         $this->load->view('pages/associations/edit', $data);
     }
@@ -45,10 +43,8 @@ class Associations extends CI_Controller
      */
     public function edit(int $id = null)
     {
-        $table = "associations";
-        $column = "id";
         $data = [
-            'association' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
+            'association' => null, //This is an example replace with actual model
         ];
         $this->load->view('pages/associations/edit', $data);
     }
@@ -57,10 +53,10 @@ class Associations extends CI_Controller
      * Store a resource
      * print json Response
      */
-    public function list ()
+    public function store ()
     {
         # code...
-       $association  = $this->common->get_associations_data(); // replace created record object
+       $association  = null; // replace created record object
        if($association){
            $out = [
                'data' => $association,
@@ -83,10 +79,8 @@ class Associations extends CI_Controller
      */
     public function update (int $id = null)
     {
-        $data = array();
-        $table="associations";
-        $column = "id";
-        $accounts = $this->common->update_data($id,$data,$table,$column); // replace created record object
+       
+        $accounts = null; // replace created record object
         if($accounts){
             $out = [
                 'status' => true,
@@ -108,10 +102,8 @@ class Associations extends CI_Controller
      */
     public function delete (int $id = null)
     {
-        $data = array();
-        $table="associations";
-        $column = "id";
-        $accounts = $this->common->update_data($id,$data,$table,$column); // replace created record object
+        
+        $accounts =null; // replace created record object
         if($accounts){
             $out = [
                 'status' => true,
@@ -126,23 +118,46 @@ class Associations extends CI_Controller
         }
         httpResponseJson($out);
     }
-    public function insert ()
+
+    public function datatables()
     {
-        $data = array();
-        $table="association";
-        $association  = $this->common->insert_data($table,$data); // replace created record object
-        if($association){
-            $out = [
-                'status' => true,
-                'message' => 'Association data created successfully!'
-            ];
-        }
-        else {
-            $out = [
-                'status' => false,
-                'message' => "Association data couldn't be created!"
-            ];
-        }
+        $start = $this->input->get('start', true);
+        $length = $this->input->get('length', true);
+        $draw = $this->input->get('draw', true);
+        $inputs = $this->input->get();
+
+        $out = datatable($this->association->all(),$start, $length, $draw, $inputs);
+        $out = array_merge($out, [
+            'input' => $this->input->get(),
+        ]);
         httpResponseJson($out);
+    }
+
+    public function select2()
+    {
+        $term = trim($this->input->get('term'));
+        $take = 10;
+        $page = $this->input->get('page', true)?$this->input->get('page', true):1;
+        $skip = ($page - 1 )*$take;
+
+        $total = $this->association->all()->get()->num_rows();
+        
+        $records = $this->association->all()->select('id, name as text')
+                    ->like('name', $term)
+                    ->limit($take, $skip)
+                    ->get()
+                    ->result();
+
+        $out = [
+            'results' => $records,
+            'pagination' => [
+               'more' => ($skip + $take < $total),
+               'page' => intval($page),
+               'totalRows' => $total,
+               'totalPages' => intval($total/$take + ($total%$take > 0?1:0))
+            ]
+        ];
+
+        return httpResponseJson($out);
     }
 }

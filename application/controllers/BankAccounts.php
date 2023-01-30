@@ -53,10 +53,10 @@ class BankAccounts extends CI_Controller
      * Store a resource
      * print json Response
      */
-    public function list ()
+    public function store ()
     {
         # code...
-       $account  = $this->common->get_accounts_data(); // replace created record object
+       $account  = null; // replace created record object
        if($account){
            $out = [
                'data' => $account,
@@ -79,10 +79,7 @@ class BankAccounts extends CI_Controller
      */
     public function update (int $id = null)
     {
-        $data = array();
-        $table="accounts";
-        $column = "id";
-        $accounts = $this->common->update_data($id,$data,$table,$column); // replace created record object
+        $accounts = null; // replace created record object
         if($accounts){
             $out = [
                 'status' => true,
@@ -104,10 +101,7 @@ class BankAccounts extends CI_Controller
      */
     public function delete (int $id = null)
     {
-        $data = array();
-        $table="accounts";
-        $column = "id";
-        $accounts = $this->common->update_data($id,$data,$table,$column); // replace created record object
+        $accounts = null; // replace created record object
         if($accounts){
             $out = [
                 'status' => true,
@@ -122,21 +116,25 @@ class BankAccounts extends CI_Controller
         }
         httpResponseJson($out);
     }
-    public function insert ()
+
+    public function find()
     {
-        $data = array();
-        $table="association";
-        $customer  = $this->common->insert_data($table,$data); // replace created record object
-        if($customer){
+        $account = $this->account->where([
+            'acc_number'=>$this->input->get('acc_number',true)
+        ])->row(); 
+        if($account){
+            $account->member = $this->member->find($account->member_id);
+            $account->idCardType = $this->idcardtype->find($account->member->identity_card_type_id);
             $out = [
+                'data' => $account,
                 'status' => true,
-                'message' => 'Account created successfully!'
+                'message' => 'Account found successfully!'
             ];
         }
         else {
             $out = [
                 'status' => false,
-                'message' => "Account data couldn't be creted!"
+                'message' => "Couldn't find account!"
             ];
         }
         httpResponseJson($out);

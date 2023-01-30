@@ -66,5 +66,3 @@ $('.search-customer').on('click', function(e){
     }
   });
 });
-
-$("")

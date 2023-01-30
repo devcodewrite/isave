@@ -18,13 +18,11 @@ class Customers extends CI_Controller
      */
     public function view(int $id = null)
     {
-        $table = "members";
-        $column = "id";
-        $data = [
-            'customer' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
+        $member = $this->member->find($id);
+        if(!$member) show_404();
 
-            'id_card_types' => [], // replace [] with query of id types
-            'account_types' => [], // replace [] with query of account types
+        $data = [
+            'member' => $member, //This is an example replace with actual model
         ];
         $this->load->view('pages/customers/detail', $data);
     }
@@ -36,8 +34,8 @@ class Customers extends CI_Controller
     public function create()
     {
         $data = [
-            'id_card_types' => [], // replace [] with query of id types
-            'account_types' => [], // replace [] with query of account types
+            'id_card_types' => $this->idcardtype->all()->get()->result(),
+            'acc_types' => $this->acctype->all()->get()->result(),
         ];
         $this->load->view('pages/customers/edit', $data);
     }
@@ -48,10 +46,8 @@ class Customers extends CI_Controller
      */
     public function edit(int $id = null)
     {
-        $table = "members";
-        $column = "id";
         $data = [
-            'customer' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
+            'customer' => null //This is an example replace with actual model
         ];
         $this->load->view('pages/customers/edit', $data);
     }
@@ -60,13 +56,14 @@ class Customers extends CI_Controller
      * Store a resource
      * print json Response
      */
-    public function list ()
+    public function store ()
     {
-        # code...
-       $customer  = $this->common->get_members_data(); // replace created record object
-        if($customer){
+        $record = $this->input->post();
+        $member  = $this->member->create($record);
+        
+        if($member){
             $out = [
-                'data' => $customer,
+                'data' => $member,
                 'status' => true,
                 'message' => 'Customer created successfully!'
             ];
@@ -86,31 +83,8 @@ class Customers extends CI_Controller
      */
     public function update (int $id = null)
     {
-        $data['firstname']=$this->input->post('firstname');
-        $data['lastname']=$this->input->post('lastname');
-        $data['othername']=$this->input->post('othername');
-        $data['sex']=$this->input->post('sex');
-        $data['dateofbirth']=$this->input->post('dateofbirth');
-        $data['marital_status']=$this->input->post('marital_status');
-        $data['primary_phone']=$this->input->post('primary_phone');
-        $data['other_phone']=$this->input->post('other_phone');
-        $data['email']=$this->input->post('email');
-        $data['address']=$this->input->post('address');
-        $data['occupation']=$this->input->post('occupation');
-        $data['photo_url']=$this->input->post('photo_url');
-        $data['title']=$this->input->post('title');
-        $data['identity_card_number']=$this->input->post('identity_card_number');
-        $data['identity_card_type_id']=$this->input->post('identity_card_type_id');
-        $data['community_id']=$this->input->post('community_id');
-        if(empty($data['community_id'])|| empty($data['identity_card_type_id'])|| empty($data['identity_card_number'])||empty($data['firstname'])||empty($data['lastname'])){
-            $out = [
-                'status' => false,
-                'message' => 'These fields might be empty Firstname field, Lastname field, community filed, card type field,card number field!'
-            ];
-        } else {
-            $table = "members";
-            $column = "id";
-            $customer = $this->common->update_data($id, $data, $table, $column); // replace created record object
+        
+            $customer = null; // replace created record object
             if ($customer) {
                 $out = [
                     'status' => true,
@@ -122,7 +96,6 @@ class Customers extends CI_Controller
                     'message' => "Customer data couldn't be updated!"
                 ];
             }
-        }
         httpResponseJson($out);
     }
 
@@ -132,10 +105,7 @@ class Customers extends CI_Controller
      */
     public function delete (int $id = null)
     {
-        $data = array("deleted_at"=>date("Y-m-d His"));
-        $table="members";
-        $column = "id";
-        $customer  = $this->common->update_data($id,$data,$table,$column); // replace created record object
+        $customer  = null; // replace created record object
         if($customer){
             $out = [
                 'status' => true,
@@ -150,52 +120,23 @@ class Customers extends CI_Controller
         }
         httpResponseJson($out);
     }
-    public function insert ()
-    {
-        $data['firstname']=$this->input->post('firstname');
-        $data['lastname']=$this->input->post('lastname');
-        $data['othername']=$this->input->post('othername');
-        $data['sex']=$this->input->post('sex');
-        $data['dateofbirth']=$this->input->post('dateofbirth');
-        $data['marital_status']=$this->input->post('marital_status');
-        $data['primary_phone']=$this->input->post('primary_phone');
-        $data['other_phone']=$this->input->post('other_phone');
-        $data['email']=$this->input->post('email');
-        $data['address']=$this->input->post('address');
-        $data['occupation']=$this->input->post('occupation');
-        $data['photo_url']=$this->input->post('photo_url');
-        $data['title']=$this->input->post('title');
-        $data['identity_card_number']=$this->input->post('identity_card_number');
-        $data['identity_card_type_id']=$this->input->post('identity_card_type_id');
-        $data['community_id']=$this->input->post('community_id');
-        if(empty($data['community_id'])|| empty($data['identity_card_type_id'])|| empty($data['identity_card_number'])||empty($data['firstname'])||empty($data['lastname'])){
-            $out = [
-                'status' => false,
-                'message' => 'These fields might be empty Firstname field, Lastname field, community filed, card type field,card number field!'
-            ];
-        }else{
-            $table="members";
-            $column = "id";
-            $insert_data  = $this->common->insert_data($table,$data);
-            $insert_id = $this->db->insert_id();
-            $customer = $this->common->get_data_by_id($table, $insert_id, $column);
-        
-        $customer = $this->db->get_where($table,['id'=>$this->db->insert_id()])->row();
 
-        if($customer){
-            $out = [
-                'status' => true,
-                'message' => 'Customer data updated successfully!'
-            ];
-        }
-        else {
-            $out = [
-                'status' => false,
-                'message' => "Customer data couldn't be updated!"
-            ];
-        }
-        }
-        
+    public function datatables()
+    {
+        $start = $this->input->get('start', true);
+        $length = $this->input->get('length', true);
+        $draw = $this->input->get('draw', true);
+        $inputs = $this->input->get();
+
+        $out = datatable($this->member->all(),$start, $length, $draw, $inputs);
+        $out = array_merge($out, [
+            'input' => $this->input->get(),
+        ]);
         httpResponseJson($out);
+    }
+
+    public function select2()
+    {
+        
     }
 }

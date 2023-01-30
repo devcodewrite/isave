@@ -58,6 +58,7 @@
                         <input type="email" class="form-control" id="email" name="email" placeholder="Enter an official email" />
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label for="phone">Assigned person's fullname</label>
                     <div>
@@ -68,14 +69,6 @@
                     <label for="phone">Assigned person's contact</label>
                     <div>
                         <input type="tel" class="form-control" id="phone" name="assigned_person_phone" placeholder="Enter the officer's phone number" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div>
-                        <div class="form-check">
-                            <input type="checkbox" id="agree" name="agree" value="agree" class="form-check-input" />
-                            <label class="form-check-label">Please agree to our policy</label>
-                        </div>
                     </div>
                 </div>
                 <div class="form-group">

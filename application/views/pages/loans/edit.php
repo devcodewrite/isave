@@ -43,21 +43,15 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="position-relative form-group">
                                     <label for="loan_type_id">Loan type</label>
                                     <select name="loan_type_id" class="form-control select2-loan-types" required>
                                         <option value=""></option>
                                         <?php foreach ($loanTypes as $row) { ?>
-                                            <option value="<?= $row->id; ?>"><?= $row->label; ?></option>
+                                            <option value="<?= $row->id; ?>"><?= $row->label; ?>@<?= $row->rate; ?>[<?=str_replace('_',' ',$row->rate_type); ?>]</option>
                                         <?php } ?>
                                     </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="rate">Monthly rate</label>
-                                    <input type="text" name="rate" id="rate" class="form-control" placeholder="0.0 (in decimal)" required>
                                 </div>
                             </div>
                         </div>
@@ -75,25 +69,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="amount">Loan By</label>
-                                    <input type="text" name="loan_by" id="name" class="form-control" placeholder="Enter the name" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="phone">Phone number</label>
-                                    <input type="tel" name="loan_phone" id="phone" class="form-control" placeholder="Enter the phone number" required>
-                                </div>
-                            </div>
-                        </div>
                     </form>
                 </div>
                 <div class="d-block text-right card-footer">
                     <button class="mr-2 btn btn-link btn-sm">Cancel</button>
-                    <button class="btn btn-success btn-lg">Submit</button>
+                    <button class="btn btn-success btn-lg">Apply</button>
                 </div>
             </div>
             <div class="main-card mb-3 card">

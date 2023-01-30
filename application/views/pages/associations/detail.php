@@ -69,7 +69,6 @@
                                     <span class="pr-2 opactiy-6">
                                         <i class="fa fa-book"></i>
                                     </span>
-
                                 </div>
                             </a>
                         </li>
@@ -94,29 +93,85 @@
                 </div>
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab-eg9-0" role="tabpanel">
-                        <div class="card-body col-md-6">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 p-5">
+                                    <div class="row text-uppercase text-center mt-3 border-bottom">
+                                        <p class="col-12 text-black-50">Association ID: <span class="text-primary"><?= $association->id ?></span> </p>
+                                        <p class="col-12">
+                                            <?php
+                                            $alerts = [
+                                                'open' => 'alert-success',
+                                                'close' => 'alert-danger'
+                                            ];
+                                            ?>
+                                            <span class="alert <?= $alerts[$association->status] ?> text-uppercase float-right">
+                                                <?= $association->status ?>
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div class="row text-uppercase mt-3 border-bottom">
+                                        <p class="col-6 text-black-50">Association Name</p>
+                                        <h5 class="col-6 text-info">
+                                        <?= $association->name ?>
+                                        </h5>
+                                    </div>
+                                    <div class="row text-uppercase mt-3 border-bottom">
+                                        <p class="col-6 text-black-50">Community</p>
+                                        <p class="col-6 input-placeholder text-blaick">
+                                            <?= $association->community ?>
+                                        </p>
+                                    </div>
+                                    <div class="row text-uppercase mt-3 border-bottom">
+                                        <p class="col-6 text-black-50">Assigned Person</p>
+                                        <p class="col-6 input-placeholder text-black">
+                                            <?= $association->assigned_person_name ?>
+                                        </p>
+                                    </div>
+                                    <div class="row text-uppercase mt-3">
+                                        <p class="col-6 text-black-50">Contact</p>
+                                        <p class="col-6 input-placeholder text-black">
+                                            <a href="tel:<?= $association->assigned_person_phone ?>">
+                                            <?= $association->assigned_person_phone ?>
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 p-5">
+                                    <div class="row m-5">
+                                    </div>
+                                    <div class="row text-uppercase mt-3 border-bottom">
+                                        <p class="col-6 text-black-50">Created On</p>
+                                        <p class="col-6 input-placeholder text-blaick">
+                                            <?= date('d/m/y',strtotime($association->created_at)) ?>
+                                        </p>
+                                    </div>
+                                    <div class="row text-uppercase mt-3 border-bottom">
+                                        <p class="col-6 text-black-50">Cluster Office Address</p>
+                                        <p class="col-6 input-placeholder text-blaick">
+                                            <?= $association->cluster_office_address ?>
+                                        </p>
+                                    </div>
+                                    <div class="row text-uppercase mt-3 border-bottom">
+                                        <p class="col-6 text-black-50">Association Email</p>
+                                        <p class="col-6 input-placeholder text-blaick">
+                                            <?= $association->email ?>
+                                        </p>
+                                    </div>
+                                    <div class="row text-uppercase mt-3 border-bottom">
+                                        <p class="col-6 text-black-50">Added by</p>
+                                        <p class="col-6 input-placeholder text-blaick">
+                                            <?php $user = $this->user->find($association->user_id) ?>
+                                            <?="$user->firstname $user->lastname" ?>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
 
-                            <div class="row text-uppercase text-center mt-3 border-bottom">
-                                <p class="col-12 text-black-50">Association ID</p>
-                                <h4 class="col-12 text-primary">xxxx xxx xxxx</h4>
-                                <p class="col-12"><span class="alert alert-success text-uppercase float-right">Open</span></p>
-                            </div>
-                            <div class="row text-uppercase mt-3 border-bottom">
-                                <p class="col-6 text-black-50">Association Balance</p>
-                                <h3 class="col-6 input-placeholder text-danger">GHS 0.00</h3>
-                            </div>
-                            <div class="row text-uppercase mt-3 border-bottom">
-                                <p class="col-6 text-black-50">Owner's Name</p>
-                                <p class="col-6 input-placeholder text-black h-5 bg-light"></p>
-                            </div>
-                            <div class="row text-uppercase mt-3">
-                                <p class="col-6 text-black-50">Primary Contact</p>
-                                <p class="col-6 input-placeholder text-black  h-5 bg-light"></p>
-                            </div>
                         </div>
                         <div class="d-block text-right card-footer">
                             <button class="btn btn-info btn-lg">Modify</button>
-                            <button class="btn btn-warning btn-lg">Suspend</button>
+                            <button class="btn btn-warning btn-lg">Close</button>
                         </div>
                     </div>
                     <div class="tab-pane" id="tab-eg9-1" role="tabpanel">

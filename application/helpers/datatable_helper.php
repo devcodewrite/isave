@@ -16,38 +16,47 @@ if (!function_exists('datatable')) {
      * @param int $per_page number of results per page
      * @return array structure for datatables
      */
-    function datatable($query, int $page = 1, int $per_page = 2)
+    function datatable($query, int $start = 0, int $per_page = 2, int $draw = 1, $inputs = null)
     {
-        $start = ($page - 1) * $page;
+        $ci = (object)get_instance();
         $take = $per_page;
         $total = 0;
 
-        $ci = (object)get_instance();
-
-        if($query instanceof CI_DB_driver){
+        if ($query instanceof CI_DB_driver) {
             $query = (object) $query;
+
+            if ($inputs) {
+                $ci->db->group_start();
+                foreach ($inputs['columns'] as $col) {
+                    $ci->db->or_like($col['name'], $inputs['search']['value'], 'both');
+                }
+                $ci->db->group_end();
+
+                foreach($inputs['order'] as $order){
+                    $ci->db->order_by($inputs['columns'][$order['column']]['name'], $order['dir']);
+                }
+            }
 
             $total = $query->get()->num_rows();
             $query = $ci->db->last_query();
-            $result = $ci->db->query($query." limit $start, $take");
-            return datatable_array($result,$total, $page, $per_page);
-        }
-        else if(gettype($query) === 'string'){
+            $result = $ci->db->query($query . " limit $start, $take");
+            return datatable_array($result, $total, $draw);
+        } else if (gettype($query) === 'string') {
             $result = $ci->db->query($query);
             $total = $result->num_rows();
-            $result = $ci->db->query($query." limit $start, $take");
-            return datatable_array($result, $total, $page, $per_page);
+            $result = $ci->db->query($query . " limit $start, $take");
+            return datatable_array($result, $total, $draw);
         }
         throw new InvalidArgumentException('$query must be of type string or an instance of CI_DB_driver', 0);
     }
 
-    function datatable_array(CI_DB_mysqli_result $result, $total)
+    function datatable_array(CI_DB_mysqli_result $result, $total, $draw = 1)
     {
-        if(!$result) return []; // for invalid result
+        if (!$result) return []; // for invalid result
         $data = [
-            'draw' => 1,
+            'draw' => $draw,
             'recordsTotal' => $total,
-            'recordsFiltered' => $result->num_rows(),
+            'recordsFiltered' => $total,
             'data' => $result->result(),
         ];
         return $data;
@@ -60,8 +69,7 @@ if (!function_exists('datatable')) {
     {
         $ci = (object)get_instance();
         $ci->output
-			->set_content_type('application/json')
-			->set_output(json_encode($data));
+            ->set_content_type('application/json')
+            ->set_output(json_encode($data));
     }
-
 }
