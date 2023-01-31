@@ -39,6 +39,31 @@
                         <th>Action</th>
                     </tr>
                 </thead>
+                <tbody>
+                    <?php foreach ($this->acctype->all()->get()->result() as $row) {
+                    ?>
+                        <tr>
+                            <td><?= $row->id ?></td>
+                            <td><?= $row->label ?></td>
+                            <td><?= $row->created_at ?></td>
+                            <td>
+                                <div class="d-flex">
+                                <form action="" method="POST" novalidate>
+                                    <input type="hidden" name="id" value="<?= $row->id ?>">
+                                    <input type="hidden" name="action" value="">
+                                    <?php if ($row->status === 'open') { ?>
+                                        <input type="hidden" name="status" value="close">
+                                    <?php } ?>
+                                    <input type="checkbox" onchange="$(this).closest('form').submit()" value="1" <?= $row->status === '1' ? 'checked' : '' ?> data-toggle="toggle" data-onstyle="primary">
+                                </form>
+                                <a href="<?= site_url('setup/account-types') ?>" class="btn btn-info ml-2"><i class="fa fa-edit"></i></a>
+                                <button class="btn btn-danger ml-2"><i class="fa fa-trash"></i></button>
+                                </div>
+                               </td>
+                        </tr>
+                    <?php
+                    } ?>
+                </tbody>
                 <tfoot class="text-uppercase">
                     <tr>
                         <th>#ID</th>
@@ -53,5 +78,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/setup/account-types.js?v=' . uniqid()) ?>" defer></script>
+<script src="<?= base_url('assets/js/setup/account-types.js?v=2') ?>" defer></script>
 <?php app_end(); ?>

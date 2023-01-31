@@ -9,6 +9,29 @@ $(function () {
     buttons: ["print", "pdf", "excel"],
   });
 
+  form.validate({
+    rules: {
+      label: "required",
+    },
+    messages: {
+      label: "Please enter the label",
+    },
+    errorElement: "em",
+    errorPlacement: function (t, e) {
+      t.addClass("invalid-feedback"),
+        "checkbox" === e.prop("type")
+          ? t.insertAfter(e.nex$("label"))
+          : t.insertAfter(e);
+    },
+    highlight: function (e, i, n) {
+      $(e).addClass("is-invalid").removeClass("is-valid");
+    },
+    unhighlight: function (e, i, n) {
+      $(e).addClass("is-valid").removeClass("is-invalid");
+    },
+  });
+  
+
   form.on("submit", function (e) {
     e.preventDefault();
     if (form.valid() === true) {
@@ -72,11 +95,6 @@ $(function () {
             text: "Unable to submit form! Please try agian.",
           });
         },
-      });
-    } else {
-      Swal.fire({
-        icon: "error",
-        text: "Unable to submit form! Please check if all required fields are filled.",
       });
     }
   });

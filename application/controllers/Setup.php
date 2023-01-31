@@ -13,23 +13,53 @@ class Setup extends MY_Controller
     }
 
      /**
-     * Show a resource
-     * html view
-     */
-    public function view(int $id = null)
-    {
-        $data = [
-            //'customer' => $this->customer_model->getById($id), //This is an example replace with actual model
-        ];
-        $this->load->view('pages/customers/details', $data);
-    }
-
-     /**
      * Show a form page for creating resource
      * html view
      */
     public function account_types()
     {
+        $input = $data = null;
+
+        if($this->input->get('action')){
+            $input = $this->input->get();
+            if($input['action'] === 'delete'){
+                $message = "Type delete successfully!";
+            }
+            else if($input['action'] === 'close'){
+                $message = "Type closed successfully!";
+            }
+            else if($input['action'] === 'open'){
+                $message = "Type opened successfully!";
+            }
+            
+        }
+        else if($this->input->post('id')){
+             $input = $this->input->post();
+             $message = "Type updated successfully!";
+        }
+        else {
+            $input = $this->input->post();
+            $data = $this->acctype->create($input);
+            $message = "Type created successfully!";
+        }
+
+        if($input && $data){
+            $out = [
+                'data' => $data,
+                'status' => true,
+                'message' => $message
+            ];
+            return httpResponseJson($out);
+        }
+        else if($input){
+            $out = [
+                'status' => false,
+                'message' => "Data couldn't be proccessed!"
+            ];
+            return httpResponseJson($out);
+        }
+
+
         $this->load->view('pages/setup/account_types');
     }
 
@@ -49,44 +79,5 @@ class Setup extends MY_Controller
     public function loan_types()
     {
         $this->load->view('pages/setup/account_types');
-    }
-
-     /**
-     * Show a form page for updating resource
-     * html view
-     */
-    public function edit(int $id = null)
-    {
-        $data = [
-            //'customer' => $this->customer_model->getById($id), //This is an example replace with actual model
-        ];
-        $this->load->view('pages/customers/edit', $data);
-    }
-
-    /**
-     * Store a resource
-     * print json Response
-     */
-    public function store ()
-    {
-        # code...
-    }
-
-    /**
-     * Update a resource
-     * print json Response
-     */
-    public function update (int $id = null)
-    {
-        # code...
-    }
-
-    /**
-     * Delete a resource
-     * print json Response
-     */
-    public function delete (int $id = null)
-    {
-        # code...
     }
 }
