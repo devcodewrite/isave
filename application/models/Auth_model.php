@@ -35,6 +35,7 @@ class Auth_model extends CI_Model
           
           if(in_array($uri, $this->excluded_uris)) return true;
           
+          return true;
      }
 
      public function loginUser(string $username, string $pass)
