@@ -36,6 +36,13 @@ window.readURL = function (input) {
   }
 };
 
+
+window.changeParam = function(url, param, val) {
+  var href = new URL(url);
+  href.searchParams.set(param, val);
+  return href.toString();
+}
+
 window.formatPeopleResult = function (data) {
   if (data.loading) {
     return data.text;

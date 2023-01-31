@@ -512,7 +512,7 @@
                                                             <div class="widget-subheading opacity-8">A short profile description</div>
                                                         </div>
                                                         <div class="widget-content-right mr-2">
-                                                            <button class="btn-pill btn-shadow btn-shine btn btn-focus">Logout</button>
+                                                            <a href="<?=site_url('auth/logout') ?>" class="btn-pill btn-shadow btn-shine btn btn-focus">Logout</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -537,8 +537,9 @@
                             </div>
                         </div>
                         <div class="widget-content-left  ml-3 header-user-info">
-                            <div class="widget-heading"> Alina Mclourd </div>
-                            <div class="widget-subheading"> VP People Manager </div>
+                            <?php $user = auth()->user() ?>
+                            <div class="widget-heading"> <?= $user->firstname ?> <?= $user->lastname ?> </div>
+                            <div class="widget-subheading"> <?= $this->role->find($user->role_id)->label ?> </div>
                         </div>
                     </div>
                 </div>

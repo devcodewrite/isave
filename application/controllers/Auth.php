@@ -39,14 +39,33 @@ class Auth extends CI_Controller
      */
     public function login ()
     {
-        # code...
+       if(auth()->loginUser(
+        $this->input->post('username'), 
+        $this->input->post('password')) ){
+            $out = [
+                'status' => true,
+                'message' => 'You have logged in successfully!'
+            ];
+        }
+        else {
+            $out = [
+                'status' => false,
+                'message' => auth()->error()
+            ];
+        }
+        httpResponseJson($out);
+    }
+
+    public function logout()
+    {
+        auth()->logout();
     }
 
     /**
      * Check email/username and  send reset password email
      * print json Response
      */
-    public function sendResetPasswordEmail ()
+    public function reset_password_email ()
     {
         # code...
     }

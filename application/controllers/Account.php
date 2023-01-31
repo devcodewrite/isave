@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script allowed');
 
-class Account extends CI_Controller
+class Account extends MY_Controller
 {
     /**
      * Show a list of resources
@@ -18,11 +18,8 @@ class Account extends CI_Controller
      */
     public function profile()
     {
-        $uid = $this->session->userdata('login_id');
-        $table = "members";
-        $column = "id";
         $data = [
-            'customer' => $this->common->get_data_by_id($table,$uid,$column), //This is an example replace with actual model
+            'customer' => null //This is an example replace with actual model
         ];
         $this->load->view('pages/account/profile', $data);
     }
@@ -42,12 +39,7 @@ class Account extends CI_Controller
      */
     public function update_profile ()
     {
-      // $authUser = $this->auth->getUser();
-      $id = $this->session->userdata('login_id');
-      $data = array();
-        $table="members";
-        $column = "id";
-        $customer  = $this->common->update_data($id,$data,$table,$column); // replace created record object
+        $customer  = null;// replace created record object
         if($customer){
             $out = [
                 'status' => true,

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script allowed');
 
-class Payments extends CI_Controller
+class Payments extends MY_Controller
 {
     /**
      * Show a list of resources
@@ -18,10 +18,8 @@ class Payments extends CI_Controller
      */
     public function view(int $id = null)
     {
-        $table = "loan_payments";
-        $column = "id";
         $data = [
-            'payment' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
+            'payment' => null, //This is an example replace with actual model
         ];
         $this->load->view('pages/payments/detail', $data);
     }
@@ -41,10 +39,8 @@ class Payments extends CI_Controller
      */
     public function edit(int $id = null)
     {
-        $table = "loan_payments";
-        $column = "id";
         $data = [
-            'payment' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
+            'payment' => null, //This is an example replace with actual model
         ];
         $this->load->view('pages/payments/edit', $data);
     }
@@ -53,10 +49,10 @@ class Payments extends CI_Controller
      * Store a resource
      * print json Response
      */
-    public function list ()
+    public function store ()
     {
         # code...
-       $payment  = $this->common->get_loan_payments_data(); // replace created record object
+       $payment  = null; // replace created record object
        if($payment){
            $out = [
                'data' => $payment,
@@ -79,10 +75,7 @@ class Payments extends CI_Controller
      */
     public function update (int $id = null)
     {
-        $data = array();
-        $table="loan_payments";
-        $column = "id";
-        $loan_payment = $this->common->update_data($id,$data,$table,$column); // replace created record object
+        $loan_payment = null; // replace created record object
         if($loan_payment){
             $out = [
                 'status' => true,
@@ -104,10 +97,7 @@ class Payments extends CI_Controller
      */
     public function delete (int $id = null)
     {
-        $data = array();
-        $table="loan_payments";
-        $column = "id";
-        $loan_payment = $this->common->update_data($id,$data,$table,$column); // replace created record object
+        $loan_payment = null; // replace created record object
         if($loan_payment){
             $out = [
                 'status' => true,

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script allowed');
 
-class Associations extends CI_Controller
+class Associations extends MY_Controller
 {
     /**
      * Show a list of resources

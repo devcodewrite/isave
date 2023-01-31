@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script allowed');
 
-class Loans extends CI_Controller
+class Loans extends MY_Controller
 {
     /**
      * Show a list of resources

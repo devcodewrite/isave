@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script allowed');
 
-class Transfers extends CI_Controller
+class Transfers extends MY_Controller
 {
     /**
      * Show a list of resources
@@ -18,10 +18,8 @@ class Transfers extends CI_Controller
      */
     public function view(int $id = null)
     {
-        $table = "internal_transfers";
-        $column = "id";
         $data = [
-            'transfer' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
+            'transfer' => null, //This is an example replace with actual model
         ];
         $this->load->view('pages/transfers/detail', $data);
     }
@@ -44,7 +42,7 @@ class Transfers extends CI_Controller
         $table = "internal_transfers";
         $column = "id";
         $data = [
-            'transfer' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
+            'transfer' => null, //This is an example replace with actual model
         ];
         $this->load->view('pages/transfers/edit', $data);
     }
@@ -56,7 +54,7 @@ class Transfers extends CI_Controller
     public function list ()
     {
         # code...
-       $transfer  = $this->common->get_internal_transfers_data(); // replace created record object
+       $transfer  = null; // replace created record object
        if($transfer){
            $out = [
                'data' => $transfer,
@@ -79,10 +77,7 @@ class Transfers extends CI_Controller
      */
     public function update (int $id = null)
     {
-        $data = array();
-        $table="internal_transfers";
-        $column = "id";
-        $transfer = $this->common->update_data($id,$data,$table,$column); // replace created record object
+        $transfer = null; // replace created record object
         if($transfer){
             $out = [
                 'status' => true,
@@ -104,10 +99,7 @@ class Transfers extends CI_Controller
      */
     public function delete (int $id = null)
     {
-        $data = array();
-        $table="internal_transfers";
-        $column = "id";
-        $transfer = $this->common->update_data($id,$data,$table,$column); // replace created record object
+        $transfer =null; // replace created record object
         if($transfer){
             $out = [
                 'status' => true,
@@ -124,9 +116,7 @@ class Transfers extends CI_Controller
     }
     public function insert ()
     {
-        $data = array();
-        $table="internal_transfers";
-        $loan  = $this->common->insert_data($table,$data); // replace created record object
+        $loan  = null; // replace created record object
         if($loan){
             $out = [
                 'status' => true,

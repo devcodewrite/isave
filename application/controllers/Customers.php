@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script allowed');
 
-class Customers extends CI_Controller
+class Customers extends MY_Controller
 {
     /**
      * Show a list of resources
@@ -22,7 +22,7 @@ class Customers extends CI_Controller
         if(!$member) show_404();
 
         $data = [
-            'member' => $member, //This is an example replace with actual model
+            'member' => $member,
         ];
         $this->load->view('pages/customers/detail', $data);
     }
@@ -46,8 +46,13 @@ class Customers extends CI_Controller
      */
     public function edit(int $id = null)
     {
+        $member = $this->member->find($id);
+        if(!$member) show_404();
+
         $data = [
-            'customer' => null //This is an example replace with actual model
+            'id_card_types' => $this->idcardtype->all()->get()->result(),
+            'acc_types' => $this->acctype->all()->get()->result(),
+            'member' => $member,
         ];
         $this->load->view('pages/customers/edit', $data);
     }

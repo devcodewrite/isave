@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script allowed');
 
-class BankAccounts extends CI_Controller
+class BankAccounts extends MY_Controller
 {
     /**
      * Show a list of resources

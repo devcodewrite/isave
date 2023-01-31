@@ -89,7 +89,7 @@ $autoload['drivers'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array('url', 'file', 'datatable', 'page_builder', 'inflector');
+$autoload['helper'] = array('url', 'file', 'datatable', 'page_builder', 'inflector', 'auth');
 
 /*
 | -------------------------------------------------------------------
@@ -134,6 +134,9 @@ $autoload['language'] = array();
 */
 $autoload['model'] = array(
     'setting_model' => 'setting',
+    'auth_model' => 'auth',
+    'role_model' => 'role',
+    'permission_model' => 'perm',
     'user_model' => 'user',
     'member_model' => 'member',
     'account_model' => 'account',
