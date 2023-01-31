@@ -59,7 +59,7 @@ class Association_model extends CI_Model
      /**
      * Get the communities
      */
-    public function coummunities()
+    public function communities()
     {
         return $this->db->select("community")
                     ->distinct()
