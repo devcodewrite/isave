@@ -18,10 +18,13 @@ class BankAccounts extends MY_Controller
      */
     public function view(int $id = null)
     {
-        $table = "accounts";
-        $column = "id";
+        $account =  $this->account->find($id);
+        if(!$account) show_404();
+
+        $account->balance = $this->account->calBalance($id);
         $data = [
-            'account' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
+            'account' => $account,
+            'member' => $this->member->find($account->member_id),
         ];
         $this->load->view('pages/bank-accounts/detail', $data);
     }
@@ -32,7 +35,12 @@ class BankAccounts extends MY_Controller
      */
     public function create()
     {
-        $this->load->view('pages/bank-accounts/edit');
+        $data = [
+            'id_card_types' => $this->idcardtype->all()->get()->result(),
+            'accountTypes' => $this->acctype->all()->get()->result(),
+        ];
+
+        $this->load->view('pages/bank-accounts/edit', $data);
     }
 
      /**
@@ -41,10 +49,10 @@ class BankAccounts extends MY_Controller
      */
     public function edit(int $id = null)
     {
-        $table = "accounts";
-        $column = "id";
         $data = [
-            'account' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
+            'id_card_types' => $this->idcardtype->all()->get()->result(),
+            'accountTypes' => $this->acctype->all()->get()->result(),
+            'account' => $this->account->find($id),
         ];
         $this->load->view('pages/bank-accounts/edit', $data);
     }
@@ -55,11 +63,13 @@ class BankAccounts extends MY_Controller
      */
     public function store ()
     {
-        # code...
-       $account  = null; // replace created record object
+        $record = $this->input->post();
+
+       $account  = $this->account->create($record);
        if($account){
            $out = [
                'data' => $account,
+               'input' => $record,
                'status' => true,
                'message' => 'Account created successfully!'
            ];
@@ -79,9 +89,12 @@ class BankAccounts extends MY_Controller
      */
     public function update (int $id = null)
     {
-        $accounts = null; // replace created record object
-        if($accounts){
+        $record = $this->input->post();
+        $account  = $this->account->update($id, $record);
+        if($account){
             $out = [
+                'data' => $account,
+                'input' => $record,
                 'status' => true,
                 'message' => 'Account data updated successfully!'
             ];
@@ -102,7 +115,7 @@ class BankAccounts extends MY_Controller
     public function delete (int $id = null)
     {
         $accounts = null; // replace created record object
-        if($accounts){
+        if($this->account->delete($id)){
             $out = [
                 'status' => true,
                 'message' => 'Account data updated successfully!'
@@ -125,6 +138,7 @@ class BankAccounts extends MY_Controller
         if($account){
             $account->member = $this->member->find($account->member_id);
             $account->idCardType = $this->idcardtype->find($account->member->identity_card_type_id);
+            $account->balance = $this->account->calBalance($account->id);
             $out = [
                 'data' => $account,
                 'status' => true,
@@ -138,5 +152,24 @@ class BankAccounts extends MY_Controller
             ];
         }
         httpResponseJson($out);
+    }
+
+    public function datatables()
+    {
+        $start = $this->input->get('start', true);
+        $length = $this->input->get('length', true);
+        $draw = $this->input->get('draw', true);
+        $inputs = $this->input->get();
+
+        $out = datatable($this->account->all(),$start, $length, $draw, $inputs);
+        $out = array_merge($out, [
+            'input' => $this->input->get(),
+        ]);
+        httpResponseJson($out);
+    }
+
+    public function select2()
+    {
+        
     }
 }

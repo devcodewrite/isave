@@ -8,12 +8,20 @@ class Member_model extends CI_Model
     public function create(array $record)
     {
         if (!$record) return;
-
+        $record['user_id'] = auth()->user()->id;
         $data = $this->extract($record);
 
         if ($this->db->insert($this->table, $data)) {
-            $this->uploadPhoto($this->db->insert_id());
-            return $this->find($this->db->insert_id());
+            $id = $this->db->insert_id();
+            $member = $this->find($id);
+            $this->uploadPhoto($id);
+            $this->uploadPhoto($id,'card','identity_card_url',true,'100%',['w'=>null,'h' => null]);
+            $record['member_id'] = $id;
+            $record['ownership'] = 'individual';
+            unset($record['association_id']);
+            $acc = $this->account->create($record);
+            $member->account = $acc;
+            return $member;
         }
     }
 

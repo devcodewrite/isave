@@ -55,7 +55,7 @@
                                     </a>
                                 </li>
                             </ul>
-                            <form class="form-wizard-content" action="<?= site_url('customers/store') ?>">
+                            <form class="form-wizard-content" action="<?= site_url('customers/store') ?>" data-redirect-url="<?=site_url('customers') ?>">
                                 <div id="step-1">
                                     <div class="form-row">
                                         <div class="col-md-2">
@@ -170,8 +170,17 @@
                                                                 <img class="photo-placeholder" height="200" width="200" src="<?= base_url('assets/images/no-image.png') ?>" alt="Passport Photo">
                                                             </div>
                                                             <div class="position-relative form-group">
-                                                                <input name="photo" id="photo" placeholder="Choose a photo" onchange="readURL(this)" type="file" class="form-control">
+                                                                <input name="photo" id="photo" data-target="photo-placeholder" placeholder="Choose a photo" onchange="readURL(this)" type="file" class="form-control">
                                                                 <label for="photo">Passport Photo</label>
+                                                            </div>
+                                                        </div>
+                                                        <div style="width: 400px;" class="mx-auto">
+                                                            <div class="card">
+                                                                <img class="card-placeholder" height="200" style="object-fit:scale-down" width="auto" src="<?= base_url('assets/images/id-card.png') ?>" alt="Card Photo">
+                                                            </div>
+                                                            <div class="position-relative form-group">
+                                                                <input name="card" id="card" data-target="card-placeholder" placeholder="Choose a photo" onchange="readURL(this)" type="file" class="form-control">
+                                                                <label for="card">ID Card Photo</label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -268,5 +277,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= site_url('assets/js/customers/edit.js?v=' . uniqid()) ?>" defer></script>
+<script src="<?= site_url('assets/js/customers/edit.js?v=1') ?>" defer></script>
 <?php app_end(); ?>

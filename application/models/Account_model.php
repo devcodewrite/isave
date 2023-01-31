@@ -9,10 +9,26 @@ class Account_model extends CI_Model
     {
         if (!$record) return;
 
+        $record['user_id'] = auth()->user()->id;
         $data = $this->extract($record);
+        $last = $this->db->select()
+                        ->from($this->table)
+                        ->order_by('id', 'asc')
+                        ->limit(1)
+                        ->get()
+                        ->row();
+        $lastid = $last?$last->id:0;
 
+        if($record['ownership'] === 'individual'){
+            $owner_id = $record['member_id'];
+        }
+        else{
+            $owner_id = $record['association_id'];
+        }
+        $data = array_merge($data, [
+            'acc_number' => date('y').str_pad($owner_id,4,'0',STR_PAD_LEFT).str_pad($lastid+1,4,'0',STR_PAD_LEFT),
+        ]);
         if ($this->db->insert($this->table, $data)) {
-            $this->uploadPhoto($this->db->insert_id());
             return $this->find($this->db->insert_id());
         }
     }
@@ -47,50 +63,6 @@ class Account_model extends CI_Model
         return $filtered;
     }
 
-    /**
-     * Upload photo
-     * @param string $field_name
-     * @return Boolean
-     */
-    public function uploadPhoto($id, string $field_name = 'photo', string $col_name = 'photo_url', $disp_error = true, $scale = '60%', $dim = ['w' => 200, 'h' => '200'])
-    {
-        $config['upload_path'] = './uploads/photos/' . $this->table;
-        $config['allowed_types'] = 'gif|jpg|png|jpeg';
-        $config['file_name'] = uniqid($id);
-        $this->load->library('upload', $config);
-
-        if ($this->upload->do_upload($field_name)) {
-            $file_data = $this->upload->data();
-
-            $resize['image_library'] = 'gd2';
-            $resize['create_thumb'] = TRUE;
-            $resize['maintain_ratio'] = TRUE;
-            $resize['quality'] = $scale;
-            $resize['width'] = $dim['w'];
-            $resize['height'] = $dim['h'];
-            $resize['source_image'] = $file_data['full_path'];
-
-            $this->load->library('image_lib', $resize);
-
-            if (!$this->image_lib->resize()) {
-                if ($disp_error) {
-                    $this->session->set_flashdata('error_message', $this->image_lib->display_errors('', ''));
-                }
-                return false;
-            }
-        } else {
-            if ($disp_error) {
-                $this->session->set_flashdata('warning_message', $this->upload->display_errors('', ''));
-                return false;
-            }
-            return true;
-        }
-        $data = [
-            $col_name => base_url('uploads/photos/' . $this->table . "/" . $file_data['file_name']),
-        ];
-        return $this->update($id, $data);
-    }
-
 
     /**
      * Get account by id
@@ -119,30 +91,39 @@ class Account_model extends CI_Model
      */
     public function all()
     {
-        $rtable = 'associations';
-        $col = 'association_id';
+        $rtable = 'members';
+        $col = 'member_id';
+        $rtable2 = 'associations';
+        $col2 = 'association_id';
+        $rtable3 = 'acc_types';
+        $col3 = 'acc_type_id';
+
+        $qselect_sum_deposits = "SELECT SUM(deposits.amount) FROM deposits WHERE deposits.account_id={$this->table}.id";
+        $qselect_sum_withdrawals = "SELECT SUM(withdrawals.amount) FROM withdrawals  WHERE withdrawals.account_id={$this->table}.id";
 
         $where = ["{$this->table}.deleted_at =" => null];
         $fields = [
             "{$this->table}.id",
-            "{$this->table}.firstname",
-            "{$this->table}.lastname",
-            "{$this->table}.othername",
-            "{$this->table}.sex",
-            "{$this->table}.primary_phone",
-            "{$this->table}.identity_card_number",
-            "{$this->table}.occupation",
-            "{$this->table}.rstate",
-            "{$this->table}.occupation",
-            "{$this->table}.photo_url",
+            "{$this->table}.name",
+            "{$this->table}.ownership",
+            "{$this->table}.status",
+            "ifnull(($qselect_sum_deposits) - ($qselect_sum_withdrawals),0) as balance",
+            "{$this->table}.acc_type_id",
+            "{$this->table}.member_id",
+            "{$this->table}.association_id",
+            "{$this->table}.acc_number",
+            "concat({$rtable}.firstname, ' ', {$rtable}.lastname) as member_owner",
+            "$rtable2.name  as association_owner",
+            "$rtable3.label  as acc_type",
             "DATE({$this->table}.created_at) as created_at",
-            "$rtable.name as association_name",
         ];
 
         return
             $this->db->select($fields, true)
             ->from($this->table)
             ->join($rtable, "$rtable.id={$this->table}.$col", 'left')
+            ->join($rtable2, "$rtable2.id={$this->table}.$col2", 'left')
+            ->join($rtable3, "$rtable3.id={$this->table}.$col3", 'left')
             ->where($where);
     }
 
@@ -161,21 +142,6 @@ class Account_model extends CI_Model
             ->where("$rtable.deleted_at =", null)
             ->get()
             ->row();
-    }
-
-    /**
-     * Get all account that belongs to this account id
-     */
-    public function accounts(int $id)
-    {
-        $rtable = 'accounts';
-
-        return $this->db->select("$rtable.*")
-            ->from($rtable)
-            ->where(['account_id' => $id])
-            ->where("$rtable.deleted_at =", null)
-            ->get()
-            ->result();
     }
 
     /**
@@ -222,39 +188,19 @@ class Account_model extends CI_Model
             ->result();
     }
 
-    /**
-     * Get all associations that the account id has
-     */
-    public function associations(int $id)
+    public function calBalance(int $id = null)
     {
-        $rtable = 'associations';
-        $pivot = 'association_accounts';
-        $foreginKey1 = 'association_id';
-        $foreginKey2 = 'account_id';
+        if(!$id)  return;
 
-        return $this->db->select("{$this->table}.*")
-            ->from($rtable)
-            ->join($rtable, "$pivot.$foreginKey1=$rtable.id")
-            ->join($this->table, "$pivot.$foreginKey2={$this->table}.id")
-            ->where("{$this->table}.id", $id)
-            ->where("$rtable.deleted_at =", null)
-            ->get()
-            ->result();
-    }
+        $qselect_sum_deposits = "SELECT SUM(deposits.amount) FROM deposits WHERE deposits.account_id={$this->table}.id";
+        $qselect_sum_withdrawals = "SELECT SUM(withdrawals.amount) FROM withdrawals  WHERE withdrawals.account_id={$this->table}.id";
 
-    /**
-     * Get the identity card type that owner this account id
-     */
-    public function identityCardType(int $id)
-    {
-        $rtable = 'identity_card_types';
-        $col = 'identity_card_type_id';
+        $query = $this->db->select("ifnull(($qselect_sum_deposits) - ($qselect_sum_withdrawals), 0) as total")
+                    ->from($this->table)
+                    ->where("{$this->table}.deleted_at =", null)
+                    ->where("{$this->table}.id", $id)
+                    ->get();
+        if($query) return $query->row('total');
 
-        return $this->db->select("$rtable.*")
-            ->from($rtable)
-            ->join($this->table, "{$this->table}.$col=$rtable.id")
-            ->where(["$this->table.id" => $id])
-            ->get()
-            ->row();
     }
 }

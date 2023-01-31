@@ -23,7 +23,7 @@
     <div class="main-card mb-3 card">
         <div class="card-body">
             <h5 class="card-title">Association Form</h5>
-            <form id="associationForm" class="col-md-10 mx-auto" method="post" action="#">
+            <form id="associationForm" class="col-md-10 mx-auto" method="post" action="<?=site_url('associations/store') ?>" data-redirect-url="<?=site_url('associations') ?>">
                 <div class="form-group">
                     <label for="firstname">Name</label>
                     <div>

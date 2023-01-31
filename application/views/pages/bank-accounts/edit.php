@@ -76,8 +76,14 @@
                     <div class="main-card mb-3 card">
                         <div class="card-body">
                             <h5 class="card-title">Association Form</h5>
-                            <form id="associationAccForm" class="col-md-10 mx-auto" method="post" action="#">
-                                <div class="form-group">
+                            <form class="col-md-10 mx-auto associationAccForm" method="post" action="<?= site_url('bankaccounts/store') ?>" data-redirect-url="<?= site_url('bankaccounts') ?>">
+                                <input type="hidden" name="ownership" value="association">
+                                <?php if(isset($account)) { ?> 
+                                    <input type="hidden" name="_method" value="post">
+                                <?php }else { ?> 
+                                    <input type="hidden" name="_method" value="put">
+                                <?php } ?>
+                            <div class="form-group">
                                     <label for="association_id">Search an association</label>
                                     <select name="association_id" class="form-control select2-associations" required>
                                         <option value=""></option>
@@ -93,12 +99,12 @@
                                     <label for="acc_type_id">Account type</label>
                                     <select name="acc_type_id" class="form-control select2-account-types" required>
                                         <option value=""></option>
-                                        <?php foreach ($id_card_types as $row) { ?>
+                                        <?php foreach ($accountTypes as $row) { ?>
                                             <option value="<?= $row->id; ?>"><?= $row->label; ?></option>
                                         <?php } ?>
                                     </select>
                                 </div>
-                                <button type="submit" class="btn btn-primary text-uppercase">Sumbit form</button>
+                                <button type="submit" class="btn btn-primary text-uppercase">Create Account</button>
                             </form>
                         </div>
                     </div>
@@ -111,12 +117,20 @@
                     <div class="main-card mb-3 card">
                         <div class="card-body">
                             <h5 class="card-title">Membership Account Form</h5>
-                            <form id="associationAccForm" class="col-md-10 mx-auto" method="post" action="#">
-                                <div class="position-relative form-group">
+                            <form class="col-md-10 mx-auto memberAccForm" method="post" action="<?= site_url('bankaccounts/store') ?>" data-redirect-url="<?= site_url('bankaccounts') ?>">
+                            <input type="hidden" name="ownership" value="individual">
+                                <?php if(isset($account)) { ?> 
+                                    <input type="hidden" name="_method" value="post">
+                                <?php }else { ?> 
+                                    <input type="hidden" name="_method" value="put">
+                                <?php } ?>
+                            <div class="form-group">
                                     <label for="member_id">Search a member</label>
-                                    <select name="member_id" class="form-control select2-members" required>
-                                        <option value=""></option>
-                                    </select>
+                                    <div>
+                                        <select name="member_id" class="form-control select2-members" required>
+                                            <option value=""></option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="name">Account Name</label>
@@ -126,14 +140,16 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="acc_type_id">Account type</label>
-                                    <select name="acc_type_id" class="form-control select2-account-types" required>
-                                        <option value=""></option>
-                                        <?php foreach ($id_card_types as $row) { ?>
-                                            <option value="<?= $row->id; ?>"><?= $row->label; ?></option>
-                                        <?php } ?>
-                                    </select>
+                                    <div>
+                                        <select name="acc_type_id" class="form-control select2-account-types" required>
+                                            <option value=""></option>
+                                            <?php foreach ($accountTypes as $row) { ?>
+                                                <option value="<?= $row->id; ?>"><?= $row->label; ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary text-uppercase">Sumbit form</button>
+                                <button type="submit" class="btn btn-primary text-uppercase">Create Account</button>
                             </form>
                         </div>
                     </div>
@@ -144,4 +160,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
+<script src="<?= site_url('assets/js/accounts/edit.js?v=2') ?>" defer></script>
 <?php app_end(); ?>

@@ -67,10 +67,12 @@ class Customers extends MY_Controller
         $member  = $this->member->create($record);
         
         if($member){
+            $error = $this->session->flashdata('error_message').$this->session->flashdata('warning_message');
             $out = [
                 'data' => $member,
+                'input' => $this->input->post(),
                 'status' => true,
-                'message' => 'Customer created successfully!'
+                'message' => 'Customer created successfully! '.$error
             ];
         }
         else {
@@ -89,18 +91,23 @@ class Customers extends MY_Controller
     public function update (int $id = null)
     {
         
-            $customer = null; // replace created record object
-            if ($customer) {
-                $out = [
-                    'status' => true,
-                    'message' => 'Customer data updated successfully!'
-                ];
-            } else {
-                $out = [
-                    'status' => false,
-                    'message' => "Customer data couldn't be updated!"
-                ];
-            }
+        $record = $this->input->post();
+        $member = $this->member->update($id, $record);
+        if($member){
+            $error = $this->session->flashdata('error_message').$this->session->flashdata('warning_message');
+            $out = [
+                'data' => $member,
+                'status' => true,
+                'input' => $this->input->post(),
+                'message' => 'Member data updated successfully! '.$error
+            ];
+        }
+        else {
+            $out = [
+                'status' => false,
+                'message' => "Loan data couldn't be update!"
+            ];
+        }
         httpResponseJson($out);
     }
 
@@ -110,8 +117,7 @@ class Customers extends MY_Controller
      */
     public function delete (int $id = null)
     {
-        $customer  = null; // replace created record object
-        if($customer){
+        if($this->member->delete($id)){
             $out = [
                 'status' => true,
                 'message' => 'Customer data deleted successfully!'
@@ -142,6 +148,29 @@ class Customers extends MY_Controller
 
     public function select2()
     {
+        $term = trim($this->input->get('term'));
+        $take = 10;
+        $page = $this->input->get('page', true)?$this->input->get('page', true):1;
+        $skip = ($page - 1 )*$take;
+
+        $total = $this->member->all()->get()->num_rows();
         
+        $records = $this->member->all()->select('members.id, concat(members.firstname," ",members.lastname, " #", members.id) as text', false)
+                    ->like('name', $term)
+                    ->limit($take, $skip)
+                    ->get()
+                    ->result();
+
+        $out = [
+            'results' => $records,
+            'pagination' => [
+               'more' => ($skip + $take < $total),
+               'page' => intval($page),
+               'totalRows' => $total,
+               'totalPages' => intval($total/$take + ($total%$take > 0?1:0))
+            ]
+        ];
+
+        return httpResponseJson($out);
     }
 }

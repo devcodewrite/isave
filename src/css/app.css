@@ -2,4 +2,6 @@
 .form-select2 {
     height: 38px !important;
     padding: 2px !important;
+    width: 100% !important;
+    display: block !important;
 }

@@ -77,7 +77,6 @@ $('.select2-associations').select2({
   selectionCssClass: 'form-select2',
 });
 
-
 form.on("submit", function (e) {
   e.preventDefault();
   if (form.valid() === true){
@@ -112,10 +111,10 @@ form.on("submit", function (e) {
               if (d.status === true) {
                   if(typeof d.input === 'object'){
                       if(d.input._method === 'post'){
-                          $(form).trigger('reset');
+                        form.trigger('reset');
                           $('select').val('').trigger('change.select2');
                       }
-                      let default_redirect = form.getAttribute('data-redirect-url');
+                      let default_redirect = form.attr('data-redirect-url');
                           default_redirect = default_redirect?default_redirect+`/${d.data.id}`:null;
                       let crrurl = new URL(location.href);
                       let backto = crrurl.searchParams.get('backtourl');

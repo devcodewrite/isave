@@ -61,13 +61,14 @@ class Loans extends MY_Controller
      * Store a resource
      * print json Response
      */
-    public function list ()
+    public function store ()
     {
-       # code...
-       $loan  = $this->common->get_loans_data(); // replace created record object
+        $record = $this->input->post();
+        $loan  = $this->loan->create($record);
        if($loan){
            $out = [
                'data' => $loan,
+               'input' => $this->input->post(),
                'status' => true,
                'message' => 'Customer loan created successfully!'
            ];
@@ -87,13 +88,13 @@ class Loans extends MY_Controller
      */
     public function update (int $id = null)
     {
-        $data = array();
-        $table="loans";
-        $column = "id";
-        $loan = $this->common->update_data($id,$data,$table,$column); // replace created record object
+        $record = $this->input->post();
+        $loan = $this->loan->update($id, $record);
         if($loan){
             $out = [
+                'data' => $loan,
                 'status' => true,
+                'input' => $this->input->post(),
                 'message' => 'Loan data updated successfully!'
             ];
         }
@@ -112,11 +113,7 @@ class Loans extends MY_Controller
      */
     public function delete (int $id = null)
     {
-        $data = array();
-        $table="loans";
-        $column = "id";
-        $loan = $this->common->update_data($id,$data,$table,$column); // replace created record object
-        if($loan){
+        if($this->loan->delete($id)){
             $out = [
                 'status' => true,
                 'message' => 'Loan data deleted successfully!'
@@ -130,23 +127,23 @@ class Loans extends MY_Controller
         }
         httpResponseJson($out);
     }
-    public function insert ()
+
+    public function datatables()
     {
-        $data = array();
-        $table="loans";
-        $loan  = $this->common->insert_data($table,$data); // replace created record object
-        if($loan){
-            $out = [
-                'status' => true,
-                'message' => 'Loan data created successfully!'
-            ];
-        }
-        else {
-            $out = [
-                'status' => false,
-                'message' => "Loan data couldn't be created!"
-            ];
-        }
+        $start = $this->input->get('start', true);
+        $length = $this->input->get('length', true);
+        $draw = $this->input->get('draw', true);
+        $inputs = $this->input->get();
+
+        $out = datatable($this->loan->all(),$start, $length, $draw, $inputs);
+        $out = array_merge($out, [
+            'input' => $this->input->get(),
+        ]);
         httpResponseJson($out);
+    }
+
+    public function select2()
+    {
+        
     }
 }

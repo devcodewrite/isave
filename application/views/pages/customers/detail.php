@@ -52,41 +52,41 @@
                 </div>
                 <div class="card-body p-5">
                     <div class="text-center">
-                        <img id="passport-photo" height="150" width="150" src="<?= empty($member->photo_url)?base_url('assets/images/photo-placeholder.jpeg'):$member->photo_url; ?>" alt="Passport Photo">
+                        <img id="passport-photo" height="150" width="150" src="<?= empty($member->photo_url) ? base_url('assets/images/photo-placeholder.jpeg') : $member->photo_url; ?>" alt="Passport Photo">
                         <span class="alert alert-success text-uppercase d-absolute float-right">Open</span>
                     </div>
                     <div class="row text-uppercase mt-2 border-bottom">
                         <p class="col-6 text-black-50">Customer ID</p>
-                        <p class="col-6 text-primary"><?=$member->id ?></p>
+                        <p class="col-6 text-primary"><?= $member->id ?></p>
                     </div>
                     <div class="row text-uppercase mt-2 border-bottom">
                         <p class="col-6 text-black-50">Full Name</p>
-                        <p class="col-6 input-placeholder text-black"><?=`$member->firstname $member->othername $member->lastname` ?></p>
+                        <p class="col-6 input-placeholder text-black"><?= `$member->firstname $member->othername $member->lastname` ?></p>
                     </div>
                     <div class="row text-uppercase mt-2 border-bottom">
                         <p class="col-6 text-black-50">Sex</p>
-                        <p class="col-6 input-placeholder text-black   text-uppercase"><?=$member->sex ?></p>
+                        <p class="col-6 input-placeholder text-black   text-uppercase"><?= $member->sex ?></p>
                     </div>
                     <div class="row text-uppercase mt-2 border-bottom">
                         <p class="col-6 text-black-50">Primary Phone Number</p>
-                        <p class="col-6 input-placeholder text-black  h-5"><?=$member->primary_phone ?></p>
+                        <p class="col-6 input-placeholder text-black  h-5"><?= $member->primary_phone ?></p>
                     </div>
                     <div class="row text-uppercase mt-2 border-bottom">
                         <p class="col-6 text-black-50">Date of Birth</p>
-                        <p class="col-6 input-placeholder text-black"><?=$member->dateofbirth ?></p>
+                        <p class="col-6 input-placeholder text-black"><?= $member->dateofbirth ?></p>
                     </div>
                     <div class="row text-uppercase mt-2 border-bottom">
                         <p class="col-6 text-black-50">Email</p>
-                        <p class="col-6 input-placeholder text-black"><?=$member->email ?></p>
+                        <p class="col-6 input-placeholder text-black"><?= $member->email ?></p>
                     </div>
 
                     <div class="row text-uppercase mt-2 border-bottom">
                         <p class="col-6 text-black-50">Address</p>
-                        <p class="col-6 input-placeholder text-primary"><?=$member->address ?></p>
+                        <p class="col-6 input-placeholder text-primary"><?= $member->address ?></p>
                     </div>
                     <div class="row text-uppercase mt-2 border-bottom">
                         <p class="col-6 text-black-50">Occupation</p>
-                        <p class="col-6 input-placeholder text-black "><?=$member->occupation ?></p>
+                        <p class="col-6 input-placeholder text-black "><?= $member->occupation ?></p>
                     </div>
                     <div class="row text-uppercase mt-2 border-bottom">
                         <p class="col-6 text-black-50">Marital Status</p>
@@ -94,7 +94,7 @@
                     </div>
                     <div class="row text-uppercase mt-2">
                         <p class="col-6 text-black-50">Other Phone Number</p>
-                        <p class="col-6 input-placeholder text-black"><?=$member->other_phone ?></p>
+                        <p class="col-6 input-placeholder text-black"><?= $member->other_phone ?></p>
                     </div>
                 </div>
                 <div class="d-block text-right card-footer">
@@ -109,21 +109,21 @@
                     <i class="header-icon lnr-license icon-gradient bg-plum-plate"> </i>Indentity Card Details
                 </div>
                 <div class="card-body px-5">
-                <?php if(!empty($member->identity_card_url)){ ?>
-                    <img src="<?=$member->identity_card_url ?>" alt="ID Card Photo">
-                <?php } else { ?>
-                    <div style="height: 200px; width:100%;">
-                        <?php  $this->load->view('templates/svg/id-card'); ?>
-                    </div>
-                <?php  }  ?>
+                    <?php if (!empty($member->identity_card_url)) { ?>
+                        <img height="200" style="object-fit: scale-down;" src="<?= $member->identity_card_url ?>" alt="ID Card Photo">
+                    <?php } else { ?>
+                        <div style="height: 200px; width:100%;">
+                            <?php $this->load->view('templates/svg/id-card'); ?>
+                        </div>
+                    <?php  }  ?>
                     <div class="row text-uppercase mt-2 border-bottom">
                         <p class="col-6 text-black-50">ID Number</p>
-                        <p class="col-6 input-placeholder text-black"><?=$member->identity_card_number ?></p>
+                        <p class="col-6 input-placeholder text-black"><?= $member->identity_card_number ?></p>
                     </div>
                     <div class="row text-uppercase mt-2 border-bottom">
                         <p class="col-6 text-black-50">ID Type</p>
                         <p class="col-6 input-placeholder text-black ">
-                            <?=$this->member->identityCardType($member->id)->label ?>
+                            <?= $this->member->identityCardType($member->id)->label ?>
                         </p>
                     </div>
                 </div>
@@ -136,32 +136,32 @@
                     <table style="width: 100%;" id="dt-related-accounts" class="table table-hover table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th>#ID</th>
+                                <th>#Acc No.</th>
                                 <th>Account Name</th>
                                 <th>Balance</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php 
-                             $alerts = [
+                            <?php
+                            $alerts = [
                                 'open' => 'alert-success',
-                                'suspended'=> 'alert-warning',
+                                'suspended' => 'alert-warning',
                                 'close' => 'alert-danger',
-                             ];
+                            ];
                             foreach ($this->member->accounts($member->id) as $key => $row) {
                             ?>
-                            <tr>
-                                <td><a href="<?=site_url('bankaccounts/'.$row->id) ?>" class="btn btn-link"><?=$row->id ?></a></td>
-                                <td><?=$row->name ?></td>
-                                <td><?="0.00" ?></td>
-                                <td class="py-1"><span class="alert <?=$alerts[$row->status]?> text-uppercase"><?=$row->status ?></span></td>
-                            </tr>
+                                <tr>
+                                    <td><a href="<?= site_url('bankaccounts/' . $row->id) ?>" class="btn btn-link"><?= $row->acc_number ?></a></td>
+                                    <td><?= $row->name ?></td>
+                                    <td><?= "0.00" ?></td>
+                                    <td class="py-1"><span class="alert <?= $alerts[$row->status] ?> text-uppercase"><?= $row->status ?></span></td>
+                                </tr>
                             <?php  } ?>
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th>#ID</th>
+                                <th>#Acc No.</th>
                                 <th>Account Name</th>
                                 <th>Balance</th>
                                 <th>Status</th>

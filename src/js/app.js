@@ -28,9 +28,8 @@ window.baseUrl = $('meta[name="base-url"]').attr("content");
 window.readURL = function (input) {
   if (input.files && input.files[0]) {
     var reader = new FileReader();
-
     reader.onload = function (e) {
-      $(".photo-placeholder").attr("src", e.target.result);
+      $('.'+$(input).data('target')).attr("src", e.target.result);
     };
     reader.readAsDataURL(input.files[0]);
   }
@@ -48,16 +47,19 @@ window.formatPeopleResult = function (data) {
     return data.text;
   }
   data.getAvatar = function () {
+    
+    if(this.photo_url) return this.photo_url;
+
     let imgs = {
-      male: "/assets/images/man.png",
-      female: "/assets/images/woman.png",
-      other: "/assets/images/user.png",
+      male: `${baseUrl}assets/images/man.png`,
+      female: `${baseUrl}assets/images/woman.png`,
+      other: `${baseUrl}assets/images/user.png`,
     };
     return imgs[this.sex];
   };
   var $container = $(
-    '<div class="select2-result-user py-3" style="display:flex; flex-direction:row">' +
-      '<img class="select2-result-user__avatar h-6 mr-2" src="' +
+    '<div class="select2-result-user py-3" style="display:flex; flex-direction:row; align-items:center">' +
+      '<img height="30" style="border-radius:100%" class="select2-result-user__avatar mr-2" src="' +
       data.getAvatar() +
       '">' +
       '<span class="select2-result-user__text text-uppercase">' +
@@ -106,10 +108,19 @@ $(".find-account").on("click", function (e) {
 
       if (d.status === true) {
          let data = d.data;
+         $("#acc-card-placeholder").hide();
         $(".input-placeholder").removeClass("bg-light");
+
         if (data.member.photo_url)
           $(".cus-passport-photo").attr("src", data.member.photo_url);
+
+          if(data.member.identity_card_url){
+            $(".cus-id-card-photo").show();
+            $(".cus-id-card-photo").attr("src", data.member.identity_card_url);
+          }
         if (data.acc_number) $(".acc-number").text(data.acc_number);
+        if (data.balance) $(".acc-balance").text(`GHS ${data.balance}`);
+
         if (data.name) $(".acc-name").text(data.name);
         if (data.member.primary_phone)
           $(".cus-primary-phone").text(data.member.primary_phone);
@@ -124,6 +135,9 @@ $(".find-account").on("click", function (e) {
         });
       } else {
         $(".input-placeholder").addClass("bg-light");
+        $(".cus-passport-photo").attr("src", `${baseUrl}assets/images/photo-placeholder.jpeg`);
+        $(".cus-id-card-photo").hide();
+        $("#acc-card-placeholder").show();
         Swal.fire({
           icon: "error",
           text: d.message,

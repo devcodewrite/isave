@@ -77,9 +77,10 @@
                     <i class="header-icon lnr-license icon-gradient bg-plum-plate"> </i>Indentity Card Details
                 </div>
                 <div class="card-body px-5">
-                    <div id="acc-id-photo" style="height: 200px; width:400px;">
+                <div id="acc-card-placeholder" style="height: 200px; width:400px;">
                         <?php $this->load->view('templates/svg/id-card') ?>
                     </div>
+                    <img src="" height="200" style="display: none;" width="400" class="cus-id-card-photo" alt="ID Card Photo">
                     <div class="row text-uppercase mt-3 border-bottom">
                         <p class="col-6 text-black-50">ID Number</p>
                         <p class="col-6 input-placeholder text-black h-5 bg-light acc-id"></p>
@@ -98,7 +99,7 @@
                 </div>
                 <div class="card-body p-5">
                     <div class="text-center">
-                        <img id="cus-passport-photo" height="150" width="150" src="<?= base_url('assets/images/photo-placeholder.jpeg') ?>" alt="Passport Photo">
+                        <img class="cus-passport-photo" height="150" width="150" src="<?= base_url('assets/images/photo-placeholder.jpeg') ?>" alt="Passport Photo">
                     </div>
                     <div class="row text-uppercase mt-3 border-bottom">
                         <p class="col-6 text-black-50">Account Number</p>

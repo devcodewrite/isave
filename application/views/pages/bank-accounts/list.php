@@ -17,6 +17,14 @@
     </div>
 
     <div class="main-card mb-3 card">
+        <div class="card-header">
+            <div class="btn-actions-pane-right actions-icon-btn">
+                <a href="<?= site_url('bankaccounts/create') ?>" class="btn btn-primary text-uppercase">
+                    <i class="pe-7s-plus btn-icon-wrapper"></i>
+                    New Account
+                </a>
+            </div>
+        </div>
         <div class="card-body">
             <table style="width: 100%;" id="dt-accounts" class="table table-hover table-striped table-bordered">
                 <thead class="text-uppercase">
@@ -34,7 +42,7 @@
 
                 <tfoot class="text-uppercase">
                     <tr>
-                    <th>#ID</th>
+                        <th>#ID</th>
                         <th>Name</th>
                         <th>Owner</th>
                         <th>Type</th>

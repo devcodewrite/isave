@@ -94,32 +94,75 @@
                 </div>
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab-eg9-0" role="tabpanel">
-                        <div class="card-body col-md-6">
-
-                            <div class="row text-uppercase text-center mt-3 border-bottom">
-                                <p class="col-12 text-black-50">Account ID</p>
-                                <h4 class="col-12 text-primary">xxxx xxx xxxx</h4>
-                                <p class="col-12"><span class="alert alert-success text-uppercase float-right">Open</span></p>
-                            </div>
-                            <div class="row text-uppercase mt-3 border-bottom">
-                                <p class="col-6 text-black-50">Account Balance</p>
-                                <h3 class="col-6 input-placeholder text-danger">GHS 0.00</h3>
-                            </div>
-                            <div class="row text-uppercase mt-3 border-bottom">
-                                <p class="col-6 text-black-50">Owner's Name</p>
-                                <p class="col-6 input-placeholder text-black h-5 bg-light"></p>
-                            </div>
-                            <div class="row text-uppercase mt-3">
-                                <p class="col-6 text-black-50">Primary Contact</p>
-                                <p class="col-6 input-placeholder text-black  h-5 bg-light"></p>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 px-5">
+                                    <div class="row text-uppercase text-center border-bottom">
+                                        <p class="col-12 text-black-50">Account Number</p>
+                                        <h4 class="col-12 text-primary"><?= $account->acc_number ?></h4>
+                                        <p class="col-12"><span class="alert alert-success text-uppercase float-right">Open</span></p>
+                                    </div>
+                                    <div class="row text-uppercase mt-3 border-bottom">
+                                        <p class="col-6 text-black-50">Account Name</p>
+                                        <p class="col-6 input-placeholder text-primary"><?= $account->name ?></p>
+                                    </div>
+                                    <div class="row text-uppercase mt-3 border-bottom">
+                                        <p class="col-6 text-black-50">Account Balance</p>
+                                        <h4 class="col-6 input-placeholder text-success">GHS <?=$account->balance ?></h4>
+                                    </div>
+                                    <div class="row text-uppercase mt-3">
+                                        <p class="col-6 text-black-50">Primary Contact</p>
+                                        <p class="col-6 input-placeholder text-black  h-5">
+                                            <a href="tel:<?= $member->primary_phone ?>"><?= $member->primary_phone; ?></a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 px-5">
+                                    <div class="row m-5">
+                                    </div>
+                                    <div class="row text-uppercase mt-3 border-bottom">
+                                        <p class="col-6 text-black-50">Created On</p>
+                                        <p class="col-6 input-placeholder text-blaick">
+                                            <?= date('d/m/y', strtotime($account->created_at)) ?>
+                                        </p>
+                                    </div>
+                                    <div class="row text-uppercase mt-3 border-bottom">
+                                        <p class="col-6 text-black-50">Account Ownership</p>
+                                        <p class="col-6 input-placeholder text-blaick">
+                                            <?= $account->ownership ?>
+                                        </p>
+                                    </div>
+                                    <div class="row text-uppercase mt-3 border-bottom">
+                                        <p class="col-6 text-black-50">Owner's Name</p>
+                                        <p class="col-6 input-placeholder text-black h-5">
+                                            <?= $member->firstname ?> <?= $member->othername ?> <?= $member->lastname ?>
+                                        </p>
+                                    </div>
+                                    <div class="row text-uppercase mt-3 border-bottom">
+                                        <p class="col-6 text-black-50">Added by</p>
+                                        <p class="col-6 input-placeholder text-blaick">
+                                            <?php $user = $this->user->find($account->user_id) ?>
+                                            <?= "$user->firstname $user->lastname" ?>
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="d-block text-right card-footer">
                             <button class="btn btn-info btn-lg">Modify</button>
                             <button class="btn btn-warning btn-lg">Suspend</button>
+                            <button class="btn btn-danger btn-lg">Close</button>
                         </div>
                     </div>
                     <div class="tab-pane" id="tab-eg9-1" role="tabpanel">
+                        <div class="card-header">
+                            <div class="btn-actions-pane-right actions-icon-btn">
+                                <a href="<?= site_url('loans/create') ?>" class="btn btn-primary text-uppercase">
+                                    <i class="pe-7s-plus btn-icon-wrapper"></i>
+                                    New Loan
+                                </a>
+                            </div>
+                        </div>
                         <div class="card-body">
                             <table style="width: 100%;" id="dt-related-loans" class="table table-hover table-striped table-bordered">
                                 <thead class="text-uppercase">
@@ -149,6 +192,14 @@
                         </div>
                     </div>
                     <div class="tab-pane" id="tab-eg9-2" role="tabpanel">
+                        <div class="card-header">
+                            <div class="btn-actions-pane-right actions-icon-btn">
+                                <a href="<?= site_url('withdrawals/create') ?>" class="btn btn-primary text-uppercase">
+                                    <i class="pe-7s-plus btn-icon-wrapper"></i>
+                                    New Withdrawal
+                                </a>
+                            </div>
+                        </div>
                         <div class="card-body">
                             <table style="width: 100%;" id="dt-related-withdrawals" class="table table-hover table-striped table-bordered">
                                 <thead class="text-uppercase">
