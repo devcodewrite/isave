@@ -28,13 +28,13 @@
 
                 </div>
                 <div class="card-body px-5">
-                    <form action="<?=site_url('customers/store') ?>" data-redirect-url="<?=site_url('customers') ?>">
+                    <form class="editLoanForm" action="<?=site_url('loans/store') ?>" data-redirect-url="<?=site_url('loans') ?>">
                         <div class="form-row mb-3">
                             <div class="col-md-12 border-bottom pb-2">
                                 <div class="form-group">
                                     <label for="search-customer-account">Account ID</label>
                                     <div class="input-group">
-                                        <input type="text" name="account_number" id="account_number" class="form-control border-rounded" placeholder="Enter the account number" required>
+                                        <input type="text" name="acc_number" id="account_number" class="form-control border-rounded" placeholder="Enter the account number" required>
                                         <a href="javascript:;" class="ml-2 btn-icon btn-pill btn btn-outline-primary find-account">
                                             <i class="pe-7s-search btn-icon-wrapper"> </i>Search
                                         </a>
@@ -72,8 +72,8 @@
                     </form>
                 </div>
                 <div class="d-block text-right card-footer">
-                    <button class="mr-2 btn btn-link btn-sm">Cancel</button>
-                    <button class="btn btn-success btn-lg">Apply</button>
+                    <button class="mr-2 btn btn-link btn-sm reset">Cancel</button>
+                    <button class="btn btn-success btn-lg apply">Apply</button>
                 </div>
             </div>
             <div class="main-card mb-3 card">

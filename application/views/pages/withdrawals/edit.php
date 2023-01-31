@@ -28,13 +28,13 @@
 
                 </div>
                 <div class="card-body px-5">
-                    <form action="">
+                    <form action="<?= site_url('withdrawals/store') ?>" class="editWithdrawalForm" data-redirect-url="<?= site_url('withdrawals') ?>">
                         <div class="form-row mb-3">
                             <div class="col-md-12 border-bottom pb-2">
                                 <div class="form-group">
                                     <label for="search-customer-account">Account ID</label>
                                     <div class="input-group">
-                                        <input type="text" name="account_number" id="account_number" class="form-control border-rounded" placeholder="Enter the account number" required>
+                                        <input type="text" name="acc_number" id="account_number" class="form-control border-rounded" placeholder="Enter the account number" required>
                                         <a href="javascript:;" class="ml-2 btn-icon btn-pill btn btn-outline-primary find-account">
                                             <i class="pe-7s-search btn-icon-wrapper"> </i>Search
                                         </a>
@@ -49,7 +49,7 @@
                                     <input type="text" name="amount" id="amount" class="form-control" placeholder="Enter the amount" required>
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div class="form-row">
                             <div class="col-md-6">
@@ -68,8 +68,8 @@
                     </form>
                 </div>
                 <div class="d-block text-right card-footer">
-                    <button class="mr-2 btn btn-link btn-sm">Cancel</button>
-                    <button class="btn btn-success btn-lg">Withdraw</button>
+                    <button class="mr-2 btn btn-link btn-sm reset">Cancel</button>
+                    <button class="btn btn-success btn-lg withdraw">Withdraw</button>
                 </div>
             </div>
             <div class="main-card mb-3 card">
@@ -80,7 +80,7 @@
                     <div id="acc-card-placeholder" style="height: 200px; width:400px;">
                         <?php $this->load->view('templates/svg/id-card') ?>
                     </div>
-                    <img src="" height="200" style="display: none;" width="400" class="cus-id-card-photo" alt="ID Card Photo">
+                    <img src="" height="200" style="display: none; object-fit:scale-down;" width="400" class="cus-id-card-photo" alt="ID Card Photo">
                     <div class="row text-uppercase mt-3 border-bottom">
                         <p class="col-6 text-black-50">ID Number</p>
                         <p class="col-6 input-placeholder text-black h-5 bg-light acc-id"></p>

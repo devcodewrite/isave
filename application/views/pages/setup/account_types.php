@@ -21,7 +21,7 @@
             <i class="header-icon lnr-license icon-gradient bg-plum-plate"> </i> Account Types
         </div>
         <div class="card-body">
-            <form class="d-flex flex-row align-items-end">
+            <form class="d-flex flex-row align-items-end edit-account-type">
                 <div class="form-group">
                     <label for="label">Label</label>
                     <input type="text" name="label" id="label" placeholder="Enter the account type" class="form-control">
@@ -29,7 +29,6 @@
                 <div class="form-group ml-5">
                     <button type="submit" class="btn btn-primary text-uppercase">Add</button>
                 </div>
-
             </form>
             <table style="width: 100%;" id="dt-account-types" class="table table-hover table-striped table-bordered">
                 <thead class="text-uppercase">
