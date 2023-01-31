@@ -81,7 +81,6 @@
                         <th>#ID</th>
                         <th>First Name</th>
                         <th>Last Name</th>
-                        <th>Other Name</th>
                         <th>Sex</th>
                         <th>Primary Phone</th>
                         <th>ID Number</th>
@@ -97,7 +96,6 @@
                         <th>#ID</th>
                         <th>First Name</th>
                         <th>Last Name</th>
-                        <th>Other Name</th>
                         <th>Sex</th>
                         <th>Primary Phone</th>
                         <th>ID Number</th>

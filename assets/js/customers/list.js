@@ -36,7 +36,6 @@ $(function () {
      }},
       { data: "firstname", name: "firstname" },
       { data: "lastname", name: "lastname" },
-      { data: "othername", name: "othername" },
       {
         data: "sex",
         name: "sex",
@@ -66,7 +65,7 @@ $(function () {
       },
       { data: "created_at", name: "members.created_at" },
     ],
-    order: [[10, "desc"]],
+    order: [[9, "desc"]],
   });
 });
 
