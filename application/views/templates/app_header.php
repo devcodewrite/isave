@@ -537,9 +537,12 @@
                             </div>
                         </div>
                         <div class="widget-content-left  ml-3 header-user-info">
-                            <?php $user = auth()->user() ?>
+                            <?php 
+                                $user = auth()->user();
+                                $role = $user?$this->role->find($user->role_id):null;
+                             ?>
                             <div class="widget-heading"> <?= $user->firstname ?> <?= $user->lastname ?> </div>
-                            <div class="widget-subheading"> <?= ($role=$this->role->find($user->role_id))?$role->label:'' ?> </div>
+                            <div class="widget-subheading"> <?=$role?$role->label:'' ?> </div>
                         </div>
                     </div>
                 </div>

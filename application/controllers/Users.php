@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script allowed');
 
-class Users extends CI_Controller
+class Users extends MY_Controller
 {
     /**
      * Show a list of resources

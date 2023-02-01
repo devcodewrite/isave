@@ -11,7 +11,7 @@ class Auth_model extends CI_Model
 
      public function user()
      {
-          if(!$this->session->userdata('login_id')) return;
+          if(!$this->session->has_userdata('login_id')) return false;
           return $this->user->find($this->session->userdata('login_id'));
      }
 

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script allowed');
 
-class Withdrawals extends CI_Controller
+class Withdrawals extends MY_Controller
 {
     /**
      * Show a list of resources
