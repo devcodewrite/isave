@@ -63,6 +63,18 @@ $('.select2-id-card-types,.select2-account-types').select2({
   selectionCssClass: 'form-select2'
 });
 
+$('.select2-educations').select2({
+  allowClear: true,
+  placeholder: "Select education level",
+  selectionCssClass: 'form-select2'
+});
+
+$('.select2-marital-status').select2({
+  allowClear: true,
+  placeholder: "Select a marital status",
+  selectionCssClass: 'form-select2'
+});
+
 $('.select2-associations').select2({
   ajax: {
     url: `${baseUrl}associations/select2`,

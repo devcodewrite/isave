@@ -105,7 +105,7 @@
                                         <div class="col-md-3">
                                             <div class="position-relative form-group">
                                                 <label for="sex">Sex</label>
-                                                <select name="sex" class="form-control" required>
+                                                <select name="sex" class="form-control select2-sex" required>
                                                     <option value="">Select a sex</option>
                                                     <option value="male">Male</option>
                                                     <option value="female">Female</option>
@@ -116,7 +116,7 @@
                                         <div class="col-md-3">
                                             <div class="position-relative form-group">
                                                 <label for="marital_status">Marital status</label>
-                                                <select name="marital_status" class="form-control" required>
+                                                <select name="marital_status" class="form-control select2-marital-status" required>
                                                     <option value="">Select a status</option>
                                                     <option value="single">Single</option>
                                                     <option value="married">Married</option>
@@ -128,7 +128,7 @@
                                         <div class="col-md-6">
                                             <div class="position-relative form-group">
                                                 <label for="education">Education level</label>
-                                                <select name="education" class="form-control select2-education" required>
+                                                <select name="education" class="form-control select2-educations" required>
                                                     <option value="">Select an education level</option>
                                                     <option value="none">None</option>
                                                     <option value="primary">Primary School</option>
@@ -316,5 +316,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= site_url('assets/js/customers/edit.js?v=1') ?>" defer></script>
+<script src="<?= site_url('assets/js/customers/edit.js?v=2') ?>" defer></script>
 <?php app_end(); ?>
