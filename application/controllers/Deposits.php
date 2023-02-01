@@ -32,6 +32,15 @@ class Deposits extends MY_Controller
     {
         $this->load->view('pages/deposits/edit');
     }
+    /**
+     * Show a form page for creating resource
+     * html view
+     */
+    public function mass_create()
+    {
+        $this->load->view('pages/deposits/mass-deposit');
+    }
+
 
      /**
      * Show a form page for updating resource

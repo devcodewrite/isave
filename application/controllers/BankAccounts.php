@@ -12,6 +12,17 @@ class BankAccounts extends MY_Controller
         $this->load->view('pages/bank-accounts/list');
     }
 
+
+     /**
+     * Show a list of resources
+     * @return string html view
+     */
+    public function passbooks()
+    {
+        $this->load->view('pages/bank-accounts/passbooks');
+    }
+
+
      /**
      * Show a resource
      * html view
@@ -162,6 +173,20 @@ class BankAccounts extends MY_Controller
         $inputs = $this->input->get();
 
         $out = datatable($this->account->all(),$start, $length, $draw, $inputs);
+        $out = array_merge($out, [
+            'input' => $this->input->get(),
+        ]);
+        httpResponseJson($out);
+    }
+
+    public function passbook_datatables()
+    {
+        $start = $this->input->get('start', true);
+        $length = $this->input->get('length', true);
+        $draw = $this->input->get('draw', true);
+        $inputs = $this->input->get();
+
+        $out = datatable($this->account->passbooks(),$start, $length, $draw, $inputs);
         $out = array_merge($out, [
             'input' => $this->input->get(),
         ]);

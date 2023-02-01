@@ -55,7 +55,7 @@
                                     </a>
                                 </li>
                             </ul>
-                            <form class="form-wizard-content" action="<?= site_url('customers/store') ?>" data-redirect-url="<?=site_url('customers') ?>">
+                            <form class="form-wizard-content" action="<?= site_url('customers/store') ?>" data-redirect-url="<?= site_url('customers') ?>">
                                 <div id="step-1">
                                     <div class="form-row">
                                         <div class="col-md-2">
@@ -94,6 +94,14 @@
                                                 <input name="othername" id="othername" placeholder="Enter the other name" type="text" class="form-control">
                                             </div>
                                         </div>
+                                        <div class="col-md-6">
+                                            <div class="position-relative form-group">
+                                                <label for="common_name">Common name</label>
+                                                <input name="common_name" id="common_name" placeholder="Enter the common name" type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
                                         <div class="col-md-3">
                                             <div class="position-relative form-group">
                                                 <label for="sex">Sex</label>
@@ -114,6 +122,19 @@
                                                     <option value="married">Married</option>
                                                     <option value="divorced">Divorced</option>
                                                     <option value="widowed">Widowed</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="position-relative form-group">
+                                                <label for="education">Education level</label>
+                                                <select name="education" class="form-control select2-education" required>
+                                                    <option value="">Select an education level</option>
+                                                    <option value="none">None</option>
+                                                    <option value="primary">Primary School</option>
+                                                    <option value="jhs">Junior High School (JHS)</option>
+                                                    <option value="shs">Senior High School (SHS)</option>
+                                                    <option value="tertiary">Tertiary Education</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -140,16 +161,26 @@
                                     </div>
 
                                     <div class="form-row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-3">
                                             <div class="position-relative form-group">
-                                                <label for="city">City</label>
-                                                <input name="city" id="city" type="text" class="form-control" placeholder="Enter a city">
+                                                <label for="city">Location/Town/City</label>
+                                                <input name="city" id="city" type="text" class="form-control" placeholder="Enter a location/town/city">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="position-relative form-group">
+                                                <label for="settlement">Settlement</label>
+                                                <select name="settlement" class="form-control" required>
+                                                    <option value="">Select a settlement</option>
+                                                    <option value="rural">Rural Area</option>
+                                                    <option value="urban">Urban Area</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="position-relative form-group">
-                                                <label for="address">Address</label>
-                                                <input name="address" placeholder="e.g. CR123, Main Street" type="text" class="form-control">
+                                                <label for="address">House No./GHPost address</label>
+                                                <input name="address" placeholder="House no./GHPost, street name" type="text" class="form-control">
                                             </div>
                                         </div>
                                     </div>
@@ -186,24 +217,41 @@
                                                     </div>
                                                     <div class="form-row">
                                                         <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="passbook">Passbook No.</label>
+                                                                <input name="passbook" id="passbook" placeholder="Enter passbook no." type="number" class="form-control" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
                                                             <div class="position-relative form-group">
                                                                 <label for="name">Account name</label>
                                                                 <div class="input-group">
                                                                     <div class="input-group-text p-2 text-center" data-toggle="tooltip" title="Use personal info." data-placement="bottom">
                                                                         <input type="checkbox" id="toggle-use-personal-info">
                                                                     </div>
-                                                                    <input name="name" id="account-name" placeholder="Enter account name" type="text" class="form-control">
+                                                                    <input name="name" id="account-name" placeholder="Enter account name" type="text" class="form-control" required>
                                                                 </div>
                                                             </div>
                                                         </div>
+
+                                                    </div>
+                                                    <div class="form-row">
                                                         <div class="col-md-6">
                                                             <div class="position-relative form-group">
-                                                                <label for="acc_type_id">Account type</label>
+                                                                <label for="acc_type_id">Default account</label>
                                                                 <select name="acc_type_id" class="form-control select2-account-types" required>
                                                                     <option value=""></option>
                                                                     <?php foreach ($acc_types as $row) { ?>
                                                                         <option value="<?= $row->id; ?>"><?= $row->label; ?></option>
                                                                     <?php } ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="association_id">Association</label>
+                                                                <select name="association_id" class="form-control select2-associations" required>
+                                                                    <option value=""></option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -223,20 +271,11 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="identity_card_number">ID card number</label>
-                                                                <input name="identity_card_number" id="identity_card_number" placeholder="Enter id number" type="text" class="form-control">
+                                                                <input name="identity_card_number" id="identity_card_number" placeholder="Enter id number" type="text" class="form-control" required>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="association_id">Association</label>
-                                                                <select name="association_id" class="form-control select2-associations" required>
-                                                                    <option value=""></option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>

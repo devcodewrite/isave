@@ -12,7 +12,7 @@ class Setup extends MY_Controller
         $this->load->view('pages/customers/list');
     }
 
-     /**
+    /**
      * Show a form page for creating resource
      * html view
      */
@@ -20,38 +20,32 @@ class Setup extends MY_Controller
     {
         $input = $data = null;
 
-        if($this->input->get('action')){
+        if ($this->input->get('action')) {
             $input = $this->input->get();
-            if($input['action'] === 'delete'){
+            if ($input['action'] === 'delete') {
                 $message = "Type delete successfully!";
-            }
-            else if($input['action'] === 'close'){
+            } else if ($input['action'] === 'close') {
                 $message = "Type closed successfully!";
-            }
-            else if($input['action'] === 'open'){
+            } else if ($input['action'] === 'open') {
                 $message = "Type opened successfully!";
             }
-            
-        }
-        else if($this->input->post('id')){
-             $input = $this->input->post();
-             $message = "Type updated successfully!";
-        }
-        else {
+        } else if ($this->input->post('id')) {
+            $input = $this->input->post();
+            $message = "Type updated successfully!";
+        } else {
             $input = $this->input->post();
             $data = $this->acctype->create($input);
             $message = "Type created successfully!";
         }
 
-        if($input && $data){
+        if ($input && $data) {
             $out = [
                 'data' => $data,
                 'status' => true,
                 'message' => $message
             ];
             return httpResponseJson($out);
-        }
-        else if($input){
+        } else if ($input) {
             $out = [
                 'status' => false,
                 'message' => "Data couldn't be proccessed!"

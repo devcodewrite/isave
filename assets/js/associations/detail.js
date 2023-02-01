@@ -1,4 +1,4 @@
-let loanTable, withdrawalTable, transferTable; 
+let loanTable, withdrawalTable, transferTable, customerTable; 
 
 $(function () {
     loanTable = $('#dt-related-loans').DataTable({
@@ -22,6 +22,16 @@ $(function () {
     });
 
     withdrawalTable = $('#dt-related-withdrawals').DataTable({
+        responsive:!0,
+        dom:'lBftip',
+        buttons:[
+            'print',
+            'pdf',
+            'excel'
+        ],
+    });
+
+customerTable = $('#dt-related-customers').DataTable({
         responsive:!0,
         dom:'lBftip',
         buttons:[

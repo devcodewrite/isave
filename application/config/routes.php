@@ -53,6 +53,7 @@ $route['default_controller'] = 'auth/index';
 $route['forgot-password'] = 'auth/forgot_password';
 $route['reset-password'] = 'auth/reset_password';
 $route['dashboard'] = 'dashboard/index';
+$route['bankaccounts'] = 'BankAccounts/index';
 $route['bankaccounts/(\a+)'] = 'BankAccounts/$1';
 $route['bankaccounts/(\d+)'] = 'BankAccounts/view/$1';
 $route['(:any)/(\d+)'] = '$1/view/$2';

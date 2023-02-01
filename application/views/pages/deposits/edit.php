@@ -69,7 +69,7 @@
                 </div>
                 <div class="d-block text-right card-footer">
                     <button class="mr-2 btn btn-link btn-sm">Cancel</button>
-                    <button class="btn btn-success btn-lg">Withdraw</button>
+                    <button class="btn btn-success btn-lg">Deposit</button>
                 </div>
             </div>
             <div class="main-card mb-3 card">

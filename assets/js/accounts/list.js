@@ -29,6 +29,7 @@ $(function () {
           return data.id;
         },
       },
+      {data: 'passbook', name: "passbook"},
       { data: "name", name: "accounts.name" },
       { data: null, name: "ownership" , render:function (data, type, row) {
         if(type === 'display'){

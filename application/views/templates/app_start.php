@@ -11,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title><?= $pageTitle??$this->config->item('app_name') ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
-    <meta name="description" content="This is an example dashboard created using build-in elements and components.">
+    <meta name="description" content="This is a micro finance management.">
 
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="base-url" content="<?= base_url(); ?>">

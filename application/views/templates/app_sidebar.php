@@ -55,6 +55,11 @@
                                 <i class="metismenu-icon"></i>List Accounts
                             </a>
                         </li>
+                        <li>
+                            <a href="<?= site_url('bankaccounts/passbooks') ?>" class="<?= get_nav_status1('bankaccounts/passbooks') ?>">
+                                <i class="metismenu-icon"></i>List Passbooks
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="<?= get_nav_status('deposits') ?>">
@@ -66,6 +71,11 @@
                         <li>
                             <a href="<?= site_url('deposits/create') ?>" class="<?= get_nav_status1('deposits/create') ?>">
                                 <i class="metismenu-icon"></i> New Deposit
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?= site_url('deposits/mass-create') ?>" class="<?= get_nav_status1('deposits/mass-create') ?>">
+                                <i class="metismenu-icon"></i> Mass Deposits
                             </a>
                         </li>
                         <li>

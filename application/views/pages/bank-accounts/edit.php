@@ -78,16 +78,20 @@
                             <h5 class="card-title">Association Form</h5>
                             <form class="col-md-10 mx-auto associationAccForm" method="post" action="<?= site_url('bankaccounts/store') ?>" data-redirect-url="<?= site_url('bankaccounts') ?>">
                                 <input type="hidden" name="ownership" value="association">
-                                <?php if(isset($account)) { ?> 
+                                <?php if (isset($account)) { ?>
                                     <input type="hidden" name="_method" value="post">
-                                <?php }else { ?> 
+                                <?php } else { ?>
                                     <input type="hidden" name="_method" value="put">
                                 <?php } ?>
-                            <div class="form-group">
+                                <div class="form-group">
                                     <label for="association_id">Search an association</label>
                                     <select name="association_id" class="form-control select2-associations" required>
                                         <option value=""></option>
                                     </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="passbook">Passbook No.</label>
+                                    <input name="passbook" id="passbook" placeholder="Enter passbook no." type="number" class="form-control" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="name">Account Name</label>
@@ -118,19 +122,23 @@
                         <div class="card-body">
                             <h5 class="card-title">Membership Account Form</h5>
                             <form class="col-md-10 mx-auto memberAccForm" method="post" action="<?= site_url('bankaccounts/store') ?>" data-redirect-url="<?= site_url('bankaccounts') ?>">
-                            <input type="hidden" name="ownership" value="individual">
-                                <?php if(isset($account)) { ?> 
+                                <input type="hidden" name="ownership" value="individual">
+                                <?php if (isset($account)) { ?>
                                     <input type="hidden" name="_method" value="post">
-                                <?php }else { ?> 
+                                <?php } else { ?>
                                     <input type="hidden" name="_method" value="put">
                                 <?php } ?>
-                            <div class="form-group">
+                                <div class="form-group">
                                     <label for="member_id">Search a member</label>
                                     <div>
                                         <select name="member_id" class="form-control select2-members" required>
                                             <option value=""></option>
                                         </select>
                                     </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="passbook">Passbook No.</label>
+                                    <input name="passbook" id="passbook" placeholder="Enter passbook no." type="number" class="form-control" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="name">Account Name</label>

@@ -135,9 +135,9 @@
                 <div class="card-body px-5">
                     <table style="width: 100%;" id="dt-related-accounts" class="table table-hover table-striped table-bordered">
                         <thead>
-                            <tr>
+                            <tr class="text-uppercase">
                                 <th>#Acc No.</th>
-                                <th>Account Name</th>
+                                <th>Pas.B</th>
                                 <th>Balance</th>
                                 <th>Status</th>
                             </tr>
@@ -153,16 +153,16 @@
                             ?>
                                 <tr>
                                     <td><a href="<?= site_url('bankaccounts/' . $row->id) ?>" class="btn btn-link"><?= $row->acc_number ?></a></td>
-                                    <td><?= $row->name ?></td>
+                                    <td><?= $row->passbook ?></td>
                                     <td><?= "0.00" ?></td>
                                     <td class="py-1"><span class="alert <?= $alerts[$row->status] ?> text-uppercase"><?= $row->status ?></span></td>
                                 </tr>
                             <?php  } ?>
                         </tbody>
                         <tfoot>
-                            <tr>
+                            <tr class="text-uppercase">
                                 <th>#Acc No.</th>
-                                <th>Account Name</th>
+                                <th>Pas.B</th>
                                 <th>Balance</th>
                                 <th>Status</th>
                             </tr>

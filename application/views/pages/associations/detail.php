@@ -80,12 +80,23 @@
                         </li>
                         <li class="nav-item">
                             <a data-toggle="tab" href="#tab-eg9-2" class="nav-link">
-                                <div class="widget-number text-danger">Withdrawals</div>
+                                <div class="widget-number">Withdrawals</div>
                                 <div class="tab-subheading">
                                     <span class="pr-2 opactiy-6">
                                         <i class="fa fa-bullhorn"></i>
                                     </span>
                                     withdrawal
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a data-toggle="tab" href="#tab-eg9-3" class="nav-link">
+                                <div class="widget-number">Members</div>
+                                <div class="tab-subheading">
+                                    <span class="pr-2 opactiy-6">
+                                        <i class="fa fa-bullhorn"></i>
+                                    </span>
+                                    members and leaders
                                 </div>
                             </a>
                         </li>
@@ -113,7 +124,7 @@
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Association Name</p>
                                         <h5 class="col-6 text-info">
-                                        <?= $association->name ?>
+                                            <?= $association->name ?>
                                         </h5>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
@@ -132,7 +143,7 @@
                                         <p class="col-6 text-black-50">Contact</p>
                                         <p class="col-6 input-placeholder text-black">
                                             <a href="tel:<?= $association->assigned_person_phone ?>">
-                                            <?= $association->assigned_person_phone ?>
+                                                <?= $association->assigned_person_phone ?>
                                             </a>
                                         </p>
                                     </div>
@@ -143,7 +154,7 @@
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Created On</p>
                                         <p class="col-6 input-placeholder text-blaick">
-                                            <?= date('d/m/y',strtotime($association->created_at)) ?>
+                                            <?= date('d/m/y', strtotime($association->created_at)) ?>
                                         </p>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
@@ -159,15 +170,22 @@
                                         </p>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
+                                        <p class="col-6 text-black-50">Assigned Staff</p>
+                                        <p class="col-6 input-placeholder text-primary">
+                                            <?php $user = $this->user->find($association->assigned_user_id) ?>
+                                            <?= $user?"$user->firstname $user->lastname":'None assigned' ?>
+                                        </p>
+                                    </div>
+
+                                    <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Added by</p>
                                         <p class="col-6 input-placeholder text-blaick">
                                             <?php $user = $this->user->find($association->user_id) ?>
-                                            <?="$user->firstname $user->lastname" ?>
+                                            <?= "$user->firstname $user->lastname" ?>
                                         </p>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         <div class="d-block text-right card-footer">
                             <button class="btn btn-info btn-lg">Modify</button>
@@ -225,6 +243,42 @@
                                         <th>Withdrawer's Phone</th>
                                         <th>Withdrawer's Address</th>
                                         <th>Date</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="tab-eg9-3" role="tabpanel">
+                        <div class="card-body">
+                            <table style="width: 100%;" id="dt-related-customers" class="table table-hover table-striped table-bordered">
+                                <thead class="text-uppercase">
+                                    <tr>
+                                        <th>#ID</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Sex</th>
+                                        <th>Primary Phone</th>
+                                        <th>ID Number</th>
+                                        <th>Position</th>
+                                        <th>Occupation</th>
+                                        <th>Status</th>
+                                        <th>Created On</th>
+                                    </tr>
+                                </thead>
+
+                                <tfoot class="text-uppercase">
+                                    <tr>
+                                        <th>#ID</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Sex</th>
+                                        <th>Primary Phone</th>
+                                        <th>ID Number</th>
+                                        <th>Position</th>
+                                        <th>Occupation</th>
+                                        <th>Status</th>
+                                        <th>Created On</th>
                                     </tr>
                                 </tfoot>
                             </table>

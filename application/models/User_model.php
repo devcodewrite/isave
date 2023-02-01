@@ -95,8 +95,10 @@ class User_model extends CI_Model
     /**
      * Get user by id
      */
-    public function find(int $id)
+    public function find(int $id =null)
     {
+        if(!$id) return;
+
         $where = [
             'id' => $id,
             "{$this->table}.deleted_at =" => null
