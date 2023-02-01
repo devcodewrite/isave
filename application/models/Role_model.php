@@ -10,6 +10,8 @@ class Role_model extends CI_Model
      */
     public function find(int $id)
     {
+        if(!$id) return;
+        
         $where = [
             'id'=> $id,
         ];
