@@ -55,9 +55,7 @@ $route['reset-password'] = 'auth/reset_password';
 $route['dashboard'] = 'dashboard/index';
 $route['(:any)/(\d+)'] = '$1/view/$2';
 $route['(:any)/(\d+)/edit'] = '$1/edit/$2';
-$route['bankaccounts'] = 'BankAccounts/index';
-$route['bankaccounts/(:any)'] = 'BankAccounts/$1';
-$route['bankaccounts/(\d+)'] = 'BankAccounts/view/$1';
+$route['bankaccounts'] = 'BankAccounts';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = TRUE;
