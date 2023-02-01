@@ -195,6 +195,57 @@ class Bankaccounts extends MY_Controller
 
     public function select2()
     {
+        $term = trim($this->input->get('term'));
+        $take = 10;
+        $page = $this->input->get('page', true)?$this->input->get('page', true):1;
+        $skip = ($page - 1 )*$take;
+
+        $total = $this->account->all()->get()->num_rows();
         
+        $records = $this->account->all()->select('accounts.id, concat(acc_types.label, " #",accounts.acc_number) as text', false)
+                    ->like('accounts.name', $term)
+                    ->limit($take, $skip)
+                    ->get()
+                    ->result();
+
+        $out = [
+            'results' => $records,
+            'pagination' => [
+               'more' => ($skip + $take < $total),
+               'page' => intval($page),
+               'totalRows' => $total,
+               'totalPages' => intval($total/$take + ($total%$take > 0?1:0))
+            ]
+        ];
+
+        return httpResponseJson($out);
+    }
+
+    public function passbook_select2()
+    {
+        $term = trim($this->input->get('term'));
+        $take = 10;
+        $page = $this->input->get('page', true)?$this->input->get('page', true):1;
+        $skip = ($page - 1 )*$take;
+
+        $total = $this->account->all()->get()->num_rows();
+        
+        $records = $this->account->all()->select('accounts.passbook as id, accounts.passbook as text', false)
+                    ->like('passbook', $term)
+                    ->limit($take, $skip)
+                    ->get()
+                    ->result();
+
+        $out = [
+            'results' => $records,
+            'pagination' => [
+               'more' => ($skip + $take < $total),
+               'page' => intval($page),
+               'totalRows' => $total,
+               'totalPages' => intval($total/$take + ($total%$take > 0?1:0))
+            ]
+        ];
+
+        return httpResponseJson($out);
     }
 }

@@ -80,7 +80,7 @@ $('.select2-accounts').select2({
 
 $('.select2-passbooks').select2({
   ajax: {
-    url: `${baseUrl}bankaccounts/passbook_select2`,
+    url: `${baseUrl}bankaccounts/passbook-select2`,
         dataType: "json",
         data: function (params) {
             return params;
