@@ -8,8 +8,8 @@
                 <div class="page-title-icon">
                     <i class="lnr-picture text-danger"></i>
                 </div>
-                <div>Loan Form
-                    <div class="page-title-subheading">Fill in this form to register or update an.</div>
+                <div>Payout Schedules
+                    <div class="page-title-subheading">List of loans and payout schedules.</div>
                 </div>
             </div>
             <div class="page-title-actions">
@@ -21,80 +21,62 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-12">
             <div class="main-card mb-3 card">
-                <div class="card-header">
-                    <i class="header-icon lnr-exit-up icon-gradient bg-plum-plate"> </i>Loan Request
+            <div class="card-header">
+                    <i class="header-icon lnr-exit-up icon-gradient bg-plum-plate"> </i>Loan Schedules
+                </div>
+                <div class="card-body">
+                    <div class="d-flex align-items-end row px-3">
+                        <div>
+                            <label for="from">From</label>
+                            <div class="form-group">
+                                <input type="date" name="date_from" id="" class="form-control">
+                            </div>
+                        </div>
+                        <div class="ml-3">
+                            <label for="from">To</label>
+                            <div class="form-group">
+                                <input type="date" name="date_from" id="" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3 form-group">
+                            <button class="btn btn-primary">
+                                <i class="fa fa-filter"></i>
+                                Filter</button>
+                        </div>
+                    </div>
+                    <table style="width: 100%;" id="dt-payouts" class="table table-hover table-striped table-bordered">
+                        <thead class="text-uppercase">
+                            <tr>
+                                <th>Payout Date</th>
+                                <th>#ID</th>
+                                <th>Passbook</th>
+                                <th>Account</th>
+                                <th>Amount</th>
+                                <th>Owner</th>
+                                <th>Repayment Start</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
 
-                </div>
-                <div class="card-body px-5">
-                    <form action="">
-                        <div class="form-row mb-3">
-                            <div class="col-md-12 border-bottom pb-2">
-                                <div class="form-group">
-                                    <label for="search-loan-account">Loan ID</label>
-                                    <div class="input-group">
-                                        <input type="text" name="account_number" id="account_number" class="form-control border-rounded" placeholder="Enter the account number" required>
-                                        <button class="ml-2 btn-icon btn-pill btn btn-outline-primary">
-                                            <i class="pe-7s-search btn-icon-wrapper"> </i>Search
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row ">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="amount">Amount</label>
-                                    <input type="text" name="amount" id="amount" class="form-control" placeholder="Enter the amount" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="amount">Schedule Date</label>
-                                    <input type="date" name="paid_at" id="amount" class="form-control" required>
-                                </div>
-                            </div>
-                        </div>
-                      
-                    </form>
-                </div>
-                <div class="d-block text-right card-footer">
-                    <button class="mr-2 btn btn-link btn-sm">Cancel</button>
-                    <button class="btn btn-success btn-lg">Save Changes</button>
+                        <tfoot class="text-uppercase">
+                            <tr>
+                                <th>Payout Date</th>
+                                <th>#ID</th>
+                                <th>Passbook</th>
+                                <th>Account</th>
+                                <th>Amount</th>
+                                <th>Owner</th>
+                                <th>Repayment Start</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </tfoot>
+                    </table>
                 </div>
             </div>
-        </div>
-        <div class="col-md-7">
-        <div class="main-card mb-3 card">
-        <div class="card-body">
-            <table style="width: 100%;" id="dt-payouts" class="table table-hover table-striped table-bordered">
-                <thead class="text-uppercase">
-                    <tr>
-                        <th>#ID</th>
-                        <th>From Acc.</th>
-                        <th>To Acc.</th>
-                        <th>Amount</th>
-                        <th>Schedule Date</th>
-                        <th>Owner</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-
-                <tfoot class="text-uppercase">
-                    <tr>
-                        <th>#ID</th>
-                        <th>From Acc.</th>
-                        <th>To Acc.</th>
-                        <th>Amount</th>
-                        <th>Schedule Date</th>
-                        <th>Owner</th>
-                        <th>Status</th>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-    </div>
         </div>
     </div>
 
