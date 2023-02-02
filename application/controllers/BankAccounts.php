@@ -196,6 +196,7 @@ class Bankaccounts extends MY_Controller
     public function select2()
     {
         $term = trim($this->input->get('term'));
+        $passbook = trim($this->input->get('passbook'));
         $take = 10;
         $page = $this->input->get('page', true)?$this->input->get('page', true):1;
         $skip = ($page - 1 )*$take;
@@ -204,6 +205,7 @@ class Bankaccounts extends MY_Controller
         
         $records = $this->account->all()->select('accounts.id, concat(acc_types.label, " #",accounts.acc_number) as text', false)
                     ->like('accounts.name', $term)
+                    ->where("accounts.passbook", $passbook)
                     ->limit($take, $skip)
                     ->get()
                     ->result();

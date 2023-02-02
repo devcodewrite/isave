@@ -155,8 +155,10 @@ class Customers extends MY_Controller
 
         $total = $this->member->all()->get()->num_rows();
         
-        $records = $this->member->all()->select('members.id, concat(members.firstname," ",members.lastname, " #", members.id) as text', false)
-                    ->like('name', $term)
+        $records = $this->member->all()->select('members.id, concat(members.firstname," ",ifnull(members.lastname,"")) as text', false)
+                    ->like('firstname', $term)
+                    ->or_like('lastname', $term)
+                    ->or_like('othername', $term)
                     ->limit($take, $skip)
                     ->get()
                     ->result();

@@ -21,51 +21,77 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="main-card mb-3 card">
                 <div class="card-header">
                     <i class="header-icon lnr-exit-up icon-gradient bg-plum-plate"> </i>Loan Request From
-
                 </div>
                 <div class="card-body px-5">
-                    <form class="editLoanForm" action="<?=site_url('loans/store') ?>" data-redirect-url="<?=site_url('loans') ?>">
+                    <form class="editLoanForm" action="<?= site_url('loans/store') ?>" data-redirect-url="<?= site_url('loans') ?>">
                         <div class="form-row mb-3">
                             <div class="col-md-12 border-bottom pb-2">
                                 <div class="form-group">
-                                    <label for="search-customer-account">Account ID</label>
-                                    <div class="input-group">
-                                        <input type="text" name="acc_number" id="account_number" class="form-control border-rounded" placeholder="Enter the account number" required>
-                                        <a href="javascript:;" class="ml-2 btn-icon btn-pill btn btn-outline-primary find-account">
-                                            <i class="pe-7s-search btn-icon-wrapper"> </i>Search
-                                        </a>
-                                    </div>
+                                    <label>Passbook NO.</label>
+                                    <select name="passbook" id="passbook" class="form-control select2-passbooks" required>
+                                        <option value=""></option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-row">
-                            <div class="col-md-12">
+                        <div class="form-row mb-3">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Account</label>
+                                    <select name="account_id" id="account_id" class="form-control select2-accounts" required>
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
                                 <div class="position-relative form-group">
                                     <label for="loan_type_id">Loan type</label>
                                     <select name="loan_type_id" class="form-control select2-loan-types" required>
                                         <option value=""></option>
                                         <?php foreach ($loanTypes as $row) { ?>
-                                            <option value="<?= $row->id; ?>"><?= $row->label; ?>@<?= $row->rate; ?>[<?=str_replace('_',' ',$row->rate_type); ?>]</option>
+                                            <option value="<?= $row->id; ?>"><?= $row->label; ?>@<?= str_replace('_', ' ', $row->rate_type); ?></option>
                                         <?php } ?>
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="col-md-6">
+                        <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="amount">Amount</label>
-                                    <input type="text" name="amount" id="amount" class="form-control" placeholder="Enter the amount" required>
+                                    <input type="number" name="amount" id="amount" class="form-control" placeholder="Enter the amount" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="amount">Rate</label>
+                                    <input type="number" name="rate" id="rate" class="form-control" placeholder="Enter the rate" min="0" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <label for="duration">Duration (in months)</label>
+                                    <input type="number" name="duration" id="duration" class="form-control" placeholder="Enter the duration" min="1" max="12" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     <label for="payout_date">Payout Date</label>
                                     <input type="date" name="payout_date" id="payout_date" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="payin_start_date">Repayment Start Date</label>
+                                    <input type="date" name="payin_start_date" id="payin_start_date" class="form-control" required>
                                 </div>
                             </div>
                         </div>
@@ -73,57 +99,8 @@
                 </div>
                 <div class="d-block text-right card-footer">
                     <button class="mr-2 btn btn-link btn-sm reset">Cancel</button>
+                    <button class="mr-2 btn btn-info">Preview Letter</button>
                     <button class="btn btn-success btn-lg apply">Apply</button>
-                </div>
-            </div>
-            <div class="main-card mb-3 card">
-                <div class="card-header">
-                    <i class="header-icon lnr-license icon-gradient bg-plum-plate"> </i>Indentity Card Details
-                </div>
-                <div class="card-body px-5">
-                <div id="acc-card-placeholder" style="height: 200px; width:400px;">
-                        <?php $this->load->view('templates/svg/id-card') ?>
-                    </div>
-                    <img src="" height="200" style="display: none;" width="400" class="cus-id-card-photo" alt="ID Card Photo">
-                    <div class="row text-uppercase mt-3 border-bottom">
-                        <p class="col-6 text-black-50">ID Number</p>
-                        <p class="col-6 input-placeholder text-black h-5 bg-light acc-id"></p>
-                    </div>
-                    <div class="row text-uppercase mt-3 border-bottom">
-                        <p class="col-6 text-black-50">ID Type</p>
-                        <p class="col-6 input-placeholder text-black h-5 bg-light acc-id-type"></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="main-card mb-3 card">
-                <div class="card-header">
-                    <i class="header-icon lnr-user icon-gradient bg-plum-plate"> </i>Account Owner Details
-                </div>
-                <div class="card-body p-5">
-                    <div class="text-center">
-                        <img class="cus-passport-photo" height="150" width="150" src="<?= base_url('assets/images/photo-placeholder.jpeg') ?>" alt="Passport Photo">
-                    </div>
-                    <div class="row text-uppercase mt-3 border-bottom">
-                        <p class="col-6 text-black-50">Account Number</p>
-                        <p class="col-6 input-placeholder text-primary acc-number">xxxx xxx xxxx</p>
-                    </div>
-                    <div class="row text-uppercase mt-3 border-bottom">
-                        <p class="col-6 text-black-50">Account Name</p>
-                        <p class="col-6 input-placeholder text-black h-5 bg-light acc-name"></p>
-                    </div>
-                    <div class="row text-uppercase mt-3 border-bottom">
-                        <p class="col-6 text-black-50">Account Balance</p>
-                        <p class="col-6 input-placeholder text-black h-5 bg-light acc-balance"></p>
-                    </div>
-                    <div class="row text-uppercase mt-3 border-bottom">
-                        <p class="col-6 text-black-50">Phone Number</p>
-                        <p class="col-6 input-placeholder text-black  h-5 bg-light cus-primary-phone"></p>
-                    </div>
-                </div>
-                <div class="d-block text-right card-footer">
-                    <button class="btn btn-warning btn-lg">Suspend Account</button>
                 </div>
             </div>
         </div>

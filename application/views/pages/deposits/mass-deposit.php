@@ -27,15 +27,6 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="association_id">Association</label>
-                                <select name="association_id" class="form-control select2-associations" required>
-                                    <option value=""></option>
-                                </select>
-                            </div>
-                        </div>
-
                         <div class="col-md-3 d-flex align-items-end">
                             <div class="form-group">
                                 <label for="entries">Add Rows</label>
@@ -63,23 +54,25 @@
                                     <?php for ($i = 0; $i < 10; $i++) {
                                     ?>
                                         <tr>
-                                            <td class="col-2">
-                                                <select name="passbook" class="form-control select2-passbooks" required>
+                                            <td class="col-3">
+                                                <select name="passbook[]" class="form-control select2-mass-passbooks" data-acc="<?='select2-acc'.$i ?>" required>
                                                     <option value=""></option>
                                                 </select>
                                             </td>
-                                            <td class="col-3">
+                                            <td class="col-3 owner">
                                                 Not set
                                             </td>
                                             <td class="col-3">
-                                                <select name="account_id" class="form-control select2-accounts" required>
+                                                <select name="account_id[]" class="form-control select2-acc<?=$i ?>" data-id="<?=$i ?>" required>
                                                     <option value=""></option>
                                                 </select>
                                             </td>
                                             <td class="col-1">
-                                                <input type="number" name="stamps" id="stamps" class="form-control">
+                                                <input onblur="$('td #amount<?=$i ?>').val($(this).data('amount'))" id="stamps<?=$i ?>" type="number" name="stamps[]" class="form-control" data-id="<?=$i ?>" disabled>
                                             </td>
-                                            <td class="col-2">0.00</td>
+                                            <td class="col-1"> 
+                                                <input id="amount<?=$i ?>" type="number" name="amount[]" class="form-control">
+                                            </td>
                                             <td class="col-1">
                                                 <button type="button" class="btn btn-icon btn-warning delete-row">
                                                     <i class="fa fa-trash"></i>

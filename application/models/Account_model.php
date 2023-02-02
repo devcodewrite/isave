@@ -13,7 +13,7 @@ class Account_model extends CI_Model
         $data = $this->extract($record);
         $last = $this->db->select()
                         ->from($this->table)
-                        ->order_by('id', 'asc')
+                        ->order_by('id', 'desc')
                         ->limit(1)
                         ->get()
                         ->row();
@@ -113,6 +113,7 @@ class Account_model extends CI_Model
             "{$this->table}.member_id",
             "{$this->table}.association_id",
             "{$this->table}.acc_number",
+            "{$this->table}.stamp_amount",
             "concat({$rtable}.firstname, ' ', {$rtable}.lastname) as member_owner",
             "$rtable2.name  as association_owner",
             "$rtable3.label  as acc_type",

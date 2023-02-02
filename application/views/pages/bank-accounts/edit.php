@@ -79,9 +79,9 @@
                             <form class="col-md-10 mx-auto associationAccForm" method="post" action="<?= site_url('bankaccounts/store') ?>" data-redirect-url="<?= site_url('bankaccounts') ?>">
                                 <input type="hidden" name="ownership" value="association">
                                 <?php if (isset($account)) { ?>
-                                    <input type="hidden" name="_method" value="post">
-                                <?php } else { ?>
                                     <input type="hidden" name="_method" value="put">
+                                <?php } else { ?>
+                                    <input type="hidden" name="_method" value="post">
                                 <?php } ?>
                                 <div class="form-group">
                                     <label for="association_id">Search an association</label>
@@ -99,15 +99,29 @@
                                         <input type="text" class="form-control" name="name" placeholder="Account name" />
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="acc_type_id">Account type</label>
-                                    <select name="acc_type_id" class="form-control select2-account-types" required>
-                                        <option value=""></option>
-                                        <?php foreach ($accountTypes as $row) { ?>
-                                            <option value="<?= $row->id; ?>"><?= $row->label; ?></option>
-                                        <?php } ?>
-                                    </select>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="acc_type_id">Account type</label>
+                                            <select name="acc_type_id" class="form-control select2-account-types1" required>
+                                                <option value=""></option>
+                                                <?php foreach ($accountTypes as $row) { ?>
+                                                    <option value="<?= $row->id; ?>" data-type="<?= $row->type; ?>"><?= $row->label; ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="stamp_amount">Amount per stamp</label>
+                                            <div>
+                                                <input type="text" class="form-control stamps1" name="stamp_amount" placeholder="Enter amount per stamp" disabled />
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
+
                                 <button type="submit" class="btn btn-primary text-uppercase">Create Account</button>
                             </form>
                         </div>
@@ -146,16 +160,27 @@
                                         <input type="text" class="form-control" name="name" placeholder="Account name" />
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="acc_type_id">Account type</label>
-                                    <div>
-                                        <select name="acc_type_id" class="form-control select2-account-types" required>
-                                            <option value=""></option>
-                                            <?php foreach ($accountTypes as $row) { ?>
-                                                <option value="<?= $row->id; ?>"><?= $row->label; ?></option>
-                                            <?php } ?>
-                                        </select>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="acc_type_id">Account type</label>
+                                            <select name="acc_type_id" class="form-control select2-account-types2" required>
+                                                <option value=""></option>
+                                                <?php foreach ($accountTypes as $row) { ?>
+                                                    <option value="<?= $row->id; ?>" data-type="<?= $row->type; ?>"><?= $row->label; ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
                                     </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="stamp_amount">Amount per stamp</label>
+                                            <div>
+                                                <input type="text" class="form-control stamps2" name="stamp_amount" placeholder="Enter amount per stamp" disabled />
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                                 <button type="submit" class="btn btn-primary text-uppercase">Create Account</button>
                             </form>
@@ -168,5 +193,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= site_url('assets/js/accounts/edit.js?v=2') ?>" defer></script>
+<script src="<?= site_url('assets/js/accounts/edit.js?v=3') ?>" defer></script>
 <?php app_end(); ?>

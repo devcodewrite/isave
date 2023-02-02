@@ -3,15 +3,39 @@ let form = $(".editLoanForm");
 form.validate({
   rules: {
     loan_type_id: "required",
-    acc_number: "required",
+    account_id: "required",
+    passbook: "required",
     amount: "required",
-    sex: "required",
+    payin_start_date: "required",
+    payout_date: "required",
+    rate: {
+      required: true,
+      min: 0,
+      max: 1,
+    },
+    duration: {
+      required: true,
+      min: 1,
+      max: 12,
+    },
   },
   messages: {
     loan_type_id: "Please choose a loan type",
-    acc_number: "Please enter the account number",
+    account_id: "Please select the account",
+    passbook: "Please choose a passbook number",
     amount: "Please enter the amount",
-    payout_at: "Please set payout date",
+    payout_date: "Please set payout date",
+    payin_start_date: "Please set repayment start date",
+    rate: {
+      required: "Enter the rate (0.0 - 1, i.e. 0% - 100%)",
+      min: "The min rate should be 0.0 i.e. 0%",
+      max: "The max rate should be 1 i.e. 100%",
+    },
+    duration: {
+      required: "Enter the duration in months",
+      min: "The min duration should be 1 i.e 1 month",
+      max: "The max duration should be 12 i.e. 12 months",
+    },
   },
   errorElement: "em",
   errorPlacement: function (t, e) {

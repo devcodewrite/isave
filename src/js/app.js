@@ -70,6 +70,21 @@ window.formatPeopleResult = function (data) {
   return $container;
 };
 
+window.formatPeople2Result = function (data) {
+  if (data.loading) {
+    return data.text;
+  }
+  var $container = $(
+    '<div class="select2-result-user py-3" style="display:flex; flex-direction:row; align-items:center">' +
+      '<span class="select2-result-user__text text-uppercase">#' +
+      data.text  + ` (${data.ownership==='individual'?data.member_owner:data.association_owner})`+
+      "</span>" +
+      "</div>"
+  );
+  return $container;
+};
+
+
 $(".find-account").on("click", function (e) {
   let accNumber = $(this).prev("input").val();
 
@@ -154,3 +169,72 @@ $(".find-account").on("click", function (e) {
     },
   });
 });
+
+$('.select2-accounts').select2({
+  ajax: {
+    url: `${baseUrl}bankaccounts/select2`,
+        dataType: "json",
+        data: function (params) {
+            params.passbook = $('.select2-passbooks').val();
+            return params;
+        },
+  },
+  allowClear: true,
+  placeholder: "Select an account",
+  selectionCssClass: 'form-select2',
+}).on('select2:select', function (params) {
+   $('.select2-accounts').trigger('change');
+});
+
+$('.select2-passbooks').select2({
+  ajax: {
+    url: `${baseUrl}bankaccounts/passbook-select2`,
+        dataType: "json",
+        data: function (params) {
+            return params;
+        },
+  },
+  allowClear: true,
+  placeholder: "Search a passbook",
+  selectionCssClass: 'form-select2',
+  templateResult: formatPeople2Result,
+}).on('select2:select', function (params) {
+  $('.select2-passbooks').trigger('change');
+});
+
+
+
+
+$('.select2-to-accounts').select2({
+  ajax: {
+    url: `${baseUrl}bankaccounts/select2`,
+        dataType: "json",
+        data: function (params) {
+            params.passbook = $('.select2-passbooks').val();
+            return params;
+        },
+  },
+  allowClear: true,
+  placeholder: "Select an account",
+  selectionCssClass: 'form-select2',
+}).on('select2:select', function (params) {
+  $(this).trigger('change');
+});
+
+
+$('.select2-to-passbooks').select2({
+  ajax: {
+    url: `${baseUrl}bankaccounts/passbook-select2`,
+        dataType: "json",
+        data: function (params) {
+            return params;
+        },
+  },
+  allowClear: true,
+  placeholder: "Search a passbook",
+  selectionCssClass: 'form-select2',
+  templateResult: formatPeople2Result,
+}).on('select2:select', function (params) {
+  $(this).trigger('change');
+});
+
