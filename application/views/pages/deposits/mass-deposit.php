@@ -68,7 +68,8 @@
                                                 </select>
                                             </td>
                                             <td class="col-1">
-                                                <input onblur="$('td #amount<?=$i ?>').val($(this).data('amount'))" id="stamps<?=$i ?>" type="number" name="stamps[]" class="form-control" data-id="<?=$i ?>" disabled>
+                                                <input type="hidden" min="0" value="10" id="stamp_amt<?=$i ?>" >
+                                                <input onkeyup="$('td #amount<?=$i ?>').val($(this).prev('input').val()*$(this).val())" id="stamps<?=$i ?>" type="number" name="stamps[]" min="0" class="form-control" data-id="<?=$i ?>" disabled>
                                             </td>
                                             <td class="col-1"> 
                                                 <input id="amount<?=$i ?>" type="number" name="amount[]" class="form-control">
