@@ -29,12 +29,32 @@ class Loan_model extends CI_Model
      */
     public function all()
     {
-        $fields = [];
+        $rtable = 'loan_types';
+        $col = 'loan_type_id';
+        $rtable2 = 'accounts';
+        $col2 = 'account_id';
+
+        $fields = ['loans.*', 
+        "$rtable.label as loanType", 
+        "$rtable.rate_type",
+        "$rtable2.acc_number"];
         return 
             $this->db->select($fields, true)
+                    ->join($rtable, "$rtable.id={$this->table}.$col", 'left')
+                    ->join($rtable2, "$rtable2.id={$this->table}.$col2", 'left')
                     ->from($this->table);
     }
 
+    public function calcReduceInterest($loan, $index = 0)
+    {
+        return 
+        (($loan->principal_amount - ($loan->principal_amount/$loan->duration*$index)) * $loan->rate)/$loan->duration;
+    }
+
+    public function calcFlatInterest($loan)
+    {
+        return ($loan->principal_amount * $loan->rate)/$loan->duration;
+    }
     /**
      * Get the association that owner this loan id
      */

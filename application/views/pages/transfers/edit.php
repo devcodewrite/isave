@@ -43,6 +43,20 @@
                         </select>
                     </div>
                 </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="amount">Amount</label>
+                        <input type="text" name="amount" id="amount" class="form-control" placeholder="Enter the amount" required>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="amount">Transfer Note</label>
+                      <textarea name="note" id="" rows="2" class="form-control" placeholder="State the reason here...."></textarea>
+                    </div>
+                </div>
             </div>
             <div class="form-row my-3">
                 <div class="col-md-4">

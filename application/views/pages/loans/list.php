@@ -21,24 +21,34 @@
                 <thead class="text-uppercase">
                     <tr>
                         <th>#ID</th>
-                        <th>Account Number</th>
-                        <th>Amount</th>
-                        <th>Owner</th>
-                        <th>Owner's Phone</th>
-                        <th>Owner's Address</th>
-                        <th>Date</th>
+                        <th>Pas.B No.</th>
+                        <th>Account</th>
+                        <th>Principal Amt.</th>
+                        <th>Interest Amt.</th>
+                        <th>Dur.</th>
+                        <th>Rate</th>
+                        <th>Status</th>
+                        <th>Payout Date</th>
+                        <th>Repay. Date</th>
+                        <th>Repay. Status</th>
+                        <th>Loan Type</th>
                     </tr>
                 </thead>
 
                 <tfoot class="text-uppercase">
                     <tr>
-                        <th>#ID</th>
-                        <th>Account Number</th>
-                        <th>Amount</th>
-                        <th>Owner</th>
-                        <th>Owner's Phone</th>
-                        <th>Owner's Address</th>
-                        <th>Date</th>
+                    <th>#ID</th>
+                        <th>Pas.B No.</th>
+                        <th>Account</th>
+                        <th>Principal Amt.</th>
+                        <th>Interest Amt.</th>
+                        <th>Dur.</th>
+                        <th>Rate</th>
+                        <th>Status</th>
+                        <th>Payout Date</th>
+                        <th>Repay. Date</th>
+                        <th>Repay. Status</th>
+                        <th>Loan Type</th>
                     </tr>
                 </tfoot>
             </table>

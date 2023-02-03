@@ -29,16 +29,23 @@
                 </div>
                 <div class="card-body px-5">
                     <form action="<?= site_url('withdrawals/store') ?>" class="editWithdrawalForm" data-redirect-url="<?= site_url('withdrawals') ?>">
+                    <div class="form-row mb-3">
+                            <div class="col-md-12 border-bottom pb-2">
+                                <div class="form-group">
+                                    <label>Passbook NO.</label>
+                                    <select name="passbook" id="passbook" class="form-control select2-passbooks" required>
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-row mb-3">
                             <div class="col-md-12 border-bottom pb-2">
                                 <div class="form-group">
-                                    <label for="search-customer-account">Account ID</label>
-                                    <div class="input-group">
-                                        <input type="text" name="acc_number" id="account_number" class="form-control border-rounded" placeholder="Enter the account number" required>
-                                        <a href="javascript:;" class="ml-2 btn-icon btn-pill btn btn-outline-primary find-account">
-                                            <i class="pe-7s-search btn-icon-wrapper"> </i>Search
-                                        </a>
-                                    </div>
+                                    <label>Account</label>
+                                    <select name="account_id" id="account_id" class="form-control select2-accounts" required>
+                                        <option value=""></option>
+                                    </select>
                                 </div>
                             </div>
                         </div>

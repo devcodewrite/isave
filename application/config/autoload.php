@@ -141,6 +141,7 @@ $autoload['model'] = array(
     'member_model' => 'member',
     'account_model' => 'account',
     'association_model' => 'association',
+    'loan_model' => 'loan',
     'identitycardtype_model' => 'idcardtype',
     'accounttype_model' => 'acctype',
     'loantype_model' => 'loantype',

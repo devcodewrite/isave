@@ -99,7 +99,7 @@ form.on("submit", function (e) {
         if (d.status === true) {
             form.trigger("reset");
             $("select").val("").trigger("change.select2");
-           // setTimeout(location.assign(`${baseUrl}deposits`), 500);
+            setTimeout(location.assign(`${baseUrl}deposits`), 500);
           Swal.fire({
             icon: "success",
             text: d.message,

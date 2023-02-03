@@ -32,7 +32,7 @@
                             <div class="col-md-12 border-bottom pb-2">
                                 <div class="form-group">
                                     <label>Passbook NO.</label>
-                                    <select name="passbook" id="passbook" class="form-control select2-passbooks">
+                                    <select name="passbook" id="passbook" class="form-control select2-passbooks" required>
                                         <option value=""></option>
                                     </select>
                                 </div>
@@ -42,7 +42,7 @@
                             <div class="col-md-12 border-bottom pb-2">
                                 <div class="form-group">
                                     <label>Account</label>
-                                    <select name="account_id" id="account_id" class="form-control select2-accounts">
+                                    <select name="account_id" id="account_id" class="form-control select2-accounts" required>
                                         <option value=""></option>
                                     </select>
                                 </div>
@@ -61,13 +61,13 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="amount">Deposit By</label>
-                                    <input type="text" name="deposit_by" id="name" class="form-control" placeholder="Enter the name" required>
+                                    <input type="text" name="deposit_by" id="name" class="form-control" placeholder="Enter the name">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="phone">Phone number</label>
-                                    <input type="tel" name="deposit_phone" id="phone" class="form-control" placeholder="Enter the phone number" required>
+                                    <input type="tel" name="deposit_phone" id="phone" class="form-control" placeholder="Enter the phone number">
                                 </div>
                             </div>
                         </div>

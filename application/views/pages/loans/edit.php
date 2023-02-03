@@ -99,7 +99,6 @@
                 </div>
                 <div class="d-block text-right card-footer">
                     <button class="mr-2 btn btn-link btn-sm reset">Cancel</button>
-                    <button class="mr-2 btn btn-info">Preview Letter</button>
                     <button class="btn btn-success btn-lg apply">Apply</button>
                 </div>
             </div>
