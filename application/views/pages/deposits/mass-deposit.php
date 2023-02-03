@@ -38,7 +38,8 @@
                         </div>
                     </div>
                     <div class="row">
-                        <form action="<?= site_url('stores') ?>" method="post" class="col-12 mass-deposit-form">
+                        <form action="<?= site_url('deposits/stores') ?>" method="post" class="col-12 mass-deposit-form">
+                            <input type="hidden" name="is_mass" value="1">
                             <table style="width: 100%;" id="dt-mass-deposits" class="table table-hover table-striped table-bordered">
                                 <thead class="text-uppercase">
                                     <tr>
@@ -69,10 +70,11 @@
                                             </td>
                                             <td class="col-1">
                                                 <input type="hidden" min="0" value="10" id="stamp_amt<?=$i ?>" >
-                                                <input onkeyup="$('td #amount<?=$i ?>').val($(this).prev('input').val()*$(this).val())" id="stamps<?=$i ?>" type="number" name="stamps[]" min="0" class="form-control" data-id="<?=$i ?>" disabled>
+                                                <input onkeyup="$('td #amount<?=$i ?>').val($(this).prev('input').val()*$(this).val())|updateTotal()" id="stamps<?=$i ?>" 
+                                                onchange="$('td #amount<?=$i ?>').val($(this).prev('input').val()*$(this).val())|updateTotal()" id="stamps<?=$i ?>" type="number" name="stamps[]" min="0" class="form-control" data-id="<?=$i ?>" disabled>
                                             </td>
                                             <td class="col-1"> 
-                                                <input id="amount<?=$i ?>" type="number" name="amount[]" class="form-control">
+                                                <input onchange="updateTotal()" onkeyup="updateTotal()" id="amount<?=$i ?>" type="number" name="amount[]" class="form-control" required>
                                             </td>
                                             <td class="col-1">
                                                 <button type="button" class="btn btn-icon btn-warning delete-row">
@@ -85,11 +87,9 @@
                                 </tbody>
                                 <tfoot class="text-uppercase">
                                     <tr>
-                                        <th>Totals</th>
-                                        <th>0</th>
-                                        <th>0</th>
-                                        <th>0</th>
-                                        <th>0.00</th>
+                                        <th colspan="3">Totals</th>
+                                        <th id="stampTotal">0</th>
+                                        <th id="amountTotal">0.00</th>
                                         <th>Action</th>
                                     </tr>
                                 </tfoot>
@@ -98,7 +98,7 @@
                     </div>
                 </div>
                 <div class="d-block text-right card-footer">
-                    <button class="btn btn-success btn-lg">Deposit All</button>
+                    <button class="btn btn-success btn-lg deposit">Deposit All</button>
                 </div>
             </div>
         </div>

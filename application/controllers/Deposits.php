@@ -48,10 +48,9 @@ class Deposits extends MY_Controller
      */
     public function edit(int $id = null)
     {
-        $table = "deposits";
-        $column = "id";
+        $deposit = $this->deposit->find($id);
         $data = [
-            'deposit' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
+            'deposit' => $deposit,
         ];
         $this->load->view('pages/deposits/edit', $data);
     }
@@ -60,13 +59,15 @@ class Deposits extends MY_Controller
      * Store a resource
      * print json Response
      */
-    public function list ()
+    public function store ()
     {
-        # code...
-       $deposit  = $this->common->get_deposits_data(); // replace created record object
+        $record = $this->input->post();
+        $deposit = $this->deposit->create($record);
+
        if($deposit){
            $out = [
                'data' => $deposit,
+               'input' => $record,
                'status' => true,
                'message' => 'Customer deposit created successfully!'
            ];
@@ -75,6 +76,28 @@ class Deposits extends MY_Controller
            $out = [
                'status' => false,
                'message' => "Customer deposit couldn't be created!"
+           ];
+       }
+       httpResponseJson($out);
+    }
+
+     /**
+     * Store a resources
+     * print json Response
+     */
+    public function stores ()
+    {
+        $records = $this->input->post();
+       if($this->deposit->createAll($records)){
+           $out = [
+               'status' => true,
+               'message' => 'Mass deposit created successfully!'
+           ];
+       }
+       else {
+           $out = [
+               'status' => false,
+               'message' => "Mass deposit couldn't be created!"
            ];
        }
        httpResponseJson($out);

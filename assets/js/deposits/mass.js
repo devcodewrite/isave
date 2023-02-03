@@ -1,4 +1,4 @@
-let form = $(".editDepositForm");
+let form = $(".mass-deposit-form");
 let table = $("#dt-mass-deposits").DataTable({
   responsive: !0,
 });
@@ -53,32 +53,6 @@ $(".add-rows").on("click", function (params) {
   });
 });
 form.validate({
-  rules: {
-    title: "required",
-    firstname: "required",
-    lastname: "required",
-    sex: "required",
-    marital_status: "required",
-    primary_phone: { required: !0, min: 10, digits: true },
-    address: "required",
-    city: "required",
-    email: { email: !0 },
-  },
-  messages: {
-    title: "Please choose a title",
-    firstname: "Please enter the firstname",
-    lastname: "Please enter the lastname",
-    sex: "Please select a sex",
-    marital_status: "Please choose a martial status",
-    primary_phone: {
-      required: "Please enter the primary phone number",
-      min: "Phone number should be at least 10 digits",
-      digits: "Phone number require only digits",
-    },
-    address: "Please enter an address",
-    city: "Please enter the city",
-    email: "Please enter a valid email address",
-  },
   errorElement: "em",
   errorPlacement: function (t, e) {
     t.addClass("invalid-feedback"),
@@ -92,6 +66,59 @@ form.validate({
   unhighlight: function (e, i, n) {
     $(e).addClass("is-valid").removeClass("is-invalid");
   },
+});
+
+form.on("submit", function (e) {
+  e.preventDefault();
+  if (form.valid() === true) {
+    $.ajax({
+      method: "POST",
+      url: this.getAttribute("action"),
+      data: new FormData(this),
+      enctype: "multipart/form-data",
+      dataType: "json",
+      contentType: false,
+      processData: false,
+      cache: false,
+      success: function (d, r) {
+        if (!d || r === "nocontent") {
+          Swal.fire({
+            icon: "error",
+            text: "Malformed form data sumbitted! Please try agian.",
+          });
+          return;
+        }
+        if (typeof d.status !== "boolean" || typeof d.message !== "string") {
+          Swal.fire({
+            icon: "error",
+            text: "Malformed data response! Please try agian.",
+          });
+          return;
+        }
+
+        if (d.status === true) {
+            form.trigger("reset");
+            $("select").val("").trigger("change.select2");
+           // setTimeout(location.assign(`${baseUrl}deposits`), 500);
+          Swal.fire({
+            icon: "success",
+            text: d.message,
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            text: d.message,
+          });
+        }
+      },
+      error: function (r) {
+        Swal.fire({
+          icon: "error",
+          text: "Unable to submit form! Please try agian.",
+        });
+      },
+    });
+  }
 });
 
 $(".select2-account-types").select2({
@@ -170,14 +197,28 @@ passbookEls.each((i, el) => {
         .val("");
     });
 });
-$('#dt-mass-deposits').on('click', '.delete-row', function() {
-    table
-      .row($(this).parents('tr'))
-      .remove()
-      .draw();
+$("#dt-mass-deposits").on("click", ".delete-row", function () {
+  table.row($(this).parents("tr")).remove().draw();
 
-      Swal.fire({
-        title: `A row is deleted!`,
-        icon: "success",
-      });
+  Swal.fire({
+    title: `A row is deleted!`,
+    icon: "success",
+  });
 });
+
+$(".deposit").on("click", function (params) {
+  form.trigger("submit");
+});
+
+function updateTotal() {
+  let total1 = 0,
+    total2 = 0;
+  $('table input[name="amount[]"]').each((i, el) => {
+    if ($(el).val()) total1 += Number.parseFloat($(el).val());
+  });
+  $('table input[name="stamps[]"]').each((i, el) => {
+    if ($(el).val()) total2 += Number.parseInt($(el).val());
+  });
+  $("#amountTotal").text(total1.toFixed(2));
+  $("#stampTotal").text(total2);
+}
