@@ -8,7 +8,7 @@
                 <div class="page-title-icon">
                     <i class="pe-7s-medal icon-gradient bg-tempting-azure"></i>
                 </div>
-                <div>List Deposits
+                <div>Transfer Transactions
                     <div class="page-title-subheading">Table of deposits and their details.</div>
                 </div>
             </div>
@@ -17,16 +17,26 @@
     </div>
 
     <div class="main-card mb-3 card">
+        <div class="card-header">
+            <div class="btn-actions-pane-right actions-icon-btn">
+                <a href="<?= site_url('deposits/create') ?>" class="btn btn-primary text-uppercase">
+                    <i class="pe-7s-plus btn-icon-wrapper"></i>
+                    New Deposit
+                </a>
+            </div>
+        </div>
         <div class="card-body">
             <table style="width: 100%;" id="dt-deposits" class="table table-hover table-striped table-bordered">
                 <thead class="text-uppercase">
                     <tr>
                         <th>#ID</th>
-                        <th>Account Number</th>
+                        <th>Association</th>
+                        <th>Pas.B No.</th>
+                        <th>Account</th>
                         <th>Amount</th>
-                        <th>Depositor</th>
-                        <th>Depositor's Phone</th>
-                        <th>Depositor's Address</th>
+                        <th>Type</th>
+                        <th>Transferor</th>
+                        <th>Transferor's Phone</th>
                         <th>Date</th>
                     </tr>
                 </thead>
@@ -34,11 +44,13 @@
                 <tfoot class="text-uppercase">
                     <tr>
                         <th>#ID</th>
-                        <th>Account Number</th>
+                        <th>Association</th>
+                        <th>Pas.B No.</th>
+                        <th>Account</th>
                         <th>Amount</th>
-                        <th>Depositor</th>
-                        <th>Depositor's Phone</th>
-                        <th>Depositor's Address</th>
+                        <th>Type</th>
+                        <th>Transferor's Name</th>
+                        <th>Transferor's Phone</th>
                         <th>Date</th>
                     </tr>
                 </tfoot>

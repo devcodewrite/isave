@@ -27,9 +27,19 @@
                     <i class="header-icon lnr-enter-down icon-gradient bg-plum-plate"> </i>Deposit Request From
                 </div>
                 <div class="card-body px-5">
-                    <form action="">
+                    <form action="<?= site_url('deposits/store') ?>" class="editDepositForm" data-redirect-url="<?= site_url('deposits') ?>">
+                        <input type="hidden" name="type" value="cash">
                         <div class="form-row mb-3">
-                            <div class="col-md-12 border-bottom pb-2">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="association_id">Search an association</label>
+                                    <select name="association_id" class="form-control select2-associations" required>
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Passbook NO.</label>
                                     <select name="passbook" id="passbook" class="form-control select2-passbooks" required>
@@ -55,7 +65,6 @@
                                     <input type="text" name="amount" id="amount" class="form-control" placeholder="Enter the amount" required>
                                 </div>
                             </div>
-
                         </div>
                         <div class="form-row">
                             <div class="col-md-6">
@@ -74,8 +83,8 @@
                     </form>
                 </div>
                 <div class="d-block text-right card-footer">
-                    <button class="mr-2 btn btn-link btn-sm">Cancel</button>
-                    <button class="btn btn-success btn-lg">Deposit</button>
+                    <button class="mr-2 btn btn-link btn-sm reset">Cancel</button>
+                    <button class="btn btn-success btn-lg deposit">Deposit</button>
                 </div>
             </div>
         </div>
@@ -85,5 +94,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= site_url('assets/js/deposits/edit.js?v=' . uniqid()) ?>" defer></script>
+<script src="<?= site_url('assets/js/deposits/edit.js?v=1') ?>" defer></script>
 <?php app_end(); ?>

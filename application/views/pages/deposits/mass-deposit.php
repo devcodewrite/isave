@@ -27,13 +27,22 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="association_id">Search an association</label>
+                                <select name="association_id" class="form-control select2-associations" required>
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="col-md-3 d-flex align-items-end">
                             <div class="form-group">
                                 <label for="entries">Add Rows</label>
                                 <input type="number" name="rows" id="entries" value="1" class="form-control">
                             </div>
                             <div class="form-group ml-2">
-                            <button class="btn btn-primary text-uppercase add-rows">Add</button>
+                                <button class="btn btn-primary text-uppercase add-rows">Add</button>
                             </div>
                         </div>
                     </div>
@@ -55,8 +64,8 @@
                                     <?php for ($i = 0; $i < 10; $i++) {
                                     ?>
                                         <tr>
-                                            <td class="col-3">
-                                                <select name="passbook[]" class="form-control select2-mass-passbooks" data-acc="<?='select2-acc'.$i ?>" required>
+                                            <td class="col-2">
+                                                <select name="passbook[]" class="form-control select2-mass-passbooks" data-acc="<?= 'select2-acc' . $i ?>" required>
                                                     <option value=""></option>
                                                 </select>
                                             </td>
@@ -64,17 +73,16 @@
                                                 Not set
                                             </td>
                                             <td class="col-3">
-                                                <select name="account_id[]" class="form-control select2-acc<?=$i ?>" data-id="<?=$i ?>" required>
+                                                <select name="account_id[]" class="form-control select2-acc<?= $i ?>" data-id="<?= $i ?>" required>
                                                     <option value=""></option>
                                                 </select>
                                             </td>
-                                            <td class="col-1">
-                                                <input type="hidden" min="0" value="10" id="stamp_amt<?=$i ?>" >
-                                                <input onkeyup="$('td #amount<?=$i ?>').val($(this).prev('input').val()*$(this).val())|updateTotal()" id="stamps<?=$i ?>" 
-                                                onchange="$('td #amount<?=$i ?>').val($(this).prev('input').val()*$(this).val())|updateTotal()" id="stamps<?=$i ?>" type="number" name="stamps[]" min="0" class="form-control" data-id="<?=$i ?>" disabled>
+                                            <td class="col-2">
+                                                <input type="hidden" min="0" value="10" id="stamp_amt<?= $i ?>">
+                                                <input onkeyup="$('td #amount<?= $i ?>').val($(this).prev('input').val()*$(this).val())|updateTotal()" id="stamps<?= $i ?>" onchange="$('td #amount<?= $i ?>').val($(this).prev('input').val()*$(this).val())|updateTotal()" id="stamps<?= $i ?>" type="number" name="stamps[]" min="0" class="form-control" data-id="<?= $i ?>" disabled>
                                             </td>
-                                            <td class="col-1"> 
-                                                <input onchange="updateTotal()" onkeyup="updateTotal()" id="amount<?=$i ?>" type="number" name="amount[]" class="form-control" required>
+                                            <td class="col-1">
+                                                <input onchange="updateTotal()" onkeyup="updateTotal()" id="amount<?= $i ?>" type="number" name="amount[]" class="form-control" required>
                                             </td>
                                             <td class="col-1">
                                                 <button type="button" class="btn btn-icon btn-warning delete-row">

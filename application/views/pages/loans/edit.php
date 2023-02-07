@@ -29,7 +29,16 @@
                 <div class="card-body px-5">
                     <form class="editLoanForm" action="<?= site_url('loans/store') ?>" data-redirect-url="<?= site_url('loans') ?>">
                         <div class="form-row mb-3">
-                            <div class="col-md-12 border-bottom pb-2">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="association_id">Search an association</label>
+                                    <select name="association_id" class="form-control select2-associations" required>
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Passbook NO.</label>
                                     <select name="passbook" id="passbook" class="form-control select2-passbooks" required>
@@ -38,6 +47,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="form-row mb-3">
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -60,7 +70,7 @@
                             </div>
                         </div>
                         <div class="form-row">
-                        <div class="col-md-12">
+                            <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="amount">Amount</label>
                                     <input type="number" name="amount" id="amount" class="form-control" placeholder="Enter the amount" required>
@@ -70,7 +80,7 @@
                         <div class="form-row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="amount">Rate</label>
+                                    <label for="amount">Interest Rate</label>
                                     <input type="number" name="rate" id="rate" class="form-control" placeholder="Enter the rate" min="0" required>
                                 </div>
                             </div>
@@ -84,7 +94,7 @@
                         <div class="form-row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="payout_date">Payout Date</label>
+                                    <label for="payout_date">Disbursement Date</label>
                                     <input type="date" name="payout_date" id="payout_date" class="form-control" required>
                                 </div>
                             </div>

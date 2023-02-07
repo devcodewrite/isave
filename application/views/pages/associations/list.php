@@ -12,12 +12,18 @@
                     <div class="page-title-subheading">Table of associations and their details.</div>
                 </div>
             </div>
-
         </div>
     </div>
     <div class="main-card mb-3 card">
         <div class="card-header">
-            <i class="header-icon lnr-license icon-gradient bg-plum-plate"> </i>Filter Table
+            <i class="header-icon lnr-license icon-gradient bg-plum-plate"> </i>Association Table
+
+            <div class="btn-actions-pane-right actions-icon-btn">
+                <a href="<?= site_url('associations/create') ?>" class="btn btn-primary text-uppercase">
+                    <i class="pe-7s-plus btn-icon-wrapper"></i>
+                    New Association
+                </a>
+            </div>
         </div>
         <div class="card-body px-5">
             <div class="form-row">

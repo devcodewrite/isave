@@ -191,6 +191,7 @@ $('.select2-passbooks').select2({
     url: `${baseUrl}bankaccounts/passbook-select2`,
         dataType: "json",
         data: function (params) {
+          params.association_id = $('.select2-associations').val();
             return params;
         },
   },
@@ -202,31 +203,12 @@ $('.select2-passbooks').select2({
   $('.select2-passbooks').trigger('change');
 });
 
-
-
-
-$('.select2-to-accounts').select2({
-  ajax: {
-    url: `${baseUrl}bankaccounts/select2`,
-        dataType: "json",
-        data: function (params) {
-            params.passbook = $('.select2-passbooks').val();
-            return params;
-        },
-  },
-  allowClear: true,
-  placeholder: "Select an account",
-  selectionCssClass: 'form-select2',
-}).on('select2:select', function (params) {
-  $(this).trigger('change');
-});
-
-
 $('.select2-to-passbooks').select2({
   ajax: {
     url: `${baseUrl}bankaccounts/passbook-select2`,
         dataType: "json",
         data: function (params) {
+          params.association_id = $('.select2-associations').val();
             return params;
         },
   },

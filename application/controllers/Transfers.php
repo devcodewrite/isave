@@ -39,8 +39,6 @@ class Transfers extends MY_Controller
      */
     public function edit(int $id = null)
     {
-        $table = "internal_transfers";
-        $column = "id";
         $data = [
             'transfer' => null, //This is an example replace with actual model
         ];
@@ -51,9 +49,8 @@ class Transfers extends MY_Controller
      * Store a resource
      * print json Response
      */
-    public function list ()
+    public function store ()
     {
-        # code...
        $transfer  = null; // replace created record object
        if($transfer){
            $out = [
@@ -114,21 +111,18 @@ class Transfers extends MY_Controller
         }
         httpResponseJson($out);
     }
-    public function insert ()
+   
+    public function datatables()
     {
-        $loan  = null; // replace created record object
-        if($loan){
-            $out = [
-                'status' => true,
-                'message' => 'Transfer data created successfully!'
-            ];
-        }
-        else {
-            $out = [
-                'status' => false,
-                'message' => "Transfer data couldn't be created!"
-            ];
-        }
+        $start = $this->input->get('start', true);
+        $length = $this->input->get('length', true);
+        $draw = $this->input->get('draw', true);
+        $inputs = $this->input->get();
+
+        $out = datatable($this->transfer->all(), $start, $length, $draw, $inputs);
+        $out = array_merge($out, [
+            'input' => $this->input->get(),
+        ]);
         httpResponseJson($out);
     }
 }

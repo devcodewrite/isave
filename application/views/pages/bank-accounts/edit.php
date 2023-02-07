@@ -8,8 +8,8 @@
                 <div class="page-title-icon">
                     <i class="lnr-map text-info"></i>
                 </div>
-                <div>Forms Wizard
-                    <div class="page-title-subheading">Easily create beautiful form multi step wizards!</div>
+                <div>Account Form
+                    <div class="page-title-subheading">Create or update accounts</div>
                 </div>
             </div>
             <div class="page-title-actions">

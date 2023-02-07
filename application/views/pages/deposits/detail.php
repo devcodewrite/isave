@@ -62,7 +62,6 @@
             <div class="main-card mb-3 card">
                 <div class="card-header">
                     <i class="header-icon lnr-user icon-gradient bg-plum-plate"> </i>Deposit Slip
-
                 </div>
                 <div class="card-body p-5">
                     <div style="height: 70%; width: 100%;" class="deposit-slip">
@@ -77,32 +76,38 @@
                                 </div>
                             </div>
                             <div class="row text-uppercase mt-1 border-bottom">
-                                <p class="col-6 text-black">Cash Deposit</p>
-                                <p class="col-6 text-black text-right">Transaction Date: </p>
+                                <p class="col-6 text-black"><?=$deposit->type ?> Deposit</p>
+                                <p class="col-6 text-black text-right">Transaction Date: <?= date('d/m/y', strtotime($deposit->created_at) ); ?></p>
                             </div>
                             <div class="row text-uppercase mt-1 border-bottom">
                                 <p class="col-4 text-black-50">Transaction Reference</p>
-                                <p class="col-6 input-placeholder text-black">xxxx xxx xxxx</p>
+                                <p class="col-6 input-placeholder text-black"><?=$deposit->id ?></p>
                             </div>
                             <div class="row text-uppercase mt-1 border-bottom">
                                 <p class="col-4 text-black-50">Transaction Account</p>
-                                <p class="col-6 input-placeholder text-black">xxxx xxx xxxx</p>
+                                <p class="col-6 input-placeholder text-black"><?=$deposit->account->acc_number ?></p>
                             </div>
                             <div class="row text-uppercase mt-1 border-bottom">
                                 <p class="col-4 text-black-50">Account Name</p>
-                                <p class="col-6 input-placeholder text-black h-5 bg-light"></p>
+                                <p class="col-6 input-placeholder text-black">
+                                <?=$deposit->account->name ?>
+                                </p>
                             </div>
                             <div class="row text-uppercase mt-1 border-bottom">
                                 <p class="col-4 text-black-50">Transaction Amount</p>
-                                <p class="col-6 input-placeholder text-black h-5 bg-light"></p>
+                                <h5 class="col-6 input-placeholder text-primary">
+                                GHS <?=number_format($deposit->amount,2) ?>
+                                </h5>
                             </div>
                             <div class="row text-uppercase mt-1 border-bottom">
                                 <p class="col-4 text-black-50">Narration</p>
-                                <p class="col-6 input-placeholder text-black  h-5 bg-light"></p>
+                                <p class="col-6 input-placeholder text-black">
+                                <?=$deposit->depositor_name?"Deposit by $deposit->depositor_name ( $deposit->depositor_phone)": ''; ?>
+                                </p>
                             </div>
                             <div class="d-flex mt-3">
                                 <p class="text-black-50 mr-3">Note:</p>
-                                <p class=" text-black fs-sm">Example note on deposit slip</p>
+                                <p class=" text-black fs-sm"><?= $this->setting->get('deposit_note',"Example note on deposit slip") ?></p>
                             </div>
                         </div>
                     </div>
@@ -117,5 +122,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/deposits/detail.js?v=' . uniqid()); ?>" defer></script>
+<script src="<?= base_url('assets/js/deposits/detail.js?v=1'); ?>" defer></script>
 <?php app_end(); ?>

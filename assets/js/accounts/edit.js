@@ -183,10 +183,5 @@ form.on("submit", function (e) {
         });
       },
     });
-  } else {
-    Swal.fire({
-      icon: "error",
-      text: "Unable to submit form! Please check if all required fields are filled.",
-    });
-  }
+  } 
 });

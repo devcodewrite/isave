@@ -18,10 +18,9 @@ class Withdrawals extends MY_Controller
      */
     public function view(int $id = null)
     {
-        $table = "withdrawals";
-        $column = "id";
+
         $data = [
-            'withdrawal' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
+            'withdrawal' =>null,
         ];
         $this->load->view('pages/withdrawals/detail', $data);
     }
@@ -41,10 +40,8 @@ class Withdrawals extends MY_Controller
      */
     public function edit(int $id = null)
     {
-        $table = "withdrawals";
-        $column = "id";
         $data = [
-            'withdrawal' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
+            'withdrawal' => null,
         ];
         $this->load->view('pages/withdrawals/edit', $data);
     }
@@ -55,8 +52,7 @@ class Withdrawals extends MY_Controller
      */
     public function store ()
     {
-          # code...
-       $withdrawal  = $this->common->get_withdrawals_data(); // replace created record object
+       $withdrawal  = null;
        if($withdrawal){
            $out = [
                'data' => $withdrawal,
@@ -79,10 +75,8 @@ class Withdrawals extends MY_Controller
      */
     public function update (int $id = null)
     {
-        $data = array();
-        $table="withdrawals";
-        $column = "id";
-        $withdrawal = $this->common->update_data($id,$data,$table,$column); // replace created record object
+     
+        $withdrawal = null;
         if($withdrawal){
             $out = [
                 'status' => true,
@@ -104,10 +98,8 @@ class Withdrawals extends MY_Controller
      */
     public function delete (int $id = null)
     {
-        $data = array();
-        $table="withdrawals";
-        $column = "id";
-        $withdrawal = $this->common->update_data($id,$data,$table,$column); // replace created record object
+    
+        $withdrawal =null;
         if($withdrawal){
             $out = [
                 'status' => true,
@@ -122,23 +114,18 @@ class Withdrawals extends MY_Controller
         }
         httpResponseJson($out);
     }
-    public function insert ()
+ 
+    public function datatables()
     {
-        $data = array();
-        $table="withdrawals";
-        $withdrawal  = $this->common->insert_data($table,$data); // replace created record object
-        if($withdrawal){
-            $out = [
-                'status' => true,
-                'message' => 'Withdrawal data created successfully!'
-            ];
-        }
-        else {
-            $out = [
-                'status' => false,
-                'message' => "Withdrawal data couldn't be created!"
-            ];
-        }
+        $start = $this->input->get('start', true);
+        $length = $this->input->get('length', true);
+        $draw = $this->input->get('draw', true);
+        $inputs = $this->input->get();
+
+        $out = datatable($this->withdrawal->all(), $start, $length, $draw, $inputs);
+        $out = array_merge($out, [
+            'input' => $this->input->get(),
+        ]);
         httpResponseJson($out);
     }
 }

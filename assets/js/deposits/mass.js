@@ -148,6 +148,7 @@ passbookEls
       url: `${baseUrl}bankaccounts/passbook-select2`,
       dataType: "json",
       data: function (params) {
+        params.association_id = $('.select2-associations').val();
         return params;
       },
     },

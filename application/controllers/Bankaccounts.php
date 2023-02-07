@@ -13,7 +13,7 @@ class Bankaccounts extends MY_Controller
     }
 
 
-     /**
+    /**
      * Show a list of resources
      * @return string html view
      */
@@ -23,14 +23,14 @@ class Bankaccounts extends MY_Controller
     }
 
 
-     /**
+    /**
      * Show a resource
      * html view
      */
     public function view(int $id = null)
     {
         $account =  $this->account->find($id);
-        if(!$account) show_404();
+        if (!$account) show_404();
 
         $account->balance = $this->account->calBalance($id);
         $data = [
@@ -40,7 +40,7 @@ class Bankaccounts extends MY_Controller
         $this->load->view('pages/bank-accounts/detail', $data);
     }
 
-     /**
+    /**
      * Show a form page for creating resource
      * html view
      */
@@ -54,7 +54,7 @@ class Bankaccounts extends MY_Controller
         $this->load->view('pages/bank-accounts/edit', $data);
     }
 
-     /**
+    /**
      * Show a form page for updating resource
      * html view
      */
@@ -72,45 +72,43 @@ class Bankaccounts extends MY_Controller
      * Store a resource
      * print json Response
      */
-    public function store ()
+    public function store()
     {
         $record = $this->input->post();
 
-       $account  = $this->account->create($record);
-       if($account){
-           $out = [
-               'data' => $account,
-               'input' => $record,
-               'status' => true,
-               'message' => 'Account created successfully!'
-           ];
-       }
-       else {
-           $out = [
-               'status' => false,
-               'message' => "Account couldn't be created!"
-           ];
-       }
-       httpResponseJson($out);
+        $account  = $this->account->create($record);
+        if ($account) {
+            $out = [
+                'data' => $account,
+                'input' => $record,
+                'status' => true,
+                'message' => 'Account created successfully!'
+            ];
+        } else {
+            $out = [
+                'status' => false,
+                'message' => "Account couldn't be created!"
+            ];
+        }
+        httpResponseJson($out);
     }
 
     /**
      * Update a resource
      * print json Response
      */
-    public function update (int $id = null)
+    public function update(int $id = null)
     {
         $record = $this->input->post();
         $account  = $this->account->update($id, $record);
-        if($account){
+        if ($account) {
             $out = [
                 'data' => $account,
                 'input' => $record,
                 'status' => true,
                 'message' => 'Account data updated successfully!'
             ];
-        }
-        else {
+        } else {
             $out = [
                 'status' => false,
                 'message' => "Account data couldn't be updated!"
@@ -123,16 +121,15 @@ class Bankaccounts extends MY_Controller
      * Delete a resource
      * print json Response
      */
-    public function delete (int $id = null)
+    public function delete(int $id = null)
     {
         $accounts = null; // replace created record object
-        if($this->account->delete($id)){
+        if ($this->account->delete($id)) {
             $out = [
                 'status' => true,
                 'message' => 'Account data updated successfully!'
             ];
-        }
-        else {
+        } else {
             $out = [
                 'status' => false,
                 'message' => "Account data couldn't be updated!"
@@ -144,9 +141,9 @@ class Bankaccounts extends MY_Controller
     public function find()
     {
         $account = $this->account->where([
-            'acc_number'=>$this->input->get('acc_number',true)
-        ])->row(); 
-        if($account){
+            'acc_number' => $this->input->get('acc_number', true)
+        ])->row();
+        if ($account) {
             $account->member = $this->member->find($account->member_id);
             $account->idCardType = $this->idcardtype->find($account->member->identity_card_type_id);
             $account->balance = $this->account->calBalance($account->id);
@@ -155,8 +152,7 @@ class Bankaccounts extends MY_Controller
                 'status' => true,
                 'message' => 'Account found successfully!'
             ];
-        }
-        else {
+        } else {
             $out = [
                 'status' => false,
                 'message' => "Couldn't find account!"
@@ -172,7 +168,7 @@ class Bankaccounts extends MY_Controller
         $draw = $this->input->get('draw', true);
         $inputs = $this->input->get();
 
-        $out = datatable($this->account->all(),$start, $length, $draw, $inputs);
+        $out = datatable($this->account->all(), $start, $length, $draw, $inputs);
         $out = array_merge($out, [
             'input' => $this->input->get(),
         ]);
@@ -186,7 +182,7 @@ class Bankaccounts extends MY_Controller
         $draw = $this->input->get('draw', true);
         $inputs = $this->input->get();
 
-        $out = datatable($this->account->passbooks(),$start, $length, $draw, $inputs);
+        $out = datatable($this->account->passbooks(), $start, $length, $draw, $inputs);
         $out = array_merge($out, [
             'input' => $this->input->get(),
         ]);
@@ -198,25 +194,25 @@ class Bankaccounts extends MY_Controller
         $term = trim($this->input->get('term'));
         $passbook = trim($this->input->get('passbook'));
         $take = 10;
-        $page = $this->input->get('page', true)?$this->input->get('page', true):1;
-        $skip = ($page - 1 )*$take;
+        $page = $this->input->get('page', true) ? $this->input->get('page', true) : 1;
+        $skip = ($page - 1) * $take;
 
         $total = $this->account->all()->get()->num_rows();
-        
+
         $records = $this->account->all()->select('accounts.id, concat(acc_types.label, " #",accounts.acc_number) as text', false)
-                    ->like('accounts.name', $term)
-                    ->where("accounts.passbook", $passbook)
-                    ->limit($take, $skip)
-                    ->get()
-                    ->result();
+            ->like('accounts.name', $term)
+            ->where("accounts.passbook", $passbook)
+            ->limit($take, $skip)
+            ->get()
+            ->result();
 
         $out = [
             'results' => $records,
             'pagination' => [
-               'more' => ($skip + $take < $total),
-               'page' => intval($page),
-               'totalRows' => $total,
-               'totalPages' => intval($total/$take + ($total%$take > 0?1:0))
+                'more' => ($skip + $take < $total),
+                'page' => intval($page),
+                'totalRows' => $total,
+                'totalPages' => intval($total / $take + ($total % $take > 0 ? 1 : 0))
             ]
         ];
 
@@ -226,25 +222,30 @@ class Bankaccounts extends MY_Controller
     public function passbook_select2()
     {
         $term = trim($this->input->get('term'));
+        $association = $this->input->get('association_id');
         $take = 10;
-        $page = $this->input->get('page', true)?$this->input->get('page', true):1;
-        $skip = ($page - 1 )*$take;
+        $page = $this->input->get('page', true) ? $this->input->get('page', true) : 1;
+        $skip = ($page - 1) * $take;
 
         $total = $this->account->all()->get()->num_rows();
-        
-        $records = $this->account->all()->select('accounts.passbook as id, accounts.passbook as text', false)
-                    ->like('passbook', $term)
-                    ->limit($take, $skip)
-                    ->get()
-                    ->result();
+
+        $this->account->all()->select('accounts.passbook as id, accounts.passbook as text', false)
+            ->like('passbook', $term);
+
+        if ($association) {
+            $this->db->where('members.association_id', $association);
+        }
+        $records =  $this->db->limit($take, $skip)
+            ->get()
+            ->result();
 
         $out = [
             'results' => $records,
             'pagination' => [
-               'more' => ($skip + $take < $total),
-               'page' => intval($page),
-               'totalRows' => $total,
-               'totalPages' => intval($total/$take + ($total%$take > 0?1:0))
+                'more' => ($skip + $take < $total),
+                'page' => intval($page),
+                'totalRows' => $total,
+                'totalPages' => intval($total / $take + ($total % $take > 0 ? 1 : 0))
             ]
         ];
 

@@ -80,14 +80,14 @@
                         </li>
                         <li>
                             <a href="<?= site_url('deposits') ?>" class="<?= get_nav_status1('deposits') ?>">
-                                <i class="metismenu-icon"></i>List Deposits
+                                <i class="metismenu-icon"></i> Deposit Transactions
                             </a>
                         </li>
                     </ul>
                 </li>
                 <li class="<?= get_nav_status('withdrawals') ?>">
                     <a href="#">
-                        <i class="metismenu-icon pe-7s-credit"></i>Manage Withdrawals
+                        <i class="metismenu-icon pe-7s-credit"></i> Manage Withdrawals
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
                     <ul>
@@ -98,7 +98,7 @@
                         </li>
                         <li>
                             <a href="<?= site_url('withdrawals') ?>" class="<?= get_nav_status1('withdrawals') ?>">
-                                <i class="metismenu-icon"></i>List Withdrawals
+                                <i class="metismenu-icon"></i> Withdrawal Transactions
                             </a>
                         </li>
                     </ul>
@@ -116,7 +116,7 @@
                         </li>
                         <li>
                             <a href="<?= site_url('transfers') ?>" class="<?= get_nav_status1('transfers') ?>">
-                                <i class="metismenu-icon"></i>List Internal Transfers
+                                <i class="metismenu-icon"></i> Transfers Transactions
                             </a>
                         </li>
                     </ul>
@@ -139,8 +139,8 @@
                             </a>
                         </li>
                         <li>
-                            <a href="<?= site_url('loans/payouts') ?>" class="<?= get_nav_status1('loans/payouts') ?>">
-                                <i class="metismenu-icon"></i>Payout Schedule
+                            <a href="<?= site_url('loans/disbursements') ?>" class="<?= get_nav_status1('loans/disbursements') ?>">
+                                <i class="metismenu-icon"></i>Disbursement Schedule
                             </a>
                         </li>
                     </ul>

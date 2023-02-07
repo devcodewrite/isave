@@ -9,7 +9,7 @@
                     <i class="lnr-picture text-danger"></i>
                 </div>
                 <div>Withdrawal Form
-                    <div class="page-title-subheading">Fill in this form to register or update an.</div>
+                    <div class="page-title-subheading">Fill in this form to request for a withdraw.</div>
                 </div>
             </div>
             <div class="page-title-actions">
@@ -29,8 +29,17 @@
                 </div>
                 <div class="card-body px-5">
                     <form action="<?= site_url('withdrawals/store') ?>" class="editWithdrawalForm" data-redirect-url="<?= site_url('withdrawals') ?>">
-                    <div class="form-row mb-3">
-                            <div class="col-md-12 border-bottom pb-2">
+                        <div class="form-row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="association_id">Search an association</label>
+                                    <select name="association_id" class="form-control select2-associations" required>
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Passbook NO.</label>
                                     <select name="passbook" id="passbook" class="form-control select2-passbooks" required>

@@ -90,6 +90,28 @@
                                 </div>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a data-toggle="tab" href="#tab-eg9-3" class="nav-link">
+                                <div class="widget-number text-danger">Deposits</div>
+                                <div class="tab-subheading">
+                                    <span class="pr-2 opactiy-6">
+                                        <i class="fa fa-bullhorn"></i>
+                                    </span>
+                                    deposits
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a data-toggle="tab" href="#tab-eg9-4" class="nav-link">
+                                <div class="widget-number text-danger">Transfers</div>
+                                <div class="tab-subheading">
+                                    <span class="pr-2 opactiy-6">
+                                        <i class="fa fa-bullhorn"></i>
+                                    </span>
+                                    transfers
+                                </div>
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <div class="tab-content">
@@ -228,6 +250,59 @@
                                     </tr>
                                 </tfoot>
                             </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab-eg9-3" role="tabpanel">
+                        <div class="card-header">
+                            <div class="btn-actions-pane-right actions-icon-btn">
+                                <a href="<?= site_url('withdrawals/create') ?>" class="btn btn-primary text-uppercase">
+                                    <i class="pe-7s-plus btn-icon-wrapper"></i>
+                                    New Deposit
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                        <table style="width: 100%;" id="dt-related-deposits" class="table table-hover table-striped table-bordered">
+                <thead class="text-uppercase">
+                    <tr>
+                        <th>#ID</th>
+                        <th>Association</th>
+                        <th>Pas.B No.</th>
+                        <th>Amount</th>
+                        <th>Type</th>
+                        <th>Depositor</th>
+                        <th>Depositor's Phone</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+
+                <tfoot class="text-uppercase">
+                    <tr>
+                        <th>#ID</th>
+                        <th>Association</th>
+                        <th>Pas.B No.</th>
+                        <th>Amount</th>
+                        <th>Type</th>
+                        <th>Depositor's Name</th>
+                        <th>Depositor's Phone</th>
+                        <th>Date</th>
+                    </tr>
+                </tfoot>
+            </table>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="tab-eg9-4" role="tabpanel">
+                        <div class="card-header">
+                            <div class="btn-actions-pane-right actions-icon-btn">
+                                <a href="<?= site_url('withdrawals/create') ?>" class="btn btn-primary text-uppercase">
+                                    <i class="pe-7s-plus btn-icon-wrapper"></i>
+                                    New Transfer
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                          
                         </div>
                     </div>
                 </div>

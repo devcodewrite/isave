@@ -69,6 +69,20 @@ $(".select2-loan-types").select2({
   selectionCssClass: "form-select2",
 });
 
+$(".select2-associations").select2({
+  ajax: {
+    url: `${baseUrl}associations/select2`,
+    dataType: "json",
+    data: function (params) {
+      params.association_id = $('.select2-associations').val();
+      return params;
+    },
+  },
+  allowClear: true,
+  placeholder: "Select an association",
+  selectionCssClass: "form-select2",
+});
+
 form.on("submit", function (e) {
   e.preventDefault();
   if (form.valid() === true) {

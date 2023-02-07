@@ -108,7 +108,7 @@ class Account_model extends CI_Model
             "{$this->table}.ownership",
             "{$this->table}.passbook",
             "{$this->table}.status",
-            "ifnull(($qselect_sum_deposits) - ($qselect_sum_withdrawals),0) as balance",
+            "(ifnull(($qselect_sum_deposits),0) - ifnull(($qselect_sum_withdrawals),0)) as balance",
             "{$this->table}.acc_type_id",
             "{$this->table}.member_id",
             "{$this->table}.association_id",

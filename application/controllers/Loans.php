@@ -30,7 +30,7 @@ class Loans extends MY_Controller
         $data = [
             'loan' => $loan,
         ];
-        
+
         $this->load->view('pages/loans/detail', $data);
     }
     /**
@@ -58,9 +58,9 @@ class Loans extends MY_Controller
      * Show a form page for creating resource
      * html view
      */
-    public function payouts()
+    public function disbursements()
     {
-        $this->load->view('pages/loans/payout');
+        $this->load->view('pages/loans/disbursements');
     }
 
     /**

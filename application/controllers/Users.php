@@ -18,10 +18,11 @@ class Users extends MY_Controller
      */
     public function view(int $id = null)
     {
-        $table = "users";
-        $column = "id";
+       $user = $this->user->find($id);
+       if(!$user) show_404();
+
         $data = [
-            'user' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
+            'user' => $user,
         ];
         $this->load->view('pages/users/detail', $data);
     }
@@ -41,11 +42,12 @@ class Users extends MY_Controller
      */
     public function edit(int $id = null)
     {
-        $table = "users";
-        $column = "id";
-        $data = [
-            'user' => $this->common->get_data_by_id($table,$id,$column), //This is an example replace with actual model
-        ];
+        $user = $this->user->find($id);
+        if(!$user) show_404();
+ 
+         $data = [
+             'user' => $user,
+         ];
         $this->load->view('pages/users/edit', $data);
     }
 
@@ -55,11 +57,13 @@ class Users extends MY_Controller
      */
     public function store ()
     {
-         # code...
-       $user  = $this->common->get_users_data(); // replace created record object
+        $record = $this->input->post();
+
+       $user  = $this->user->create($record);
        if($user){
            $out = [
                'data' => $user,
+               'input' => $record,
                'status' => true,
                'message' => 'Users created successfully!'
            ];
@@ -79,12 +83,13 @@ class Users extends MY_Controller
      */
     public function update (int $id = null)
     {
-        $data = array();
-        $table="users";
-        $column = "id";
-        $transfer = $this->common->update_data($id,$data,$table,$column); // replace created record object
-        if($transfer){
+        $record = $this->input->post();
+
+        $user = $this->user->update($id, $record);
+         if($user){
             $out = [
+                'data' => $user,
+                'input' => $record,
                 'status' => true,
                 'message' => 'User data updated successfully!'
             ];
@@ -104,11 +109,8 @@ class Users extends MY_Controller
      */
     public function delete (int $id = null)
     {
-        $data = array();
-        $table="users";
-        $column = "id";
-        $transfer = $this->common->update_data($id,$data,$table,$column); // replace created record object
-        if($transfer){
+      
+        if($this->user->delete($id)){
             $out = [
                 'status' => true,
                 'message' => 'User data deleted successfully!'
@@ -118,25 +120,6 @@ class Users extends MY_Controller
             $out = [
                 'status' => false,
                 'message' => "User data couldn't be deleted!"
-            ];
-        }
-        httpResponseJson($out);
-    }
-    public function list ()
-    {
-        $data = array();
-        $table="users";
-        $loan  = $this->common->insert_data($table,$data); // replace created record object
-        if($loan){
-            $out = [
-                'status' => true,
-                'message' => 'User data created successfully!'
-            ];
-        }
-        else {
-            $out = [
-                'status' => false,
-                'message' => "User data couldn't be created!"
             ];
         }
         httpResponseJson($out);

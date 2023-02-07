@@ -5,23 +5,66 @@ class Withdrawal_model extends CI_Model
 {
     protected $table = 'withdrawals';
 
-     /**
+    public function create(array $record)
+    {
+        if (!$record) return;
+        $record['user_id'] = auth()->user()->id;
+
+        $data = $this->extract($record);
+
+        if ($this->db->insert($this->table, $data)) {
+            $id = $this->db->insert_id();
+            return $this->find($id);
+        }
+    }
+
+    /**
+     * Update a record
+     * @param $id
+     * @return Boolean
+     */
+    public function update(int $id, array $data)
+    {
+        $data = $this->extract($data);
+        $this->db->set($data);
+        $this->db->where('id', $id);
+        $this->db->update($this->table);
+        return $this->find($id);
+    }
+
+    /**
+     * Extract only values of only fields in the table
+     * @param $data
+     * @return Array
+     */
+    protected function extract(array $data)
+    {
+
+        // filter array for only specified table data
+        $filtered = array_filter($data, function ($key, $val) {
+            return $this->db->field_exists($val, $this->table);
+        }, ARRAY_FILTER_USE_BOTH);
+
+        return $filtered;
+    }
+
+    /**
      * Get withdrawal by id
      */
     public function find(int $id)
     {
         $where = [
-            'id'=> $id,
+            'id' => $id,
         ];
-        return $this->db->get_where($this->table,$where)->row();
+        return $this->db->get_where($this->table, $where)->row();
     }
 
-     /**
+    /**
      * Get withdrawals by column where cluase
      */
     public function where(array $where)
     {
-        return $this->db->get_where($this->table,$where);
+        return $this->db->get_where($this->table, $where);
     }
 
     /**
@@ -29,10 +72,26 @@ class Withdrawal_model extends CI_Model
      */
     public function all()
     {
-        $fields = [];
-        return 
+        $rtable = 'accounts';
+        $col = 'account_id';
+        $rtable2 = 'members';
+        $col2 = 'member_id';
+        $rtable3 = 'associations';
+        $col3 = 'association_id';
+
+        $fields = [
+            "$this->table.*",
+            "$rtable.passbook",
+            "$rtable.name as acc_name",
+            "$rtable.acc_number",
+            "$rtable3.name as association_name"
+        ];
+        return
             $this->db->select($fields, true)
-                    ->from($this->table);
+            ->join($rtable, "$rtable.id={$this->table}.$col", 'left')
+            ->join($rtable2, "$rtable2.id=$rtable.$col2", 'left')
+            ->join($rtable3, "$rtable3.id=$rtable2.$col3", 'left')
+            ->from($this->table);
     }
 
     /**
@@ -44,15 +103,15 @@ class Withdrawal_model extends CI_Model
         $col = 'association_id';
 
         return $this->db->select("$rtable.*")
-                    ->from($rtable)
-                    ->join($this->table, "{$this->table}.$col=$rtable.id")
-                    ->where([$col=> $id])
-                    ->where("$rtable.deleted_at =", null)
-                    ->get()
-                    ->row();
+            ->from($rtable)
+            ->join($this->table, "{$this->table}.$col=$rtable.id")
+            ->where([$col => $id])
+            ->where("$rtable.deleted_at =", null)
+            ->get()
+            ->row();
     }
 
-     /**
+    /**
      * Get all account that belongs to this withdrawal id
      */
     public function accounts(int $id)
@@ -60,14 +119,14 @@ class Withdrawal_model extends CI_Model
         $rtable = 'accounts';
 
         return $this->db->select("$rtable.*")
-                    ->from($rtable)
-                    ->where(['withdrawal_id'=> $id])
-                    ->where("$rtable.deleted_at =", null)
-                    ->get()
-                    ->result();
+            ->from($rtable)
+            ->where(['withdrawal_id' => $id])
+            ->where("$rtable.deleted_at =", null)
+            ->get()
+            ->result();
     }
 
- /**
+    /**
      * Get all withdrawals that belongs to this withdrawal id through account
      */
     public function withdrawals(int $id)
@@ -75,14 +134,14 @@ class Withdrawal_model extends CI_Model
         $rtable = 'withdrawals';
 
         return $this->db->select("$rtable.*")
-                    ->from($rtable)
-                    ->where(['withdrawal_id'=> $id])
-                    ->where("$rtable.deleted_at =", null)
-                    ->get()
-                    ->result();
+            ->from($rtable)
+            ->where(['withdrawal_id' => $id])
+            ->where("$rtable.deleted_at =", null)
+            ->get()
+            ->result();
     }
 
-     /**
+    /**
      * Get all associations that the withdrawal id has
      */
     public function associations(int $id)
@@ -93,13 +152,13 @@ class Withdrawal_model extends CI_Model
         $foreginKey2 = 'withdrawal_id';
 
         return $this->db->select("{$this->table}.*")
-                    ->from($rtable)
-                    ->join($rtable, "$pivot.$foreginKey1=$rtable.id")
-                    ->join($this->table, "$pivot.$foreginKey2={$this->table}.id")
-                    ->where("{$this->table}.id", $id)
-                    ->where("$rtable.deleted_at =", null)
-                    ->get()
-                    ->result();
+            ->from($rtable)
+            ->join($rtable, "$pivot.$foreginKey1=$rtable.id")
+            ->join($this->table, "$pivot.$foreginKey2={$this->table}.id")
+            ->where("{$this->table}.id", $id)
+            ->where("$rtable.deleted_at =", null)
+            ->get()
+            ->result();
     }
 
     /**
@@ -109,13 +168,12 @@ class Withdrawal_model extends CI_Model
     {
         $rtable = 'identity_card_types';
         $col = 'identity_card_type_id';
-        
-        return $this->db->select("$rtable.*")
-                    ->from($rtable)
-                    ->join($this->table, "{$this->table}.$col=$rtable.id")
-                    ->where([$col=> $id])
-                    ->get()
-                    ->row();
-    }
 
+        return $this->db->select("$rtable.*")
+            ->from($rtable)
+            ->join($this->table, "{$this->table}.$col=$rtable.id")
+            ->where([$col => $id])
+            ->get()
+            ->row();
+    }
 }

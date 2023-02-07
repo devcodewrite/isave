@@ -42,7 +42,18 @@ form.validate({
   },
 });
 
-
+$(".select2-associations").select2({
+  ajax: {
+    url: `${baseUrl}associations/select2`,
+    dataType: "json",
+    data: function (params) {
+      return params;
+    },
+  },
+  allowClear: true,
+  placeholder: "Select an association",
+  selectionCssClass: "form-select2",
+});
 
 form.on("submit", function (e) {
   e.preventDefault();

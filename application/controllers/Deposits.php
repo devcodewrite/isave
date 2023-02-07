@@ -18,8 +18,13 @@ class Deposits extends MY_Controller
      */
     public function view(int $id = null)
     {
+        $deposit = $this->deposit->find($id);
+        if(!$deposit) show_404();
+
+        $deposit->account = $this->account->find($deposit->account_id);
+
         $data = [
-            //'deposit' => $this->deposit_model->getById($id), //This is an example replace with actual model
+            'deposit' => $deposit,
         ];
         $this->load->view('pages/deposits/detail', $data);
     }
@@ -91,6 +96,7 @@ class Deposits extends MY_Controller
        if($this->deposit->createAll($records)){
            $out = [
                'status' => true,
+               'input' =>$records,
                'message' => 'Mass deposit created successfully!'
            ];
        }
@@ -109,12 +115,12 @@ class Deposits extends MY_Controller
      */
     public function update (int $id = null)
     {
-        $data = array();
-        $table="deposits";
-        $column = "id";
-        $deposit = $this->common->update_data($id,$data,$table,$column); // replace created record object
+        $record = $this->input->post();
+        $deposit = $this->deposit->update($id, $record);
+
         if($deposit){
             $out = [
+                'data' => $deposit,
                 'status' => true,
                 'message' => 'Deposit data deleted successfully!'
             ];
@@ -134,11 +140,7 @@ class Deposits extends MY_Controller
      */
     public function delete (int $id = null)
     {
-        $data = array();
-        $table="deposits";
-        $column = "id";
-        $deposit = $this->common->update_data($id,$data,$table,$column); // replace created record object
-        if($deposit){
+        if($this->deposit->delete($id)){
             $out = [
                 'status' => true,
                 'message' => 'Deposit data deleted successfully!'
@@ -152,23 +154,19 @@ class Deposits extends MY_Controller
         }
         httpResponseJson($out);
     }
-    public function insert ()
+
+    public function datatables()
     {
-        $data = array();
-        $table="deposits";
-        $deposit  = $this->common->insert_data($table,$data); // replace created record object
-        if($deposit){
-            $out = [
-                'status' => true,
-                'message' => 'Deposit data created successfully!'
-            ];
-        }
-        else {
-            $out = [
-                'status' => false,
-                'message' => "Deposit data couldn't be created!"
-            ];
-        }
+        $start = $this->input->get('start', true);
+        $length = $this->input->get('length', true);
+        $draw = $this->input->get('draw', true);
+        $inputs = $this->input->get();
+
+        $out = datatable($this->deposit->all(), $start, $length, $draw, $inputs);
+        $out = array_merge($out, [
+            'input' => $this->input->get(),
+        ]);
         httpResponseJson($out);
     }
+   
 }
