@@ -29,7 +29,13 @@
                     <i class="header-icon lnr-enter-down icon-gradient bg-plum-plate"> </i>Deposit Request From
                 </div>
                 <div class="card-body px-5">
-                    <form action="<?=isset($deposit)? site_url('deposits/update/'.$deposit->id): site_url('deposits/store') ?>" class="editDepositForm" data-redirect-url="<?= site_url('deposits') ?>">
+                    <form action="<?= isset($deposit) ? site_url('deposits/update/' . $deposit->id) : site_url('deposits/store') ?>" class="editDepositForm" data-redirect-url="<?= site_url('deposits') ?>">
+                        <?php if (isset($deposit)) { ?>
+                            <input type="hidden" name="_method" value="put">
+                            <input type="hidden" name="id" value="<?= $deposit->id ?>">
+                        <?php } else { ?>
+                            <input type="hidden" name="_method" value="post">
+                        <?php } ?>
                         <input type="hidden" name="type" value="cash">
                         <div class="form-row mb-3">
                             <div class="col-md-6">
