@@ -36,6 +36,9 @@
                                     <label for="association_id">Search an association</label>
                                     <select name="association_id" class="form-control select2-associations" required>
                                         <option value=""></option>
+                                        <?php if(isset($loan)){ ?>
+                                            <option value="<?=$loan->account->association->id ?>" selected><?=$loan->account->association->name ?></option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                             </div>
@@ -45,6 +48,9 @@
                                     <label>Passbook NO.</label>
                                     <select name="passbook" id="passbook" class="form-control select2-passbooks" required>
                                         <option value=""></option>
+                                        <?php if(isset($loan)){ ?>
+                                            <option value="<?=$loan->account->passbook ?>" selected><?=$loan->account->passbook ?></option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                             </div>
@@ -56,7 +62,11 @@
                                     <label>Account</label>
                                     <select name="account_id" id="account_id" class="form-control select2-accounts" required>
                                         <option value=""></option>
+                                        <?php if(isset($loan)){ ?>
+                                            <option value="<?=$loan->account_id ?>" selected><?=$loan->account->name ?></option>
+                                        <?php } ?>
                                     </select>
+
                                 </div>
                             </div>
                             <div class="col-md-8">
@@ -75,13 +85,13 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="ldate">Date</label>
-                                    <input type="date" name="ldate" id="ldate" class="form-control" required>
+                                    <input type="date" name="ldate" id="ldate" class="form-control" value="<?=isset($loan)?$loan->ldate:'' ?>" required>
                                 </div>
                             </div>
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="amount">Amount</label>
-                                    <input type="number" name="amount" id="amount" class="form-control" placeholder="Enter the amount" required>
+                                    <input type="number" name="principal_amount" id="amount" class="form-control" value="<?=isset($loan)?$loan->principal_amount:'' ?>" placeholder="Enter the amount" required>
                                 </div>
                             </div>
                         </div>
@@ -89,13 +99,13 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="amount">Interest Rate</label>
-                                    <input type="number" name="rate" id="rate" class="form-control" placeholder="Enter the rate" min="0" required>
+                                    <input type="number" name="rate" id="rate" class="form-control"  value="<?=isset($loan)?$loan->rate:'' ?>"placeholder="Enter the rate" min="0" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="duration">Duration (in months)</label>
-                                    <input type="number" name="duration" id="duration" class="form-control" placeholder="Enter the duration" min="1" max="12" required>
+                                    <input type="number" name="duration" id="duration" class="form-control" value="<?=isset($loan)?$loan->duration:'' ?>" placeholder="Enter the duration" min="1" max="12" required>
                                 </div>
                             </div>
                         </div>
@@ -103,20 +113,24 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="payout_date">Disbursement Date</label>
-                                    <input type="date" name="payout_date" id="payout_date" class="form-control" required>
+                                    <input type="date" name="payout_date" id="payout_date" value="<?=isset($loan)?$loan->payout_date:'' ?>" class="form-control" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="payin_start_date">Repayment Start Date</label>
-                                    <input type="date" name="payin_start_date" id="payin_start_date" class="form-control" required>
+                                    <input type="date" name="payin_start_date" id="payin_start_date" value="<?=isset($loan)?$loan->payin_start_date:'' ?>" class="form-control" required>
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="d-block text-right card-footer">
-                    <button class="mr-2 btn btn-link btn-sm reset">Cancel</button>
+                <?php if (isset($loan)) { ?>
+                        <a href="<?= site_url('loans/' . $loan->id) ?>" class="mr-2 btn btn-link btn-sm">Cancel</a>
+                    <?php } else { ?>
+                        <button class="mr-2 btn btn-link btn-sm reset">Cancel</button>
+                    <?php } ?>
                     <button class="btn btn-success btn-lg apply">Apply</button>
                 </div>
             </div>

@@ -35,7 +35,7 @@
         </li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
+        <div class="tab-pane tabs-animation fade show <?= isset($account) ? ($account->ownership === 'individual active' ? 'd-block' : 'd-none') : '' ?>" id="tab-content-0" role="tabpanel">
             <div class="row">
                 <div class="col-md-8">
                     <div class="main-card mb-3 card">
@@ -45,13 +45,17 @@
                                 <input type="hidden" name="ownership" value="individual">
                                 <?php if (isset($account)) { ?>
                                     <input type="hidden" name="_method" value="post">
+                                    <input type="hidden" name="id" value="<?= $account->id ?>">
                                 <?php } else { ?>
                                     <input type="hidden" name="_method" value="put">
                                 <?php } ?>
                                 <div class="form-group">
                                     <label>Member's association</label>
-                                    <select class="form-control select2-associations" required>
+                                    <select name="associaton_id" class="form-control select2-associations" required>
                                         <option value=""></option>
+                                        <?php if (isset($account)) { ?>
+                                            <option value="<?= $account->association_id ?>" selected><?= $account->association->name ?></option>
+                                        <?php } ?>
                                     </select>
                                 </div>
 
@@ -60,17 +64,20 @@
                                     <div>
                                         <select name="member_id" class="form-control select2-members" required>
                                             <option value=""></option>
+                                            <?php if (isset($account)) { ?>
+                                                <option value="<?= $account->member_id ?>" selected><?= $account->member->firstname ?> <?= $account->member->othername ?> <?= $account->member->lastname ?></option>
+                                            <?php } ?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="passbook">Passbook No.</label>
-                                    <input name="passbook" id="passbook" placeholder="Enter passbook no." type="number" class="form-control" required>
+                                    <input name="passbook" id="passbook" placeholder="Enter passbook no." type="number" value="<?= isset($account) ? $account->passbook : "" ?>" class="form-control" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="name">Account Name</label>
                                     <div>
-                                        <input type="text" class="form-control" name="name" placeholder="Account name" />
+                                        <input type="text" class="form-control" name="name" value="<?= isset($account) ? $account->name : "" ?>" placeholder="Account name" />
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -80,7 +87,7 @@
                                             <select name="acc_type_id" class="form-control select2-account-types2" required>
                                                 <option value=""></option>
                                                 <?php foreach ($accountTypes as $row) { ?>
-                                                    <option value="<?= $row->id; ?>" data-type="<?= $row->type; ?>"><?= $row->label; ?></option>
+                                                    <option value="<?= $row->id; ?>" <?= isset($account) ? ($account->acc_type_id === $row->id ? 'selected' : '') : '' ?> data-type="<?= $row->type; ?>"><?= $row->label; ?></option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -89,7 +96,7 @@
                                         <div class="form-group">
                                             <label for="stamp_amount">Amount per stamp</label>
                                             <div>
-                                                <input type="text" class="form-control stamps2" name="stamp_amount" placeholder="Enter amount per stamp" disabled />
+                                                <input type="number" class="form-control stamps2" name="stamp_amount" placeholder="Enter amount per stamp" <?= isset($account) ? (empty($account->stamp_amount) ? 'disabled' : '') : 'disabled' ?> />
                                             </div>
                                         </div>
                                     </div>
@@ -102,7 +109,7 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane tabs-animation fade" id="tab-content-1" role="tabpanel">
+        <div class="tab-pane tabs-animation fade <?= isset($account) ? ($account->ownership === 'association' ? 'd-block active' : 'd-none') : '' ?>" id="tab-content-1" role="tabpanel">
             <div class="row">
                 <div class="col-md-8">
                     <div class="main-card mb-3 card">
@@ -112,6 +119,7 @@
                                 <input type="hidden" name="ownership" value="association">
                                 <?php if (isset($account)) { ?>
                                     <input type="hidden" name="_method" value="put">
+                                    <input type="hidden" name="id" value="<?= $account->id ?>">
                                 <?php } else { ?>
                                     <input type="hidden" name="_method" value="post">
                                 <?php } ?>
@@ -119,26 +127,29 @@
                                     <label for="association_id">Search an association</label>
                                     <select name="association_id" class="form-control select2-associations" required>
                                         <option value=""></option>
+                                        <?php if (isset($account)) { ?>
+                                            <option value="<?= $account->association_id ?>" selected><?= $account->association->name ?></option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="passbook">Passbook No.</label>
-                                    <input name="passbook" id="passbook" placeholder="Enter passbook no." type="number" class="form-control" required>
+                                    <input name="passbook" id="passbook" placeholder="Enter passbook no." type="number" value="<?= isset($account) ? $account->passbook : "" ?>" class="form-control" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="name">Account Name</label>
                                     <div>
-                                        <input type="text" class="form-control" name="name" placeholder="Account name" />
+                                        <input type="text" class="form-control" name="name" value="<?= isset($account) ? $account->name : "" ?>" placeholder="Account name" />
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="acc_type_id">Account type</label>
-                                            <select name="acc_type_id" class="form-control select2-account-types1" required>
+                                            <select name="acc_type_id" class="form-control select2-account-types2" required>
                                                 <option value=""></option>
                                                 <?php foreach ($accountTypes as $row) { ?>
-                                                    <option value="<?= $row->id; ?>" data-type="<?= $row->type; ?>"><?= $row->label; ?></option>
+                                                    <option value="<?= $row->id; ?>" <?= isset($account) ? ($account->acc_type_id === $row->id ? 'selected' : '') : '' ?> data-type="<?= $row->type; ?>"><?= $row->label; ?></option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -147,13 +158,16 @@
                                         <div class="form-group">
                                             <label for="stamp_amount">Amount per stamp</label>
                                             <div>
-                                                <input type="text" class="form-control stamps1" name="stamp_amount" placeholder="Enter amount per stamp" disabled />
+                                                <input type="number" class="form-control stamps1" name="stamp_amount" placeholder="Enter amount per stamp" <?= isset($account) ? (empty($account->stamp_amount) ? 'disabled' : '') : 'disabled' ?> />
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
-
+                                <?php if (isset($account)) { ?>
+                                    <a href="<?= site_url('bankaccounts/' . $account->id) ?>" class="mr-2 btn btn-link btn-sm">Cancel</a>
+                                <?php } else { ?>
+                                    <button class="mr-2 btn btn-link btn-sm reset">Cancel</button>
+                                <?php } ?>
                                 <button type="submit" class="btn btn-primary text-uppercase">Create Account</button>
                             </form>
                         </div>

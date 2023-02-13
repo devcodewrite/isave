@@ -249,7 +249,7 @@
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label for="associations[]">Association(s)</label>
-                                                                    <select name="association[]" class="form-control select2-associations" multiple required>
+                                                                    <select name="associations[]" class="form-control select2-associations" multiple required>
                                                                         <option value=""></option>
                                                                     </select>
                                                                 </div>
@@ -303,7 +303,12 @@
                         </div>
                         <div class="divider"></div>
                         <div class="clearfix">
-                            <button type="button" id="reset-btn" class="btn-shadow float-left btn btn-link">Reset</button>
+                        <?php if (isset($member)) { ?>
+                        <a href="<?= site_url('customers/' . $member->id) ?>" class="btn btn-shadow float-left btn-link">Cancel</a>
+                    <?php } else { ?>
+                        <button type="button" id="reset-btn" class="btn-shadow float-left btn btn-link">Reset</button>
+                    <?php } ?>
+                           
                             <button type="button" id="next-btn" class="form-step btn-shadow btn-wide float-right btn-pill btn-hover-shine btn btn-primary">Next</button>
                             <button type="button" id="prev-btn" class="form-step btn-shadow float-right btn-wide btn-pill mr-3 btn btn-outline-secondary">Previous</button>
                         </div>

@@ -76,7 +76,12 @@
                         </div>
 
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary text-uppercase">Sumbit form</button>
+                        <?php if (isset($user)) { ?>
+                        <a href="<?= site_url('users/' . $user->id) ?>" class="mr-2 btn btn-link btn-sm">Cancel</a>
+                    <?php } else { ?>
+                        <button class="mr-2 btn btn-link btn-sm reset">Cancel</button>
+                    <?php } ?>
+                            <button type="submit" class="btn btn-primary text-uppercase">Create User</button>
                         </div>
                     </form>
                 </div>

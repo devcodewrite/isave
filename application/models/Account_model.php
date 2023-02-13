@@ -77,7 +77,7 @@ class Account_model extends CI_Model
         $result = $this->db->get_where($this->table, $where)->row();
 
         if($result){
-            $result->assocation = $this->association($result->id);
+            $result->association = $this->association($result->id);
         }
         return $result;
     }
@@ -173,6 +173,7 @@ class Account_model extends CI_Model
             "ifnull(($qselect_sum_deposits) - ($qselect_sum_withdrawals),0) as balance",
             "{$this->table}.member_id",
             "{$this->table}.association_id",
+            "{$this->table}.name",
             "concat($rtable.firstname, ' ', $rtable.lastname) as member_owner",
             "$rtable2.name  as association_owner",
         ];

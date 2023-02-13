@@ -114,9 +114,8 @@
             </div>
         </div>
     </div>
-
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= site_url('assets/js/deposits/mass.js?v=' . uniqid()) ?>" defer></script>
+<script src="<?= site_url('assets/js/deposits/mass.js?v=1') ?>" defer></script>
 <?php app_end(); ?>

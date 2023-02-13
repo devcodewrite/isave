@@ -37,6 +37,9 @@
                                     <label for="association_id">Search an association</label>
                                     <select name="association_id" class="form-control select2-associations" required>
                                         <option value=""></option>
+                                        <?php if (isset($deposit)) { ?>
+                                            <option value="<?= $deposit->account->association->id ?>" selected><?= $deposit->account->association->name ?></option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                             </div>
@@ -46,6 +49,9 @@
                                     <label>Passbook NO.</label>
                                     <select name="passbook" id="passbook" class="form-control select2-passbooks" required>
                                         <option value=""></option>
+                                        <?php if (isset($deposit)) { ?>
+                                            <option value="<?= $deposit->account->passbook ?>" selected><?= $deposit->account->passbook ?></option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                             </div>
@@ -56,6 +62,9 @@
                                     <label>Account</label>
                                     <select name="account_id" id="account_id" class="form-control select2-accounts" required>
                                         <option value=""></option>
+                                        <?php if (isset($deposit)) { ?>
+                                            <option value="<?= $deposit->account_id ?>" selected><?= $deposit->account->name ?></option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                             </div>
@@ -64,13 +73,13 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="ddate">Date</label>
-                                    <input type="date" name="ddate" id="ddate" class="form-control" required>
+                                    <input type="date" name="ddate" id="ddate" class="form-control" value="<?= isset($deposit) ? $deposit->ddate : '' ?>" required>
                                 </div>
                             </div>
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="amount">Amount</label>
-                                    <input type="text" name="amount" id="amount" class="form-control" placeholder="Enter the amount" required>
+                                    <input type="text" name="amount" id="amount" class="form-control" value="<?= isset($deposit) ? $deposit->amount : '' ?>" placeholder="Enter the amount" required>
                                 </div>
                             </div>
                         </div>
@@ -78,20 +87,24 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="amount">Deposit By</label>
-                                    <input type="text" name="deposit_by" id="name" class="form-control" placeholder="Enter the name">
+                                    <input type="text" name="depositor_name" id="depositor-name" class="form-control" value="<?= isset($deposit) ? $deposit->depositor_name : '' ?>" placeholder="Enter the name">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="phone">Phone number</label>
-                                    <input type="tel" name="deposit_phone" id="phone" class="form-control" placeholder="Enter the phone number">
+                                    <input type="tel" name="depositor_phone" id="phone" class="form-control" placeholder="Enter the phone number">
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="d-block text-right card-footer">
-                    <button class="mr-2 btn btn-link btn-sm reset">Cancel</button>
+                    <?php if (isset($deposit)) { ?>
+                        <a href="<?= site_url('deposits/' . $deposit->id) ?>" class="mr-2 btn btn-link btn-sm">Cancel</a>
+                    <?php } else { ?>
+                        <button class="mr-2 btn btn-link btn-sm reset">Cancel</button>
+                    <?php } ?>
                     <button class="btn btn-success btn-lg deposit">Deposit</button>
                 </div>
             </div>

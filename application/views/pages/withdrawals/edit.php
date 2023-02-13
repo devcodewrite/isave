@@ -37,6 +37,9 @@
                                     <label for="association_id">Search an association</label>
                                     <select name="association_id" class="form-control select2-associations" required>
                                         <option value=""></option>
+                                        <?php if(isset($withdrawal)){ ?>
+                                            <option value="<?=$withdrawal->account->association->id ?>" selected><?=$withdrawal->account->association->name ?></option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                             </div>
@@ -46,6 +49,9 @@
                                     <label>Passbook NO.</label>
                                     <select name="passbook" id="passbook" class="form-control select2-passbooks" required>
                                         <option value=""></option>
+                                        <?php if(isset($withdrawal)){ ?>
+                                            <option value="<?=$withdrawal->account->passbook ?>" selected><?=$withdrawal->account->passbook ?></option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                             </div>
@@ -56,6 +62,9 @@
                                     <label>Account</label>
                                     <select name="account_id" id="account_id" class="form-control select2-accounts" required>
                                         <option value=""></option>
+                                        <?php if(isset($withdrawal)){ ?>
+                                            <option value="<?=$withdrawal->account_id ?>" selected><?=$withdrawal->account->name ?></option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                             </div>
@@ -64,13 +73,13 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="wdate">Date</label>
-                                    <input type="date" name="wdate" id="wdate" class="form-control" required>
+                                    <input type="date" name="wdate" id="wdate" value="<?=isset($withdrawal)?$withdrawal->wdate:'' ?>" class="form-control" required>
                                 </div>
                             </div>
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="amount">Amount</label>
-                                    <input type="text" name="amount" id="amount" class="form-control" placeholder="Enter the amount" required>
+                                    <input type="text" name="amount" id="amount" class="form-control" value="<?=isset($withdrawal)?$withdrawal->amount:'' ?>" placeholder="Enter the amount" required>
                                 </div>
                             </div>
 
@@ -79,20 +88,24 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="amount">Withdrawal By</label>
-                                    <input type="text" name="withdrawal_by" id="name" class="form-control" placeholder="Enter the name" required>
+                                    <input type="text" name="withdrawer_name" id="name" value="<?=isset($withdrawal)?$withdrawal->withdrawer_name:'' ?>" class="form-control" placeholder="Enter the name" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="phone">Phone number</label>
-                                    <input type="tel" name="withdrawal_phone" id="phone" class="form-control" placeholder="Enter the phone number">
+                                    <input type="tel" name="withdrawer_phone" id="phone" class="form-control" value="<?=isset($withdrawal)?$withdrawal->withdrawer_phone:'' ?>" placeholder="Enter the phone number">
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="d-block text-right card-footer">
-                    <button class="mr-2 btn btn-link btn-sm reset">Cancel</button>
+                <?php if (isset($withdrawal)) { ?>
+                        <a href="<?= site_url('withdrawals/' . $withdrawal->id) ?>" class="mr-2 btn btn-link btn-sm">Cancel</a>
+                    <?php } else { ?>
+                        <button class="mr-2 btn btn-link btn-sm reset">Cancel</button>
+                    <?php } ?>
                     <button class="btn btn-success btn-lg withdraw">Withdraw</button>
                 </div>
             </div>

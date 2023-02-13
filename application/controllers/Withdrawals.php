@@ -19,8 +19,9 @@ class Withdrawals extends MY_Controller
     public function view(int $id = null)
     {
         $withdrawal = $this->withdrawal->find($id);
-        $withdrawal->account = $this->account->find($withdrawal->account_id);
         if(!$withdrawal) show_404();
+        $withdrawal->account = $this->account->find($withdrawal->account_id);
+
         $data = [
             'withdrawal' =>$withdrawal,
         ];
@@ -43,8 +44,9 @@ class Withdrawals extends MY_Controller
     public function edit(int $id = null)
     { 
         $withdrawal = $this->withdrawal->find($id);
-
         if(!$withdrawal) show_404();
+
+        $withdrawal->account = $this->account->find($withdrawal->account_id);
         $data = [
             'withdrawal' =>$withdrawal,
         ];

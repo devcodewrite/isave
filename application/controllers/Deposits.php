@@ -54,6 +54,9 @@ class Deposits extends MY_Controller
     public function edit(int $id = null)
     {
         $deposit = $this->deposit->find($id);
+        if(!$deposit) show_404();
+        
+        $deposit->account = $this->account->find($deposit->account_id);
         $data = [
             'deposit' => $deposit,
         ];

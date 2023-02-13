@@ -13,7 +13,6 @@
                 </div>
             </div>
             <div class="page-title-actions">
-                
                 <a href="<?= site_url('deposits') ?>" class="btn-shadow btn btn-info">
                     <span class="btn-icon-wrapper pr-2 opacity-7">
                         <i class="fa fa-arrow-left fa-w-20"></i>
@@ -80,6 +79,7 @@
                 </div>
                 <div class="d-block text-right card-footer">
                     <button class="btn btn-primary btn-lg print">Print</button>
+                    <a href="<?=site_url('deposits/'.$deposit->id.'/edit') ?>" class="btn btn-warning btn-lg">Modify</a>
                     <button class="btn btn-danger btn-lg">Delete</button>
                 </div>
             </div>
