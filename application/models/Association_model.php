@@ -20,13 +20,11 @@ class Association_model extends CI_Model
         }
     }
 
-    public function addMember(array $record)
+    public function addMember(int $association_id,int $member_id)
     {
-        if (!$record) return;
-
         $data = [
-            'member_id' =>$record['member_id'],
-            'association_id' => $record['association_id']
+            'member_id' =>$member_id,
+            'association_id' => $association_id,
         ];
 
         if ($this->db->insert($this->ftable, $data)) {
