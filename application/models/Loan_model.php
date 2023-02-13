@@ -23,8 +23,11 @@ class Loan_model extends CI_Model
             for ($i = 0; $i < $loan->duration * 4; $i++) {
                 if ($loan->LoanType->rate_type === 'flat_rate') {
                     $interestTotal += $this->loan->calcFlatInterest($loan, $i);
+                }else {
+                    $interestTotal = $this->loan->calcReduceInterest($loan, $i);
                 }
             }
+            $this->update($id, ['interest_amount' => $interestTotal]);
         }
     }
 
