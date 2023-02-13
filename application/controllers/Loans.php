@@ -26,7 +26,7 @@ class Loans extends MY_Controller
         $loan->owner = $loan->account->ownership==='individual'
                 ?$this->member->find($loan->account->member_id)
                 :$this->association->find($loan->account->association_id);
-        $loan->LoanType = $this->loantype->find($loan->loan_type_id);
+        $loan->loanType = $this->loantype->find($loan->loan_type_id);
         $loan->totalPaid = $this->payment->sum(['loan_id'=>$id])->row('total');
         $loan->totalBalance = $this->loan->sum(['id'=>$id])->row('total')-$loan->totalPaid;
     

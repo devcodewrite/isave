@@ -24,7 +24,7 @@ class Loan_model extends CI_Model
         $record['interest_amount'] = $interestTotal;
 
         $data = $this->extract($record);
-        
+
         $data['user_id'] = auth()->user()->id;
         if ($this->db->insert($this->table, $data)) {
             $id = $this->db->insert_id();
@@ -38,9 +38,22 @@ class Loan_model extends CI_Model
      * @param $id
      * @return Boolean
      */
-    public function update(int $id, array $data)
+    public function update(int $id, array $record)
     {
-        $data = $this->extract($data);
+        $loan = (object)$record;
+        $loan->LoanType = $this->loantype->find($record['loan_type_id']);
+
+        $interestTotal = 0;
+        for ($i = 0; $i < $loan->duration * 4; $i++) {
+            if ($loan->LoanType->rate_type === 'flat_rate') {
+                $interestTotal += $this->loan->calcFlatInterest($loan, $i);
+            }else {
+                $interestTotal += $this->loan->calcReduceInterest($loan, $i);
+            }
+        }
+        $record['interest_amount'] = $interestTotal;
+
+        $data = $this->extract($record);
         
         $this->db->set($data);
         $this->db->where('id', $id);

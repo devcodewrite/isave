@@ -51,6 +51,7 @@
                             <div class="row text-uppercase border-bottom">
                                 <p class="col-md-2 text-black-50">Loan ID</p>
                                 <h4 class="col-md-6 text-primary text-left"><?= $loan->id; ?></h4>
+                                <h6 class="col-md-6 text-info text-left"><?= $loan->loanType->label; ?></h6>
                                 <?php $alerts = [
                                     'pending' => 'alert-warning',
                                     'rejected' => 'alert-danger',
@@ -86,7 +87,7 @@
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Rate</p>
-                                        <p class="col-6 input-placeholder text-black text-uppercase"><?= $loan->rate * 100 ?>% (<?= str_replace('_',' ',$loan->loanType->label) ?>)</p>
+                                        <p class="col-6 input-placeholder text-black text-uppercase"><?= $loan->rate * 100 ?>% (<?= str_replace('_',' ',$loan->loanType->rate_type) ?>)</p>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Account</p>
