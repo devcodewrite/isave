@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="page-title-actions">
-                <a href="<?= site_url('loans ') ?>" class="btn-shadow btn btn-info">
+                <a href="<?=isset($loan)?site_url('loans/update/'.$loan->id):site_url('loans') ?>" class="btn-shadow btn btn-info">
                     <span class="btn-icon-wrapper pr-2 opacity-7">
                         <i class="fa fa-arrow-left fa-w-20"></i>
                     </span>

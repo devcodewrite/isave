@@ -27,7 +27,7 @@
             <div class="main-card mb-3 card">
                 <div class="card-body">
                     <h5 class="card-title">User Form</h5>
-                    <form class="editUserForm" method="post" action="<?= site_url('users/store') ?>" data-redirect-url="<?= site_url('users') ?>">
+                    <form class="editUserForm" method="post" action="<?= isset($user)?site_url('users/update'.$user->id):site_url('users/store') ?>" data-redirect-url="<?= site_url('users') ?>">
                         <div class="form-group">
                             <label for="firstname">First name</label>
                             <div>

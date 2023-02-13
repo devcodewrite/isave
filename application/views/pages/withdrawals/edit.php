@@ -30,7 +30,7 @@
 
                 </div>
                 <div class="card-body px-5">
-                    <form action="<?= site_url('withdrawals/store') ?>" class="editWithdrawalForm" data-redirect-url="<?= site_url('withdrawals') ?>">
+                    <form action="<?=isset($withdrawal)?site_url('withdrawals/update/'.$withdrawal->id): site_url('withdrawals/store') ?>" class="editWithdrawalForm" data-redirect-url="<?= site_url('withdrawals') ?>">
                         <div class="form-row mb-3">
                             <div class="col-md-6">
                                 <div class="form-group">

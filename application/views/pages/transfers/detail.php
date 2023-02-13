@@ -87,7 +87,6 @@
                     </div>
                 </div>
                 <div class="d-block text-right card-footer">
-                    <a href="<?=site_url('transfers/'.$transfer->id.'/edit') ?>" class="btn btn-info btn-lg">Modify</a>
                     <button class="btn btn-danger btn-lg">Delete</button>
                 </div>
             </div>
