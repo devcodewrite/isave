@@ -10,14 +10,21 @@ class Loan_model extends CI_Model
     {
         if (!$record) return;
         $record['user_id'] = auth()->user()->id;
-
         $data = $this->extract($record);
 
         $data['user_id'] = auth()->user()->id;
 
         if ($this->db->insert($this->table, $data)) {
             $id = $this->db->insert_id();
-            return $this->find($id);
+            $loan = $this->find($id);
+            $loan->LoanType = $this->loantype->find($loan->loan_type_id);
+
+            $interestTotal = 0;
+            for ($i = 0; $i < $loan->duration * 4; $i++) {
+                if ($loan->LoanType->rate_type === 'flat_rate') {
+                    $interestTotal += $this->loan->calcFlatInterest($loan, $i);
+                }
+            }
         }
     }
 
@@ -29,7 +36,7 @@ class Loan_model extends CI_Model
     public function update(int $id, array $data)
     {
         $data = $this->extract($data);
-        
+
         $this->db->set($data);
         $this->db->where('id', $id);
         $this->db->update($this->table);
@@ -110,8 +117,7 @@ class Loan_model extends CI_Model
 
     public function calcReduceInterest($loan, $index = 0)
     {
-        return
-        ($loan->principal_amount - $loan->principal_amount/ ($loan->duration * 4)*$index)*$loan->rate/ ($loan->duration * 4);
+        return ($loan->principal_amount - $loan->principal_amount / ($loan->duration * 4) * $index) * $loan->rate / ($loan->duration * 4);
     }
 
     public function calcFlatInterest($loan)
@@ -151,8 +157,8 @@ class Loan_model extends CI_Model
     }
 
 
-    public function sum($where = [], string $select = "principal_amount+interest_amount", $alis="total")
+    public function sum($where = [], string $select = "principal_amount+interest_amount", $alis = "total")
     {
-       return $this->db->select("SUM($select) as $alis")->where($where)->get($this->table);
+        return $this->db->select("SUM($select) as $alis")->where($where)->get($this->table);
     }
 }
