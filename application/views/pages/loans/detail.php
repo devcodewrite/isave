@@ -86,7 +86,7 @@
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Rate</p>
-                                        <p class="col-6 input-placeholder text-black"><?= $loan->rate * 100 ?>%</p>
+                                        <p class="col-6 input-placeholder text-black text-uppercase"><?= $loan->rate * 100 ?>% (<?= str_replace('_',' ',$loan->loanType->label) ?>)</p>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Account</p>
@@ -114,7 +114,7 @@
                                         </div>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
-                                        <p class="col-6 text-black-50">Total Paid</p>
+                                        <p class="col-6 text-black-50">Total Repayment</p>
                                         <h4 class="col-6 input-placeholder text-warning">GHS <?=number_format($loan->totalPaid,2) ?></h4>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
