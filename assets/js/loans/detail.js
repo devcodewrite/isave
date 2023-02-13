@@ -128,7 +128,7 @@ function(e){
       }
       $.ajax({
         method: "POST",
-        url: `${baseUrl}loan_payments/update/${$(this).data('id')}`,
+        url: `${baseUrl}loans/update/${$(this).data('id')}`,
         data: {
             appl_status: 'paid_out',
         },
@@ -187,7 +187,7 @@ function(e){
       }
       $.ajax({
         method: "POST",
-        url: `${baseUrl}loan_payments/update/${$(this).data('id')}`,
+        url: `${baseUrl}loans/update/${$(this).data('id')}`,
         data: {
             appl_status: 'approved',
         },
@@ -245,9 +245,9 @@ function(e){
       }
       $.ajax({
         method: "POST",
-        url: `${baseUrl}loan_payments/update/${$(this).data('id')}`,
+        url: `${baseUrl}loans/update/${$(this).data('id')}`,
         data: {
-            appl_status: 'pending',
+            appl_status: 'rejected',
         },
         dataType: "json",
         cache: false,

@@ -124,10 +124,11 @@
                                 <?php if ($loan->appl_status === 'pending') { ?>
                                     <button class="btn btn-primary btn-lg approve" data-id="<?= $loan->id ?>">Approve</button>
                                 <?php } else if ($loan->appl_status === 'approved') { ?>
+                                    <a href="<?= site_url('loans/print/' . $loan->id) ?>" class="btn btn-info btn-lg">Print Advice Letter</a>
                                     <button class="btn btn-success btn-lg disburse" data-id="<?= $loan->id ?>">Disbursed</button>
                                     <button class="btn btn-primary btn-lg cancel" data-id="<?= $loan->id ?>">Cancel Approval</button>
                                 <?php } ?>
-                                <a href="<?= site_url('loans/print/' . $loan->id) ?>" class="btn btn-info btn-lg">Print Advice Letter</a>
+                              
                                 <?php if ($loan->appl_status !== 'paid_out') { ?>
                                     <a href="<?= site_url('loans/' . $loan->id . '/edit') ?>" class="btn btn-warning btn-lg">Modify</a>
                                     <button class="btn btn-danger btn-lg delete" data-id="<?= $loan->id ?>">Delete</button>
@@ -199,5 +200,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/loans/detail.js?v=' . uniqid()); ?>" defer></script>
+<script src="<?= base_url('assets/js/loans/detail.js?v=1'); ?>" defer></script>
 <?php app_end(); ?>

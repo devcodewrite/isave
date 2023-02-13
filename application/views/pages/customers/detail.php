@@ -152,9 +152,10 @@
                                 'close' => 'alert-danger',
                             ];
                             foreach ($this->member->accounts($member->id) as $key => $row) {
+                                $row->accType = $this->acctype->find($row->acc_type_id);
                             ?>
                                 <tr>
-                                    <td><a href="<?= site_url('bankaccounts/' . $row->id) ?>" class="btn btn-link"><?= $row->acc_number ?></a></td>
+                                    <td><a href="<?= site_url('bankaccounts/' . $row->id) ?>" class="btn btn-link"><?=$row->accType->label ?> (<?= $row->acc_number ?>)</a></td>
                                     <td><?= $row->passbook ?></td>
                                     <td><?= "0.00" ?></td>
                                     <td class="py-1"><span class="alert <?= $alerts[$row->status] ?> text-uppercase"><?= $row->status ?></span></td>

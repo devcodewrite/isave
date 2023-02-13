@@ -183,13 +183,13 @@
                                         <thead class="text-uppercase">
                                             <tr>
                                                 <th>#ID</th>
-                                                <th>Request Date</th>
+                                                <th>Req. Date</th>
                                                 <th>Principal Amt.</th>
                                                 <th>Interest Amt.</th>
-                                                <th>Duration</th>
+                                                <th>Dur.</th>
                                                 <th>Rate</th>
-                                                <th>Request Status</th>
-                                                <th>Disbursement Date</th>
+                                                <th>Req. Status</th>
+                                                <th>Disburs. Date</th>
                                                 <th>Repay. Date</th>
                                                 <th>Repay. Status</th>
                                                 <th>Loan Type</th>
@@ -199,14 +199,14 @@
 
                                         <tfoot class="text-uppercase">
                                             <tr>
-                                                <th>#ID</th>
-                                                <th>Request Date</th>
+                                            <th>#ID</th>
+                                                <th>Req. Date</th>
                                                 <th>Principal Amt.</th>
                                                 <th>Interest Amt.</th>
-                                                <th>Duration</th>
+                                                <th>Dur.</th>
                                                 <th>Rate</th>
-                                                <th>Request Status</th>
-                                                <th>Disbursement Date</th>
+                                                <th>Req. Status</th>
+                                                <th>Disburs. Date</th>
                                                 <th>Repay. Date</th>
                                                 <th>Repay. Status</th>
                                                 <th>Loan Type</th>
