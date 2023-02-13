@@ -52,14 +52,16 @@
                                 <p class="col-md-2 text-black-50">Loan ID</p>
                                 <h4 class="col-md-6 text-primary text-left"><?= $loan->id; ?></h4>
                                 <?php $alerts = [
-                                    'pending' => 'alert-danger',
-                                    'approved' => 'alert-warning',
-                                    'paid_out' => 'alert-success'
+                                    'pending' => 'alert-warning',
+                                    'rejected' => 'alert-danger',
+                                    'approved' => 'alert-info',
+                                    'disbursed' => 'alert-success'
                                 ];
                                 $alerts2 = [
-                                    'not_paid' => 'alert-danger',
-                                    'started' => 'alert-warning',
-                                    'paid' => 'alert-success'
+                                    'not_paid' => 'alert-warning',
+                                    'started' => 'alert-info',
+                                    'paid' => 'alert-success',
+                                    'defaulted' => 'alert-danger',
                                 ];
                                 ?>
                                 <p class="col-12">
@@ -170,7 +172,7 @@
                                 </div>
                             </form>
 
-                            <table style="width: 100%;" id="dt-related-settlements" class="table table-hover table-striped table-bordered">
+                            <table style="width: 100%;" id="dt-related-settlements" data-loan-id="<?=$loan->id ?>" class="table table-hover table-striped table-bordered">
                                 <thead class="text-uppercase">
                                     <tr>
                                         <th>#Ref</th>

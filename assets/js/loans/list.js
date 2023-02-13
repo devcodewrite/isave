@@ -78,9 +78,9 @@ $(function () {
         render: function (data, type, row) {
           if (type === "display") {
             let labels = {
-              pending: "alert-info",
-              approved: "alert-warning",
-              paid_out: "alert-success",
+              pending: "alert-warning",
+              approved: "alert-info",
+              disbursed: "alert-success",
               rejected: "alert-danger",
             };
             return `<span class="alert p-1 px-2 text-white border-rounded ${

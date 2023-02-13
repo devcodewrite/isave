@@ -10,6 +10,7 @@ $(function () {
               params.date_range_column = "pdate";
               params.date_from = $("#date-from").val();
               params.date_to = $("#date-to").val();
+              params.loan_id = $('#dt-related-settlements').data('loan-id');
             },
           },
           serverSide: true,
