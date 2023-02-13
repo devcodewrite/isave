@@ -10,26 +10,27 @@ class Loan_model extends CI_Model
     {
         if (!$record) return;
         $record['user_id'] = auth()->user()->id;
+        $loan = (object)$record;
+        $loan->LoanType = $this->loantype->find($record['loan_type_id']);
+
+        $interestTotal = 0;
+        for ($i = 0; $i < $loan->duration * 4; $i++) {
+            if ($loan->LoanType->rate_type === 'flat_rate') {
+                $interestTotal += $this->loan->calcFlatInterest($loan, $i);
+            }else {
+                $interestTotal += $this->loan->calcReduceInterest($loan, $i);
+            }
+        }
+        $record['interest_amount'] = $interestTotal;
+
         $data = $this->extract($record);
-
+        
         $data['user_id'] = auth()->user()->id;
-
         if ($this->db->insert($this->table, $data)) {
             $id = $this->db->insert_id();
-            $loan = $this->find($id);
-            $loan->LoanType = $this->loantype->find($loan->loan_type_id);
-
-            $interestTotal = 0;
-            for ($i = 0; $i < $loan->duration * 4; $i++) {
-                if ($loan->LoanType->rate_type === 'flat_rate') {
-                    $interestTotal += $this->loan->calcFlatInterest($loan, $i);
-                }else {
-                    $interestTotal += $this->loan->calcReduceInterest($loan, $i);
-                }
-            }
-            $this->update($id, ['interest_amount' => $interestTotal]);
+            return $this->find($id);
         }
-        return $loan;
+        return false;
     }
 
     /**
@@ -40,11 +41,11 @@ class Loan_model extends CI_Model
     public function update(int $id, array $data)
     {
         $data = $this->extract($data);
-
+        
         $this->db->set($data);
         $this->db->where('id', $id);
         $this->db->update($this->table);
-
+        
         return $this->find($id);
     }
 
