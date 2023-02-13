@@ -55,6 +55,19 @@ class Loan_model extends CI_Model
             $record['interest_amount'] = $interestTotal;
         }
 
+        if(isset($record['appl_status'])){
+            if($record['appl_status'] === 'disbursed'){
+                $loan = $this->loan->find($id);
+            $this->deposit->create([
+                    'amount' => $loan->principal_amount,
+                    'depositor_name' => 'System',
+                    'type' => 'addition',
+                    'ddate' => date('Y-m-d'),
+                    'account_id' => $loan->account_id,
+                ]);
+            }
+        }
+
         $data = $this->extract($record);
 
         $this->db->set($data);
@@ -63,6 +76,8 @@ class Loan_model extends CI_Model
 
         return $this->find($id);
     }
+
+
 
     /**
      * Extract only values of only fields in the table

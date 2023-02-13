@@ -87,7 +87,7 @@
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Rate</p>
-                                        <p class="col-6 input-placeholder text-black text-uppercase"><?= $loan->rate * 100 ?>% (<?= str_replace('_',' ',$loan->loanType->rate_type) ?>)</p>
+                                        <p class="col-6 input-placeholder text-black text-uppercase"><?= $loan->rate * 100 ?>% (<?= str_replace('_', ' ', $loan->loanType->rate_type) ?>)</p>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Account</p>
@@ -105,23 +105,23 @@
                                         <p class="col-6 text-black-50">Repayment start date</p>
                                         <p class="col-6 input-placeholder text-black"><?= date('d/m/y', strtotime($loan->payin_start_date)) ?></p>
                                     </div>
-                                    <?php if($loan->appl_status ==='disbursed'){ ?>
-                                    <div class="row text-uppercase mt-3 border-bottom">
-                                        <p class="col-6 text-black-50">Repayment status</p>
-                                        <div class="col-6">
-                                            <span style="font-size: 12px;" class="alert <?= $alerts2[$loan->setl_status] ?> text-uppercase">
-                                                <?= str_replace('_', ' ', $loan->setl_status); ?>
-                                            </span>
+                                    <?php if ($loan->appl_status === 'disbursed') { ?>
+                                        <div class="row text-uppercase mt-3 border-bottom">
+                                            <p class="col-6 text-black-50">Repayment status</p>
+                                            <div class="col-6">
+                                                <span style="font-size: 12px;" class="alert <?= $alerts2[$loan->setl_status] ?> text-uppercase">
+                                                    <?= str_replace('_', ' ', $loan->setl_status); ?>
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row text-uppercase mt-3 border-bottom">
-                                        <p class="col-6 text-black-50">Total Repayment</p>
-                                        <h4 class="col-6 input-placeholder text-warning">GHS <?=number_format($loan->totalPaid,2) ?></h4>
-                                    </div>
-                                    <div class="row text-uppercase mt-3 border-bottom">
-                                        <p class="col-6 text-black-50">Repayment Balance</p>
-                                        <h4 class="col-6 input-placeholder text-success">GHS <?= number_format($loan->totalBalance,2) ?></h4>
-                                    </div>
+                                        <div class="row text-uppercase mt-3 border-bottom">
+                                            <p class="col-6 text-black-50">Total Repayment</p>
+                                            <h4 class="col-6 input-placeholder text-warning">GHS <?= number_format($loan->totalPaid, 2) ?></h4>
+                                        </div>
+                                        <div class="row text-uppercase mt-3 border-bottom">
+                                            <p class="col-6 text-black-50">Repayment Balance</p>
+                                            <h4 class="col-6 input-placeholder text-success">GHS <?= number_format($loan->totalBalance, 2) ?></h4>
+                                        </div>
                                     <?php } ?>
                                 </div>
                             </div>
@@ -133,7 +133,7 @@
                                     <button class="btn btn-success btn-lg disburse" data-id="<?= $loan->id ?>">Disbursed</button>
                                     <button class="btn btn-primary btn-lg cancel" data-id="<?= $loan->id ?>">Cancel Approval</button>
                                 <?php } ?>
-                              
+
                                 <?php if ($loan->appl_status !== 'disbursed') { ?>
                                     <a href="<?= site_url('loans/' . $loan->id . '/edit') ?>" class="btn btn-warning btn-lg">Modify</a>
                                     <button class="btn btn-danger btn-lg delete" data-id="<?= $loan->id ?>">Delete</button>
@@ -157,13 +157,24 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="principal_amount">Principal Amount</label>
-                                            <input type="number" name="principal_amount" class="form-control" placeholder="Enter the principal amount" required>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><?= $loan->principalBalance ?></span>
+                                                </div>
+                                                <input type="number" name="principal_amount" class="form-control" placeholder="Enter the principal amount" required>
+                                            </div>
+
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="amount">Interest Amount</label>
-                                            <input type="number" name="interest_amount" class="form-control" placeholder="Enter the interest amount" required>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><?= $loan->interestBalance ?></span>
+                                                </div>
+                                                <input type="number" name="interest_amount" class="form-control" placeholder="Enter the interest amount" required>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -175,7 +186,7 @@
                                 </div>
                             </form>
 
-                            <table style="width: 100%;" id="dt-related-settlements" data-loan-id="<?=$loan->id ?>" class="table table-hover table-striped table-bordered">
+                            <table style="width: 100%;" id="dt-related-settlements" data-loan-id="<?= $loan->id ?>" class="table table-hover table-striped table-bordered">
                                 <thead class="text-uppercase">
                                     <tr>
                                         <th>#Ref</th>
