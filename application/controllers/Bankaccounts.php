@@ -33,6 +33,7 @@ class Bankaccounts extends MY_Controller
         if (!$account) show_404();
 
         $account->balance = $this->account->calBalance($id);
+        $account->accType = $this->acctype->find($account->acc_type_id);
         $data = [
             'account' => $account,
             'member' => $this->member->find($account->member_id),
