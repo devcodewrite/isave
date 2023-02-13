@@ -16,7 +16,7 @@ class Transfer_model extends CI_Model
             return false;
         }
 
-        if(!$this->account->canTranfer($record['account_id'], $record['amount'])){
+        if(!$this->account->canTransfer($record['from_account_id'], $record['amount'])){
             return false;
         }
 

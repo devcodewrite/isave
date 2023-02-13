@@ -91,7 +91,7 @@
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Account</p>
-                                        <a href="<?= site_url('accounts/' . $loan->account_id) ?>" class="col-6 input-placeholder text-black">
+                                        <a href="<?= site_url('bankaccounts/' . $loan->account_id) ?>" class="col-6 input-placeholder text-black">
                                             <?= $loan->account->name; ?> (<?= $loan->account->acc_number; ?>)
                                         </a>
                                     </div>
