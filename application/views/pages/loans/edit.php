@@ -90,7 +90,7 @@
                         <div class="form-row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="ldate">Date</label>
+                                    <label for="ldate">Request Date</label>
                                     <input type="date" name="ldate" id="ldate" class="form-control" value="<?= isset($loan) ? $loan->ldate : '' ?>" required>
                                 </div>
                             </div>

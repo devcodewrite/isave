@@ -35,7 +35,7 @@ $(function () {
             name: "transfers.from_account_id",
             render: function (data, type, row) {
               if (type === "display") {
-                return `<a href="${data.from_account_id}" class="btn btn-link">${data.from_acc_name} (${data.from_acc_number})</a>`;
+                return `<a href="${baseUrl}bankaccounts/${data.from_account_id}" class="btn btn-link">${data.from_acc_name} (${data.from_acc_number})</a>`;
               }
               return data.from_account_id;
             },
@@ -45,7 +45,7 @@ $(function () {
             name: "transfers.to_account_id",
             render: function (data, type, row) {
               if (type === "display") {
-                return `<a href="${data.to_account_id}" class="btn btn-link">${data.to_acc_name} (${data.to_acc_number})</a>`;
+                return `<a href="${baseUrl}bankaccounts/${data.to_account_id}" class="btn btn-link">${data.to_acc_name} (${data.to_acc_number})</a>`;
               }
               return data.to_account_id;
             },
@@ -55,7 +55,7 @@ $(function () {
             name: "transfers.from_passbook",
             render: function (data, type, row) {
               if (type === "display") {
-                return `<a href="members/${data.from_member_id}" class="btn btn-link">${data.from_passbook} (${data.to_acc_name})</a>`;
+                return `<a href="${baseUrl}members/${data.from_member_id}" class="btn btn-link">${data.from_passbook} (${data.to_acc_name})</a>`;
               }
               return data.from_passbook;
             },
@@ -65,7 +65,7 @@ $(function () {
             name: "transfers.to_passbook",
             render: function (data, type, row) {
               if (type === "display") {
-                return `<a href="members/${data.to_member_id}" class="btn btn-link">${data.to_passbook} (${data.to_acc_name})</a>`;
+                return `<a href="${baseUrl}members/${data.to_member_id}" class="btn btn-link">${data.to_passbook} (${data.to_acc_name})</a>`;
               }
               return data.from_passbook;
             },
@@ -75,7 +75,7 @@ $(function () {
             name: "transfers.from_association_id",
             render: function (data, type, row) {
               if (type === "display") {
-                return `<a href="associations/${data.from_association_id}" class="btn btn-link">${data.from_assoc_name}</a>`;
+                return `<a href="${baseUrl}associations/${data.from_association_id}" class="btn btn-link">${data.from_assoc_name}</a>`;
               }
               return data.from_association_id;
             },
@@ -85,7 +85,7 @@ $(function () {
             name: "transfers.to_association_id",
             render: function (data, type, row) {
               if (type === "display") {
-                return `<a href="associations/${data.to_association_id}" class="btn btn-link">${data.to_assoc_name}</a>`;
+                return `<a href="${baseUrl}associations/${data.to_association_id}" class="btn btn-link">${data.to_assoc_name}</a>`;
               }
               return data.to_association_id;
             },

@@ -111,6 +111,6 @@ $(".select2-users").select2({
 });
 
 
-$('.filter').on('keyup paste select2:select', function (params) {
+$('.filter').on('keyup paste select2:select select2:unselect', function (params) {
   table.ajax.reload();
 });

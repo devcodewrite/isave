@@ -177,8 +177,9 @@ var changeStatus = function (el) {
         if (d.status === true) {
           Swal.fire({
             icon: "success",
-            text: d.message,
+            text: `Loan ${status} successfully!`,
           });
+          table.ajax.reload();
         } else {
           Swal.fire({
             icon: "error",
