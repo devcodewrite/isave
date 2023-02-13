@@ -44,7 +44,7 @@
                     <div class="form-group">
                         <label for="community">Community</label>
                         <div>
-                            <input type="text" class="form-control fitler" list="communityOptions" id="community" name="community" placeholder="Enter the community or select one" />
+                            <input type="text" class="form-control filter" list="communityOptions" id="community" name="community" placeholder="Enter the community or select one" />
                             <datalist id="communityOptions">
                                 <?php foreach ($communities as $row) { ?>
                                     <option value="<?= $row->community ?>">
