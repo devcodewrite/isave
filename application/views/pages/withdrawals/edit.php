@@ -109,10 +109,12 @@
                 <div class="d-block text-right card-footer">
                     <?php if (isset($withdrawal)) { ?>
                         <a href="<?= site_url('withdrawals/' . $withdrawal->id) ?>" class="mr-2 btn btn-link btn-sm">Cancel</a>
+                        <button class="btn btn-success btn-lg withdraw">Save Changes</button>
                     <?php } else { ?>
                         <button class="mr-2 btn btn-link btn-sm reset">Cancel</button>
+                        <button class="btn btn-success btn-lg withdraw">Withdraw</button>
                     <?php } ?>
-                    <button class="btn btn-success btn-lg withdraw">Withdraw</button>
+                   
                 </div>
             </div>
             <div class="main-card mb-3 card">
