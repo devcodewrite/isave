@@ -11,6 +11,11 @@ class Transfer_model extends CI_Model
         if (!$record) return;
         $record['user_id'] = auth()->user()->id;
 
+        if($record['from_account_id'] === $record['to_account_id']) {
+            $this->session->set_flashdata('error_message', "You can't transfer to same account!");
+            return false;
+        }
+
         $record['from_member_id'] = $this->account->find($record['from_account_id'])->member_id;
         $record['to_member_id'] = $this->account->find($record['to_account_id'])->member_id;
 
