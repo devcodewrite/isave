@@ -172,7 +172,10 @@ $(function () {
           return data.id;
         },
       },
-      { data: "amount", name: "withdrawals.amount" },
+      { data: "amount", name: "withdrawals.amount", render:function (data,type,row) {
+        
+        return Number.parseFloat(data).toFixed(2);
+      }},
       {
         data: "type",
         name: "withdrawals.type",
@@ -244,7 +247,10 @@ $(function () {
           return data.id;
         },
       },
-      { data: "amount", name: "deposits.amount" },
+      { data: "amount", name: "deposits.amount", render:function (data,type,row) {
+        
+        return Number.parseFloat(data).toFixed(2);
+      } },
       {
         data: "type",
         name: "deposits.type",
@@ -310,6 +316,10 @@ $(function () {
       {
         data: "amount",
         name: "amount",
+        render:function (data,type,row) {
+        
+          return Number.parseFloat(data).toFixed(2);
+        }
       },
       {
         data: null,
