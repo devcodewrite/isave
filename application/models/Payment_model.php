@@ -89,7 +89,7 @@ class Payment_model extends CI_Model
 
     public function sum($where = [], string $select = "principal_amount+interest_amount", $alis="total")
     {
-       return $this->db->select("SUM($select) as $alis")->where($where)->get($this->table);
+       return $this->db->select("SUM($select) as $alis")->from($this->table)->where($where)->get();
     }
 
     public function delete(int $id)
