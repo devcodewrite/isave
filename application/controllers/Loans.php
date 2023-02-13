@@ -29,7 +29,9 @@ class Loans extends MY_Controller
         $loan->loanType = $this->loantype->find($loan->loan_type_id);
         $loan->totalPaid = $this->payment->sum(['loan_id'=>$id])->row('total');
         $loan->totalBalance = $this->loan->sum(['id'=>$id])->row('total')-$loan->totalPaid;
-    
+        $loan->principalBalance = $this->loan->sum(['id'=>$id], 'principal_amount')->row('total')-$this->payment->sum(['loan_id'=>$id], 'principal_amount')->row('total');
+        $loan->interestBalance = $this->loan->sum(['id'=>$id], 'interest_amount')->row('total')-$this->payment->sum(['loan_id'=>$id], 'interest_amount')->row('total');
+        
         $data = [
             'loan' => $loan,
         ];

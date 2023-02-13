@@ -8,7 +8,7 @@
                 <div class="page-title-icon">
                     <i class="pe-7s-medal icon-gradient bg-tempting-azure"></i>
                 </div>
-                <div>Transfer Transactions
+                <div>Deposit Transactions
                     <div class="page-title-subheading">Table of deposits and their details.</div>
                 </div>
             </div>
