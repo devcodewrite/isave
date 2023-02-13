@@ -17,7 +17,7 @@ class Loan_model extends CI_Model
         for ($i = 0; $i < $loan->duration * 4; $i++) {
             if ($loan->LoanType->rate_type === 'flat_rate') {
                 $interestTotal += $this->loan->calcFlatInterest($loan, $i);
-            }else {
+            } else {
                 $interestTotal += $this->loan->calcReduceInterest($loan, $i);
             }
         }
@@ -41,24 +41,26 @@ class Loan_model extends CI_Model
     public function update(int $id, array $record)
     {
         $loan = (object)$record;
-        $loan->LoanType = $this->loantype->find($record['loan_type_id']);
 
-        $interestTotal = 0;
-        for ($i = 0; $i < $loan->duration * 4; $i++) {
-            if ($loan->LoanType->rate_type === 'flat_rate') {
-                $interestTotal += $this->loan->calcFlatInterest($loan, $i);
-            }else {
-                $interestTotal += $this->loan->calcReduceInterest($loan, $i);
+        if (isset($record['loan_type_id'])) {
+            $loan->LoanType = $this->loantype->find($record['loan_type_id']);
+            $interestTotal = 0;
+            for ($i = 0; $i < $loan->duration * 4; $i++) {
+                if ($loan->LoanType->rate_type === 'flat_rate') {
+                    $interestTotal += $this->loan->calcFlatInterest($loan, $i);
+                } else {
+                    $interestTotal += $this->loan->calcReduceInterest($loan, $i);
+                }
             }
+            $record['interest_amount'] = $interestTotal;
         }
-        $record['interest_amount'] = $interestTotal;
 
         $data = $this->extract($record);
-        
+
         $this->db->set($data);
         $this->db->where('id', $id);
         $this->db->update($this->table);
-        
+
         return $this->find($id);
     }
 
