@@ -4,6 +4,7 @@ defined('BASEPATH') or exit('Direct acess is not allowed');
 class Deposit_model extends CI_Model
 {
     protected $table = 'deposits';
+    protected $ftable = 'association_members';
 
     public function create(array $record)
     {
@@ -106,10 +107,12 @@ class Deposit_model extends CI_Model
         "$rtable.acc_number",
         "$rtable3.name as association_name"];
         return 
-            $this->db->select($fields, true)
+            $this->db->distinct() 
+                    ->select($fields, true)
                     ->join($rtable, "$rtable.id={$this->table}.$col", 'left')
                     ->join($rtable2, "$rtable2.id=$rtable.$col2", 'left')
-                    ->join($rtable3, "$rtable3.id=$rtable2.$col3", 'left')
+                    ->join($this->ftable, "{$this->ftable}.$col2=$rtable.$col2")
+                    ->join($rtable3, "$rtable3.id={$this->ftable}.$col3", 'left')
                     ->from($this->table);
     }
 

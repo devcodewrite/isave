@@ -227,13 +227,13 @@ class Bankaccounts extends MY_Controller
         $page = $this->input->get('page', true) ? $this->input->get('page', true) : 1;
         $skip = ($page - 1) * $take;
 
-        $total = $this->account->all()->get()->num_rows();
+        $total = $this->account->passbooks()->get()->num_rows();
 
-        $this->account->all()->select('accounts.passbook as id, accounts.passbook as text', false)
+        $this->account->passbooks()->select('accounts.passbook as id, accounts.passbook as text', false)
             ->like('passbook', $term);
 
         if ($association) {
-            $this->db->where('members.association_id', $association);
+            $this->db->where('association_members.association_id', $association);
         }
         $records =  $this->db->limit($take, $skip)
             ->get()

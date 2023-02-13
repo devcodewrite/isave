@@ -31,7 +31,7 @@
                     <div class="form-group">
                         <label for="username">Cluster office address</label>
                         <div>
-                            <input type="text" class="form-control" id="cluster_office_address" list="clusterOfficeOptions" name="cluster_office_address" placeholder="Enter the address" />
+                            <input type="text" class="form-control filter" id="cluster_office_address" list="clusterOfficeOptions" name="cluster_office_address" placeholder="Enter the address" />
                             <datalist id="clusterOfficeOptions">
                                 <?php foreach ($clusterOfficeAddresses as $row) { ?>
                                     <option value="<?= $row->cluster_office_address ?>">
@@ -44,7 +44,7 @@
                     <div class="form-group">
                         <label for="community">Community</label>
                         <div>
-                            <input type="text" class="form-control" list="communityOptions" id="community" name="community" placeholder="Enter the community or select one" />
+                            <input type="text" class="form-control fitler" list="communityOptions" id="community" name="community" placeholder="Enter the community or select one" />
                             <datalist id="communityOptions">
                                 <?php foreach ($communities as $row) { ?>
                                     <option value="<?= $row->community ?>">
@@ -57,8 +57,8 @@
             <div class="form-row">
                 <div class="col-md-6">
                     <div class="position-relative form-group">
-                        <label for="status">Assigned User</label>
-                        <select name="status" class="form-control" required>
+                        <label for="user_id">Assigned User</label>
+                        <select name="user_id" class="form-control select2-users fitler" required>
                             <option value="">Select a user</option>
                         </select>
                     </div>
@@ -66,7 +66,7 @@
                 <div class="col-md-6">
                     <div class="position-relative form-group">
                         <label for="status">Status</label>
-                        <select name="status" class="form-control" required>
+                        <select id="status" name="status" class="form-control select2 filter" required>
                             <option value="">Select a status</option>
                             <option value="open">Open</option>
                             <option value="closed">Closed</option>
@@ -78,6 +78,28 @@
     </div>
     <div class="main-card mb-3 card">
         <div class="card-body">
+        <div class="d-flex align-items-end row px-3">
+                <div>
+                    <label for="from">From</label>
+                    <div class="form-group">
+                        <input type="date" name="date_from" id="date-from" class="form-control">
+                    </div>
+                </div>
+                <div class="ml-3">
+                    <label for="from">To</label>
+                    <div class="form-group">
+                        <input type="date" name="date_to" id="date-to" class="form-control">
+                    </div>
+                </div>
+                <div class="col-12 col-md-3 form-group">
+                    <button class="btn btn-primary filter">
+                        <i class="fa fa-filter"></i>
+                        Filter</button>
+                    <button class="btn btn-warning ml-2 filter-clear">
+                        <i class="fa fa-times"></i>
+                        Clear</button>
+                </div>
+            </div>
             <table style="width: 100%;" id="dt-associations" class="table table-hover table-striped table-bordered">
                 <thead class="text-uppercase">
                     <tr>
@@ -111,5 +133,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/associations/list.js?v=' . uniqid()) ?>" defer></script>
+<script src="<?= base_url('assets/js/associations/list.js?v=2') ?>" defer></script>
 <?php app_end(); ?>

@@ -27,6 +27,9 @@ class Loans extends MY_Controller
                 ?$this->member->find($loan->account->member_id)
                 :$this->association->find($loan->account->association_id);
         $loan->LoanType = $this->loantype->find($loan->loan_type_id);
+        $loan->totalPaid = $this->payment->sum(['loan_id'=>$id])->row('total');
+        $loan->totalBalance = $this->loan->sum(['id'=>$id])->row('total')-$loan->totalPaid;
+    
         $data = [
             'loan' => $loan,
         ];
@@ -106,6 +109,30 @@ class Loans extends MY_Controller
             $out = [
                 'status' => false,
                 'message' => "Customer loan couldn't be created!"
+            ];
+        }
+        httpResponseJson($out);
+    }
+
+     /**
+     * Store a resource
+     * print json Response
+     */
+    public function repayment()
+    {
+        $record = $this->input->post();
+        $repayment  = $this->payment->create($record);
+        if ($repayment) {
+            $out = [
+                'data' => $repayment,
+                'input' => $this->input->post(),
+                'status' => true,
+                'message' => 'Repayment made successfully!'
+            ];
+        } else {
+            $out = [
+                'status' => false,
+                'message' => "Data couldn't be created!"
             ];
         }
         httpResponseJson($out);

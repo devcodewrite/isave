@@ -12,4 +12,14 @@ class Setting_model extends CI_Model
     {
         # code...
     }
+
+    public function toAvatar($url = null, $model = null)
+    {
+        $avatars = [
+            'male' => base_url('assets/images/man.png'),
+            'female' => base_url('assets/images/woman.png'),
+            'other' => base_url('assets/images/user.png'),
+        ];
+        return $url? $url: $avatars[($model?$model->sex:'other')];
+    }
 }

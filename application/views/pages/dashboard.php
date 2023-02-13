@@ -9,7 +9,7 @@
                     <i class="pe-7s-car icon-gradient bg-mean-fruit"></i>
                 </div>
                 <div>Dashboard
-                    <div class="page-title-subheading">This is an example dashboard created using build-in elements and components.</div>
+                    <div class="page-title-subheading">Here is the overview of your system.</div>
                 </div>
             </div>
             <div class="page-title-actions">
@@ -63,9 +63,6 @@
                 <div class="card-header-title font-size-lg text-capitalize font-weight-normal">
                     <i class="header-icon lnr-charts icon-gradient bg-happy-green"> </i>
                     Portfolio Performance
-                </div>
-                <div class="btn-actions-pane-right text-capitalize">
-                    <button class="btn-wide btn-outline-2x mr-md-2 btn btn-outline-focus btn-sm">View All</button>
                 </div>
             </div>
             <div class="no-gutters row">
@@ -139,7 +136,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-12 col-lg-6">
+            <div class="d-none col-sm-12 col-lg-6">
                 <div class="mb-3 card">
                     <div class="card-header-tab card-header">
                         <div class="card-header-title font-size-lg text-capitalize font-weight-normal">
@@ -289,9 +286,8 @@
                     </div>
                 </div>
             </div>
-         
         </div>
-        <div class="row">
+        <div class="d-none row">
             <div class="col-md-6 col-xl-3">
                 <div class="card mb-3 widget-chart widget-chart2 text-left card-btm-border card-shadow-success border-success">
                     <div class="widget-chat-wrapper-outer">
@@ -400,11 +396,11 @@
                                     <div class="widget-content-outer">
                                         <div class="widget-content-wrapper">
                                             <div class="widget-content-left">
-                                                <div class="widget-heading">Total Orders</div>
-                                                <div class="widget-subheading">Last year expenses</div>
+                                                <div class="widget-heading">Total Members</div>
+                                                <div class="widget-subheading">Since started</div>
                                             </div>
                                             <div class="widget-content-right">
-                                                <div class="widget-numbers text-success">1896</div>
+                                                <div class="widget-numbers text-success"><?=$this->member->all()->count_all_results() ?></div>
                                             </div>
                                         </div>
                                     </div>
@@ -415,45 +411,11 @@
                                     <div class="widget-content-outer">
                                         <div class="widget-content-wrapper">
                                             <div class="widget-content-left">
-                                                <div class="widget-heading">Clients</div>
-                                                <div class="widget-subheading">Total Clients Profit</div>
+                                                <div class="widget-heading">Associations</div>
+                                                <div class="widget-subheading">Total assocations</div>
                                             </div>
                                             <div class="widget-content-right">
-                                                <div class="widget-numbers text-primary">$12.6k</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-md-12 col-lg-4">
-                        <ul class="list-group list-group-flush">
-                            <li class="bg-transparent list-group-item">
-                                <div class="widget-content p-0">
-                                    <div class="widget-content-outer">
-                                        <div class="widget-content-wrapper">
-                                            <div class="widget-content-left">
-                                                <div class="widget-heading">Followers</div>
-                                                <div class="widget-subheading">People Interested</div>
-                                            </div>
-                                            <div class="widget-content-right">
-                                                <div class="widget-numbers text-danger">45,9%</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="bg-transparent list-group-item">
-                                <div class="widget-content p-0">
-                                    <div class="widget-content-outer">
-                                        <div class="widget-content-wrapper">
-                                            <div class="widget-content-left">
-                                                <div class="widget-heading">Products Sold</div>
-                                                <div class="widget-subheading">Total revenue streams</div>
-                                            </div>
-                                            <div class="widget-content-right">
-                                                <div class="widget-numbers text-warning">$3M</div>
+                                                <div class="widget-numbers text-primary"><?=$this->association->all()->count_all_results() ?></div>
                                             </div>
                                         </div>
                                     </div>
@@ -468,11 +430,11 @@
                                     <div class="widget-content-outer">
                                         <div class="widget-content-wrapper">
                                             <div class="widget-content-left">
-                                                <div class="widget-heading">Total Orders</div>
-                                                <div class="widget-subheading">Last year expenses</div>
+                                                <div class="widget-heading">Accounts</div>
+                                                <div class="widget-subheading">Avaliable accounts</div>
                                             </div>
                                             <div class="widget-content-right">
-                                                <div class="widget-numbers text-success">1896</div>
+                                                <div class="widget-numbers text-danger"><?=$this->account->all()->count_all_results() ?></div>
                                             </div>
                                         </div>
                                     </div>
@@ -483,11 +445,45 @@
                                     <div class="widget-content-outer">
                                         <div class="widget-content-wrapper">
                                             <div class="widget-content-left">
-                                                <div class="widget-heading">Clients</div>
-                                                <div class="widget-subheading">Total Clients Profit</div>
+                                                <div class="widget-heading">Loan Types</div>
+                                                <div class="widget-subheading">Avaliable loan types</div>
                                             </div>
                                             <div class="widget-content-right">
-                                                <div class="widget-numbers text-primary">$12.6k</div>
+                                                <div class="widget-numbers text-warning"><?=$this->loantype->all()->count_all_results() ?></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-12 col-lg-4">
+                        <ul class="list-group list-group-flush">
+                            <li class="bg-transparent list-group-item">
+                                <div class="widget-content p-0">
+                                    <div class="widget-content-outer">
+                                        <div class="widget-content-wrapper">
+                                            <div class="widget-content-left">
+                                                <div class="widget-heading">Account Types</div>
+                                                <div class="widget-subheading">Avaliable account types</div>
+                                            </div>
+                                            <div class="widget-content-right">
+                                                <div class="widget-numbers text-success"><?=$this->acctype->all()->count_all_results() ?></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="bg-transparent list-group-item">
+                                <div class="widget-content p-0">
+                                    <div class="widget-content-outer">
+                                        <div class="widget-content-wrapper">
+                                            <div class="widget-content-left">
+                                                <div class="widget-heading">Users</div>
+                                                <div class="widget-subheading">Total user accounts</div>
+                                            </div>
+                                            <div class="widget-content-right">
+                                                <div class="widget-numbers text-primary"><?=$this->user->all()->count_all_results() ?></div>
                                             </div>
                                         </div>
                                     </div>

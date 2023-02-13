@@ -58,55 +58,52 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-10">
             <div class="main-card mb-3 card">
                 <div class="card-header">
-                    <i class="header-icon lnr-user icon-gradient bg-plum-plate"> </i>Withdrawal Reciept
+                    <i class="header-icon lnr-user icon-gradient bg-plum-plate"> </i>Withdrawal
                 </div>
-                <div class="card-body px-5">
-                    <div style="width: 100%" class="withdrawal-slip">
-                        <div class="px-3 border border-primary m-5">
-                            <div class="row">
-                                <div class="text-center col-12">
-                                    <img height="50" src="<?= $this->setting->get('org_logo_url', base_url('assets/images/logo.png')) ?>" alt="">
-                                    <h5 class="text-center col-12">
-                                        <span><?= $this->setting->get('org_name', 'iSave') ?></span><br>
-                                        <span><?= $this->setting->get('org_address', 'Atonsu, Kumasi') ?></span>
-                                    </h5>
-                                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 px-5">
+                            <div class="row text-uppercase text-center border-bottom">
+                                <p class="col-12 text-black-50">Transaction ID</p>
+                                <h4 class="col-12 text-primary"><?= $withdrawal->id; ?></h4>
                             </div>
-                            <div class="row text-uppercase mt-1 border-bottom">
-                                <p class="col-12 text-black text-right"> Date: </p>
+                            <div class="row text-uppercase mt-3 border-bottom">
+                                <p class="col-6 text-black-50">PassBook No.</p>
+                                <h4 class="col-6 input-placeholder text-info"><?= $withdrawal->account->passbook ?></h4>
                             </div>
-                            <div class="row text-uppercase mt-1 border-bottom">
-                                <p class="col-4 text-black-50">Transac. ID:</p>
-                                <p class="col-8 input-placeholder text-black">xxxx xxx xxxx</p>
+                            <div class="row text-uppercase mt-3 border-bottom">
+                                <p class="col-6 text-black-50">Account Name</p>
+                                <p class="col-6 input-placeholder text-primary"><?= $withdrawal->account->name ?></p>
                             </div>
-                            <div class="row text-uppercase mt-1 border-bottom">
-                                <p class="col-4 text-black-50">Acc. NO.:</p>
-                                <p class="col-8 input-placeholder text-black">xxxx xxx xxxx</p>
+                            <div class="row text-uppercase mt-3 border-bottom">
+                                <p class="col-6 text-black-50">Withdrawn Amount</p>
+                                <h4 class="col-6 input-placeholder text-success">GHS <?= number_format($withdrawal->amount,2) ?></h4>
                             </div>
-                            <div class="row text-uppercase mt-1 border-bottom">
-                                <p class="col-4 text-black-50">Acc. Name:</p>
-                                <p class="col-8 input-placeholder text-black h-5 bg-light"></p>
+                        </div>
+                        <div class="col-md-6 px-5">
+                            <div class="row m-5">
                             </div>
-                            <div class="row text-uppercase mt-1 border-bottom">
-                                <p class="col-4 text-black-50">Amount</p>
-                                <p class="col-8 input-placeholder text-black h-5 bg-light"></p>
+                            <div class="row text-uppercase mt-3 border-bottom">
+                                <p class="col-6 text-black-50">Date</p>
+                                <p class="col-6 input-placeholder text-blaick">
+                                    <?= date('d/m/y', strtotime($withdrawal->wdate)) ?>
+                                </p>
                             </div>
-                            <div class="row text-uppercase mt-1 border-bottom">
-                                <p class="col-4 text-black-50">By:</p>
-                                <p class="col-8 input-placeholder text-black  h-5 bg-light"></p>
-                            </div>
-                            <div class="d-flex mt-3">
-                                <p class="text-black-50 mr-3">Note:</p>
-                                <p class=" text-black fs-sm">Example note on withdrawal receipt</p>
+                            <div class="row text-uppercase mt-3 border-bottom">
+                                <p class="col-6 text-black-50">Added by</p>
+                                <p class="col-6 input-placeholder text-blaick">
+                                    <?php $user = $this->user->find($withdrawal->account->user_id) ?>
+                                    <?= "$user->firstname $user->lastname" ?>
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="d-block text-right card-footer">
-                    <button class="btn btn-primary btn-lg print">Print</button>
+                    <a href="<?=site_url('withdrawals/'.$withdrawal->id.'/edit') ?>" class="btn btn-info btn-lg">Modify</a>
                     <button class="btn btn-danger btn-lg">Delete</button>
                 </div>
             </div>

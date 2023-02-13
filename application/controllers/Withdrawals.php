@@ -18,9 +18,11 @@ class Withdrawals extends MY_Controller
      */
     public function view(int $id = null)
     {
-
+        $withdrawal = $this->withdrawal->find($id);
+        $withdrawal->account = $this->account->find($withdrawal->account_id);
+        if(!$withdrawal) show_404();
         $data = [
-            'withdrawal' =>null,
+            'withdrawal' =>$withdrawal,
         ];
         $this->load->view('pages/withdrawals/detail', $data);
     }
@@ -39,9 +41,12 @@ class Withdrawals extends MY_Controller
      * html view
      */
     public function edit(int $id = null)
-    {
+    { 
+        $withdrawal = $this->withdrawal->find($id);
+
+        if(!$withdrawal) show_404();
         $data = [
-            'withdrawal' => null,
+            'withdrawal' =>$withdrawal,
         ];
         $this->load->view('pages/withdrawals/edit', $data);
     }
@@ -52,10 +57,13 @@ class Withdrawals extends MY_Controller
      */
     public function store ()
     {
-       $withdrawal  = null;
+        $record = $this->input->post();
+        $withdrawal  = $this->withdrawal->create($record);
+
        if($withdrawal){
            $out = [
                'data' => $withdrawal,
+               'input' => $record,
                'status' => true,
                'message' => 'Withdrawal created successfully!'
            ];
@@ -75,10 +83,13 @@ class Withdrawals extends MY_Controller
      */
     public function update (int $id = null)
     {
-     
-        $withdrawal = null;
+        $record = $this->input->post();
+        $withdrawal  = $this->withdrawal->update($id, $record);
+
         if($withdrawal){
             $out = [
+                'data' => $withdrawal,
+                'input' => $record,
                 'status' => true,
                 'message' => 'Withdrawal data updated successfully!'
             ];

@@ -1,30 +1,24 @@
-let form = $(".editCustomerForm");
+let form = $(".editAssociationForm");
 
 form.validate({
   rules: {
-    title: "required",
-    firstname: "required",
-    lastname: "required",
-    sex: "required",
-    marital_status: "required",
-    primary_phone: {required:!0, min:10, digits:true},
-    address: "required",
-    city: "required",
+    name: "required",
+    community: "required",
+    cluster_office_address: "required",
+    assigned_person_name: "required",
+    assigned_person_phone: {required:!0, min:10, digits:true},
     email: { email: !0 },
   },
   messages: {
-    title: "Please choose a title",
-    firstname: "Please enter the firstname",
-    lastname: "Please enter the lastname",
-    sex: "Please select a sex",
-    marital_status: "Please choose a martial status",
-    primary_phone: {
-      required:"Please enter the primary phone number",
+    name: "Please enter the name",
+    community: "Please enter the community",
+    cluster_office_address: "Please enter the cluster office address",
+    assigned_person_name: "Please enter the officer's name",
+    assigned_person_phone: {
+      required:"Please enter the phone number",
       min:"Phone number should be at least 10 digits",
       digits: "Phone number require only digits"
     },
-    address: "Please enter an address",
-    city: "Please enter the city",
     email: "Please enter a valid email address",
   },
   errorElement: "em",
@@ -59,18 +53,18 @@ $('.select2-id-card-types,.select2-account-types').select2({
   selectionCssClass: 'form-select2'
 });
 
-$('.select2-associations').select2({
+$('.select2-users').select2({
   ajax: {
-    url: "/api/select2/associations",
+    url: `${baseUrl}users/select2`,
         dataType: "json",
         data: function (params) {
-            params.api_token = $('meta[name="api-token"]').attr("content");
             return params;
         },
   },
   allowClear: true,
-  placeholder: "Select an association",
+  placeholder: "Select a user",
   selectionCssClass: 'form-select2',
+  templateResult: formatPeopleResult,
 });
 
 form.on("submit", function (e) {

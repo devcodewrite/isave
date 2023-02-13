@@ -4,6 +4,7 @@ defined('BASEPATH') or exit('Direct acess is not allowed');
 class Account_model extends CI_Model
 {
     protected $table = 'accounts';
+    protected $ftable = 'association_members';
 
     public function create(array $record)
     {
@@ -44,7 +45,7 @@ class Account_model extends CI_Model
         $this->db->set($data);
         $this->db->where('id', $id);
         $this->db->update($this->table);
-        return $this->db->affected_rows() > 0;
+        return $this->find($id);
     }
 
     /**
@@ -73,7 +74,12 @@ class Account_model extends CI_Model
             'id' => $id,
             "{$this->table}.deleted_at =" => null
         ];
-        return $this->db->get_where($this->table, $where)->row();
+        $result = $this->db->get_where($this->table, $where)->row();
+
+        if($result){
+            $result->assocation = $this->association($result->id);
+        }
+        return $result;
     }
 
     /**
@@ -121,11 +127,28 @@ class Account_model extends CI_Model
         ];
 
         return
-            $this->db->select($fields, true)
+            $this->db
+            ->select($fields, true)
             ->from($this->table)
             ->join($rtable, "$rtable.id={$this->table}.$col", 'left')
             ->join($rtable2, "$rtable2.id={$this->table}.$col2", 'left')
             ->join($rtable3, "$rtable3.id={$this->table}.$col3", 'left')
+            ->join($this->ftable, "{$this->ftable}.$col={$this->table}.$col")
+            ->group_by([
+                "{$this->table}.id",
+                "{$this->table}.name",
+                "{$this->table}.ownership",
+                "{$this->table}.passbook",
+                "{$this->table}.status",
+                "{$this->table}.acc_type_id",
+                "{$this->table}.member_id",
+                "{$this->table}.association_id",
+                "{$this->table}.acc_number",
+                "{$this->table}.stamp_amount",
+                "$rtable2.name",
+                "$rtable3.label",
+                "{$this->table}.created_at",
+            ])
             ->where($where);
     }
 
@@ -159,6 +182,7 @@ class Account_model extends CI_Model
             ->from($this->table)
             ->join($rtable, "$rtable.id={$this->table}.$col", 'left')
             ->join($rtable2, "$rtable2.id={$this->table}.$col2", 'left')
+            ->join($this->ftable, "{$this->ftable}.$col={$this->table}.$col")
             ->group_by( $fields = [
                 "{$this->table}.passbook",
                 "{$this->table}.ownership",
@@ -178,11 +202,14 @@ class Account_model extends CI_Model
     {
         $rtable = 'associations';
         $col = 'association_id';
+        $col2 = 'member_id';
 
-        return $this->db->select("$rtable.*")
+        return $this->db->distinct()
+            ->select("$rtable.*")
             ->from($rtable)
-            ->join($this->table, "{$this->table}.$col=$rtable.id")
-            ->where([$col => $id])
+            ->join($this->ftable, "{$this->ftable}.$col=$rtable.id")
+            ->join($this->table, "{$this->table}.$col2={$this->ftable}.$col2")
+            ->where(["{$this->table}.id" => $id])
             ->where("$rtable.deleted_at =", null)
             ->get()
             ->row();
@@ -239,7 +266,7 @@ class Account_model extends CI_Model
         $qselect_sum_deposits = "SELECT SUM(deposits.amount) FROM deposits WHERE deposits.account_id={$this->table}.id";
         $qselect_sum_withdrawals = "SELECT SUM(withdrawals.amount) FROM withdrawals  WHERE withdrawals.account_id={$this->table}.id";
 
-        $query = $this->db->select("ifnull(($qselect_sum_deposits) - ($qselect_sum_withdrawals), 0) as total")
+        $query = $this->db->select("ifnull(($qselect_sum_deposits),0) - ifnull(($qselect_sum_withdrawals),0) as total")
                     ->from($this->table)
                     ->where("{$this->table}.deleted_at =", null)
                     ->where("{$this->table}.id", $id)

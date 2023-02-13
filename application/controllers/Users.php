@@ -124,4 +124,48 @@ class Users extends MY_Controller
         }
         httpResponseJson($out);
     }
+
+    public function datatables()
+    {
+        $start = $this->input->get('start', true);
+        $length = $this->input->get('length', true);
+        $draw = $this->input->get('draw', true);
+        $inputs = $this->input->get();
+
+        $out = datatable($this->user->all(),$start, $length, $draw, $inputs);
+        $out = array_merge($out, [
+            'input' => $this->input->get(),
+        ]);
+        httpResponseJson($out);
+    }
+
+    public function select2()
+    {
+        $term = trim($this->input->get('term'));
+        $take = 10;
+        $page = $this->input->get('page', true)?$this->input->get('page', true):1;
+        $skip = ($page - 1 )*$take;
+
+        $total = $this->user->all()->get()->num_rows();
+        
+        $records = $this->user->all()->select('id, concat(firstname," ",ifnull(lastname,""))as text')
+                    ->like('firstname', $term)
+                    ->or_like('lastname', $term)
+                    ->or_like('username', $term)
+                    ->limit($take, $skip)
+                    ->get()
+                    ->result();
+
+        $out = [
+            'results' => $records,
+            'pagination' => [
+               'more' => ($skip + $take < $total),
+               'page' => intval($page),
+               'totalRows' => $total,
+               'totalPages' => intval($total/$take + ($total%$take > 0?1:0))
+            ]
+        ];
+
+        return httpResponseJson($out);
+    }
 }

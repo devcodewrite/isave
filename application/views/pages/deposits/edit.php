@@ -59,7 +59,13 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="ddate">Date</label>
+                                    <input type="ddate" name="ddate" id="ddate" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="amount">Amount</label>
                                     <input type="text" name="amount" id="amount" class="form-control" placeholder="Enter the amount" required>

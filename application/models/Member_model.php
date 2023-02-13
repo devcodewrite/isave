@@ -4,6 +4,7 @@ defined('BASEPATH') or exit('Direct acess is not allowed');
 class Member_model extends CI_Model
 {
     protected $table = 'members';
+    protected $ftable = 'association_members';
 
     public function create(array $record)
     {
@@ -11,8 +12,18 @@ class Member_model extends CI_Model
         $record['user_id'] = auth()->user()->id;
         $data = $this->extract($record);
 
+        if(!isset($record['associations'])){
+            $this->session->set_flashdata('error', 'Select at least one association');
+            return false;
+        }
+
         if ($this->db->insert($this->table, $data)) {
             $id = $this->db->insert_id();
+
+            foreach($record['associations'] as $assoc){
+                $this->association->addMember($assoc, $id);
+            }
+           
             $member = $this->find($id);
             $this->uploadPhoto($id);
             $this->uploadPhoto($id,'card','identity_card_url',true,'100%',['w'=>null,'h' => null]);
@@ -30,13 +41,15 @@ class Member_model extends CI_Model
      * @param $id
      * @return Boolean
      */
-    public function update(int $id, array $data)
+    public function update(int $id, array $record)
     {
-        $data = $this->extract($data);
+        if (!$record) return;
+
+        $data = $this->extract($record);
         $this->db->set($data);
         $this->db->where('id', $id);
         $this->db->update($this->table);
-        return $this->db->affected_rows() > 0;
+        return $this->find($id);
     }
 
     /**
@@ -149,7 +162,8 @@ class Member_model extends CI_Model
         return
             $this->db->select($fields, true)
             ->from($this->table)
-            ->join($rtable, "$rtable.id={$this->table}.$col", 'left')
+            ->join($this->ftable, "{$this->ftable}.member_id={$this->table}.id")
+            ->join($rtable, "$rtable.id={$this->ftable}.$col", 'left')
             ->where($where);
     }
 

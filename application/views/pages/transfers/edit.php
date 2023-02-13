@@ -31,7 +31,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="association_id">From association</label>
-                            <select id="from-association" name="to_association_id" class="form-control select2-associations" required>
+                            <select id="from-association" name="from_association_id" class="form-control select2-associations" required>
                                 <option value=""></option>
                             </select>
                         </div>
@@ -54,8 +54,13 @@
                             </select>
                         </div>
                     </div>
-
-                    <div class="col-md-12">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="tdate">Date</label>
+                            <input type="date" name="tdate" id="tdate" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
                         <div class="form-group">
                             <label for="amount">Amount</label>
                             <input type="text" name="amount" id="amount" class="form-control" placeholder="Enter the amount" required>
@@ -108,5 +113,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= site_url('assets/js/transfers/edit.js?v=2') ?>" defer></script>
+<script src="<?= site_url('assets/js/transfers/edit.js?v=5') ?>" defer></script>
 <?php app_end(); ?>

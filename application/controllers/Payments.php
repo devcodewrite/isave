@@ -51,22 +51,22 @@ class Payments extends MY_Controller
      */
     public function store ()
     {
-        # code...
-       $payment  = null; // replace created record object
-       if($payment){
-           $out = [
-               'data' => $payment,
-               'status' => true,
-               'message' => 'Customer loan payment created successfully!'
-           ];
-       }
-       else {
-           $out = [
-               'status' => false,
-               'message' => "Customer loan payment couldn't be created!"
-           ];
-       }
-       httpResponseJson($out);
+        $record = $this->input->post();
+        $repayment  = $this->payment->create($record);
+        if ($repayment) {
+            $out = [
+                'data' => $repayment,
+                'input' => $record,
+                'status' => true,
+                'message' => 'Repayment made successfully!'
+            ];
+        } else {
+            $out = [
+                'status' => false,
+                'message' => "Data couldn't be created!"
+            ];
+        }
+        httpResponseJson($out);
     }
 
     /**
@@ -75,9 +75,12 @@ class Payments extends MY_Controller
      */
     public function update (int $id = null)
     {
-        $loan_payment = null; // replace created record object
+        $record = $this->input->post();
+        $loan_payment  = $this->payment->update($id, $record);
         if($loan_payment){
             $out = [
+                'data' => $loan_payment,
+                'input' => $record,
                 'status' => true,
                 'message' => 'Loan payment data updated successfully!'
             ];
@@ -97,8 +100,7 @@ class Payments extends MY_Controller
      */
     public function delete (int $id = null)
     {
-        $loan_payment = null; // replace created record object
-        if($loan_payment){
+        if($this->payment->delete($id)){
             $out = [
                 'status' => true,
                 'message' => 'Loan payment data updated successfully!'
@@ -112,23 +114,23 @@ class Payments extends MY_Controller
         }
         httpResponseJson($out);
     }
-    public function insert ()
+   
+    public function datatables()
     {
-        $data = array();
-        $table="loan_payments";
-        $loan  = $this->common->insert_data($table,$data); // replace created record object
-        if($loan){
-            $out = [
-                'status' => true,
-                'message' => 'Loan payment data created successfully!'
-            ];
+        $start = $this->input->get('start', true);
+        $length = $this->input->get('length', true);
+        $draw = $this->input->get('draw', true);
+        $inputs = $this->input->get();
+        $query = $this->payment->all();
+
+        if($this->input->get('loan_id')){
+            $query->where(['loan_id' => $inputs['loan_id']]);
         }
-        else {
-            $out = [
-                'status' => false,
-                'message' => "Loan payment data couldn't be created!"
-            ];
-        }
+        
+        $out = datatable($query, $start, $length, $draw, $inputs);
+        $out = array_merge($out, [
+            'input' => $this->input->get(),
+        ]);
         httpResponseJson($out);
     }
 }

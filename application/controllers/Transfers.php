@@ -12,19 +12,27 @@ class Transfers extends MY_Controller
         $this->load->view('pages/transfers/list');
     }
 
-     /**
+    /**
      * Show a resource
      * html view
      */
     public function view(int $id = null)
     {
+        $transfer = $this->transfer->find($id);
+        if (!$transfer) show_404();
+
+        $transfer->fromAccount = $this->account->find($transfer->from_account_id);
+        $transfer->toAccount = $this->account->find($transfer->to_account_id);
+        $transfer->fromAssociation = $this->association->find($transfer->from_association_id);
+        $transfer->toAssociation = $this->association->find($transfer->to_association_id);
+
         $data = [
-            'transfer' => null, //This is an example replace with actual model
+            'transfer' => $transfer,
         ];
         $this->load->view('pages/transfers/detail', $data);
     }
 
-     /**
+    /**
      * Show a form page for creating resource
      * html view
      */
@@ -33,14 +41,16 @@ class Transfers extends MY_Controller
         $this->load->view('pages/transfers/edit');
     }
 
-     /**
+    /**
      * Show a form page for updating resource
      * html view
      */
     public function edit(int $id = null)
     {
+        $transfer = $this->transfer->find($id);
+        if (!$transfer) show_404();
         $data = [
-            'transfer' => null, //This is an example replace with actual model
+            'transfer' => $transfer,
         ];
         $this->load->view('pages/transfers/edit', $data);
     }
@@ -49,39 +59,44 @@ class Transfers extends MY_Controller
      * Store a resource
      * print json Response
      */
-    public function store ()
+    public function store()
     {
-       $transfer  = null; // replace created record object
-       if($transfer){
-           $out = [
-               'data' => $transfer,
-               'status' => true,
-               'message' => 'Transfer created successfully!'
-           ];
-       }
-       else {
-           $out = [
-               'status' => false,
-               'message' => "Transfer couldn't be created!"
-           ];
-       }
-       httpResponseJson($out);
+        $record = $this->input->post();
+        $transfer  = $this->transfer->create($record);
+
+        if ($transfer) {
+            $out = [
+                'data' => $transfer,
+                'input' => $record,
+                'status' => true,
+                'message' => 'Transfer created successfully!'
+            ];
+        } else {
+            $out = [
+                'status' => false,
+                'message' => "Transfer couldn't be created!"
+            ];
+        }
+        httpResponseJson($out);
     }
 
     /**
      * Update a resource
      * print json Response
      */
-    public function update (int $id = null)
+    public function update(int $id = null)
     {
-        $transfer = null; // replace created record object
-        if($transfer){
+        $record = $this->input->post();
+        $transfer  = $this->transfer->update($id, $record);
+
+        if ($transfer) {
             $out = [
+                'data' => $transfer,
+                'input' => $record,
                 'status' => true,
                 'message' => 'Transfer data updated successfully!'
             ];
-        }
-        else {
+        } else {
             $out = [
                 'status' => false,
                 'message' => "Transfer data couldn't be update!"
@@ -94,16 +109,15 @@ class Transfers extends MY_Controller
      * Delete a resource
      * print json Response
      */
-    public function delete (int $id = null)
+    public function delete(int $id = null)
     {
-        $transfer =null; // replace created record object
-        if($transfer){
+        $transfer = null; // replace created record object
+        if ($transfer) {
             $out = [
                 'status' => true,
                 'message' => 'Transfer data deleted successfully!'
             ];
-        }
-        else {
+        } else {
             $out = [
                 'status' => false,
                 'message' => "Transfer data couldn't be deleted!"
@@ -111,7 +125,7 @@ class Transfers extends MY_Controller
         }
         httpResponseJson($out);
     }
-   
+
     public function datatables()
     {
         $start = $this->input->get('start', true);

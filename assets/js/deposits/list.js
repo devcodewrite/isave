@@ -6,6 +6,11 @@ $(function () {
       url: baseUrl + "deposits/datatables",
       dataType: "json",
       contentType: "application/json",
+      data: function (params) {
+        params.date_range_column = "ddate";
+        params.date_from = $("#date-from").val();
+        params.date_to = $("#date-to").val();
+      },
     },
     serverSide: true,
     search: false,
@@ -36,7 +41,7 @@ $(function () {
         name: "accounts.acc_number",
         render: function (data, type, row) {
           if (type === "display") {
-            return `<a href="${data.account_id}" class="btn btn-link">${data.acc_name} (${data.acc_number})</a>`;
+            return `<a href="${baseUrl}bankaccounts/${data.account_id}" class="btn btn-link">${data.acc_name} (${data.acc_number})</a>`;
           }
           return data.acc_number;
         },
@@ -51,7 +56,9 @@ $(function () {
       },
       { data: "depositor_name", name: "depositor_name" },
       { data: "depositor_phone", name: "depositor_phone" },
-      { data: "created_at", name: "deposits.created_at" },
+      { data: "ddate", name: "ddate", render: function (data, type, row) {
+        return (new Date(data)).toDateString();
+      } },
     ],
     // order: [[7, "desc"]],
     columnDefs: [
@@ -60,5 +67,13 @@ $(function () {
         //targets: [4],
       },
     ],
+  });
+  $(".filter").on("click", function (params) {
+    table.ajax.reload();
+  });
+
+  $(".filter-clear").on("click", function (params) {
+    $("#date-from,#date-to").val("");
+    table.ajax.reload();
   });
 });

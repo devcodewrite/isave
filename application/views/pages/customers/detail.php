@@ -61,7 +61,7 @@
                     </div>
                     <div class="row text-uppercase mt-2 border-bottom">
                         <p class="col-6 text-black-50">Full Name</p>
-                        <p class="col-6 input-placeholder text-black"><?= `$member->firstname $member->othername $member->lastname` ?></p>
+                        <p class="col-6 input-placeholder text-black"><?=$member->firstname ?> <?= $member->othername ?> <?= $member->lastname ?> <?=$member->common_name?"(a.k.a $member->common_name)":'' ?></p>
                     </div>
                     <div class="row text-uppercase mt-2 border-bottom">
                         <p class="col-6 text-black-50">Sex</p>
@@ -98,7 +98,7 @@
                     </div>
                 </div>
                 <div class="d-block text-right card-footer">
-                    <button class="btn btn-info btn-lg">Modify</button>
+                    <a href="<?=site_url('customers/'.$member->id.'/edit') ?>" class="btn btn-info btn-lg">Modify</a>
                     <button class="btn btn-warning btn-lg">Close</button>
                 </div>
             </div>

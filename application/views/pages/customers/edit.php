@@ -32,12 +32,7 @@
                 <div class="main-card mb-3 card">
                     <div class="card-body">
                         <div id="smartwizard">
-                            <?php if (isset($customer)) { ?>
-                                <input type="hidden" name="_method" value="put">
-                                <input type="hidden" name="id" value="<?= $customer->id ?>">
-                            <?php } else { ?>
-                                <input type="hidden" name="_method" value="post">
-                            <?php } ?>
+                          
                             <ul class="forms-wizard">
                                 <li>
                                     <a class="form-step" href="#step-1">
@@ -55,34 +50,40 @@
                                     </a>
                                 </li>
                             </ul>
-                            <form class="form-wizard-content" action="<?= site_url('customers/store') ?>" data-redirect-url="<?= site_url('customers') ?>">
-                                <div id="step-1">
+                            <form class="form-wizard-content" action="<?= isset($member) ? site_url('customers/update/' . $member->id) : site_url('customers/store') ?>" data-redirect-url="<?= site_url('customers') ?>">
+                            <?php if (isset($member)) { ?>
+                                <input type="hidden" name="_method" value="put">
+                                <input type="hidden" name="id" value="<?= $member->id ?>">
+                            <?php } else { ?>
+                                <input type="hidden" name="_method" value="post">
+                            <?php } ?>
+                            <div id="step-1">
                                     <div class="form-row">
                                         <div class="col-md-2">
                                             <div class="position-relative form-group">
                                                 <label for="title">Title</label>
                                                 <select name="title" class="form-control">
                                                     <option value="">Select a title</option>
-                                                    <option value="Mr.">Mr.</option>
-                                                    <option value="Miss">Miss</option>
-                                                    <option value="Master">Master</option>
-                                                    <option value="Mrs.">Mrs.</option>
-                                                    <option value="Dr.">Dr.</option>
-                                                    <option value="Prof.">Prof.</option>
+                                                    <option value="Mr." <?= isset($member) ? ($member->title === 'Mr.' ? 'selected' : '') : '' ?>>Mr.</option>
+                                                    <option value="Miss" <?= isset($member) ? ($member->title === 'Miss' ? 'selected' : '') : '' ?>>Miss</option>
+                                                    <option value="Master" <?= isset($member) ? ($member->title === 'Master' ? 'selected' : '') : '' ?>>Master</option>
+                                                    <option value="Mrs." <?= isset($member) ? ($member->title === 'Mrs.' ? 'selected' : '') : '' ?>>Mrs.</option>
+                                                    <option value="Dr." <?= isset($member) ? ($member->title === 'Dr.' ? 'selected' : '') : '' ?>>Dr.</option>
+                                                    <option value="Prof." <?= isset($member) ? ($member->title === 'Prof.' ? 'selected' : '') : '' ?>>Prof.</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="position-relative form-group">
                                                 <label for="firstname">First name</label>
-                                                <input name="firstname" id="firstname" placeholder="Enter the first name" type="text" class="form-control">
+                                                <input name="firstname" id="firstname" placeholder="Enter the first name" value="<?= isset($member) ? $member->firstname : "" ?>" type="text" class="form-control">
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="position-relative form-group">
                                                 <label for="lastname">Last name</label>
-                                                <input name="lastname" id="lastname" placeholder="Enter the last name" type="text" class="form-control">
+                                                <input name="lastname" id="lastname" placeholder="Enter the last name" value="<?= isset($member) ? $member->lastname : "" ?>" type="text" class="form-control">
                                             </div>
                                         </div>
 
@@ -91,13 +92,13 @@
                                         <div class="col-md-6">
                                             <div class="position-relative form-group">
                                                 <label for="othername">Other name</label>
-                                                <input name="othername" id="othername" placeholder="Enter the other name" type="text" class="form-control">
+                                                <input name="othername" id="othername" placeholder="Enter the other name" value="<?= isset($member) ? $member->othername : "" ?>" type="text" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="position-relative form-group">
                                                 <label for="common_name">Common name</label>
-                                                <input name="common_name" id="common_name" placeholder="Enter the common name" type="text" class="form-control">
+                                                <input name="common_name" id="common_name" placeholder="Enter the common name" value="<?= isset($member) ? $member->common_name : "" ?>" type="text" class="form-control">
                                             </div>
                                         </div>
                                     </div>
@@ -107,9 +108,9 @@
                                                 <label for="sex">Sex</label>
                                                 <select name="sex" class="form-control select2-sex" required>
                                                     <option value="">Select a sex</option>
-                                                    <option value="male">Male</option>
-                                                    <option value="female">Female</option>
-                                                    <option value="other">Other</option>
+                                                    <option value="male" <?= isset($member) ? ($member->sex === 'male' ? 'selected' : '') : '' ?>>Male</option>
+                                                    <option value="female" <?= isset($member) ? ($member->sex === 'female' ? 'selected' : '') : '' ?>>Female</option>
+                                                    <option value="other" <?= isset($member) ? ($member->sex === 'other' ? 'selected' : '') : '' ?>>Other</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -118,10 +119,10 @@
                                                 <label for="marital_status">Marital status</label>
                                                 <select name="marital_status" class="form-control select2-marital-status" required>
                                                     <option value="">Select a status</option>
-                                                    <option value="single">Single</option>
-                                                    <option value="married">Married</option>
-                                                    <option value="divorced">Divorced</option>
-                                                    <option value="widowed">Widowed</option>
+                                                    <option value="single" <?= isset($member) ? ($member->marital_status === 'single' ? 'selected' : '') : '' ?>>Single</option>
+                                                    <option value="married" <?= isset($member) ? ($member->marital_status === 'married' ? 'selected' : '') : '' ?>>Married</option>
+                                                    <option value="divorced" <?= isset($member) ? ($member->marital_status === 'divorced' ? 'selected' : '') : '' ?>>Divorced</option>
+                                                    <option value="widowed" <?= isset($member) ? ($member->marital_status === 'widowed' ? 'selected' : '') : '' ?>>Widowed</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -130,11 +131,11 @@
                                                 <label for="education">Education level</label>
                                                 <select name="education" class="form-control select2-educations" required>
                                                     <option value="">Select an education level</option>
-                                                    <option value="none">None</option>
-                                                    <option value="primary">Primary School</option>
-                                                    <option value="jhs">Junior High School (JHS)</option>
-                                                    <option value="shs">Senior High School (SHS)</option>
-                                                    <option value="tertiary">Tertiary Education</option>
+                                                    <option value="none" <?= isset($member) ? ($member->education === 'primary' ? 'selected' : '') : '' ?>>None</option>
+                                                    <option value="primary" <?= isset($member) ? ($member->education === 'primary' ? 'selected' : '') : '' ?>>Primary School</option>
+                                                    <option value="jhs" <?= isset($member) ? ($member->education === 'jhs' ? 'selected' : '') : '' ?>>Junior High School (JHS)</option>
+                                                    <option value="shs" <?= isset($member) ? ($member->education === 'shs' ? 'selected' : '') : '' ?>>Senior High School (SHS)</option>
+                                                    <option value="tertiary" <?= isset($member) ? ($member->education === 'tertiary' ? 'selected' : '') : '' ?>>Tertiary Education</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -143,19 +144,19 @@
                                         <div class="col-md-6">
                                             <div class="position-relative form-group">
                                                 <label for="primary_phone">Primary Phone</label>
-                                                <input name="primary_phone" placeholder="Ether the phone number" type="tel" class="form-control">
+                                                <input name="primary_phone" placeholder="Ether the phone number" value="<?= isset($member) ? $member->primary_phone : "" ?>" type="tel" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="position-relative form-group">
                                                 <label for="other_phone">Other Phone</label>
-                                                <input name="other_phone" placeholder="Ether the phone number" type="tel" class="form-control">
+                                                <input name="other_phone" placeholder="Ether the phone number" value="<?= isset($member) ? $member->other_phone : "" ?>" type="tel" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="position-relative form-group">
                                                 <label for="dateofbirth">Date of birth</label>
-                                                <input name="dateofbirth" placeholder="Date of birth" type="date" class="form-control">
+                                                <input name="dateofbirth" placeholder="Date of birth" value="<?= isset($member) ? $member->dateofbirth : "" ?>" type="date" class="form-control">
                                             </div>
                                         </div>
                                     </div>
@@ -164,7 +165,7 @@
                                         <div class="col-md-3">
                                             <div class="position-relative form-group">
                                                 <label for="city">Location/Town/City</label>
-                                                <input name="city" id="city" type="text" class="form-control" placeholder="Enter a location/town/city">
+                                                <input name="city" id="city" type="text" class="form-control" value="<?= isset($member) ? $member->city : "" ?>" placeholder="Enter a location/town/city">
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -172,15 +173,15 @@
                                                 <label for="settlement">Settlement</label>
                                                 <select name="settlement" class="form-control" required>
                                                     <option value="">Select a settlement</option>
-                                                    <option value="rural">Rural Area</option>
-                                                    <option value="urban">Urban Area</option>
+                                                    <option value="rural" <?= isset($member) ? ($member->settlement === 'rural' ? 'selected' : '') : '' ?>>Rural Area</option>
+                                                    <option value="urban" <?= isset($member) ? ($member->settlement === 'urban' ? 'selected' : '') : '' ?>>Urban Area</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="position-relative form-group">
                                                 <label for="address">House No./GHPost address</label>
-                                                <input name="address" placeholder="House no./GHPost, street name" type="text" class="form-control">
+                                                <input name="address" placeholder="House no./GHPost, street name" value="<?= isset($member) ? $member->address : "" ?>" type="text" class="form-control">
                                             </div>
                                         </div>
                                     </div>
@@ -198,7 +199,7 @@
                                                     <div class="form-row text-center">
                                                         <div style="width: 200px;" class="mx-auto">
                                                             <div class="card">
-                                                                <img class="photo-placeholder" height="200" width="200" src="<?= base_url('assets/images/no-image.png') ?>" alt="Passport Photo">
+                                                                <img class="photo-placeholder" height="200" width="200" src="<?=isset($member)?$this->setting->toAvatar($member->photo_url,$member): base_url('assets/images/no-image.png') ?>" alt="Passport Photo">
                                                             </div>
                                                             <div class="position-relative form-group">
                                                                 <input name="photo" id="photo" data-target="photo-placeholder" placeholder="Choose a photo" onchange="readURL(this)" type="file" class="form-control">
@@ -207,7 +208,7 @@
                                                         </div>
                                                         <div style="width: 400px;" class="mx-auto">
                                                             <div class="card">
-                                                                <img class="card-placeholder" height="200" style="object-fit:scale-down" width="auto" src="<?= base_url('assets/images/id-card.png') ?>" alt="Card Photo">
+                                                                <img class="card-placeholder" height="200" style="object-fit:scale-down" width="auto" src="<?= isset($member)?($member->identity_card_url?$member->identity_card_url:base_url('assets/images/id-card.png')):base_url('assets/images/id-card.png') ?>" alt="Card Photo">
                                                             </div>
                                                             <div class="position-relative form-group">
                                                                 <input name="card" id="card" data-target="card-placeholder" placeholder="Choose a photo" onchange="readURL(this)" type="file" class="form-control">
@@ -215,47 +216,49 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="passbook">Passbook No.</label>
-                                                                <input name="passbook" id="passbook" placeholder="Enter passbook no." type="number" class="form-control" required>
+                                                    <?php if (!isset($member)) { ?>
+                                                        <div class="form-row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="passbook">Passbook No.</label>
+                                                                    <input name="passbook" id="passbook" placeholder="Enter passbook no." type="number" class="form-control" required>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="position-relative form-group">
-                                                                <label for="name">Account name</label>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-text p-2 text-center" data-toggle="tooltip" title="Use personal info." data-placement="bottom">
-                                                                        <input type="checkbox" id="toggle-use-personal-info">
+                                                            <div class="col-md-6">
+                                                                <div class="position-relative form-group">
+                                                                    <label for="name">Account name</label>
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-text p-2 text-center" data-toggle="tooltip" title="Use personal info." data-placement="bottom">
+                                                                            <input type="checkbox" id="toggle-use-personal-info">
+                                                                        </div>
+                                                                        <input name="name" id="account-name" placeholder="Enter account name" type="text" class="form-control" required>
                                                                     </div>
-                                                                    <input name="name" id="account-name" placeholder="Enter account name" type="text" class="form-control" required>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="col-md-6">
+                                                                <div class="position-relative form-group">
+                                                                    <label for="acc_type_id">Default account</label>
+                                                                    <select name="acc_type_id" class="form-control select2-account-types" required>
+                                                                        <option value=""></option>
+                                                                        <?php foreach ($acc_types as $row) { ?>
+                                                                            <option value="<?= $row->id; ?>"><?= $row->label; ?></option>
+                                                                        <?php } ?>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="associations[]">Association(s)</label>
+                                                                    <select name="association[]" class="form-control select2-associations" multiple required>
+                                                                        <option value=""></option>
+                                                                    </select>
                                                                 </div>
                                                             </div>
                                                         </div>
-
-                                                    </div>
-                                                    <div class="form-row">
-                                                        <div class="col-md-6">
-                                                            <div class="position-relative form-group">
-                                                                <label for="acc_type_id">Default account</label>
-                                                                <select name="acc_type_id" class="form-control select2-account-types" required>
-                                                                    <option value=""></option>
-                                                                    <?php foreach ($acc_types as $row) { ?>
-                                                                        <option value="<?= $row->id; ?>"><?= $row->label; ?></option>
-                                                                    <?php } ?>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="association_id">Association</label>
-                                                                <select name="association_id" class="form-control select2-associations" required>
-                                                                    <option value=""></option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    <?php } ?>
                                                     <div class="form-row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
@@ -263,7 +266,7 @@
                                                                 <select name="identity_card_type_id" class="form-control select2-id-card-types" required>
                                                                     <option value=""></option>
                                                                     <?php foreach ($id_card_types as $row) { ?>
-                                                                        <option value="<?= $row->id; ?>"><?= $row->label; ?></option>
+                                                                        <option value="<?= $row->id; ?>" <?= isset($member) ? ($member->identity_card_type_id === $row->id ? 'selected' : '') : '' ?>><?= $row->label; ?></option>
                                                                     <?php } ?>
                                                                 </select>
                                                             </div>
@@ -271,7 +274,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="identity_card_number">ID card number</label>
-                                                                <input name="identity_card_number" id="identity_card_number" placeholder="Enter id number" type="text" class="form-control" required>
+                                                                <input name="identity_card_number" id="identity_card_number" value="<?= isset($member) ? $member->identity_card_number : "" ?>" placeholder="Enter id number" type="text" class="form-control" required>
                                                             </div>
                                                         </div>
                                                     </div>

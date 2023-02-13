@@ -70,7 +70,13 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="ldate">Date</label>
+                                    <input type="date" name="ldate" id="ldate" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="amount">Amount</label>
                                     <input type="number" name="amount" id="amount" class="form-control" placeholder="Enter the amount" required>

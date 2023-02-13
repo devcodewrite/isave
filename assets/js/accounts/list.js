@@ -6,6 +6,11 @@ $(function () {
       url: baseUrl + "bankaccounts/datatables",
       dataType: "json",
       contentType: "application/json",
+      data:function (params) {
+        params.date_range_column = 'accounts.created_at';
+        params.date_from = $('#date-from').val();
+        params.date_to = $('#date-to').val();
+      }
     },
     serverSide: true,
     search: false,
@@ -57,7 +62,10 @@ $(function () {
           return data;
         },
       },
-      { data: "created_at", name: "accounts.created_at" },
+      { data: "created_at", name: "accounts.created_at",
+      render: function (data, type, row) {
+        return (new Date(data)).toDateString();
+      }},
     ],
     order: [[7, "desc"]],
      columnDefs: [
@@ -66,5 +74,14 @@ $(function () {
           targets: [4],
         },
       ],
+  });
+
+  $('.filter').on('click', function (params) {
+    table.ajax.reload();
+  });
+
+  $('.filter-clear').on('click', function (params) {
+    $('#date-from,#date-to').val('');
+    table.ajax.reload();
   });
 });

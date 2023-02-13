@@ -147,35 +147,58 @@
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Total Paid</p>
-                                        <h4 class="col-6 input-placeholder text-warning">GHS 0.00</h4>
+                                        <h4 class="col-6 input-placeholder text-warning">GHS <?=number_format($loan->totalPaid,2) ?></h4>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Repayment Balance</p>
-                                        <h4 class="col-6 input-placeholder text-success">GHS 0.00</h4>
+                                        <h4 class="col-6 input-placeholder text-success">GHS <?= number_format($loan->totalBalance,2) ?></h4>
                                     </div>
                                 </div>
                             </div>
                             <div class="d-block text-right card-footer">
+                                <?php if ($loan->appl_status === 'pending') { ?>
+                                    <button class="btn btn-primary btn-lg approve" data-id="<?= $loan->id ?>">Approve</button>
+                                <?php } else if ($loan->appl_status === 'approved') { ?>
+                                    <button class="btn btn-success btn-lg disburse" data-id="<?= $loan->id ?>">Disbursed</button>
+                                    <button class="btn btn-primary btn-lg cancel" data-id="<?= $loan->id ?>">Cancel Approval</button>
+                                <?php } ?>
                                 <a href="<?= site_url('loans/print/' . $loan->id) ?>" class="btn btn-info btn-lg">Print Advice Letter</a>
-                                <button class="btn btn-warning btn-lg">Modify</button>
-                                <button class="btn btn-danger btn-lg">Cancel</button>
+                                <?php if ($loan->appl_status !== 'paid_out') { ?>
+                                    <a href="<?= site_url('loans/' . $loan->id . '/edit') ?>" class="btn btn-warning btn-lg">Modify</a>
+                                    <button class="btn btn-danger btn-lg delete" data-id="<?= $loan->id ?>">Delete</button>
+                                <?php } ?>
+                                <button onclick="location.reload()" class="btn btn-link">Refresh</button>
                             </div>
                         </div>
                     </div>
                     <div class="tab-pane" id="tab-eg9-1" role="tabpanel">
                         <div class="card-body">
-                            <form action="<?= site_url('loan/repayment') ?>" class="repaymentForm p-3">
+                            <form action="<?= site_url('payments/store') ?>" class="repaymentForm p-3">
+                                <input type="hidden" name="loan_id" value="<?= $loan->id ?>">
+                                <input type="hidden" name="_method" value="post">
                                 <div class="form-row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="amount">Amount</label>
-                                            <input type="text" name="amount" id="amount" class="form-control" placeholder="Enter the amount" required>
+                                            <label for="date">Date</label>
+                                            <input type="date" name="pdate" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="principal_amount">Principal Amount</label>
+                                            <input type="number" name="principal_amount" class="form-control" placeholder="Enter the principal amount" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="amount">Interest Amount</label>
+                                            <input type="number" name="interest_amount" class="form-control" placeholder="Enter the interest amount" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
-                                    <button class="btn btn-warning float-right">Reset</button>
+                                    <div class="col-md-12">
+                                        <button onclick="$('.repaymentForm').trigger('reset')" type="button" class="btn btn-warning float-right">Reset</button>
                                         <button class="btn btn-primary float-right mr-3">Add Payment</button>
                                     </div>
                                 </div>
@@ -184,17 +207,19 @@
                             <table style="width: 100%;" id="dt-related-settlements" class="table table-hover table-striped table-bordered">
                                 <thead class="text-uppercase">
                                     <tr>
-                                        <th>#ID</th>
+                                        <th>#Ref</th>
                                         <th>Date</th>
-                                        <th>Amount</th>
+                                        <th>Principal Amount</th>
+                                        <th>Interest Amount</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tfoot class="text-uppercase">
                                     <tr>
-                                        <th>#ID</th>
+                                        <th>#Ref</th>
                                         <th>Date</th>
-                                        <th>Amount</th>
+                                        <th>Principal Amount</th>
+                                        <th>Interest Amount</th>
                                         <th>Action</th>
                                     </tr>
                                 </tfoot>

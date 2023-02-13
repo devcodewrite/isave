@@ -33,6 +33,7 @@
                         <div class="form-group">
                             <label for="type">Type</label>
                             <select name="type" class="form-control" required>
+                                <option value="">Select a type</option>
                                 <option value="stamp">Stamps</option>
                                 <option value="amount">Amount</option>
                             </select>

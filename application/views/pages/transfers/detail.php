@@ -61,59 +61,68 @@
         <div class="col-md-12">
             <div class="main-card mb-3 card">
                 <div class="card-header">
-                    <i class="header-icon lnr-user icon-gradient bg-plum-plate"> </i>Transfer Slip
+                    <i class="header-icon lnr-user icon-gradient bg-plum-plate"> </i>Transfer
                 </div>
-                <div class="card-body p-5">
-                    <div style="height: 70%; width: 100%;" class="transfer-slip">
-                        <div class="p-5 border border-primary m-5">
-                            <div class="row">
-                                <div class="col-md-12 d-flex items-center justify-content-between">
-                                    <h5>
-                                        <span><?= $this->setting->get('org_name', 'iSave') ?></span><br>
-                                        <span><?= $this->setting->get('org_address', 'Atonsu, Kumasi') ?></span>
-                                    </h5>
-                                    <img class="float-right" height="40" src="<?= $this->setting->get('org_logo_url', base_url('assets/images/logo.png')) ?>" alt="">
-                                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 px-5">
+                            <div class="row text-uppercase text-center border-bottom">
+                                <p class="col-12 text-black-50">Transaction ID</p>
+                                <h4 class="col-12 text-primary"><?= $transfer->id; ?></h4>
                             </div>
-                            <div class="row text-uppercase mt-1 border-bottom">
-                                <p class="col-6 text-black"><?=$transfer->type ?> Transfer</p>
-                                <p class="col-6 text-black text-right">Transaction Date: <?= date('d/m/y', strtotime($transfer->created_at) ); ?></p>
+                            <div class="row text-uppercase mt-3 border-bottom">
+                                <p class="col-6 text-black-50">From Association</p>
+                                <p class="col-6 input-placeholder text-info"><?= $transfer->fromAssociation->name ?></p>
                             </div>
-                            <div class="row text-uppercase mt-1 border-bottom">
-                                <p class="col-4 text-black-50">Transaction Reference</p>
-                                <p class="col-6 input-placeholder text-black"><?=$transfer->id ?></p>
+                            <div class="row text-uppercase mt-3 border-bottom">
+                                <p class="col-6 text-black-50">From PassBook No.</p>
+                                <h4 class="col-6 input-placeholder text-info"><?= $transfer->from_passbook ?></h4>
                             </div>
-                            <div class="row text-uppercase mt-1 border-bottom">
-                                <p class="col-4 text-black-50">Transaction Account</p>
-                                <p class="col-6 input-placeholder text-black"><?=$transfer->account->acc_number ?></p>
+                           
+                            <div class="row text-uppercase mt-3 border-bottom">
+                                <p class="col-6 text-black-50">From Account Name</p>
+                                <p class="col-6 input-placeholder text-primary"><?= $transfer->fromAccount->name ?></p>
                             </div>
-                            <div class="row text-uppercase mt-1 border-bottom">
-                                <p class="col-4 text-black-50">Account Name</p>
-                                <p class="col-6 input-placeholder text-black">
-                                <?=$transfer->account->name ?>
+                            <div class="row text-uppercase mt-3 border-bottom">
+                                <p class="col-6 text-black-50">Transfer Amount</p>
+                                <h4 class="col-6 input-placeholder text-success">GHS <?= number_format($transfer->amount,2) ?></h4>
+                            </div>
+
+                            <div class="row text-uppercase mt-3 border-bottom">
+                                <p class="col-6 text-black-50">To Association</p>
+                                <p class="col-6 input-placeholder text-info"><?= $transfer->toAssociation->name ?></p>
+                            </div>
+
+                            <div class="row text-uppercase mt-3 border-bottom">
+                                <p class="col-6 text-black-50">To PassBook No.</p>
+                                <h4 class="col-6 input-placeholder text-info"><?= $transfer->to_passbook ?></h4>
+                            </div>
+                            <div class="row text-uppercase mt-3 border-bottom">
+                                <p class="col-6 text-black-50">To Account Name</p>
+                                <p class="col-6 input-placeholder text-primary"><?= $transfer->toAccount->name ?></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 px-5">
+                            <div class="row m-5">
+                            </div>
+                            <div class="row text-uppercase mt-3 border-bottom">
+                                <p class="col-6 text-black-50">Date</p>
+                                <p class="col-6 input-placeholder text-blaick">
+                                    <?= date('d/m/y', strtotime($transfer->tdate)) ?>
                                 </p>
                             </div>
-                            <div class="row text-uppercase mt-1 border-bottom">
-                                <p class="col-4 text-black-50">Transaction Amount</p>
-                                <h5 class="col-6 input-placeholder text-primary">
-                                GHS <?=number_format($transfer->amount,2) ?>
-                                </h5>
-                            </div>
-                            <div class="row text-uppercase mt-1 border-bottom">
-                                <p class="col-4 text-black-50">Narration</p>
-                                <p class="col-6 input-placeholder text-black">
-                                <?=$transfer->transferor_name?"Transfer by $transfer->transferor_name ( $transfer->transferor_phone)": ''; ?>
+                            <div class="row text-uppercase mt-3 border-bottom">
+                                <p class="col-6 text-black-50">Added by</p>
+                                <p class="col-6 input-placeholder text-blaick">
+                                    <?php $user = $this->user->find($transfer->user_id) ?>
+                                    <?= "$user->firstname $user->lastname" ?>
                                 </p>
-                            </div>
-                            <div class="d-flex mt-3">
-                                <p class="text-black-50 mr-3">Note:</p>
-                                <p class=" text-black fs-sm"><?= $this->setting->get('transfer_note',"Example note on transfer slip") ?></p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="d-block text-right card-footer">
-                    <button class="btn btn-primary btn-lg print">Print</button>
+                    <a href="<?=site_url('transfers/'.$transfer->id.'/edit') ?>" class="btn btn-info btn-lg">Modify</a>
                     <button class="btn btn-danger btn-lg">Delete</button>
                 </div>
             </div>

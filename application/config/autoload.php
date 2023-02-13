@@ -142,6 +142,7 @@ $autoload['model'] = array(
     'account_model' => 'account',
     'association_model' => 'association',
     'loan_model' => 'loan',
+    'payment_model' => 'payment',
     'deposit_model' => 'deposit',
     'transfer_model' => 'transfer',
     'withdrawal_model' => 'withdrawal',

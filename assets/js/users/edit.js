@@ -8,6 +8,7 @@ form.validate({
     password: { required: !0, minlength: 5 },
     confirm_password: { required: !0, minlength: 5, equalTo: "#password" },
     email: { required: !0, email: !0 },
+    phone: { required: !0, minlength: 10 },
   },
   messages: {
     firstname: "Please enter your firstname",
@@ -15,6 +16,10 @@ form.validate({
     username: {
       required: "Please enter a username",
       minlength: "Your username must consist of at least 2 characters",
+    },
+    phone: {
+      required: "Please provide a phone number",
+      minlength: "Invalid phone number, should be at least 10 characters",
     },
     password: {
       required: "Please provide a password",
@@ -35,10 +40,10 @@ form.validate({
         : t.insertAfter(e);
   },
   highlight: function (e, i, n) {
-    t(e).addClass("is-invalid").removeClass("is-valid");
+    $(e).addClass("is-invalid").removeClass("is-valid");
   },
   unhighlight: function (e, i, n) {
-    t(e).addClass("is-valid").removeClass("is-invalid");
+    $(e).addClass("is-valid").removeClass("is-invalid");
   },
 });
 

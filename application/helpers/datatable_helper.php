@@ -24,6 +24,14 @@ if (!function_exists('datatable')) {
 
         if ($query instanceof CI_DB_driver) {
             $query = (object) $query;
+            if (isset($inputs['date_from']) || isset($inputs['date_to'])) {
+                if (!empty($inputs['date_from']) || !empty($inputs['date_to'])) {
+                    $ci->db->group_start();
+                    $ci->db->where($inputs['date_range_column'] . ' >=', $inputs['date_from']);
+                    $ci->db->where($inputs['date_range_column'] . ' <=', $inputs['date_to']);
+                    $ci->db->group_end();
+                }
+            }
 
             if ($inputs) {
                 $ci->db->group_start();
@@ -32,7 +40,7 @@ if (!function_exists('datatable')) {
                 }
                 $ci->db->group_end();
 
-                foreach($inputs['order'] as $order){
+                foreach ($inputs['order'] as $order) {
                     $ci->db->order_by($inputs['columns'][$order['column']]['name'], $order['dir']);
                 }
             }

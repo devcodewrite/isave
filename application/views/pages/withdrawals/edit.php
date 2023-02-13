@@ -58,8 +58,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-row ">
-                            <div class="col-md-12">
+                        <div class="form-row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="wdate">Date</label>
+                                    <input type="date" name="wdate" id="wdate" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="amount">Amount</label>
                                     <input type="text" name="amount" id="amount" class="form-control" placeholder="Enter the amount" required>
@@ -77,7 +83,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="phone">Phone number</label>
-                                    <input type="tel" name="withdrawal_phone" id="phone" class="form-control" placeholder="Enter the phone number" required>
+                                    <input type="tel" name="withdrawal_phone" id="phone" class="form-control" placeholder="Enter the phone number">
                                 </div>
                             </div>
                         </div>

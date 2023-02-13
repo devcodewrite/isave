@@ -188,7 +188,7 @@
                             </div>
                         </div>
                         <div class="d-block text-right card-footer">
-                            <button class="btn btn-info btn-lg">Modify</button>
+                            <a href="<?=site_url('associations/'.$association->id.'/edit') ?>" class="btn btn-info btn-lg">Modify</a>
                             <button class="btn btn-warning btn-lg">Close</button>
                         </div>
                     </div>

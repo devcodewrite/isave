@@ -4,6 +4,7 @@ defined('BASEPATH') or exit('Direct acess is not allowed');
 class Loan_model extends CI_Model
 {
     protected $table = 'loans';
+    protected $ftable = 'association_members';
 
     public function create(array $record)
     {
@@ -34,7 +35,7 @@ class Loan_model extends CI_Model
         return $this->find($id);
     }
 
-     /**
+    /**
      * Extract only values of only fields in the table
      * @param $data
      * @return Array
@@ -50,23 +51,23 @@ class Loan_model extends CI_Model
         return $filtered;
     }
 
-     /**
+    /**
      * Get loan by id
      */
     public function find(int $id)
     {
         $where = [
-            'id'=> $id,
+            'id' => $id,
         ];
-        return $this->db->get_where($this->table,$where)->row();
+        return $this->db->get_where($this->table, $where)->row();
     }
 
-     /**
+    /**
      * Get loans by column where cluase
      */
     public function where(array $where)
     {
-        return $this->db->get_where($this->table,$where);
+        return $this->db->get_where($this->table, $where);
     }
 
     /**
@@ -78,27 +79,42 @@ class Loan_model extends CI_Model
         $col = 'loan_type_id';
         $rtable2 = 'accounts';
         $col2 = 'account_id';
+        $rtable3  = 'acc_types';
+        $col3 = 'acc_type_id';
+        $rtable4  = 'users';
+        $col4 = 'user_id';
 
-        $fields = ['loans.*', 
-        "$rtable.label as loanType", 
-        "$rtable.rate_type",
-        "$rtable2.acc_number"];
-        return 
+        $fields =  [
+            'loans.*',
+            "$rtable.label as loanType",
+            "$rtable.rate_type",
+            "$rtable2.acc_number",
+            "$rtable2.name",
+            "$rtable3.label as accType",
+            "concat($rtable4.firstname, ' ', $rtable4.lastname) as user",
+        ];
+        return
             $this->db->select($fields, true)
-                    ->join($rtable, "$rtable.id={$this->table}.$col", 'left')
-                    ->join($rtable2, "$rtable2.id={$this->table}.$col2", 'left')
-                    ->from($this->table);
+            ->join($rtable, "$rtable.id={$this->table}.$col", 'left')
+            ->join($rtable2, "$rtable2.id={$this->table}.$col2", 'left')
+            ->join($rtable3, "$rtable3.id=$rtable2.$col3", 'left')
+            ->join($rtable4, "$rtable4.id={$this->table}.$col4", 'left')
+            ->from($this->table);
+    }
+    public function calcPrincipal($loan)
+    {
+        return $loan->principal_amount / ($loan->duration * 4);
     }
 
     public function calcReduceInterest($loan, $index = 0)
     {
-        return 
-        (($loan->principal_amount - ($loan->principal_amount/$loan->duration*$index)) * $loan->rate)/$loan->duration;
+        return
+        ($loan->principal_amount - $loan->principal_amount/ ($loan->duration * 4)*$index)*$loan->rate/ ($loan->duration * 4);
     }
 
     public function calcFlatInterest($loan)
     {
-        return ($loan->principal_amount * $loan->rate)/$loan->duration;
+        return ($loan->principal_amount * $loan->rate) / ($loan->duration * 4);
     }
     /**
      * Get the association that owner this loan id
@@ -109,15 +125,15 @@ class Loan_model extends CI_Model
         $col = 'association_id';
 
         return $this->db->select("$rtable.*")
-                    ->from($rtable)
-                    ->join($this->table, "{$this->table}.$col=$rtable.id")
-                    ->where([$col=> $id])
-                    ->where("$rtable.deleted_at =", null)
-                    ->get()
-                    ->row();
+            ->from($rtable)
+            ->join($this->table, "{$this->table}.$col=$rtable.id")
+            ->where([$col => $id])
+            ->where("$rtable.deleted_at =", null)
+            ->get()
+            ->row();
     }
 
-     /**
+    /**
      * Get all account that belongs to this loan id
      */
     public function accounts(int $id)
@@ -125,91 +141,16 @@ class Loan_model extends CI_Model
         $rtable = 'accounts';
 
         return $this->db->select("$rtable.*")
-                    ->from($rtable)
-                    ->where(['loan_id'=> $id])
-                    ->where("$rtable.deleted_at =", null)
-                    ->get()
-                    ->result();
+            ->from($rtable)
+            ->where(['loan_id' => $id])
+            ->where("$rtable.deleted_at =", null)
+            ->get()
+            ->result();
     }
 
-     /**
-     * Get all loans that belongs to this loan id through account
-     */
-    public function loans(int $id)
+
+    public function sum($where = [], string $select = "principal_amount+interest_amount", $alis="total")
     {
-        $rtable = 'loans';
-
-        return $this->db->select("$rtable.*")
-                    ->from($rtable)
-                    ->where(['loan_id'=> $id])
-                    ->where("$rtable.deleted_at =", null)
-                    ->get()
-                    ->result();
+       return $this->db->select("SUM($select) as $alis")->where($where)->get($this->table);
     }
-
-     /**
-     * Get all deposit that belongs to this loan id through account
-     */
-    public function deposits(int $id)
-    {
-        $rtable = 'deposits';
-
-        return $this->db->select("$rtable.*")
-                    ->from($rtable)
-                    ->where(['loan_id'=> $id])
-                    ->where("$rtable.deleted_at =", null)
-                    ->get()
-                    ->result();
-    }
- /**
-     * Get all withdrawals that belongs to this loan id through account
-     */
-    public function withdrawals(int $id)
-    {
-        $rtable = 'withdrawals';
-
-        return $this->db->select("$rtable.*")
-                    ->from($rtable)
-                    ->where(['loan_id'=> $id])
-                    ->where("$rtable.deleted_at =", null)
-                    ->get()
-                    ->result();
-    }
-
-     /**
-     * Get all associations that the loan id has
-     */
-    public function associations(int $id)
-    {
-        $rtable = 'associations';
-        $pivot = 'association_loans';
-        $foreginKey1 = 'association_id';
-        $foreginKey2 = 'loan_id';
-
-        return $this->db->select("{$this->table}.*")
-                    ->from($rtable)
-                    ->join($rtable, "$pivot.$foreginKey1=$rtable.id")
-                    ->join($this->table, "$pivot.$foreginKey2={$this->table}.id")
-                    ->where("{$this->table}.id", $id)
-                    ->where("$rtable.deleted_at =", null)
-                    ->get()
-                    ->result();
-    }
-
-    /**
-     * Get the identity card type that owner this loan id
-     */
-    public function identityCardType(int $id)
-    {
-        $rtable = 'identity_card_types';
-        $col = 'identity_card_type_id';
-        
-        return $this->db->select("$rtable.*")
-                    ->from($rtable)
-                    ->join($this->table, "{$this->table}.$col=$rtable.id")
-                    ->where([$col=> $id])
-                    ->get()
-                    ->row();
-    }
-
 }

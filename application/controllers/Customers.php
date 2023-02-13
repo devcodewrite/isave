@@ -12,14 +12,14 @@ class Customers extends MY_Controller
         $this->load->view('pages/customers/list');
     }
 
-     /**
+    /**
      * Show a resource
      * html view
      */
     public function view(int $id = null)
     {
         $member = $this->member->find($id);
-        if(!$member) show_404();
+        if (!$member) show_404();
 
         $data = [
             'member' => $member,
@@ -27,7 +27,7 @@ class Customers extends MY_Controller
         $this->load->view('pages/customers/detail', $data);
     }
 
-     /**
+    /**
      * Show a form page for creating resource
      * html view
      */
@@ -40,14 +40,14 @@ class Customers extends MY_Controller
         $this->load->view('pages/customers/edit', $data);
     }
 
-     /**
+    /**
      * Show a form page for updating resource
      * html view
      */
     public function edit(int $id = null)
     {
         $member = $this->member->find($id);
-        if(!$member) show_404();
+        if (!$member) show_404();
 
         $data = [
             'id_card_types' => $this->idcardtype->all()->get()->result(),
@@ -61,21 +61,20 @@ class Customers extends MY_Controller
      * Store a resource
      * print json Response
      */
-    public function store ()
+    public function store()
     {
         $record = $this->input->post();
         $member  = $this->member->create($record);
-        
-        if($member){
-            $error = $this->session->flashdata('error_message').$this->session->flashdata('warning_message');
+
+        if ($member) {
+            $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
             $out = [
                 'data' => $member,
                 'input' => $this->input->post(),
                 'status' => true,
-                'message' => 'Customer created successfully! '.$error
+                'message' => 'Customer created successfully! ' . $error
             ];
-        }
-        else {
+        } else {
             $out = [
                 'status' => false,
                 'message' => "Customer couldn't be created!"
@@ -88,21 +87,20 @@ class Customers extends MY_Controller
      * Update a resource
      * print json Response
      */
-    public function update (int $id = null)
+    public function update(int $id = null)
     {
-        
+
         $record = $this->input->post();
         $member = $this->member->update($id, $record);
-        if($member){
-            $error = $this->session->flashdata('error_message').$this->session->flashdata('warning_message');
+        if ($member) {
+            $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
             $out = [
                 'data' => $member,
                 'status' => true,
-                'input' => $this->input->post(),
-                'message' => 'Member data updated successfully! '.$error
+                'input' => $record,
+                'message' => 'Member data updated successfully! ' . $error
             ];
-        }
-        else {
+        } else {
             $out = [
                 'status' => false,
                 'message' => "Loan data couldn't be update!"
@@ -115,15 +113,14 @@ class Customers extends MY_Controller
      * Delete a resource
      * print json Response
      */
-    public function delete (int $id = null)
+    public function delete(int $id = null)
     {
-        if($this->member->delete($id)){
+        if ($this->member->delete($id)) {
             $out = [
                 'status' => true,
                 'message' => 'Customer data deleted successfully!'
             ];
-        }
-        else {
+        } else {
             $out = [
                 'status' => false,
                 'message' => "Customer data couldn't be deleted!"
@@ -138,8 +135,33 @@ class Customers extends MY_Controller
         $length = $this->input->get('length', true);
         $draw = $this->input->get('draw', true);
         $inputs = $this->input->get();
+        $query = $this->member->all();
+        $where = [];
 
-        $out = datatable($this->member->all(),$start, $length, $draw, $inputs);
+        if ($this->input->get('association_id'))
+            $where = array_merge($where, ['association_members.association_id' => $inputs['association_id']]);
+
+        if ($this->input->get('rstate'))
+            $where = array_merge($where, ['members.rstate' => $inputs['rstate']]);
+
+        if ($this->input->get('city'))
+            $where = array_merge($where, ['members.city' => $inputs['city']]);
+        
+        if ($this->input->get('education'))
+            $where = array_merge($where, ['members.education' => $inputs['education']]);
+        
+        if ($this->input->get('settlement'))
+            $where = array_merge($where, ['members.settlement' => $inputs['settlement']]);
+
+        if ($this->input->get('marital_status'))
+            $where = array_merge($where, ['members.marital_status' => $inputs['marital_status']]);
+
+        if ($this->input->get('sex'))
+            $where = array_merge($where, ['members.sex' => $inputs['sex']]);
+
+        $query->where($where);
+
+        $out = datatable($query, $start, $length, $draw, $inputs);
         $out = array_merge($out, [
             'input' => $this->input->get(),
         ]);
@@ -149,27 +171,33 @@ class Customers extends MY_Controller
     public function select2()
     {
         $term = trim($this->input->get('term'));
+        $association = $this->input->get('association_id');
         $take = 10;
-        $page = $this->input->get('page', true)?$this->input->get('page', true):1;
-        $skip = ($page - 1 )*$take;
+        $page = $this->input->get('page', true) ? $this->input->get('page', true) : 1;
+        $skip = ($page - 1) * $take;
 
         $total = $this->member->all()->get()->num_rows();
-        
-        $records = $this->member->all()->select('members.id, concat(members.firstname," ",ifnull(members.lastname,"")) as text', false)
-                    ->like('firstname', $term)
-                    ->or_like('lastname', $term)
-                    ->or_like('othername', $term)
-                    ->limit($take, $skip)
-                    ->get()
-                    ->result();
 
+        $this->member->all()->select('members.id, concat(members.firstname," ",ifnull(members.lastname,"")) as text', false);
+
+        if ($association) {
+            $this->db->where('association_members.association_id', $association);
+        }
+        $records = $this->db->group_start()
+            ->like('firstname', $term)
+            ->or_like('lastname', $term)
+            ->or_like('othername', $term)
+            ->group_end()
+            ->limit($take, $skip)
+            ->get()
+            ->result();
         $out = [
             'results' => $records,
             'pagination' => [
-               'more' => ($skip + $take < $total),
-               'page' => intval($page),
-               'totalRows' => $total,
-               'totalPages' => intval($total/$take + ($total%$take > 0?1:0))
+                'more' => ($skip + $take < $total),
+                'page' => intval($page),
+                'totalRows' => $total,
+                'totalPages' => intval($total / $take + ($total % $take > 0 ? 1 : 0))
             ]
         ];
 

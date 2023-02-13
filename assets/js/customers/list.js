@@ -6,6 +6,18 @@ $(function () {
       url: baseUrl + "customers/datatables",
       dataType: "json",
       contentType: "application/json",
+      data:function (params) {
+        params.date_range_column = 'members.created_at';
+        params.date_from = $('#date-from').val();
+        params.date_to = $('#date-to').val();
+        params.marital_status = $('#marital-status').val();
+        params.association_id = $('.select2-associations').val();
+        params.education = $('#education').val();
+        params.settlement = $('#settlement').val();
+        params.sex = $('#sex').val();
+        params.city = $('#city').val();
+        params.rstate = $('#rstate').val();
+      }
     },
     serverSide: true,
     search: false,
@@ -63,22 +75,41 @@ $(function () {
           return data;
         },
       },
-      { data: "created_at", name: "members.created_at" },
+      { data: "created_at", name: "members.created_at",render: function (data, type, row) {
+        return (new Date(data)).toDateString();
+      } },
     ],
     order: [[9, "desc"]],
   });
+  $('.filter').on('click', function (params) {
+    table.ajax.reload();
+  });
+
+  $('.filter-clear').on('click', function (params) {
+    $('#date-from,#date-to').val('');
+    table.ajax.reload();
+  });
+});
+
+$(".select2").select2({
+  allowClear:true,
+  placeholder:"Select an option",
+  selectionCssClass: "form-select2",
 });
 
 $(".select2-associations").select2({
   ajax: {
-    url: "/api/select2/associations",
+    url:`${baseUrl}associations/select2`,
     dataType: "json",
     data: function (params) {
-      params.api_token = $('meta[name="api-token"]').attr("content");
-      return params;
     },
   },
   allowClear: true,
   placeholder: "Select an association",
   selectionCssClass: "form-select2",
+});
+
+
+$('.filter').on('keyup paste select2:select', function (params) {
+  table.ajax.reload();
 });

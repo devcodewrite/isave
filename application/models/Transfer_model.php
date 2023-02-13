@@ -4,11 +4,15 @@ defined('BASEPATH') or exit('Direct acess is not allowed');
 class Transfer_model extends CI_Model
 {
     protected $table = 'transfers';
+    protected $ftable = 'association_members';
 
     public function create(array $record)
     {
         if (!$record) return;
         $record['user_id'] = auth()->user()->id;
+
+        $record['from_member_id'] = $this->account->find($record['from_account_id'])->member_id;
+        $record['to_member_id'] = $this->account->find($record['to_account_id'])->member_id;
 
         $data = $this->extract($record);
 

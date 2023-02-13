@@ -93,7 +93,6 @@ $(".select2-associations").select2({
     url: `${baseUrl}associations/select2`,
     dataType: "json",
     data: function (params) {
-      params._token = $('meta[name="token"]').attr("content");
       return params;
     },
   },
@@ -107,7 +106,7 @@ $(".select2-members").select2({
     url: `${baseUrl}customers/select2`,
     dataType: "json",
     data: function (params) {
-      params._token = $('meta[name="token"]').attr("content");
+      params.association_id = $('.select2-associations').val();
       return params;
     },
   },

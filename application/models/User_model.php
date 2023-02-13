@@ -10,6 +10,8 @@ class User_model extends CI_Model
         if (!$record) return;
         $record['user_id'] = auth()->user()->id;
 
+        if ($record['password']) $record['password'] = password_hash($record['password'], PASSWORD_DEFAULT);
+
         $data = $this->extract($record);
 
         if ($this->db->insert($this->table, $data)) {
@@ -23,13 +25,16 @@ class User_model extends CI_Model
      * @param $id
      * @return Boolean
      */
-    public function update(int $id, array $data)
+    public function update(int $id, array $record)
     {
-        $data = $this->extract($data);
+        if (!$record) return;
+        if ($record['password']) $record['password'] = password_hash($record['password'], PASSWORD_DEFAULT);
+
+        $data = $this->extract($record);
         $this->db->set($data);
         $this->db->where('id', $id);
         $this->db->update($this->table);
-        return $this->db->affected_rows() > 0;
+        return $this->find($id);
     }
 
     /**
@@ -96,9 +101,9 @@ class User_model extends CI_Model
     /**
      * Get user by id
      */
-    public function find(int $id =null)
+    public function find(int $id = null)
     {
-        if(!$id) return;
+        if (!$id) return;
 
         $where = [
             'id' => $id,
@@ -121,30 +126,29 @@ class User_model extends CI_Model
      */
     public function all()
     {
-        $rtable = 'associations';
-        $col = 'association_id';
-
         $where = ["{$this->table}.deleted_at =" => null];
         $fields = [
             "{$this->table}.id",
+            "{$this->table}.username",
             "{$this->table}.firstname",
             "{$this->table}.lastname",
-            "{$this->table}.othername",
+            "{$this->table}.phone",
             "{$this->table}.sex",
-            "{$this->table}.primary_phone",
-            "{$this->table}.identity_card_number",
-            "{$this->table}.occupation",
-            "{$this->table}.rstate",
-            "{$this->table}.occupation",
+            "{$this->table}.email",
+            "{$this->table}.salary",
+            "{$this->table}.phone_verified_at",
+            "{$this->table}.email_verified_at",
             "{$this->table}.photo_url",
-            "DATE({$this->table}.created_at) as created_at",
-            "$rtable.name as association_name",
+            "{$this->table}.permission_id",
+            "{$this->table}.role_id",
+            "{$this->table}.rstatus",
+            "{$this->table}.created_at",
+            "{$this->table}.updated_at",
         ];
 
         return
             $this->db->select($fields, true)
             ->from($this->table)
-            ->join($rtable, "$rtable.id={$this->table}.$col", 'left')
             ->where($where);
     }
 
@@ -154,11 +158,11 @@ class User_model extends CI_Model
     public function association(int $id)
     {
         $rtable = 'associations';
-        $col = 'association_id';
+        $col = 'user_id';
 
         return $this->db->select("$rtable.*")
-            ->from($rtable)
-            ->join($this->table, "{$this->table}.$col=$rtable.id")
+            ->from($this->table)
+            ->join($rtable, "$rtable.$col=$rtable.id")
             ->where([$col => $id])
             ->where("$rtable.deleted_at =", null)
             ->get()

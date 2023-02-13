@@ -4,6 +4,7 @@ defined('BASEPATH') or exit('Direct acess is not allowed');
 class Association_model extends CI_Model
 {
     protected $table = 'associations';
+    protected $ftable = 'association_members';
 
     public function create(array $record)
     {
@@ -14,6 +15,21 @@ class Association_model extends CI_Model
         $data = $this->extract($record);
 
         if ($this->db->insert($this->table, $data)) {
+            $id = $this->db->insert_id();
+            return $this->find($id);
+        }
+    }
+
+    public function addMember(array $record)
+    {
+        if (!$record) return;
+
+        $data = [
+            'member_id' =>$record['member_id'],
+            'association_id' => $record['association_id']
+        ];
+
+        if ($this->db->insert($this->ftable, $data)) {
             $id = $this->db->insert_id();
             return $this->find($id);
         }
@@ -78,7 +94,7 @@ class Association_model extends CI_Model
         $where = ["{$this->table}.deleted_at =" => null];
         $fields = [
             "{$this->table}.*",
-            "(SELECT count(members.id) from members where members.association_id={$this->table}.id AND members.deleted_at IS NULL) as totalMembers ",
+            "(SELECT count(*) from {$this->ftable} INNER JOIN members ON members.id={$this->ftable}.member_id where {$this->ftable}.association_id={$this->table}.id AND members.deleted_at IS NULL) as totalMembers ",
         ];
 
         return 

@@ -1,6 +1,10 @@
+<?php
+    $user = auth()->user();
+    $role = $user ? $this->role->find($user->role_id) : null;
+?>
 <div class="app-header header-shadow">
     <div class="app-header__logo">
-        <div class=""><img height="60" src="<?=base_url('assets/images/logo.png') ?>" alt=""></div>
+        <div class=""><img height="60" src="<?= base_url('assets/images/logo.png') ?>" alt=""></div>
         <div class="header__pane ml-auto">
             <div>
                 <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
@@ -178,42 +182,42 @@
                                                                     <div class="avatar-wrapper mt-2 avatar-wrapper-overlap">
                                                                         <div class="avatar-icon-wrapper avatar-icon-sm">
                                                                             <div class="avatar-icon">
-                                                                                <img src="<?=site_url('assets/images/avatars/1.jpg'); ?>" alt="">
+                                                                                <img src="<?= site_url('assets/images/avatars/1.jpg'); ?>" alt="">
                                                                             </div>
                                                                         </div>
                                                                         <div class="avatar-icon-wrapper avatar-icon-sm">
                                                                             <div class="avatar-icon">
-                                                                                <img src="<?=site_url('assets/images/avatars/2.jpg'); ?>" alt="">
+                                                                                <img src="<?= site_url('assets/images/avatars/2.jpg'); ?>" alt="">
                                                                             </div>
                                                                         </div>
                                                                         <div class="avatar-icon-wrapper avatar-icon-sm">
                                                                             <div class="avatar-icon">
-                                                                                <img src="<?=site_url('assets/images/avatars/3.jpg'); ?>" alt="">
+                                                                                <img src="<?= site_url('assets/images/avatars/3.jpg'); ?>" alt="">
                                                                             </div>
                                                                         </div>
                                                                         <div class="avatar-icon-wrapper avatar-icon-sm">
                                                                             <div class="avatar-icon">
-                                                                                <img src="<?=site_url('assets/images/avatars/4.jpg'); ?>" alt="">
+                                                                                <img src="<?= site_url('assets/images/avatars/4.jpg'); ?>" alt="">
                                                                             </div>
                                                                         </div>
                                                                         <div class="avatar-icon-wrapper avatar-icon-sm">
                                                                             <div class="avatar-icon">
-                                                                                <img src="<?=site_url('assets/images/avatars/5.jpg'); ?>" alt="">
+                                                                                <img src="<?= site_url('assets/images/avatars/5.jpg'); ?>" alt="">
                                                                             </div>
                                                                         </div>
                                                                         <div class="avatar-icon-wrapper avatar-icon-sm">
                                                                             <div class="avatar-icon">
-                                                                                <img src="<?=site_url('assets/images/avatars/9.jpg'); ?>" alt="">
+                                                                                <img src="<?= site_url('assets/images/avatars/9.jpg'); ?>" alt="">
                                                                             </div>
                                                                         </div>
                                                                         <div class="avatar-icon-wrapper avatar-icon-sm">
                                                                             <div class="avatar-icon">
-                                                                                <img src="<?=site_url('assets/images/avatars/7.jpg'); ?>" alt="">
+                                                                                <img src="<?= site_url('assets/images/avatars/7.jpg'); ?>" alt="">
                                                                             </div>
                                                                         </div>
                                                                         <div class="avatar-icon-wrapper avatar-icon-sm">
                                                                             <div class="avatar-icon">
-                                                                                <img src="<?=site_url('assets/images/avatars/8.jpg'); ?>" alt="">
+                                                                                <img src="<?= site_url('assets/images/avatars/8.jpg'); ?>" alt="">
                                                                             </div>
                                                                         </div>
                                                                         <div class="avatar-icon-wrapper avatar-icon-sm avatar-icon-add">
@@ -279,7 +283,7 @@
                             <div class="tab-pane" id="tab-events-header" role="tabpanel">
                                 <div class="scroll-area-sm">
                                     <div class="scrollbar-container">
-                                        <div class="p-3">
+                                        <div class="p-3 d-none">
                                             <div class="vertical-without-time vertical-timeline vertical-timeline--animate vertical-timeline--one-column">
                                                 <div class="vertical-timeline-item vertical-timeline-element">
                                                     <div>
@@ -494,25 +498,25 @@
                         <div class="widget-content-left">
                             <div class="btn-group">
                                 <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
-                                    <img width="42" class="rounded-circle" src="<?=site_url('assets/images/avatars/1.jpg'); ?>" alt="">
+                                    <img width="42" class="rounded-circle" src="<?= $this->setting->toAvatar($user->photo_url, $user); ?>" alt="">
                                     <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                 </a>
                                 <div tabindex="-1" role="menu" aria-hidden="true" class="rm-pointers dropdown-menu-lg dropdown-menu dropdown-menu-right">
                                     <div class="dropdown-menu-header">
                                         <div class="dropdown-menu-header-inner bg-info">
-                                            <div class="menu-header-image opacity-2" style="background-image: url('<?=site_url('assets/images/dropdown-header/city3.jpg'); ?>'"></div>
+                                            <div class="menu-header-image opacity-2" style="background-image: url('<?= site_url('assets/images/dropdown-header/city3.jpg'); ?>'"></div>
                                             <div class="menu-header-content text-left">
                                                 <div class="widget-content p-0">
                                                     <div class="widget-content-wrapper">
                                                         <div class="widget-content-left mr-3">
-                                                            <img width="42" class="rounded-circle" src="<?=site_url('assets/images/avatars/1.jpg'); ?>" alt="">
+                                                            <img width="42" class="rounded-circle" src="<?= $this->setting->toAvatar($user->photo_url, $user); ?>" alt="">
                                                         </div>
                                                         <div class="widget-content-left">
-                                                            <div class="widget-heading">Alina Mcloughlin</div>
-                                                            <div class="widget-subheading opacity-8">A short profile description</div>
+                                                            <div class="widget-heading"><?=$user->firstname ?> <?=$user->lastname ?></div>
+                                                            <div class="widget-subheading opacity-8"><?= $role ? $role->label : '' ?></div>
                                                         </div>
                                                         <div class="widget-content-right mr-2">
-                                                            <a href="<?=site_url('auth/logout') ?>" class="btn-pill btn-shadow btn-shine btn btn-focus">Logout</a>
+                                                            <a href="<?= site_url('auth/logout') ?>" class="btn-pill btn-shadow btn-shine btn btn-focus">Logout</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -525,10 +529,10 @@
                                                 <li class="nav-item-header nav-item">My Account
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a href="<?=site_url('account/profile') ?>" class="nav-link">Profile</a>
+                                                    <a href="<?= site_url('account/profile') ?>" class="nav-link">Profile</a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a href="<?=site_url('account/update-profile'); ?>" class="nav-link">Update Profile</a>
+                                                    <a href="<?= site_url('account/update-profile'); ?>" class="nav-link">Update Profile</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -537,17 +541,13 @@
                             </div>
                         </div>
                         <div class="widget-content-left  ml-3 header-user-info">
-                            <?php 
-                                $user = auth()->user();
-                                $role = $user?$this->role->find($user->role_id):null;
-                             ?>
                             <div class="widget-heading"> <?= $user->firstname ?> <?= $user->lastname ?> </div>
-                            <div class="widget-subheading"> <?=$role?$role->label:'' ?> </div>
+                            <div class="widget-subheading"> <?= $role ? $role->label : '' ?> </div>
                         </div>
                     </div>
                 </div>
             </div>
-          
+
         </div>
     </div>
 </div>

@@ -202,21 +202,3 @@ $('.select2-passbooks').select2({
 }).on('select2:select', function (params) {
   $('.select2-passbooks').trigger('change');
 });
-
-$('.select2-to-passbooks').select2({
-  ajax: {
-    url: `${baseUrl}bankaccounts/passbook-select2`,
-        dataType: "json",
-        data: function (params) {
-          params.association_id = $('.select2-associations').val();
-            return params;
-        },
-  },
-  allowClear: true,
-  placeholder: "Search a passbook",
-  selectionCssClass: 'form-select2',
-  templateResult: formatPeople2Result,
-}).on('select2:select', function (params) {
-  $(this).trigger('change');
-});
-

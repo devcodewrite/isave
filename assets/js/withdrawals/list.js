@@ -6,6 +6,11 @@ $(function () {
       url: baseUrl + "withdrawals/datatables",
       dataType: "json",
       contentType: "application/json",
+      data:function (params) {
+        params.date_range_column = 'wdate';
+        params.date_from = $('#date-from').val();
+        params.date_to = $('#date-to').val();
+      }
     },
     serverSide: true,
     search: false,
@@ -51,7 +56,9 @@ $(function () {
       },
       { data: "withdrawer_name", name: "withdrawer_name" },
       { data: "withdrawer_phone", name: "withdrawer_phone" },
-      { data: "created_at", name: "withdrawals.created_at" },
+      { data: "wdate", name: "wdate",  render: function (data, type, row) {
+        return (new Date(data)).toDateString();
+      }},
     ],
     // order: [[7, "desc"]],
     columnDefs: [
@@ -60,5 +67,14 @@ $(function () {
         //targets: [4],
       },
     ],
+  });
+
+  $('.filter').on('click', function (params) {
+    table.ajax.reload();
+  });
+
+  $('.filter-clear').on('click', function (params) {
+    $('#date-from,#date-to').val('');
+    table.ajax.reload();
   });
 });

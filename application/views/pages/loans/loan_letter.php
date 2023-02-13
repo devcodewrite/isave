@@ -111,7 +111,7 @@
                             </div>
                             <div class="row mt-5">
                                 <div class="col-12">
-                                    <h3 style="text-decoration: underline;" class="text-uppercase text-center">Letter of Loan Advice</h3>
+                                    <h3 style="text-decoration: underline;" class="text-uppercase text-center">Letter of Advice</h3>
                                 </div>
 
                             </div>
@@ -127,32 +127,40 @@
                                         to <b><?= date('l, jS F, Y', strtotime($loan->payin_start_date . " + $loan->duration month",)) ?></b>.
                                     </p>
                                     <h5>Repayment Terms</h5>
-                                    <p class="text-black-50 text-uppercase">Intreset Calaculations for <?= str_replace('_', ' ', $loan->LoanType->rate_type) ?></p>
+                                    <p class="text-black-50 text-uppercase">Intreset Calaculations for <?= str_replace('_', ' ', $loan->LoanType->rate_type) ?> in <?=$loan->duration*4 ?> weeks</p>
                                     <table class="table table-bordered">
                                         <thead>
                                             <th>Repayment Date</th>
                                             <th>Principal Amount</th>
                                             <th>Interest Amount</th>
+                                            <th>Total Repayment</th>
                                         </thead>
                                         <tbody>
                                             <?php 
 
                                             $interestTotal = 0;
+                                            $totalRepayment = 0;
                                             
-                                            for ($i = 0; $i < $loan->duration; $i++) { ?>
+                                            for ($i = 0; $i < $loan->duration*4; $i++) { ?>
                                                 <tr>
-                                                    <td><?= date('l, jS F, Y', strtotime($loan->payin_start_date . " + $i month")) ?></td>
-                                                    <td><?= number_format($loan->principal_amount / $loan->duration, 2) ?></td>
+                                                    <td><?= date('D, jS M, Y', strtotime($loan->payin_start_date . " + $i week")) ?></td>
+                                                    <td><?= number_format($this->loan->calcPrincipal($loan), 2) ?></td>
                                                     <?php if ($loan->LoanType->rate_type === 'flat_rate') { 
                                                          $interest = $this->loan->calcFlatInterest($loan, $i);
                                                          $interestTotal += $interest;
+                                                         $totalAmount = $this->loan->calcPrincipal($loan)+$interest;
+                                                         $totalRepayment += $totalAmount;
                                                         ?>
                                                         <td><?= number_format($interest, 2) ?></td>
+                                                        <tdh<?= number_format($totalAmount, 2) ?></th>
                                                     <?php } else {
                                                         $interest = $this->loan->calcReduceInterest($loan, $i);
                                                         $interestTotal += $interest;
+                                                        $totalAmount = $this->loan->calcPrincipal($loan)+$interest;
+                                                        $totalRepayment += $totalAmount;
                                                          ?>
                                                         <td><?= number_format($interest, 2) ?></td>
+                                                        <th><?= number_format($totalAmount, 2) ?></th>
                                                     <?php } ?>
                                                 </tr>
                                             <?php } ?>
@@ -161,6 +169,7 @@
                                             <th>Total (GHS)</th>
                                             <th><?=number_format($loan->principal_amount,2) ?></th>
                                             <th><?=number_format($interestTotal,2) ?></th>
+                                            <th><?=number_format($totalRepayment,2) ?></th>
                                         </tfoot>
                                     </table>
                                 </div>
@@ -175,7 +184,7 @@
                 </div>
                 <div class="d-block text-right card-footer">
                     <button class="btn btn-primary btn-lg print">Print</button>
-                    <button class="btn btn-danger btn-lg">Delete</button>
+                    <a href="<?=site_url('loans/'.$loan->id) ?>" class="btn btn-link btn-lg">Cancel</a>
                 </div>
             </div>
         </div>

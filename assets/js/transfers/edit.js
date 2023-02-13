@@ -2,30 +2,22 @@ let form = $(".editTransferForm");
 
 form.validate({
   rules: {
-    title: "required",
-    firstname: "required",
-    lastname: "required",
-    sex: "required",
-    marital_status: "required",
-    primary_phone: { required: !0, min: 10, digits: true },
-    address: "required",
-    city: "required",
-    email: { email: !0 },
+    from_association_id: "required",
+    to_association_id: "required",
+    from_account_id: "required",
+    to_account_id: "required",
+    from_passbook: "required",
+    to_passbook: "required",
+    amount :"required",
   },
   messages: {
-    title: "Please choose a title",
-    firstname: "Please enter the firstname",
-    lastname: "Please enter the lastname",
-    sex: "Please select a sex",
-    marital_status: "Please choose a martial status",
-    primary_phone: {
-      required: "Please enter the primary phone number",
-      min: "Phone number should be at least 10 digits",
-      digits: "Phone number require only digits",
-    },
-    address: "Please enter an address",
-    city: "Please enter the city",
-    email: "Please enter a valid email address",
+    from_association_id: "Please choose an association",
+    to_association_id: "Please choose an association",
+    from_passbook: "Please choose a passbook",
+    to_passbook: "Please choose a passbook",
+    to_account_id: "Please choose an account",
+    from_account_id: "Please choose an account",
+    amount: "Please enter the amount",
   },
   errorElement: "em",
   errorPlacement: function (t, e) {
@@ -108,7 +100,7 @@ $('.select2-from-accounts').select2({
     url: `${baseUrl}bankaccounts/select2`,
         dataType: "json",
         data: function (params) {
-            params.passbook = $('.select2-fom-passbooks').val();
+            params.passbook = $('.select2-from-passbooks').val();
             return params;
         },
   },
@@ -187,11 +179,6 @@ form.on("submit", function (e) {
             icon: "success",
             text: d.message,
           });
-        } else {
-          Swal.fire({
-            icon: "error",
-            text: d.message,
-          });
         }
       },
       error: function (r) {
@@ -202,4 +189,7 @@ form.on("submit", function (e) {
       },
     });
   }
+});
+$(".transfer").on("click", function (e) {
+  form.trigger("submit");
 });
