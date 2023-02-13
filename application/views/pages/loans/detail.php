@@ -104,6 +104,7 @@
                                         <p class="col-6 text-black-50">Repayment start date</p>
                                         <p class="col-6 input-placeholder text-black"><?= date('d/m/y', strtotime($loan->payin_start_date)) ?></p>
                                     </div>
+                                    <?php if($loan->appl_status ==='disbursed'){ ?>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Repayment status</p>
                                         <div class="col-6">
@@ -120,6 +121,7 @@
                                         <p class="col-6 text-black-50">Repayment Balance</p>
                                         <h4 class="col-6 input-placeholder text-success">GHS <?= number_format($loan->totalBalance,2) ?></h4>
                                     </div>
+                                    <?php } ?>
                                 </div>
                             </div>
                             <div class="d-block text-right card-footer">
@@ -131,7 +133,7 @@
                                     <button class="btn btn-primary btn-lg cancel" data-id="<?= $loan->id ?>">Cancel Approval</button>
                                 <?php } ?>
                               
-                                <?php if ($loan->appl_status !== 'paid_out') { ?>
+                                <?php if ($loan->appl_status !== 'disbursed') { ?>
                                     <a href="<?= site_url('loans/' . $loan->id . '/edit') ?>" class="btn btn-warning btn-lg">Modify</a>
                                     <button class="btn btn-danger btn-lg delete" data-id="<?= $loan->id ?>">Delete</button>
                                 <?php } ?>

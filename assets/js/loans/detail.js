@@ -131,7 +131,7 @@ function(e){
         method: "POST",
         url: `${baseUrl}loans/update/${$(this).data('id')}`,
         data: {
-            appl_status: 'paid_out',
+            appl_status: 'disbursed',
         },
         dataType: "json",
         cache: false,
