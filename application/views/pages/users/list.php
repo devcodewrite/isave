@@ -111,5 +111,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/users/list.js?v=' . uniqid()) ?>" defer></script>
+<script src="<?= base_url('assets/js/users/list.js?v=1') ?>" defer></script>
 <?php app_end(); ?>

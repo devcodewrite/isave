@@ -12,7 +12,14 @@
                     <div class="page-title-subheading">Table of passbooks and their details.</div>
                 </div>
             </div>
-
+            <div class="page-title-actions">
+                <a href="<?= site_url('deposits') ?>" class="btn-shadow btn btn-info">
+                    <span class="btn-icon-wrapper pr-2 opacity-7">
+                        <i class="fa fa-arrow-left fa-w-20"></i>
+                    </span>
+                    Back to List
+                </a>
+            </div>
         </div>
     </div>
 
