@@ -130,7 +130,7 @@ var changeStatus = function (el) {
       action = "approve";
       break;
     case "approved":
-      status = "paid_out";
+      status = "disbursed";
       action = "disburse";
       break;
     default:
