@@ -91,13 +91,13 @@ class Users extends MY_Controller
                 'data' => $user,
                 'input' => $record,
                 'status' => true,
-                'message' => 'User data updated successfully!'
+                'message' => 'User updated successfully!'
             ];
         }
         else {
             $out = [
                 'status' => false,
-                'message' => "User data couldn't be updated!"
+                'message' => "User couldn't be updated!"
             ];
         }
         httpResponseJson($out);

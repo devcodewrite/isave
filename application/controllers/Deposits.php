@@ -77,14 +77,14 @@ class Deposits extends MY_Controller
                 'data' => $deposit,
                 'input' => $record,
                 'status' => true,
-                'message' => 'Customer deposit created successfully!'
+                'message' => 'Deposit made successfully!'
             ];
         } else {
             $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
 
             $out = [
                 'status' => false,
-                'message' => $error?$error:"Customer deposit couldn't be created!"
+                'message' => $error?$error:"Deposit couldn't be created!"
             ];
         }
         httpResponseJson($out);
@@ -129,12 +129,12 @@ class Deposits extends MY_Controller
             $out = [
                 'data' => $deposit,
                 'status' => true,
-                'message' => 'Deposit data deleted successfully!'
+                'message' => 'Deposit updated successfully!'
             ];
         } else {
             $out = [
                 'status' => false,
-                'message' => $error?$error:"Deposit data couldn't be deleted!"
+                'message' => $error?$error:"Deposit data couldn't be updated!"
             ];
         }
         httpResponseJson($out);

@@ -71,7 +71,7 @@ class Transfers extends MY_Controller
                 'data' => $transfer,
                 'input' => $record,
                 'status' => true,
-                'message' => 'Transfer created successfully!'
+                'message' => 'Transfer made successfully!'
             ];
         } else {
             $out = [
@@ -98,12 +98,12 @@ class Transfers extends MY_Controller
                 'data' => $transfer,
                 'input' => $record,
                 'status' => true,
-                'message' => 'Transfer data updated successfully!'
+                'message' => 'Transfer updated successfully!'
             ];
         } else {
             $out = [
                 'status' => false,
-                'message' => $error?$error:"Transfer data couldn't be update! "
+                'message' => $error?$error:"Transfer couldn't be update! "
             ];
         }
         httpResponseJson($out);

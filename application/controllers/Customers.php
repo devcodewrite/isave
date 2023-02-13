@@ -78,7 +78,7 @@ class Customers extends MY_Controller
         } else {
             $out = [
                 'status' => false,
-                'message' => "Customer couldn't be created! ".$error
+                'message' => $error?$error:"Customer couldn't be created!"
             ];
         }
         httpResponseJson($out);
@@ -99,12 +99,12 @@ class Customers extends MY_Controller
                 'data' => $member,
                 'status' => true,
                 'input' => $record,
-                'message' => 'Member data updated successfully! ' . $error
+                'message' => 'Customer updated successfully! ' . $error
             ];
         } else {
             $out = [
                 'status' => false,
-                'message' => $error?$error:"Loan data couldn't be update!"
+                'message' => $error?$error:"Customer data couldn't be update!"
             ];
         }
         httpResponseJson($out);

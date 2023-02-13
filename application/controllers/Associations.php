@@ -99,12 +99,12 @@ class Associations extends MY_Controller
                 'data' => $association,
                 'input' => $record,
                 'status' => true,
-                'message' => 'Association data updated successfully!'
+                'message' => 'Association updated successfully!'
             ];
         } else {
             $out = [
                 'status' => false,
-                'message' => "Association data couldn't be updated!"
+                'message' => "Association couldn't be updated!"
             ];
         }
         httpResponseJson($out);
@@ -120,12 +120,12 @@ class Associations extends MY_Controller
         if ($this->association->delete($id)) {
             $out = [
                 'status' => true,
-                'message' => 'Association data updated successfully!'
+                'message' => 'Association deleted successfully!'
             ];
         } else {
             $out = [
                 'status' => false,
-                'message' => "Association data couldn't be updated!"
+                'message' => "Association couldn't be deleted!"
             ];
         }
         httpResponseJson($out);

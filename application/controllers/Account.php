@@ -43,13 +43,13 @@ class Account extends MY_Controller
         if($customer){
             $out = [
                 'status' => true,
-                'message' => 'Customer data updated successfully!'
+                'message' => 'Profile updated successfully!'
             ];
         }
         else {
             $out = [
                 'status' => false,
-                'message' => "Customer data couldn't be updated!"
+                'message' => "Profile couldn't be updated!"
             ];
         }
         httpResponseJson($out);

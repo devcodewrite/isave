@@ -65,7 +65,7 @@ class Payments extends MY_Controller
         } else {
             $out = [
                 'status' => false,
-                'message' => $error?$error:"Data couldn't be created!"
+                'message' => $error?$error:"Data couldn't be processed!"
             ];
         }
         httpResponseJson($out);
@@ -107,13 +107,13 @@ class Payments extends MY_Controller
         if($this->payment->delete($id)){
             $out = [
                 'status' => true,
-                'message' => 'Loan payment data updated successfully!'
+                'message' => 'Loan repayment deleted successfully!'
             ];
         }
         else {
             $out = [
                 'status' => false,
-                'message' => "Loan payment data couldn't be update!"
+                'message' => "Loan repayment couldn't be deleted!"
             ];
         }
         httpResponseJson($out);

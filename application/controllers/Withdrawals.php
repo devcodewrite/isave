@@ -69,7 +69,7 @@ class Withdrawals extends MY_Controller
                'data' => $withdrawal,
                'input' => $record,
                'status' => true,
-               'message' => 'Withdrawal created successfully!'
+               'message' => 'Withdrawal made successfully!'
            ];
        }
        else {
@@ -119,13 +119,13 @@ class Withdrawals extends MY_Controller
         if($withdrawal){
             $out = [
                 'status' => true,
-                'message' => 'Withdrawal data updated successfully!'
+                'message' => 'Withdrawal deleted successfully!'
             ];
         }
         else {
             $out = [
                 'status' => false,
-                'message' => "Withdrawal data couldn't be updated!"
+                'message' => "Withdrawal couldn't be deleted!"
             ];
         }
         httpResponseJson($out);

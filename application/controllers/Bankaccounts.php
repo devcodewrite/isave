@@ -117,12 +117,12 @@ class Bankaccounts extends MY_Controller
                 'data' => $account,
                 'input' => $record,
                 'status' => true,
-                'message' => 'Account data updated successfully!'
+                'message' => 'Account updated successfully!'
             ];
         } else {
             $out = [
                 'status' => false,
-                'message' => "Account data couldn't be updated!"
+                'message' => "Account couldn't be updated!"
             ];
         }
         httpResponseJson($out);
@@ -138,12 +138,12 @@ class Bankaccounts extends MY_Controller
         if ($this->account->delete($id)) {
             $out = [
                 'status' => true,
-                'message' => 'Account data updated successfully!'
+                'message' => 'Account deleted successfully!'
             ];
         } else {
             $out = [
                 'status' => false,
-                'message' => "Account data couldn't be updated!"
+                'message' => "Account couldn't be deleted!"
             ];
         }
         httpResponseJson($out);
