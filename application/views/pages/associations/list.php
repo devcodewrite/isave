@@ -133,5 +133,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/associations/list.js?v=2') ?>" defer></script>
+<script src="<?= base_url('assets/js/associations/list.js?v=3') ?>" defer></script>
 <?php app_end(); ?>
