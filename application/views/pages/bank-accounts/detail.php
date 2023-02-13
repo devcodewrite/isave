@@ -140,8 +140,8 @@
                             </div>
                         </div>
                         <div class="d-block text-right card-footer">
-                            <button class="btn btn-info btn-lg">Modify</button>
-                            <button class="btn btn-warning btn-lg">Suspend</button>
+                            <a href="<?=site_url('bankaccounts/'.$account->id.'/edit') ?>" class="btn btn-info btn-lg">Modify</a>
+                            <button class="btn btn-warning btn-lg suspend">Suspend</button>
                             <button class="btn btn-danger btn-lg">Close</button>
                         </div>
                     </div>

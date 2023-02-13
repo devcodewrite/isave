@@ -64,7 +64,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="ddate">Date</label>
-                                    <input type="ddate" name="ddate" id="ddate" class="form-control" required>
+                                    <input type="date" name="ddate" id="ddate" class="form-control" required>
                                 </div>
                             </div>
                             <div class="col-md-8">

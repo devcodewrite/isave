@@ -66,8 +66,9 @@ class Customers extends MY_Controller
         $record = $this->input->post();
         $member  = $this->member->create($record);
 
+        $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
+
         if ($member) {
-            $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
             $out = [
                 'data' => $member,
                 'input' => $this->input->post(),
@@ -77,7 +78,7 @@ class Customers extends MY_Controller
         } else {
             $out = [
                 'status' => false,
-                'message' => "Customer couldn't be created!"
+                'message' => "Customer couldn't be created! ".$error
             ];
         }
         httpResponseJson($out);
@@ -92,8 +93,9 @@ class Customers extends MY_Controller
 
         $record = $this->input->post();
         $member = $this->member->update($id, $record);
+        $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
+
         if ($member) {
-            $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
             $out = [
                 'data' => $member,
                 'status' => true,
@@ -103,7 +105,7 @@ class Customers extends MY_Controller
         } else {
             $out = [
                 'status' => false,
-                'message' => "Loan data couldn't be update!"
+                'message' => "Loan data couldn't be update!".$error
             ];
         }
         httpResponseJson($out);
