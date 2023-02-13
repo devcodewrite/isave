@@ -53,6 +53,8 @@ class Payments extends MY_Controller
     {
         $record = $this->input->post();
         $repayment  = $this->payment->create($record);
+        $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
+
         if ($repayment) {
             $out = [
                 'data' => $repayment,
@@ -63,7 +65,7 @@ class Payments extends MY_Controller
         } else {
             $out = [
                 'status' => false,
-                'message' => "Data couldn't be created!"
+                'message' => $error?$error:"Data couldn't be created!"
             ];
         }
         httpResponseJson($out);
@@ -77,6 +79,8 @@ class Payments extends MY_Controller
     {
         $record = $this->input->post();
         $loan_payment  = $this->payment->update($id, $record);
+        $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
+
         if($loan_payment){
             $out = [
                 'data' => $loan_payment,
@@ -88,7 +92,7 @@ class Payments extends MY_Controller
         else {
             $out = [
                 'status' => false,
-                'message' => "Loan payment data couldn't be update!"
+                'message' => $error?$error:"Loan payment data couldn't be update!"
             ];
         }
         httpResponseJson($out);

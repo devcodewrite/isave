@@ -90,7 +90,6 @@ class Customers extends MY_Controller
      */
     public function update(int $id = null)
     {
-
         $record = $this->input->post();
         $member = $this->member->update($id, $record);
         $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
@@ -105,7 +104,7 @@ class Customers extends MY_Controller
         } else {
             $out = [
                 'status' => false,
-                'message' => "Loan data couldn't be update!".$error
+                'message' => $error?$error:"Loan data couldn't be update!"
             ];
         }
         httpResponseJson($out);

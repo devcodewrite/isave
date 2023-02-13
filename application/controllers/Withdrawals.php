@@ -62,6 +62,8 @@ class Withdrawals extends MY_Controller
         $record = $this->input->post();
         $withdrawal  = $this->withdrawal->create($record);
 
+        $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
+
        if($withdrawal){
            $out = [
                'data' => $withdrawal,
@@ -73,7 +75,7 @@ class Withdrawals extends MY_Controller
        else {
            $out = [
                'status' => false,
-               'message' => "Withdrawal couldn't be created!"
+               'message' => $error?$error:"Withdrawal couldn't be created!"
            ];
        }
        httpResponseJson($out);
@@ -87,6 +89,7 @@ class Withdrawals extends MY_Controller
     {
         $record = $this->input->post();
         $withdrawal  = $this->withdrawal->update($id, $record);
+        $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
 
         if($withdrawal){
             $out = [
@@ -99,7 +102,7 @@ class Withdrawals extends MY_Controller
         else {
             $out = [
                 'status' => false,
-                'message' => "Withdrawal data couldn't be updated!"
+                'message' => $error?$error:"Withdrawal couldn't be created!"
             ];
         }
         httpResponseJson($out);

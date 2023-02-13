@@ -80,9 +80,11 @@ class Deposits extends MY_Controller
                 'message' => 'Customer deposit created successfully!'
             ];
         } else {
+            $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
+
             $out = [
                 'status' => false,
-                'message' => "Customer deposit couldn't be created!"
+                'message' => $error?$error:"Customer deposit couldn't be created!"
             ];
         }
         httpResponseJson($out);
@@ -95,6 +97,7 @@ class Deposits extends MY_Controller
     public function stores()
     {
         $records = $this->input->post();
+
         if ($this->deposit->createAll($records)) {
             $out = [
                 'status' => true,
@@ -102,9 +105,11 @@ class Deposits extends MY_Controller
                 'message' => 'Mass deposit created successfully!'
             ];
         } else {
+            $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
+
             $out = [
                 'status' => false,
-                'message' => "Mass deposit couldn't be created!"
+                'message' => $error?$error:"Mass deposit couldn't be created!"
             ];
         }
         httpResponseJson($out);
@@ -118,6 +123,7 @@ class Deposits extends MY_Controller
     {
         $record = $this->input->post();
         $deposit = $this->deposit->update($id, $record);
+        $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
 
         if ($deposit) {
             $out = [
@@ -128,7 +134,7 @@ class Deposits extends MY_Controller
         } else {
             $out = [
                 'status' => false,
-                'message' => "Deposit data couldn't be deleted!"
+                'message' => $error?$error:"Deposit data couldn't be deleted!"
             ];
         }
         httpResponseJson($out);

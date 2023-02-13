@@ -275,4 +275,15 @@ class Account_model extends CI_Model
         if($query) return $query->row('total');
 
     }
+
+    public function canWithdraw(int $id, float $amount)
+    {
+        $account = $this->find($id);
+        if($this->calBalance($id) < $amount ){
+            $this->session->set_flashdata('error_message', "$account->name has insufficient balance to make this withdrawals!");
+            return false;
+        }
+
+        return true;
+    }
 }

@@ -94,9 +94,11 @@ class Bankaccounts extends MY_Controller
                 'message' => 'Account created successfully!'
             ];
         } else {
+            $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
+
             $out = [
                 'status' => false,
-                'message' => "Account couldn't be created!"
+                'message' => $error?$error:"Account couldn't be created!"
             ];
         }
         httpResponseJson($out);

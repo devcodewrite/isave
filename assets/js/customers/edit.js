@@ -1,3 +1,4 @@
+
 let form = $(".form-wizard-content");
 
 $.validator.setDefaults({
@@ -92,6 +93,15 @@ $('.select2-associations').select2({
 form.on("submit", function (e) {
   e.preventDefault();
   if (form.valid() === true){
+
+    Swal.fire({
+      title: "Please wait, processing...",
+      showCloseButton:false,
+      allowOutsideClick:false,
+      didOpen:()=>{
+        Swal.showLoading();
+      }
+    });
       $.ajax({
           method: 'POST',
           url: this.getAttribute("action"),
@@ -102,6 +112,7 @@ form.on("submit", function (e) {
           processData: false,
           cache:false,
           success: function (d, r) {
+            Swal.close();
               if (!d || r === "nocontent") {
                   Swal.fire({
                       icon: "error",
@@ -148,6 +159,7 @@ form.on("submit", function (e) {
               }
           },
           error: function (r) {
+            Swal.close();
               Swal.fire({
                   icon: "error",
                   text: "Unable to submit form! Please try agian.",

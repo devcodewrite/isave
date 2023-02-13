@@ -64,6 +64,8 @@ class Transfers extends MY_Controller
         $record = $this->input->post();
         $transfer  = $this->transfer->create($record);
 
+        $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
+
         if ($transfer) {
             $out = [
                 'data' => $transfer,
@@ -74,7 +76,7 @@ class Transfers extends MY_Controller
         } else {
             $out = [
                 'status' => false,
-                'message' => "Transfer couldn't be created!"
+                'message' => $error?$error:"Transfer couldn't be created!"
             ];
         }
         httpResponseJson($out);
@@ -89,6 +91,8 @@ class Transfers extends MY_Controller
         $record = $this->input->post();
         $transfer  = $this->transfer->update($id, $record);
 
+        $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
+
         if ($transfer) {
             $out = [
                 'data' => $transfer,
@@ -99,7 +103,7 @@ class Transfers extends MY_Controller
         } else {
             $out = [
                 'status' => false,
-                'message' => "Transfer data couldn't be update!"
+                'message' => $error?$error:"Transfer data couldn't be update! "
             ];
         }
         httpResponseJson($out);
@@ -111,8 +115,7 @@ class Transfers extends MY_Controller
      */
     public function delete(int $id = null)
     {
-        $transfer = null; // replace created record object
-        if ($transfer) {
+        if ($this->transfer->delete($id)) {
             $out = [
                 'status' => true,
                 'message' => 'Transfer data deleted successfully!'

@@ -98,6 +98,9 @@ class Loans extends MY_Controller
     {
         $record = $this->input->post();
         $loan  = $this->loan->create($record);
+
+        $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
+
         if ($loan) {
             $out = [
                 'data' => $loan,
@@ -108,7 +111,7 @@ class Loans extends MY_Controller
         } else {
             $out = [
                 'status' => false,
-                'message' => "Customer loan couldn't be created!"
+                'message' => $error?$error:"Customer loan couldn't be created!"
             ];
         }
         httpResponseJson($out);
@@ -122,6 +125,8 @@ class Loans extends MY_Controller
     {
         $record = $this->input->post();
         $repayment  = $this->payment->create($record);
+        $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
+
         if ($repayment) {
             $out = [
                 'data' => $repayment,
@@ -132,7 +137,7 @@ class Loans extends MY_Controller
         } else {
             $out = [
                 'status' => false,
-                'message' => "Data couldn't be created!"
+                'message' => $error?$error:"Data couldn't be created!"
             ];
         }
         httpResponseJson($out);
@@ -146,6 +151,7 @@ class Loans extends MY_Controller
     {
         $record = $this->input->post();
         $loan = $this->loan->update($id, $record);
+        $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
         if ($loan) {
             $out = [
                 'data' => $loan,
@@ -156,7 +162,7 @@ class Loans extends MY_Controller
         } else {
             $out = [
                 'status' => false,
-                'message' => "Loan data couldn't be update!"
+                'message' => $error?$error:"Loan data couldn't be update!"
             ];
         }
         httpResponseJson($out);
