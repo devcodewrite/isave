@@ -78,10 +78,12 @@
                         <div class="form-group">
                         <?php if (isset($user)) { ?>
                         <a href="<?= site_url('users/' . $user->id) ?>" class="mr-2 btn btn-link btn-sm">Cancel</a>
+                        <button type="submit" class="btn btn-primary text-uppercase">Save Changes</button>
                     <?php } else { ?>
                         <button class="mr-2 btn btn-link btn-sm reset">Cancel</button>
+                        <button type="submit" class="btn btn-primary text-uppercase">Create User</button>
                     <?php } ?>
-                            <button type="submit" class="btn btn-primary text-uppercase">Create User</button>
+                           
                         </div>
                     </form>
                 </div>

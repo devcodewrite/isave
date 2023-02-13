@@ -134,10 +134,12 @@
                 <div class="d-block text-right card-footer">
                     <?php if (isset($loan)) { ?>
                         <a href="<?= site_url('loans/' . $loan->id) ?>" class="mr-2 btn btn-link btn-sm">Cancel</a>
+                        <button class="btn btn-success btn-lg apply">Save Changes</button>
                     <?php } else { ?>
                         <button class="mr-2 btn btn-link btn-sm reset">Cancel</button>
+                        <button class="btn btn-success btn-lg apply">Apply</button>
                     <?php } ?>
-                    <button class="btn btn-success btn-lg apply">Apply</button>
+                   
                 </div>
             </div>
         </div>
@@ -146,5 +148,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= site_url('assets/js/loans/edit.js?v=' . uniqid()) ?>" defer></script>
+<script src="<?= site_url('assets/js/loans/edit.js?v=1') ?>" defer></script>
 <?php app_end(); ?>

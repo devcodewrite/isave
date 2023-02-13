@@ -91,7 +91,13 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary text-uppercase">Sumbit form</button>
+                    <?php if (isset($association)) { ?>
+                        <a href="<?= site_url('associations/' . $association->id) ?>" class="mr-2 btn btn-link btn-sm">Cancel</a>
+                        <button type="submit" class="btn btn-primary text-uppercase">Save Changes</button>
+                    <?php } else { ?>
+                        <button class="mr-2 btn btn-link btn-sm reset">Cancel</button>
+                        <button type="submit" class="btn btn-primary text-uppercase">Create an Association</button>
+                    <?php } ?>
                 </div>
             </form>
         </div>

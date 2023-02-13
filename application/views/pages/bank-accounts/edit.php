@@ -100,9 +100,14 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
-                                <button type="submit" class="btn btn-primary text-uppercase">Create Account</button>
+                                <?php if (isset($account)) { ?>
+                                    <a href="<?= site_url('bankaccounts/' . $account->id) ?>" class="mr-2 btn btn-link btn-sm">Cancel</a>
+                                    <button type="submit" class="btn btn-primary text-uppercase">Save Changes</button>
+                                <?php } else { ?>
+                                    <button class="mr-2 btn btn-link btn-sm reset">Cancel</button>
+                                    <button type="submit" class="btn btn-primary text-uppercase">Create Account</button>
+                                <?php } ?>
                             </form>
                         </div>
                     </div>
@@ -115,7 +120,7 @@
                     <div class="main-card mb-3 card">
                         <div class="card-body">
                             <h5 class="card-title">Association Form</h5>
-                            <form class="col-md-10 mx-auto associationAccForm" method="post" action="<?= isset($account)?site_url('bankaccounts/update/'.$account->id):site_url('bankaccounts/store') ?>" data-redirect-url="<?= site_url('bankaccounts') ?>">
+                            <form class="col-md-10 mx-auto associationAccForm" method="post" action="<?= isset($account) ? site_url('bankaccounts/update/' . $account->id) : site_url('bankaccounts/store') ?>" data-redirect-url="<?= site_url('bankaccounts') ?>">
                                 <input type="hidden" name="ownership" value="association">
                                 <?php if (isset($account)) { ?>
                                     <input type="hidden" name="_method" value="put">
@@ -165,10 +170,12 @@
                                 </div>
                                 <?php if (isset($account)) { ?>
                                     <a href="<?= site_url('bankaccounts/' . $account->id) ?>" class="mr-2 btn btn-link btn-sm">Cancel</a>
+                                    <button type="submit" class="btn btn-primary text-uppercase">Save Changes</button>
                                 <?php } else { ?>
                                     <button class="mr-2 btn btn-link btn-sm reset">Cancel</button>
+                                    <button type="submit" class="btn btn-primary text-uppercase">Create Account</button>
                                 <?php } ?>
-                                <button type="submit" class="btn btn-primary text-uppercase">Create Account</button>
+
                             </form>
                         </div>
                     </div>

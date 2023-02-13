@@ -108,10 +108,12 @@
                 <div class="d-block text-right card-footer">
                     <?php if (isset($deposit)) { ?>
                         <a href="<?= site_url('deposits/' . $deposit->id) ?>" class="mr-2 btn btn-link btn-sm">Cancel</a>
+                        <button class="btn btn-success btn-lg deposit">Save Changes</button>
                     <?php } else { ?>
                         <button class="mr-2 btn btn-link btn-sm reset">Cancel</button>
+                        <button class="btn btn-success btn-lg deposit">Deposit</button>
                     <?php } ?>
-                    <button class="btn btn-success btn-lg deposit">Deposit</button>
+
                 </div>
             </div>
         </div>
