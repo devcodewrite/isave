@@ -286,4 +286,15 @@ class Account_model extends CI_Model
 
         return true;
     }
+
+    public function canTransfer(int $id, float $amount)
+    {
+        $account = $this->find($id);
+        if($this->calBalance($id) < $amount ){
+            $this->session->set_flashdata('error_message', "$account->name has insufficient balance to make this transfer!");
+            return false;
+        }
+
+        return true;
+    }
 }

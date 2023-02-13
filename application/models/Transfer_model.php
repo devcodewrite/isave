@@ -16,6 +16,10 @@ class Transfer_model extends CI_Model
             return false;
         }
 
+        if(!$this->account->canTranfer($record['account_id'], $record['amount'])){
+            return false;
+        }
+
         $record['from_member_id'] = $this->account->find($record['from_account_id'])->member_id;
         $record['to_member_id'] = $this->account->find($record['to_account_id'])->member_id;
 
