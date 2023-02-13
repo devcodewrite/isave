@@ -24,7 +24,7 @@
     </div>
     <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
         <li class="nav-item">
-            <a role="tab" class="nav-link <?= isset($account) ? ($account->ownership === 'individual' ? 'active d-block' : 'd-none') : '' ?>" id="tab-0" data-toggle="tab" href="#tab-content-0">
+            <a role="tab" class="nav-link <?= isset($account) ? ($account->ownership === 'individual' ? 'active d-block' : 'd-none') : 'active' ?>" id="tab-0" data-toggle="tab" href="#tab-content-0">
                 <span>Membership</span>
             </a>
         </li>
@@ -35,7 +35,7 @@
         </li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane tabs-animation fade <?= isset($account) ? ($account->ownership === 'individual' ? 'show active d-block' : 'd-none') : '' ?>" id="tab-content-0" role="tabpanel">
+        <div class="tab-pane tabs-animation fade <?= isset($account) ? ($account->ownership === 'individual' ? 'show active d-block' : 'd-none') : 'show active' ?>" id="tab-content-0" role="tabpanel">
             <div class="row">
                 <div class="col-md-8">
                     <div class="main-card mb-3 card">
