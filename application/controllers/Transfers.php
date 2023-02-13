@@ -132,8 +132,14 @@ class Transfers extends MY_Controller
         $length = $this->input->get('length', true);
         $draw = $this->input->get('draw', true);
         $inputs = $this->input->get();
+        $query = $this->transfer->all();
+        $where = [];
+        if ($this->input->get('account_id'))
+            $where = array_merge($where, ['transfers.from_account_id' => $inputs['account_id']]);
 
-        $out = datatable($this->transfer->all(), $start, $length, $draw, $inputs);
+        $query->where($where);
+
+        $out = datatable($query, $start, $length, $draw, $inputs);
         $out = array_merge($out, [
             'input' => $this->input->get(),
         ]);

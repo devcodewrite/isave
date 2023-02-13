@@ -24,18 +24,18 @@
     </div>
     <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
         <li class="nav-item">
-            <a role="tab" class="nav-link active" id="tab-0" data-toggle="tab" href="#tab-content-0">
+            <a role="tab" class="nav-link <?= isset($account) ? ($account->ownership === 'individual' ? 'active d-block' : 'd-none') : '' ?>" id="tab-0" data-toggle="tab" href="#tab-content-0">
                 <span>Membership</span>
             </a>
         </li>
         <li class="nav-item">
-            <a role="tab" class="nav-link" id="tab-1" data-toggle="tab" href="#tab-content-1">
+            <a role="tab" class="nav-link <?= isset($account) ? ($account->ownership === 'association' ? 'active d-block' : 'd-none') : '' ?>" id="tab-1" data-toggle="tab" href="#tab-content-1">
                 <span>Association</span>
             </a>
         </li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane tabs-animation fade show <?= isset($account) ? ($account->ownership === 'individual active' ? 'd-block' : 'd-none') : '' ?>" id="tab-content-0" role="tabpanel">
+        <div class="tab-pane tabs-animation fade <?= isset($account) ? ($account->ownership === 'individual' ? 'show active d-block' : 'd-none') : '' ?>" id="tab-content-0" role="tabpanel">
             <div class="row">
                 <div class="col-md-8">
                     <div class="main-card mb-3 card">
@@ -54,7 +54,7 @@
                                     <select name="associaton_id" class="form-control select2-associations" required>
                                         <option value=""></option>
                                         <?php if (isset($account)) { ?>
-                                            <option value="<?= $account->association_id ?>" selected><?= $account->association->name ?></option>
+                                            <option value="<?= $account->association->id  ?>" selected><?= $account->association->name; ?></option>
                                         <?php } ?>
                                     </select>
                                 </div>
@@ -128,7 +128,7 @@
                                     <select name="association_id" class="form-control select2-associations" required>
                                         <option value=""></option>
                                         <?php if (isset($account)) { ?>
-                                            <option value="<?= $account->association_id ?>" selected><?= $account->association->name ?></option>
+                                            <option value="<?= $account->association_id ?>" selected><?= $account->association_owner ?></option>
                                         <?php } ?>
                                     </select>
                                 </div>

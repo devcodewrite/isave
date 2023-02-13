@@ -134,8 +134,15 @@ class Withdrawals extends MY_Controller
         $length = $this->input->get('length', true);
         $draw = $this->input->get('draw', true);
         $inputs = $this->input->get();
+        $query = $this->withdrawal->all();
+        $where = [];
+        if($this->input->get('account_id'))
+            $where = array_merge($where, ['withdrawals.account_id' => $inputs['account_id']]);
 
-        $out = datatable($this->withdrawal->all(), $start, $length, $draw, $inputs);
+        $query->where($where);
+
+
+        $out = datatable($query, $start, $length, $draw, $inputs);
         $out = array_merge($out, [
             'input' => $this->input->get(),
         ]);

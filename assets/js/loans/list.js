@@ -45,7 +45,7 @@ $(function () {
       {
         data: null,
         name: "accounts.id",
-        render: function(data, type, row) {
+        render: function (data, type, row) {
           if (type === "display") {
             let d =
               `<div class="d-flex align-items-center">` +
@@ -65,9 +65,13 @@ $(function () {
           return `${data} months`;
         },
       },
-      { data: "rate", name: "loans.rate", render:function (data, type, row) {
-        return `${data*100}%`;
-      } },
+      {
+        data: "rate",
+        name: "loans.rate",
+        render: function (data, type, row) {
+          return `${data * 100}%`;
+        },
+      },
       {
         data: "appl_status",
         name: "loans.appl_status",
@@ -80,7 +84,7 @@ $(function () {
             };
             return `<span class="alert p-1 px-2 text-white border-rounded ${
               labels[data]
-            }">${data.replace('_', ' ').toUpperCase()}</span>`;
+            }">${data.replace("_", " ").toUpperCase()}</span>`;
           }
           return data;
         },
@@ -111,19 +115,22 @@ $(function () {
             };
             return `<span style="font-size:12px;" class="alert p-1 px-2 text-white border-rounded ${
               labels[data]
-            }">${data.replace('_', ' ').toUpperCase()}</span>`;
+            }">${data.replace("_", " ").toUpperCase()}</span>`;
           }
           return data;
         },
       },
       { data: "loanType", name: "loans.loan_type_id" },
-      { data: null, name: "loans.user_id", 
-    render:function (data, type, row) {
-      if(type === 'display'){
-        return `<a href="${baseUrl}users/${data.user_id}">${data.user}</a>`
-      }
-      return data.user_id;
-    } },
+      {
+        data: null,
+        name: "loans.user_id",
+        render: function (data, type, row) {
+          if (type === "display") {
+            return `<a href="${baseUrl}users/${data.user_id}">${data.user}</a>`;
+          }
+          return data.user_id;
+        },
+      },
     ],
     order: [[0, "desc"]],
     columnDefs: [

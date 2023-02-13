@@ -12,14 +12,14 @@ class Deposits extends MY_Controller
         $this->load->view('pages/deposits/list');
     }
 
-     /**
+    /**
      * Show a resource
      * html view
      */
     public function view(int $id = null)
     {
         $deposit = $this->deposit->find($id);
-        if(!$deposit) show_404();
+        if (!$deposit) show_404();
 
         $deposit->account = $this->account->find($deposit->account_id);
 
@@ -29,7 +29,7 @@ class Deposits extends MY_Controller
         $this->load->view('pages/deposits/detail', $data);
     }
 
-     /**
+    /**
      * Show a form page for creating resource
      * html view
      */
@@ -47,15 +47,15 @@ class Deposits extends MY_Controller
     }
 
 
-     /**
+    /**
      * Show a form page for updating resource
      * html view
      */
     public function edit(int $id = null)
     {
         $deposit = $this->deposit->find($id);
-        if(!$deposit) show_404();
-        
+        if (!$deposit) show_404();
+
         $deposit->account = $this->account->find($deposit->account_id);
         $data = [
             'deposit' => $deposit,
@@ -67,68 +67,65 @@ class Deposits extends MY_Controller
      * Store a resource
      * print json Response
      */
-    public function store ()
+    public function store()
     {
         $record = $this->input->post();
         $deposit = $this->deposit->create($record);
 
-       if($deposit){
-           $out = [
-               'data' => $deposit,
-               'input' => $record,
-               'status' => true,
-               'message' => 'Customer deposit created successfully!'
-           ];
-       }
-       else {
-           $out = [
-               'status' => false,
-               'message' => "Customer deposit couldn't be created!"
-           ];
-       }
-       httpResponseJson($out);
+        if ($deposit) {
+            $out = [
+                'data' => $deposit,
+                'input' => $record,
+                'status' => true,
+                'message' => 'Customer deposit created successfully!'
+            ];
+        } else {
+            $out = [
+                'status' => false,
+                'message' => "Customer deposit couldn't be created!"
+            ];
+        }
+        httpResponseJson($out);
     }
 
-     /**
+    /**
      * Store a resources
      * print json Response
      */
-    public function stores ()
+    public function stores()
     {
         $records = $this->input->post();
-       if($this->deposit->createAll($records)){
-           $out = [
-               'status' => true,
-               'input' =>$records,
-               'message' => 'Mass deposit created successfully!'
-           ];
-       }
-       else {
-           $out = [
-               'status' => false,
-               'message' => "Mass deposit couldn't be created!"
-           ];
-       }
-       httpResponseJson($out);
+        if ($this->deposit->createAll($records)) {
+            $out = [
+                'status' => true,
+                'input' => $records,
+                'message' => 'Mass deposit created successfully!'
+            ];
+        } else {
+            $out = [
+                'status' => false,
+                'message' => "Mass deposit couldn't be created!"
+            ];
+        }
+        httpResponseJson($out);
     }
 
     /**
      * Update a resource
      * print json Response
      */
-    public function update (int $id = null)
+    public function update(int $id = null)
     {
         $record = $this->input->post();
         $deposit = $this->deposit->update($id, $record);
 
-        if($deposit){
+        if ($deposit) {
             $out = [
                 'data' => $deposit,
                 'status' => true,
                 'message' => 'Deposit data deleted successfully!'
             ];
-        }
-        else {
+        } else {
             $out = [
                 'status' => false,
                 'message' => "Deposit data couldn't be deleted!"
@@ -141,15 +138,14 @@ class Deposits extends MY_Controller
      * Delete a resource
      * print json Response
      */
-    public function delete (int $id = null)
+    public function delete(int $id = null)
     {
-        if($this->deposit->delete($id)){
+        if ($this->deposit->delete($id)) {
             $out = [
                 'status' => true,
                 'message' => 'Deposit data deleted successfully!'
             ];
-        }
-        else {
+        } else {
             $out = [
                 'status' => false,
                 'message' => "Deposit data couldn't be deleted!"
@@ -164,12 +160,17 @@ class Deposits extends MY_Controller
         $length = $this->input->get('length', true);
         $draw = $this->input->get('draw', true);
         $inputs = $this->input->get();
+        $query = $this->deposit->all();
+        $where = [];
+        if ($this->input->get('account_id'))
+            $where = array_merge($where, ['deposits.account_id' => $inputs['account_id']]);
 
-        $out = datatable($this->deposit->all(), $start, $length, $draw, $inputs);
+        $query->where($where);
+
+        $out = datatable($query, $start, $length, $draw, $inputs);
         $out = array_merge($out, [
             'input' => $this->input->get(),
         ]);
         httpResponseJson($out);
     }
-   
 }

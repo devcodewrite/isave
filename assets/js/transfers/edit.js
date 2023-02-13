@@ -193,3 +193,4 @@ form.on("submit", function (e) {
 $(".transfer").on("click", function (e) {
   form.trigger("submit");
 });
+

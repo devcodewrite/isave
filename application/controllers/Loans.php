@@ -188,8 +188,16 @@ class Loans extends MY_Controller
         $length = $this->input->get('length', true);
         $draw = $this->input->get('draw', true);
         $inputs = $this->input->get();
+        $query = $this->loan->all();
 
-        $out = datatable($this->loan->all(), $start, $length, $draw, $inputs);
+        $where = [];
+
+        if($this->input->get('account_id'))
+            $where = array_merge($where, ['loans.account_id' => $inputs['account_id']]);
+
+        $query->where($where);
+
+        $out = datatable($query, $start, $length, $draw, $inputs);
         $out = array_merge($out, [
             'input' => $this->input->get(),
         ]);

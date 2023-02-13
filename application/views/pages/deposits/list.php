@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="card-body">
-        <div class="d-flex align-items-end row px-3">
+            <div class="d-flex align-items-end row px-3">
                 <div>
                     <label for="from">From</label>
                     <div class="form-group">
@@ -57,8 +57,8 @@
                         <th>Account</th>
                         <th>Amount</th>
                         <th>Type</th>
-                        <th>Transferor</th>
-                        <th>Transferor's Phone</th>
+                        <th>Depositor's Name</th>
+                        <th>Depositor's Phone</th>
                         <th>Date</th>
                     </tr>
                 </thead>
@@ -71,8 +71,8 @@
                         <th>Account</th>
                         <th>Amount</th>
                         <th>Type</th>
-                        <th>Transferor's Name</th>
-                        <th>Transferor's Phone</th>
+                        <th>Depositor's Name</th>
+                        <th>Depositor's Phone</th>
                         <th>Date</th>
                     </tr>
                 </tfoot>

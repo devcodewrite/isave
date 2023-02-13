@@ -60,10 +60,19 @@ class Bankaccounts extends MY_Controller
      */
     public function edit(int $id = null)
     {
+        $account = $this->account->find($id);
+        if(!$account) show_404();
+
+        if($account->ownership === 'individual'){
+            $account->member = $this->member->find($account->member_id);
+        }else {
+             $account->association = $this->member->find($account->association_id);
+        }
+       
         $data = [
             'id_card_types' => $this->idcardtype->all()->get()->result(),
             'accountTypes' => $this->acctype->all()->get()->result(),
-            'account' => $this->account->find($id),
+            'account' => $account,
         ];
         $this->load->view('pages/bank-accounts/edit', $data);
     }
