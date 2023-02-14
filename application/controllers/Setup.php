@@ -34,6 +34,7 @@ class Setup extends MY_Controller
             $data = $this->acctype->update($input['id'], $input);
             $message = "Type updated successfully!";
         } else if($this->input->post()) {
+            $input = $this->input->post();
             $data = $this->acctype->create($input);
             $message = "Type created successfully!";
         }
