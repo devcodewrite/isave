@@ -265,7 +265,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="identity_card_type_id">ID card type</label>
-                                                                <select name="identity_card_type_id" class="form-control select2-id-card-types" required>
+                                                                <select name="identity_card_type_id" class="form-control select2-id-card-types">
                                                                     <option value=""></option>
                                                                     <?php foreach ($id_card_types as $row) { ?>
                                                                         <option value="<?= $row->id; ?>" <?= isset($member) ? ($member->identity_card_type_id === $row->id ? 'selected' : '') : '' ?>><?= $row->label; ?></option>
@@ -276,7 +276,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="identity_card_number">ID card number</label>
-                                                                <input name="identity_card_number" id="identity_card_number" value="<?= isset($member) ? $member->identity_card_number : "" ?>" placeholder="Enter id number" type="text" class="form-control" required>
+                                                                <input name="identity_card_number" id="identity_card_number" value="<?= isset($member) ? $member->identity_card_number : "" ?>" placeholder="Enter id number" type="text" class="form-control">
                                                             </div>
                                                         </div>
                                                     </div>
