@@ -87,6 +87,7 @@
                     <tr>
                         <th>#ID</th>
                         <th>Label</th>
+                        <th>Type</th>
                         <th>Created On</th>
                         <th>Action</th>
                     </tr>
