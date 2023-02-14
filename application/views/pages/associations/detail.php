@@ -250,7 +250,7 @@
                             <table style="width: 100%;" id="dt-related-customers" data-association-id="<?=$association->id ?>" class="table table-hover table-striped table-bordered">
                                 <thead class="text-uppercase">
                                     <tr>
-                                        <th>#ID</th>
+                                    <th>#ID</th>
                                         <th>First Name</th>
                                         <th>Last Name</th>
                                         <th>Sex</th>
@@ -259,6 +259,7 @@
                                         <th>Occupation</th>
                                         <th>Status</th>
                                         <th>Created On</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
 
@@ -273,6 +274,7 @@
                                         <th>Occupation</th>
                                         <th>Status</th>
                                         <th>Created On</th>
+                                        <th>Action</th>
                                     </tr>
                                 </tfoot>
                             </table>
