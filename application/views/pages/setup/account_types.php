@@ -21,7 +21,7 @@
             <i class="header-icon lnr-license icon-gradient bg-plum-plate"> </i> Account Types
         </div>
         <div class="card-body">
-            <form>
+            <form class="edit-account-type" action="<?=site_url('setup/account-types') ?>">
                 <div class="form-row">
                     <div class="col-md-4">
                         <div class="form-group">
@@ -42,7 +42,6 @@
                     <div class="col-12 mb-3">
                     <button type="button" class="btn btn-warning text-uppercase float-right reset ml-3">Cancel</button>
                         <button type="submit" class="btn btn-primary text-uppercase float-right">Create</button>
-                       
                     </div>
                 </div>
 
@@ -67,13 +66,17 @@
                             <td><?= $row->created_at ?></td>
                             <td>
                                 <div class="d-flex">
-                                    <form action="" method="POST" novalidate>
+                                    <form class="change-status" action="<?=site_url('setup/account-types') ?>" method="POST">
                                         <input type="hidden" name="id" value="<?= $row->id ?>">
-                                        <input type="hidden" name="action" value="">
+                                       
                                         <?php if ($row->status === 'open') { ?>
+                                            <input type="hidden" name="action" value="close">
                                             <input type="hidden" name="status" value="close">
-                                        <?php } ?>
-                                        <input type="checkbox" onchange="$(this).closest('form').submit()" value="1" <?= $row->status === '1' ? 'checked' : '' ?> data-toggle="toggle" data-onstyle="primary">
+                                        <?php }else {?> 
+                                            <input type="hidden" name="action" value="open">
+                                            <input type="hidden" name="status" value="open">
+                                            <?php } ?>
+                                        <input type="checkbox" onchange="$('.change-status').trigger('submit')" value="1" <?= $row->status === '1' ? 'checked' : '' ?> data-toggle="toggle" data-onstyle="primary">
                                     </form>
                                     <a href="<?= site_url('setup/account-types') ?>" class="btn btn-info ml-2"><i class="fa fa-edit"></i></a>
                                     <button class="btn btn-danger ml-2"><i class="fa fa-trash"></i></button>
@@ -98,5 +101,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/setup/account-types.js?v=2') ?>" defer></script>
+<script src="<?= base_url('assets/js/setup/account-types.js?v=9') ?>" defer></script>
 <?php app_end(); ?>

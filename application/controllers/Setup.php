@@ -31,11 +31,10 @@ class Setup extends MY_Controller
             }
         } else if ($this->input->post('id')) {
             $input = $this->input->post();
+            $data = $this->acctype->create($input);
             $message = "Type updated successfully!";
         } else {
-            $input = $this->input->post();
-            $data = $this->acctype->create($input);
-            $message = "Type created successfully!";
+          
         }
 
         if ($input && $data) {
@@ -53,8 +52,7 @@ class Setup extends MY_Controller
             return httpResponseJson($out);
         }
 
-
-        $this->load->view('pages/setup/account_types');
+        $this->load->view('pages/setup/account_types',$data);
     }
 
     /**
