@@ -103,7 +103,7 @@
                                         <div class="col-md-3">
                                             <div class="position-relative form-group">
                                                 <label for="sex">Sex</label>
-                                                <select name="sex" class="form-control select2-sex" required>
+                                                <select name="sex" class="form-control select2-sex">
                                                     <option value="">Select a sex</option>
                                                     <option value="male" <?= isset($member) ? ($member->sex === 'male' ? 'selected' : '') : '' ?>>Male</option>
                                                     <option value="female" <?= isset($member) ? ($member->sex === 'female' ? 'selected' : '') : '' ?>>Female</option>
@@ -114,7 +114,7 @@
                                         <div class="col-md-3">
                                             <div class="position-relative form-group">
                                                 <label for="marital_status">Marital status</label>
-                                                <select name="marital_status" class="form-control select2-marital-status" required>
+                                                <select name="marital_status" class="form-control select2-marital-status">
                                                     <option value="">Select a status</option>
                                                     <option value="single" <?= isset($member) ? ($member->marital_status === 'single' ? 'selected' : '') : '' ?>>Single</option>
                                                     <option value="married" <?= isset($member) ? ($member->marital_status === 'married' ? 'selected' : '') : '' ?>>Married</option>
@@ -126,7 +126,7 @@
                                         <div class="col-md-6">
                                             <div class="position-relative form-group">
                                                 <label for="education">Education level</label>
-                                                <select name="education" class="form-control select2-educations" required>
+                                                <select name="education" class="form-control select2-educations">
                                                     <option value="">Select an education level</option>
                                                     <option value="none" <?= isset($member) ? ($member->education === 'primary' ? 'selected' : '') : '' ?>>None</option>
                                                     <option value="primary" <?= isset($member) ? ($member->education === 'primary' ? 'selected' : '') : '' ?>>Primary School</option>
@@ -168,7 +168,7 @@
                                         <div class="col-md-3">
                                             <div class="position-relative form-group">
                                                 <label for="settlement">Settlement</label>
-                                                <select name="settlement" class="form-control" required>
+                                                <select name="settlement" class="form-control">
                                                     <option value="">Select a settlement</option>
                                                     <option value="rural" <?= isset($member) ? ($member->settlement === 'rural' ? 'selected' : '') : '' ?>>Rural Area</option>
                                                     <option value="urban" <?= isset($member) ? ($member->settlement === 'urban' ? 'selected' : '') : '' ?>>Urban Area</option>
