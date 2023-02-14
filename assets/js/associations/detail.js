@@ -482,7 +482,7 @@ $(function () {
         data: "sex",
         name: "sex",
         render: function (data, type, row) {
-          return data?data:data.toUpperCase();
+          return data?data.toUpperCase():'other';
         },
       },
       { data: "primary_phone", name: "primary_phone" },
