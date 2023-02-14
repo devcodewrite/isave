@@ -463,7 +463,7 @@ $(function () {
                 female: `${baseUrl}assets/images/woman.png`,
                 other: `${baseUrl}assets/images/user.png`,
               };
-              return imgs[this.sex];
+              return imgs[this.sex?this.sex:'other'];
             };
             let d =
               `<div class="d-flex align-items-center">` +
@@ -482,7 +482,7 @@ $(function () {
         data: "sex",
         name: "sex",
         render: function (data, type, row) {
-          return data.toUpperCase();
+          return data?data:data.toUpperCase();
         },
       },
       { data: "primary_phone", name: "primary_phone" },
