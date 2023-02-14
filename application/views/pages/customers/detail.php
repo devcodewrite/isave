@@ -125,7 +125,8 @@
                     <div class="row text-uppercase mt-2 border-bottom">
                         <p class="col-6 text-black-50">ID Type</p>
                         <p class="col-6 input-placeholder text-black ">
-                            <?= $this->member->identityCardType($member->id)->label ?>
+                            <?php $cardType = $this->member->identityCardType($member->id); ?>
+                            <?= $cardType?$cardType->label:'' ?>
                         </p>
                     </div>
                 </div>
