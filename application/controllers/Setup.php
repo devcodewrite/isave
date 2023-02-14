@@ -31,10 +31,10 @@ class Setup extends MY_Controller
             }
         } else if ($this->input->post('id')) {
             $input = $this->input->post();
-            $data = $this->acctype->create($input);
+            $data = $this->acctype->update($input['id'], $input);
             $message = "Type updated successfully!";
-        } else {
-          
+        } else if($this->input->post()) {
+            $data = $this->acctype->create($input);
         }
 
         if ($input && $data) {
