@@ -256,7 +256,6 @@
                                         <th>Sex</th>
                                         <th>Primary Phone</th>
                                         <th>ID Number</th>
-                                        <th>Associations</th>
                                         <th>Occupation</th>
                                         <th>Status</th>
                                         <th>Created On</th>
@@ -271,7 +270,6 @@
                                         <th>Sex</th>
                                         <th>Primary Phone</th>
                                         <th>ID Number</th>
-                                        <th>Associations</th>
                                         <th>Occupation</th>
                                         <th>Status</th>
                                         <th>Created On</th>
