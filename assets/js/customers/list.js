@@ -28,9 +28,6 @@ $(function () {
     columns: [
       { data: null, name: "members.id",
       render:function(data, type, row){
-        if(data === null){
-          return '';
-        }
         if(type === 'display'){
             data.getPhoto = function () {
                 let imgs = {
@@ -38,7 +35,7 @@ $(function () {
                     female: `${baseUrl}assets/images/woman.png`,
                     other: `${baseUrl}assets/images/user.png`,
                 };
-                return imgs[this.sex];
+                return imgs[this.sex?this.sex:'other'];
             };
             let d = `<div class="d-flex align-items-center">`
             + `<a href="${baseUrl}customers/${data.id}" class="p-1 ml-1 btn btn-link float-right">${data.id}</a>`
