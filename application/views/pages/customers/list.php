@@ -161,5 +161,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/customers/list.js?v=7') ?>" defer></script>
+<script src="<?= base_url('assets/js/customers/list.js?v=8') ?>" defer></script>
 <?php app_end(); ?>

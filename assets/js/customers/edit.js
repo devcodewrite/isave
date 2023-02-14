@@ -11,10 +11,10 @@ let validator = form.validate({
     firstname: "required",
     lastname: "required",
     sex: "required",
-    marital_status: "required",
+    //marital_status: "required",
     primary_phone: {required:!0, min:10, digits:true},
-    address: "required",
-    city: "required",
+   // address: "required",
+   // city: "required",
     email: { email: !0 },
   },
   messages: {
