@@ -28,6 +28,9 @@ $(function () {
     columns: [
       { data: null, name: "members.id",
       render:function(data, type, row){
+        if(data === null){
+          return '';
+        }
         if(type === 'display'){
             data.getPhoto = function () {
                 let imgs = {
@@ -52,7 +55,8 @@ $(function () {
         data: "sex",
         name: "sex",
         render: function (data, type, row) {
-          return data.toUpperCase();
+          
+          return data?data.toUpperCase():'';
         },
       },
       { data: "primary_phone", name: "primary_phone" },
