@@ -33,6 +33,16 @@ class Association_model extends CI_Model
         }
     }
 
+    public function removeMember(int $association_id,int $member_id)
+    {
+        $data = [
+            'member_id' =>$member_id,
+            'association_id' => $association_id,
+        ];
+
+       return $this->db->delete($this->ftable, $data);
+    }
+
     /**
      * Update a record
      * @param $id

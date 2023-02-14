@@ -151,7 +151,7 @@ $(function () {
     $("#loan-date-from,#loan-date-to").val("");
     loanTable.ajax.reload();
   });
-  
+
   transferTable = $("#dt-transfers").DataTable({
     ajax: {
       url: baseUrl + "transfers/datatables",
@@ -487,7 +487,6 @@ $(function () {
       },
       { data: "primary_phone", name: "primary_phone" },
       { data: "identity_card_number", name: "identity_card_number" },
-      { data: "association_name", name: "associations.name" },
       { data: "occupation", name: "occupation" },
       {
         data: "rstate",
@@ -512,15 +511,93 @@ $(function () {
           return new Date(data).toDateString();
         },
       },
+      {
+        data: null,
+        name: "members.id",
+        render: function (data, type, row) {
+          if (type === "display") {
+            let id = $("#dt-related-customers").data(
+                "association-id"
+              );
+            return `<a href="${baseUrl}associations/remove-member/${id}" data-member-id="${data.id}" class="btn btn-icon btn-warning delete-row"><i class="fa fa-trash"></i></a>`;
+          }
+          return null;
+        },
+      },
     ],
     order: [[9, "desc"]],
   });
   $(".customer-filter").on("click", function (params) {
-    table.ajax.reload();
+    customerTable.ajax.reload();
   });
 
   $(".customer-filter-clear").on("click", function (params) {
     $("#customer-date-from,#customer-date-to").val("");
     customerTable.ajax.reload();
+  });
+
+  $("#dt-related-customers").on("click", ".delete-row", function (e) {
+    e.preventDefault();
+
+    let url = $(this).attr('href');
+    let data = $(this).data('member-id');
+
+    Swal.fire({
+      icon: "warning",
+      title: "Are you sure ?",
+      text: `You want to remove this member from this association`,
+      showCancelButton: true,
+    }).then((result) => {
+      if (!result.isConfirmed) {
+        return;
+      }
+      $.ajax({
+        method: "POST",
+        url: `${url}`,
+        data:{
+            member_id:data,
+        },
+        dataType: "json",
+        cache: false,
+        success: function (d, r) {
+          if (!d || r === "nocontent") {
+            Swal.fire({
+              icon: "error",
+              text: "Malformed form data sumbitted! Please try agian.",
+            });
+            return;
+          }
+          if (
+            typeof d.status !== "boolean" ||
+            typeof d.message !== "string"
+          ) {
+            Swal.fire({
+              icon: "error",
+              text: "Malformed data response! Please try agian.",
+            });
+            return;
+          }
+
+          if (d.status === true) {
+            Swal.fire({
+              icon: "success",
+              text: d.message,
+            });
+            customerTable.ajax.reload();
+          } else {
+            Swal.fire({
+              icon: "error",
+              text: d.message,
+            });
+          }
+        },
+        error: function (r) {
+          Swal.fire({
+            icon: "error",
+            text: "Unable to submit form! Please try agian.",
+          });
+        },
+      });
+    });
   });
 });

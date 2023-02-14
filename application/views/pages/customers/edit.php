@@ -29,7 +29,7 @@
                 <div class="main-card mb-3 card">
                     <div class="card-body">
                         <div id="smartwizard">
-                          
+
                             <ul class="forms-wizard">
                                 <li>
                                     <a class="form-step" href="#step-1">
@@ -48,13 +48,13 @@
                                 </li>
                             </ul>
                             <form class="form-wizard-content" action="<?= isset($member) ? site_url('customers/update/' . $member->id) : site_url('customers/store') ?>" data-redirect-url="<?= site_url('customers') ?>">
-                            <?php if (isset($member)) { ?>
-                                <input type="hidden" name="_method" value="put">
-                                <input type="hidden" name="id" value="<?= $member->id ?>">
-                            <?php } else { ?>
-                                <input type="hidden" name="_method" value="post">
-                            <?php } ?>
-                            <div id="step-1">
+                                <?php if (isset($member)) { ?>
+                                    <input type="hidden" name="_method" value="put">
+                                    <input type="hidden" name="id" value="<?= $member->id ?>">
+                                <?php } else { ?>
+                                    <input type="hidden" name="_method" value="post">
+                                <?php } ?>
+                                <div id="step-1">
                                     <div class="form-row">
                                         <div class="col-md-2">
                                             <div class="position-relative form-group">
@@ -196,7 +196,7 @@
                                                     <div class="form-row text-center">
                                                         <div style="width: 200px;" class="mx-auto">
                                                             <div class="card">
-                                                                <img class="photo-placeholder" height="200" width="200" src="<?=isset($member)?$this->setting->toAvatar($member->photo_url,$member): base_url('assets/images/no-image.png') ?>" alt="Passport Photo">
+                                                                <img class="photo-placeholder" height="200" width="200" src="<?= isset($member) ? $this->setting->toAvatar($member->photo_url, $member) : base_url('assets/images/no-image.png') ?>" alt="Passport Photo">
                                                             </div>
                                                             <div class="position-relative form-group">
                                                                 <input name="photo" id="photo" data-target="photo-placeholder" placeholder="Choose a photo" onchange="readURL(this)" type="file" class="form-control">
@@ -205,7 +205,7 @@
                                                         </div>
                                                         <div style="width: 400px;" class="mx-auto">
                                                             <div class="card">
-                                                                <img class="card-placeholder" height="200" style="object-fit:scale-down" width="auto" src="<?= isset($member)?($member->identity_card_url?$member->identity_card_url:base_url('assets/images/id-card.png')):base_url('assets/images/id-card.png') ?>" alt="Card Photo">
+                                                                <img class="card-placeholder" height="200" style="object-fit:scale-down" width="auto" src="<?= isset($member) ? ($member->identity_card_url ? $member->identity_card_url : base_url('assets/images/id-card.png')) : base_url('assets/images/id-card.png') ?>" alt="Card Photo">
                                                             </div>
                                                             <div class="position-relative form-group">
                                                                 <input name="card" id="card" data-target="card-placeholder" placeholder="Choose a photo" onchange="readURL(this)" type="file" class="form-control">
@@ -213,6 +213,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                     <?php if (!isset($member)) { ?>
                                                         <div class="form-row">
                                                             <div class="col-md-6">
@@ -232,7 +233,6 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-
                                                         </div>
                                                         <div class="form-row">
                                                             <div class="col-md-6">
@@ -246,17 +246,22 @@
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="associations[]">Association(s)</label>
-                                                                    <select name="associations[]" class="form-control select2-associations" multiple required>
-                                                                        <option value=""></option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
                                                         </div>
                                                     <?php } ?>
                                                     <div class="form-row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="associations[]">Association(s)</label>
+                                                                <select name="associations[]" class="form-control select2-associations" multiple required>
+                                                                    <option value=""></option>
+                                                                    <?php
+                                                                    if (isset($member))
+                                                                        foreach ($this->member->associations($member->id) as $row) { ?>
+                                                                        <option value="<?= $row->id; ?>" selected><?= $row->name; ?></option>
+                                                                    <?php } ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="identity_card_type_id">ID card type</label>
@@ -303,12 +308,12 @@
                         </div>
                         <div class="divider"></div>
                         <div class="clearfix">
-                        <?php if (isset($member)) { ?>
-                        <a href="<?= site_url('customers/' . $member->id) ?>" class="btn btn-shadow float-left btn-link">Cancel</a>
-                    <?php } else { ?>
-                        <button type="button" id="reset-btn" class="btn-shadow float-left btn btn-link">Reset</button>
-                    <?php } ?>
-                           
+                            <?php if (isset($member)) { ?>
+                                <a href="<?= site_url('customers/' . $member->id) ?>" class="btn btn-shadow float-left btn-link">Cancel</a>
+                            <?php } else { ?>
+                                <button type="button" id="reset-btn" class="btn-shadow float-left btn btn-link">Reset</button>
+                            <?php } ?>
+
                             <button type="button" id="next-btn" class="form-step btn-shadow btn-wide float-right btn-pill btn-hover-shine btn btn-primary">Next</button>
                             <button type="button" id="prev-btn" class="form-step btn-shadow float-right btn-wide btn-pill mr-3 btn btn-outline-secondary">Previous</button>
                         </div>

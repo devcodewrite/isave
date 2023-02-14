@@ -253,9 +253,9 @@ class Member_model extends CI_Model
         $foreginKey1 = 'association_id';
         $foreginKey2 = 'member_id';
 
-        return $this->db->select("{$this->table}.*")
+        return $this->db->select("$rtable.*")
             ->from($rtable)
-            ->join($rtable, "$pivot.$foreginKey1=$rtable.id")
+            ->join($pivot, "$pivot.$foreginKey1=$rtable.id")
             ->join($this->table, "$pivot.$foreginKey2={$this->table}.id")
             ->where("{$this->table}.id", $id)
             ->where("$rtable.deleted_at =", null)

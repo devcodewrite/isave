@@ -68,6 +68,7 @@ class Associations extends MY_Controller
         $record = $this->input->post();
 
         $association  = $this->association->create($record);
+        $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
 
         if ($association) {
             $out = [
@@ -79,7 +80,7 @@ class Associations extends MY_Controller
         } else {
             $out = [
                 'status' => false,
-                'message' => "Association couldn't be created!"
+                'message' => $error?$error:"Association couldn't be created!"
             ];
         }
         httpResponseJson($out);
@@ -102,9 +103,10 @@ class Associations extends MY_Controller
                 'message' => 'Association updated successfully!'
             ];
         } else {
+            $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
             $out = [
                 'status' => false,
-                'message' => "Association couldn't be updated!"
+                'message' => $error?$error:"Association couldn't be updated!"
             ];
         }
         httpResponseJson($out);
@@ -123,9 +125,10 @@ class Associations extends MY_Controller
                 'message' => 'Association deleted successfully!'
             ];
         } else {
+            $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
             $out = [
                 'status' => false,
-                'message' => "Association couldn't be deleted!"
+                'message' => $error?$error:"Association couldn't be deleted!"
             ];
         }
         httpResponseJson($out);
@@ -187,5 +190,43 @@ class Associations extends MY_Controller
         ];
 
         return httpResponseJson($out);
+    }
+
+    public function remove_member(int $id)
+    {
+        $member_id = $this->input->post('member_id');
+
+        if ($this->association->removeMember($id, $member_id)) {
+            $out = [
+                'status' => true,
+                'message' => 'Member removed successfully!'
+            ];
+        } else {
+            $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
+            $out = [
+                'status' => false,
+                'message' => $error?$error:"Member couldn't be removed!"
+            ];
+        }
+        httpResponseJson($out);
+    }
+
+    public function add_member(int $id)
+    {
+        $member_id = $this->input->post('member_id');
+
+        if ($this->association->removeMember($id, $member_id)) {
+            $out = [
+                'status' => true,
+                'message' => 'Member added successfully!'
+            ];
+        } else {
+            $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
+            $out = [
+                'status' => false,
+                'message' => $error?$error:"Member couldn't be added!"
+            ];
+        }
+        httpResponseJson($out);
     }
 }

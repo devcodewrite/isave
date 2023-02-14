@@ -138,7 +138,7 @@
                                         <p class="col-6 text-black-50">Assigned Staff</p>
                                         <p class="col-6 input-placeholder text-primary">
                                             <?php $user = $this->user->find($association->assigned_user_id) ?>
-                                            <?= $user?"$user->firstname $user->lastname":'None assigned' ?>
+                                            <?= $user ? "$user->firstname $user->lastname" : 'None assigned' ?>
                                         </p>
                                     </div>
 
@@ -153,34 +153,60 @@
                             </div>
                         </div>
                         <div class="d-block text-right card-footer">
-                            <a href="<?=site_url('associations/'.$association->id.'/edit') ?>" class="btn btn-info btn-lg">Modify</a>
+                            <a href="<?= site_url('associations/' . $association->id . '/edit') ?>" class="btn btn-info btn-lg">Modify</a>
                             <button class="btn btn-warning btn-lg">Close</button>
                         </div>
                     </div>
                     <div class="tab-pane" id="tab-eg9-1" role="tabpanel">
                         <div class="card-body">
-                            <table style="width: 100%;" id="dt-related-loans" class="table table-hover table-striped table-bordered">
+                            <div class="row d-none">
+                                <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="member_id">Search a member</label>
+                                    <div>
+                                        <select name="member_id" class="form-control select2-members" required>
+                                            <option value=""></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            <table style="width: 100%;" id="dt-related-loans" data-association-id="<?=$association->id ?>" class="table table-hover table-striped table-bordered">
                                 <thead class="text-uppercase">
                                     <tr>
                                         <th>#ID</th>
-                                        <th>Association Number</th>
-                                        <th>Amount</th>
-                                        <th>Owner</th>
-                                        <th>Owner's Phone</th>
-                                        <th>Owner's Address</th>
-                                        <th>Date</th>
+                                        <th>Request Date</th>
+                                        <th>Pas.B No.</th>
+                                        <th>Account</th>
+                                        <th>Principal Amt.</th>
+                                        <th>Interest Amt.</th>
+                                        <th>Duration</th>
+                                        <th>Rate</th>
+                                        <th>Request Status</th>
+                                        <th>Disbursement Date</th>
+                                        <th>Repay. Date</th>
+                                        <th>Repay. Status</th>
+                                        <th>Loan Type</th>
+                                        <th>Added by</th>
                                     </tr>
                                 </thead>
 
                                 <tfoot class="text-uppercase">
                                     <tr>
                                         <th>#ID</th>
-                                        <th>Association Number</th>
-                                        <th>Amount</th>
-                                        <th>Owner</th>
-                                        <th>Owner's Phone</th>
-                                        <th>Owner's Address</th>
-                                        <th>Date</th>
+                                        <th>Request Date</th>
+                                        <th>Pas.B No.</th>
+                                        <th>Account</th>
+                                        <th>Principal Amt.</th>
+                                        <th>Interest Amt.</th>
+                                        <th>Duration</th>
+                                        <th>Rate</th>
+                                        <th>Request Status</th>
+                                        <th>Disbursement Date</th>
+                                        <th>Repay. Date</th>
+                                        <th>Repay. Status</th>
+                                        <th>Loan Type</th>
+                                        <th>Added by</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -188,14 +214,17 @@
                     </div>
                     <div class="tab-pane" id="tab-eg9-2" role="tabpanel">
                         <div class="card-body">
-                            <table style="width: 100%;" id="dt-related-withdrawals" class="table table-hover table-striped table-bordered">
+                            <table style="width: 100%;" id="dt-related-withdrawals" data-association-id="<?=$association->id ?>" class="table table-hover table-striped table-bordered">
                                 <thead class="text-uppercase">
                                     <tr>
                                         <th>#ID</th>
+                                        <th>Association</th>
+                                        <th>Pas.B No.</th>
+                                        <th>Account</th>
                                         <th>Amount</th>
-                                        <th>Withdrawn By</th>
+                                        <th>Type</th>
+                                        <th>Withdrawer's Name</th>
                                         <th>Withdrawer's Phone</th>
-                                        <th>Withdrawer's Address</th>
                                         <th>Date</th>
                                     </tr>
                                 </thead>
@@ -203,20 +232,22 @@
                                 <tfoot class="text-uppercase">
                                     <tr>
                                         <th>#ID</th>
+                                        <th>Association</th>
+                                        <th>Pas.B No.</th>
+                                        <th>Account</th>
                                         <th>Amount</th>
-                                        <th>Withdrawn By</th>
-                                        <th>Withdrawer's Phone</th>
-                                        <th>Withdrawer's Address</th>
+                                        <th>Type</th>
+                                        <th>Transferor's Name</th>
+                                        <th>Transferor's Phone</th>
                                         <th>Date</th>
                                     </tr>
                                 </tfoot>
                             </table>
                         </div>
                     </div>
-
                     <div class="tab-pane" id="tab-eg9-3" role="tabpanel">
                         <div class="card-body">
-                            <table style="width: 100%;" id="dt-related-customers" class="table table-hover table-striped table-bordered">
+                            <table style="width: 100%;" id="dt-related-customers" data-association-id="<?=$association->id ?>" class="table table-hover table-striped table-bordered">
                                 <thead class="text-uppercase">
                                     <tr>
                                         <th>#ID</th>
@@ -225,7 +256,7 @@
                                         <th>Sex</th>
                                         <th>Primary Phone</th>
                                         <th>ID Number</th>
-                                        <th>Position</th>
+                                        <th>Associations</th>
                                         <th>Occupation</th>
                                         <th>Status</th>
                                         <th>Created On</th>
@@ -240,7 +271,7 @@
                                         <th>Sex</th>
                                         <th>Primary Phone</th>
                                         <th>ID Number</th>
-                                        <th>Position</th>
+                                        <th>Associations</th>
                                         <th>Occupation</th>
                                         <th>Status</th>
                                         <th>Created On</th>
