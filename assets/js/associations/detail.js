@@ -525,7 +525,7 @@ $(function () {
         },
       },
     ],
-    order: [[9, "desc"]],
+    order: [[8, "desc"]],
   });
   $(".customer-filter").on("click", function (params) {
     customerTable.ajax.reload();
