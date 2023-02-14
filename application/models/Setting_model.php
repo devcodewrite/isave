@@ -20,6 +20,6 @@ class Setting_model extends CI_Model
             'female' => base_url('assets/images/woman.png'),
             'other' => base_url('assets/images/user.png'),
         ];
-        return $url? $url: $avatars[($model?$model->sex:'other')];
+        return $url? $url: $avatars[($model?($model->sex?$model->sex:'other'):'other')];
     }
 }
