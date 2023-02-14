@@ -326,5 +326,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= site_url('assets/js/customers/edit.js?v=3') ?>" defer></script>
+<script src="<?= site_url('assets/js/customers/edit.js?v=4') ?>" defer></script>
 <?php app_end(); ?>
