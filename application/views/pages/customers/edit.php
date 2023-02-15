@@ -241,7 +241,7 @@
                                                                     <select name="acc_type_id" class="form-control select2-account-types" required>
                                                                         <option value=""></option>
                                                                         <?php foreach ($acc_types as $row) { ?>
-                                                                            <option value="<?= $row->id; ?>"><?= $row->label; ?></option>
+                                                                            <option value="<?= $row->id; ?>" <?=intval($row->is_default) ===1?'selected':'' ?>><?= $row->label; ?></option>
                                                                         <?php } ?>
                                                                     </select>
                                                                 </div>
