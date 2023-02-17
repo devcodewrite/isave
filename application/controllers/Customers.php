@@ -23,6 +23,7 @@ class Customers extends MY_Controller
 
         $data = [
             'member' => $member,
+            'accountTypes' => $this->acctype->all()->get()->result(),
         ];
         $this->load->view('pages/customers/detail', $data);
     }

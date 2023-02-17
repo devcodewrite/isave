@@ -58,7 +58,7 @@
                 <div class="col-md-6">
                     <div class="position-relative form-group">
                         <label for="user_id">Assigned User</label>
-                        <select name="user_id" class="form-control select2-users fitler" required>
+                        <select name="user_id" class="form-control select2-users filter" required>
                             <option value="">Select a user</option>
                         </select>
                     </div>

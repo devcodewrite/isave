@@ -38,45 +38,55 @@
                                 </div>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a data-toggle="tab" href="#tab-eg9-1" class="nav-link">
-                                <div class="widget-number">Loans</div>
-                                <div class="tab-subheading">Loan</div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a data-toggle="tab" href="#tab-eg9-2" class="nav-link">
-                                <div class="widget-number text-danger">Withdrawals</div>
-                                <div class="tab-subheading">
-                                    <span class="pr-2 opactiy-6">
-                                        <i class="fa fa-bullhorn"></i>
-                                    </span>
-                                    withdrawal
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a data-toggle="tab" href="#tab-eg9-3" class="nav-link">
-                                <div class="widget-number text-danger">Deposits</div>
-                                <div class="tab-subheading">
-                                    <span class="pr-2 opactiy-6">
-                                        <i class="fa fa-bullhorn"></i>
-                                    </span>
-                                    deposits
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a data-toggle="tab" href="#tab-eg9-4" class="nav-link">
-                                <div class="widget-number text-danger">Transfers</div>
-                                <div class="tab-subheading">
-                                    <span class="pr-2 opactiy-6">
-                                        <i class="fa fa-bullhorn"></i>
-                                    </span>
-                                    transfers
-                                </div>
-                            </a>
-                        </li>
+                        <?php if (intval($account->accType->is_loan_acc) === 1) { ?>
+                            <li class="nav-item">
+                                <a data-toggle="tab" href="#tab-eg9-1" class="nav-link">
+                                    <div class="widget-number">Loans</div>
+                                    <div class="tab-subheading">Requested and approved Loans</div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a data-toggle="tab" href="#tab-eg9-5" class="nav-link">
+                                    <div class="widget-number">Repayments</div>
+                                    <div class="tab-subheading">list of loan settlements made.</div>
+                                </a>
+                            </li>
+                        <?php } else { ?>
+                            <li class="nav-item">
+                                <a data-toggle="tab" href="#tab-eg9-2" class="nav-link">
+                                    <div class="widget-number text-danger">Withdrawals</div>
+                                    <div class="tab-subheading">
+                                        <span class="pr-2 opactiy-6">
+                                            <i class="fa fa-bullhorn"></i>
+                                        </span>
+                                        withdrawal
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a data-toggle="tab" href="#tab-eg9-3" class="nav-link">
+                                    <div class="widget-number text-danger">Deposits</div>
+                                    <div class="tab-subheading">
+                                        <span class="pr-2 opactiy-6">
+                                            <i class="fa fa-bullhorn"></i>
+                                        </span>
+                                        deposits
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a data-toggle="tab" href="#tab-eg9-4" class="nav-link">
+                                    <div class="widget-number text-danger">Transfers</div>
+                                    <div class="tab-subheading">
+                                        <span class="pr-2 opactiy-6">
+                                            <i class="fa fa-bullhorn"></i>
+                                        </span>
+                                        transfers
+                                    </div>
+                                </a>
+                            </li>
+                        <?php } ?>
+
                     </ul>
                 </div>
                 <div class="tab-content">
@@ -150,251 +160,329 @@
                             <button class="btn btn-danger btn-lg">Close</button>
                         </div>
                     </div>
-                    <div class="tab-pane" id="tab-eg9-1" role="tabpanel" style="max-width: calc(100% - 20px);">
-                        <div class="card-header">
-                            <div class="btn-actions-pane-right actions-icon-btn">
-                                <a href="<?= site_url('loans/create') ?>" class="btn btn-primary text-uppercase">
-                                    <i class="pe-7s-plus btn-icon-wrapper"></i>
-                                    New Loan
-                                </a>
+                    <?php if (intval($account->accType->is_loan_acc) === 1) { ?>
+                        <div class="tab-pane" id="tab-eg9-1" role="tabpanel" style="max-width: calc(100% - 20px);">
+                            <div class="card-header">
+                                <div class="btn-actions-pane-right actions-icon-btn">
+                                    <a href="<?= site_url('loans/create') ?>" class="btn btn-primary text-uppercase">
+                                        <i class="pe-7s-plus btn-icon-wrapper"></i>
+                                        New Loan
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="card-body" style="max-width: calc(100% - 20px);">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="d-flex align-items-end row px-3">
+                                            <div>
+                                                <label for="from">From</label>
+                                                <div class="form-group">
+                                                    <input type="date" name="date_from" id="loan-date-from" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="ml-3">
+                                                <label for="from">To</label>
+                                                <div class="form-group">
+                                                    <input type="date" name="date_to" id="loan-date-to" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-3 form-group">
+                                                <button class="btn btn-primary loan-filter">
+                                                    <i class="fa fa-filter"></i>
+                                                    Filter</button>
+                                                <button class="btn btn-warning ml-2 loan-filter-clear">
+                                                    <i class="fa fa-times"></i>
+                                                    Clear</button>
+                                            </div>
+                                        </div>
+                                        <table style="width: 100%; max-width:calc(100% - 50px);" id="dt-related-loans" data-account-id="<?= $account->id ?>" class="table table-hover table-striped table-bordered">
+                                            <thead class="text-uppercase">
+                                                <tr>
+                                                    <th>#ID</th>
+                                                    <th>Req. Date</th>
+                                                    <th>Principal Amt.</th>
+                                                    <th>Interest Amt.</th>
+                                                    <th>Dur.</th>
+                                                    <th>Rate</th>
+                                                    <th>Req. Status</th>
+                                                    <th>Disburs. Date</th>
+                                                    <th>Repay. Date</th>
+                                                    <th>Repay. Status</th>
+                                                    <th>Loan Type</th>
+                                                    <th>Added by</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tfoot class="text-uppercase">
+                                                <tr>
+                                                    <th>#ID</th>
+                                                    <th>Req. Date</th>
+                                                    <th>Principal Amt.</th>
+                                                    <th>Interest Amt.</th>
+                                                    <th>Dur.</th>
+                                                    <th>Rate</th>
+                                                    <th>Req. Status</th>
+                                                    <th>Disburs. Date</th>
+                                                    <th>Repay. Date</th>
+                                                    <th>Repay. Status</th>
+                                                    <th>Loan Type</th>
+                                                    <th>Added by</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
-                        <div class="card-body" style="max-width: calc(100% - 20px);">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="d-flex align-items-end row px-3">
-                                        <div>
-                                            <label for="from">From</label>
+                        <div class="tab-pane" id="tab-eg9-5" role="tabpanel">
+                            <div class="card-body">
+                                <form action="<?= site_url('payments/store') ?>" class="repaymentForm p-3">
+                                    <input type="hidden" name="_method" value="post">
+                                    <div class="form-row">
+                                        <div class="col-md-4">
                                             <div class="form-group">
-                                                <input type="date" name="date_from" id="loan-date-from" class="form-control">
+                                                <label for="date">Date</label>
+                                                <input type="date" name="pdate" class="form-control" required>
                                             </div>
                                         </div>
-                                        <div class="ml-3">
-                                            <label for="from">To</label>
+                                        <div class="col-md-4">
                                             <div class="form-group">
-                                                <input type="date" name="date_to" id="loan-date-to" class="form-control">
+                                                <label for="loan_id">Search a loan</label>
+                                                <div>
+                                                    <select name="loan_id" class="form-control select2-avaliable-loans" required>
+                                                        <option value=""></option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-12 col-md-3 form-group">
-                                            <button class="btn btn-primary loan-filter">
-                                                <i class="fa fa-filter"></i>
-                                                Filter</button>
-                                            <button class="btn btn-warning ml-2 loan-filter-clear">
-                                                <i class="fa fa-times"></i>
-                                                Clear</button>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="principal_amount">Principal Amount</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" style="cursor:pointer" onclick="$('#pr-amount').val($(this).text())"><?= number_format($loan->principalBalance, 2) ?></span>
+                                                    </div>
+                                                    <input type="number" id="pr-amount" name="principal_amount" class="form-control" placeholder="Enter the principal amount" required>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="amount">Interest Amount</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" style="cursor:pointer" onclick="$('#in-amount').val($(this).text())"><?= number_format($loan->interestBalance, 2) ?></span>
+                                                    </div>
+                                                    <input type="number" id="in-amount" name="interest_amount" class="form-control" placeholder="Enter the interest amount" required>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <table style="width: 100%; max-width:calc(100% - 50px);" id="dt-related-loans" data-account-id="<?= $account->id ?>" class="table table-hover table-striped table-bordered">
-                                        <thead class="text-uppercase">
-                                            <tr>
-                                                <th>#ID</th>
-                                                <th>Req. Date</th>
-                                                <th>Principal Amt.</th>
-                                                <th>Interest Amt.</th>
-                                                <th>Dur.</th>
-                                                <th>Rate</th>
-                                                <th>Req. Status</th>
-                                                <th>Disburs. Date</th>
-                                                <th>Repay. Date</th>
-                                                <th>Repay. Status</th>
-                                                <th>Loan Type</th>
-                                                <th>Added by</th>
-                                            </tr>
-                                        </thead>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <button onclick="$('.repaymentForm').trigger('reset')" type="button" class="btn btn-warning float-right">Reset</button>
+                                            <button class="btn btn-primary float-right mr-3">Add Payment</button>
+                                        </div>
+                                    </div>
+                                </form>
 
-                                        <tfoot class="text-uppercase">
-                                            <tr>
+                                <table style="width: 100%;" id="dt-related-settlements" data-loan-id="<?= $loan->id ?>" class="table table-hover table-striped table-bordered">
+                                    <thead class="text-uppercase">
+                                        <tr>
+                                            <th>#Ref</th>
+                                            <th>Date</th>
+                                            <th>Principal Amount</th>
+                                            <th>Interest Amount</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot class="text-uppercase">
+                                        <tr>
+                                            <th>#Ref</th>
+                                            <th>Date</th>
+                                            <th>Principal Amount</th>
+                                            <th>Interest Amount</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    <?php } else { ?>
+                        <div class="tab-pane" id="tab-eg9-2" role="tabpanel">
+                            <div class="card-header">
+                                <div class="btn-actions-pane-right actions-icon-btn">
+                                    <a href="<?= site_url('withdrawals/create') ?>" class="btn btn-primary text-uppercase">
+                                        <i class="pe-7s-plus btn-icon-wrapper"></i>
+                                        New Withdrawal
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex align-items-end row px-3">
+                                    <div>
+                                        <label for="from">From</label>
+                                        <div class="form-group">
+                                            <input type="date" name="date_from" id="withdrawal-date-from" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="ml-3">
+                                        <label for="from">To</label>
+                                        <div class="form-group">
+                                            <input type="date" name="date_to" id="withdrawal-date-to" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-3 form-group">
+                                        <button class="btn btn-primary withdrawal-filter">
+                                            <i class="fa fa-filter"></i>
+                                            Filter</button>
+                                        <button class="btn btn-warning ml-2 withdrawal-filter-clear">
+                                            <i class="fa fa-times"></i>
+                                            Clear</button>
+                                    </div>
+                                </div>
+                                <table style="width: 100%;" id="dt-related-withdrawals" data-account-id="<?= $account->id ?>" class="table table-hover table-striped table-bordered">
+                                    <thead class="text-uppercase">
+                                        <tr>
                                             <th>#ID</th>
-                                                <th>Req. Date</th>
-                                                <th>Principal Amt.</th>
-                                                <th>Interest Amt.</th>
-                                                <th>Dur.</th>
-                                                <th>Rate</th>
-                                                <th>Req. Status</th>
-                                                <th>Disburs. Date</th>
-                                                <th>Repay. Date</th>
-                                                <th>Repay. Status</th>
-                                                <th>Loan Type</th>
-                                                <th>Added by</th>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                            </div>
+                                            <th>Amount</th>
+                                            <th>Type</th>
+                                            <th>Withdrawer's Name</th>
+                                            <th>Withdrawer's Phone</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
 
-                        </div>
-                    </div>
-                    <div class="tab-pane" id="tab-eg9-2" role="tabpanel">
-                        <div class="card-header">
-                            <div class="btn-actions-pane-right actions-icon-btn">
-                                <a href="<?= site_url('withdrawals/create') ?>" class="btn btn-primary text-uppercase">
-                                    <i class="pe-7s-plus btn-icon-wrapper"></i>
-                                    New Withdrawal
-                                </a>
+                                    <tfoot class="text-uppercase">
+                                        <tr>
+                                            <th>#ID</th>
+                                            <th>Amount</th>
+                                            <th>Type</th>
+                                            <th>Transferor's Name</th>
+                                            <th>Transferor's Phone</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
                             </div>
                         </div>
-                        <div class="card-body">
-                            <div class="d-flex align-items-end row px-3">
-                                <div>
-                                    <label for="from">From</label>
-                                    <div class="form-group">
-                                        <input type="date" name="date_from" id="withdrawal-date-from" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="ml-3">
-                                    <label for="from">To</label>
-                                    <div class="form-group">
-                                        <input type="date" name="date_to" id="withdrawal-date-to" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-3 form-group">
-                                    <button class="btn btn-primary withdrawal-filter">
-                                        <i class="fa fa-filter"></i>
-                                        Filter</button>
-                                    <button class="btn btn-warning ml-2 withdrawal-filter-clear">
-                                        <i class="fa fa-times"></i>
-                                        Clear</button>
+                        <div class="tab-pane" id="tab-eg9-3" role="tabpanel">
+                            <div class="card-header">
+                                <div class="btn-actions-pane-right actions-icon-btn">
+                                    <a href="<?= site_url('withdrawals/create') ?>" class="btn btn-primary text-uppercase">
+                                        <i class="pe-7s-plus btn-icon-wrapper"></i>
+                                        New Deposit
+                                    </a>
                                 </div>
                             </div>
-                            <table style="width: 100%;" id="dt-related-withdrawals" data-account-id="<?= $account->id ?>" class="table table-hover table-striped table-bordered">
-                                <thead class="text-uppercase">
-                                    <tr>
-                                        <th>#ID</th>
-                                        <th>Amount</th>
-                                        <th>Type</th>
-                                        <th>Withdrawer's Name</th>
-                                        <th>Withdrawer's Phone</th>
-                                        <th>Date</th>
-                                    </tr>
-                                </thead>
+                            <div class="card-body">
+                                <div class="d-flex align-items-end row px-3">
+                                    <div>
+                                        <label for="from">From</label>
+                                        <div class="form-group">
+                                            <input type="date" name="date_from" id="deposit-date-from" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="ml-3">
+                                        <label for="from">To</label>
+                                        <div class="form-group">
+                                            <input type="date" name="date_to" id="deposit-date-to" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-3 form-group">
+                                        <button class="btn btn-primary deposit-filter">
+                                            <i class="fa fa-filter"></i>
+                                            Filter</button>
+                                        <button class="btn btn-warning ml-2 deposit-filter-clear">
+                                            <i class="fa fa-times"></i>
+                                            Clear</button>
+                                    </div>
+                                </div>
+                                <table style="width: 100%;" id="dt-related-deposits" data-account-id="<?= $account->id ?>" class="table table-hover table-striped table-bordered">
+                                    <thead class="text-uppercase">
+                                        <tr>
+                                            <th>#ID</th>
+                                            <th>Amount</th>
+                                            <th>Type</th>
+                                            <th>Depositor's Name</th>
+                                            <th>Depositor's Phone</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
 
-                                <tfoot class="text-uppercase">
-                                    <tr>
-                                        <th>#ID</th>
-                                        <th>Amount</th>
-                                        <th>Type</th>
-                                        <th>Transferor's Name</th>
-                                        <th>Transferor's Phone</th>
-                                        <th>Date</th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="tab-pane" id="tab-eg9-3" role="tabpanel">
-                        <div class="card-header">
-                            <div class="btn-actions-pane-right actions-icon-btn">
-                                <a href="<?= site_url('withdrawals/create') ?>" class="btn btn-primary text-uppercase">
-                                    <i class="pe-7s-plus btn-icon-wrapper"></i>
-                                    New Deposit
-                                </a>
+                                    <tfoot class="text-uppercase">
+                                        <tr>
+                                            <th>#ID</th>
+                                            <th>Amount</th>
+                                            <th>Type</th>
+                                            <th>Depositor's Name</th>
+                                            <th>Depositor's Phone</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
                             </div>
                         </div>
-                        <div class="card-body">
-                            <div class="d-flex align-items-end row px-3">
-                                <div>
-                                    <label for="from">From</label>
-                                    <div class="form-group">
-                                        <input type="date" name="date_from" id="deposit-date-from" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="ml-3">
-                                    <label for="from">To</label>
-                                    <div class="form-group">
-                                        <input type="date" name="date_to" id="deposit-date-to" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-3 form-group">
-                                    <button class="btn btn-primary deposit-filter">
-                                        <i class="fa fa-filter"></i>
-                                        Filter</button>
-                                    <button class="btn btn-warning ml-2 deposit-filter-clear">
-                                        <i class="fa fa-times"></i>
-                                        Clear</button>
+                        <div class="tab-pane" id="tab-eg9-4" role="tabpanel">
+                            <div class="card-header">
+                                <div class="btn-actions-pane-right actions-icon-btn">
+                                    <a href="<?= site_url('withdrawals/create') ?>" class="btn btn-primary text-uppercase">
+                                        <i class="pe-7s-plus btn-icon-wrapper"></i>
+                                        New Transfer
+                                    </a>
                                 </div>
                             </div>
-                            <table style="width: 100%;" id="dt-related-deposits" data-account-id="<?= $account->id ?>" class="table table-hover table-striped table-bordered">
-                                <thead class="text-uppercase">
-                                    <tr>
-                                        <th>#ID</th>
-                                        <th>Amount</th>
-                                        <th>Type</th>
-                                        <th>Depositor's Name</th>
-                                        <th>Depositor's Phone</th>
-                                        <th>Date</th>
-                                    </tr>
-                                </thead>
+                            <div class="card-body">
+                                <div class="d-flex align-items-end row px-3">
+                                    <div>
+                                        <label for="from">From</label>
+                                        <div class="form-group">
+                                            <input type="date" name="date_from" id="transfer-date-from" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="ml-3">
+                                        <label for="from">To</label>
+                                        <div class="form-group">
+                                            <input type="date" name="date_to" id="transfer-date-to" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-3 form-group">
+                                        <button class="btn btn-primary transfer-filter">
+                                            <i class="fa fa-filter"></i>
+                                            Filter</button>
+                                        <button class="btn btn-warning ml-2 transfer-filter-clear">
+                                            <i class="fa fa-times"></i>
+                                            Clear</button>
+                                    </div>
+                                </div>
+                                <table style="width: 100%;" id="dt-related-transfers" data-account-id="<?= $account->id ?>" class="table table-hover table-striped table-bordered">
+                                    <thead class="text-uppercase">
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Amount</th>
+                                            <th>To Acc.</th>
+                                            <th>To Pas.B</th>
+                                            <th>To Assoc.</th>
+                                            <th>By User</th>
+                                        </tr>
+                                    </thead>
 
-                                <tfoot class="text-uppercase">
-                                    <tr>
-                                        <th>#ID</th>
-                                        <th>Amount</th>
-                                        <th>Type</th>
-                                        <th>Depositor's Name</th>
-                                        <th>Depositor's Phone</th>
-                                        <th>Date</th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="tab-pane" id="tab-eg9-4" role="tabpanel">
-                        <div class="card-header">
-                            <div class="btn-actions-pane-right actions-icon-btn">
-                                <a href="<?= site_url('withdrawals/create') ?>" class="btn btn-primary text-uppercase">
-                                    <i class="pe-7s-plus btn-icon-wrapper"></i>
-                                    New Transfer
-                                </a>
+                                    <tfoot class="text-uppercase">
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Amount</th>
+                                            <th>To Acc.</th>
+                                            <th>To Pas.B</th>
+                                            <th>To Assoc.</th>
+                                            <th>By User</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
                             </div>
                         </div>
-                        <div class="card-body">
-                            <div class="d-flex align-items-end row px-3">
-                                <div>
-                                    <label for="from">From</label>
-                                    <div class="form-group">
-                                        <input type="date" name="date_from" id="transfer-date-from" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="ml-3">
-                                    <label for="from">To</label>
-                                    <div class="form-group">
-                                        <input type="date" name="date_to" id="transfer-date-to" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-3 form-group">
-                                    <button class="btn btn-primary transfer-filter">
-                                        <i class="fa fa-filter"></i>
-                                        Filter</button>
-                                    <button class="btn btn-warning ml-2 transfer-filter-clear">
-                                        <i class="fa fa-times"></i>
-                                        Clear</button>
-                                </div>
-                            </div>
-                            <table style="width: 100%;" id="dt-related-transfers" data-account-id="<?= $account->id ?>" class="table table-hover table-striped table-bordered">
-                                <thead class="text-uppercase">
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Amount</th>
-                                        <th>To Acc.</th>
-                                        <th>To Pas.B</th>
-                                        <th>To Assoc.</th>
-                                        <th>By User</th>
-                                    </tr>
-                                </thead>
-
-                                <tfoot class="text-uppercase">
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Amount</th>
-                                        <th>To Acc.</th>
-                                        <th>To Pas.B</th>
-                                        <th>To Assoc.</th>
-                                        <th>By User</th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
+                    <?php } ?>
                 </div>
             </div>
         </div>

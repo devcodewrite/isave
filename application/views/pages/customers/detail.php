@@ -63,7 +63,7 @@
                     </div>
                     <div class="row text-uppercase mt-2 border-bottom">
                         <p class="col-6 text-black-50">Full Name</p>
-                        <p class="col-6 input-placeholder text-black"><?=$member->firstname ?> <?= $member->othername ?> <?= $member->lastname ?> <?=$member->common_name?"(a.k.a $member->common_name)":'' ?></p>
+                        <p class="col-6 input-placeholder text-black"><?= $member->firstname ?> <?= $member->othername ?> <?= $member->lastname ?> <?= $member->common_name ? "(a.k.a $member->common_name)" : '' ?></p>
                     </div>
                     <div class="row text-uppercase mt-2 border-bottom">
                         <p class="col-6 text-black-50">Sex</p>
@@ -100,7 +100,7 @@
                     </div>
                 </div>
                 <div class="d-block text-right card-footer">
-                    <a href="<?=site_url('customers/'.$member->id.'/edit') ?>" class="btn btn-info btn-lg">Modify</a>
+                    <a href="<?= site_url('customers/' . $member->id . '/edit') ?>" class="btn btn-info btn-lg">Modify</a>
                     <button class="btn btn-warning btn-lg">Close</button>
                 </div>
             </div>
@@ -126,7 +126,7 @@
                         <p class="col-6 text-black-50">ID Type</p>
                         <p class="col-6 input-placeholder text-black ">
                             <?php $cardType = $this->member->identityCardType($member->id); ?>
-                            <?= $cardType?$cardType->label:'' ?>
+                            <?= $cardType ? $cardType->label : '' ?>
                         </p>
                     </div>
                 </div>
@@ -134,6 +134,11 @@
             <div class="main-card mb-3 card">
                 <div class="card-header">
                     <i class="header-icon lnr-license icon-gradient bg-plum-plate"> </i>Related Accounts
+                    <div class="btn-actions-pane-right">
+                        <button type="button" class="btn mr-2 mb-2 btn-primary" data-toggle="modal" data-target="#newAccount">
+                            New Account
+                        </button>
+                    </div>
                 </div>
                 <div class="card-body px-5">
                     <table style="width: 100%;" id="dt-related-accounts" class="table table-hover table-striped table-bordered">
@@ -156,7 +161,7 @@
                                 $row->accType = $this->acctype->find($row->acc_type_id);
                             ?>
                                 <tr>
-                                    <td><a href="<?= site_url('bankaccounts/' . $row->id) ?>" class="btn btn-link"><?=$row->accType->label ?> (<?= $row->acc_number ?>)</a></td>
+                                    <td><a href="<?= site_url('bankaccounts/' . $row->id) ?>" class="btn btn-link"><?= $row->accType->label ?> (<?= $row->acc_number ?>)</a></td>
                                     <td><?= $row->passbook ?></td>
                                     <td><?= "0.00" ?></td>
                                     <td class="py-1"><span class="alert <?= $alerts[$row->status] ?> text-uppercase"><?= $row->status ?></span></td>
@@ -180,5 +185,59 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= site_url('assets/js/customers/detail.js?v=1') ?>" defer></script>
+<script src="<?= site_url('assets/js/customers/detail.js?v=5') ?>" defer></script>
 <?php app_end(); ?>
+
+<form action="<?=site_url('bankaccounts/store') ?>" class="modal fade" id="newAccount" method="post" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-uppercase" id="exampleModalLabel">New Account Form</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="ownership" value="individual">
+                <input type="hidden" name="_method" value="post">
+                <input type="hidden" name="member_id" value="<?= $member->id ?>">
+
+                <div class="form-group">
+                    <label for="passbook">Passbook No.</label>
+                    <input name="passbook" id="passbook" placeholder="Enter passbook no." type="number" value="<?= isset($account) ? $account->passbook : "" ?>" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="name">Account Name</label>
+                    <div>
+                        <input type="text" class="form-control" name="name" value="<?= isset($account) ? $account->name : "" ?>" placeholder="Account name" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="acc_type_id">Account type</label>
+                            <select name="acc_type_id" class="form-control select2-account-types" required>
+                                <option value=""></option>
+                                <?php foreach ($accountTypes as $row) { ?>
+                                    <option value="<?= $row->id; ?>" <?= isset($account) ? ($account->acc_type_id === $row->id ? 'selected' : '') : '' ?> data-type="<?= $row->type; ?>"><?= $row->label; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="stamp_amount">Amount per stamp</label>
+                            <div>
+                                <input type="number" class="form-control stamps2" name="stamp_amount" placeholder="Enter amount per stamp" <?= isset($account) ? (empty($account->stamp_amount) ? 'disabled' : '') : 'disabled' ?> />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</form>

@@ -9,7 +9,11 @@ class Bankaccounts extends MY_Controller
      */
     public function index()
     {
-        $this->load->view('pages/bank-accounts/list');
+
+        $data = [
+            'accountTypes' => $this->acctype->all()->get()->result(),
+        ];
+        $this->load->view('pages/bank-accounts/list', $data);
     }
 
 
@@ -62,14 +66,14 @@ class Bankaccounts extends MY_Controller
     public function edit(int $id = null)
     {
         $account = $this->account->find($id);
-        if(!$account) show_404();
+        if (!$account) show_404();
 
-        if($account->ownership === 'individual'){
+        if ($account->ownership === 'individual') {
             $account->member = $this->member->find($account->member_id);
-        }else {
-             $account->association = $this->member->find($account->association_id);
+        } else {
+            $account->association = $this->member->find($account->association_id);
         }
-       
+
         $data = [
             'id_card_types' => $this->idcardtype->all()->get()->result(),
             'accountTypes' => $this->acctype->all()->get()->result(),
@@ -99,7 +103,7 @@ class Bankaccounts extends MY_Controller
 
             $out = [
                 'status' => false,
-                'message' => $error?$error:"Account couldn't be created!"
+                'message' => $error ? $error : "Account couldn't be created!"
             ];
         }
         httpResponseJson($out);
@@ -179,8 +183,27 @@ class Bankaccounts extends MY_Controller
         $length = $this->input->get('length', true);
         $draw = $this->input->get('draw', true);
         $inputs = $this->input->get();
+        $query = $this->account->all();
+        $where = [];
 
-        $out = datatable($this->account->all(), $start, $length, $draw, $inputs);
+        if ($this->input->get('association_id'))
+            $where = array_merge($where, ['association_members.association_id' => $inputs['association_id']]);
+
+        if ($this->input->get('member_id'))
+            $where = array_merge($where, ['association_members.member_id' => $inputs['member_id']]);
+
+        if ($this->input->get('status'))
+            $where = array_merge($where, ['accounts.staus' => $inputs['status']]);
+
+        if ($this->input->get('ownership'))
+            $where = array_merge($where, ['accounts.ownership' => $inputs['ownership']]);
+
+        if ($this->input->get('acc_type_id'))
+            $where = array_merge($where, ['accounts.acc_type_id' => $inputs['acc_type_id']]);
+
+        $query->where($where);
+
+        $out = datatable($query, $start, $length, $draw, $inputs);
         $out = array_merge($out, [
             'input' => $this->input->get(),
         ]);
