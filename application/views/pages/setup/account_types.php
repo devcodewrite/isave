@@ -21,7 +21,7 @@
             <i class="header-icon lnr-license icon-gradient bg-plum-plate"> </i> Account Types
         </div>
         <div class="card-body">
-            <form class="edit-account-type" action="<?=site_url('setup/account-types') ?>">
+            <form class="edit-account-type" action="<?= site_url('setup/account-types') ?>">
                 <div class="form-row">
                     <div class="col-md-4">
                         <div class="form-group">
@@ -39,8 +39,17 @@
                             </select>
                         </div>
                     </div>
+                    <div class="col-md-4">
+                        <div class="form-group pt-2">
+                            <label for=""></label>
+                            <div class="form-check">
+                            <label style="padding-top: 13px; padding-right: 26px;font-size:large" for="is_default">Is default Acc.</label>
+                                <input style=" width: 1.85rem;height: 1.85rem;" class="form-check-input" type="checkbox" value="1" name="is_default">
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-12 mb-3">
-                    <button type="button" class="btn btn-warning text-uppercase float-right reset ml-3">Cancel</button>
+                        <button type="button" class="btn btn-warning text-uppercase float-right reset ml-3">Cancel</button>
                         <button type="submit" class="btn btn-primary text-uppercase float-right">Create</button>
                     </div>
                 </div>
@@ -66,16 +75,16 @@
                             <td><?= $row->created_at ?></td>
                             <td>
                                 <div class="d-flex">
-                                    <form class="change-status" action="<?=site_url('setup/account-types') ?>" method="POST">
+                                    <form class="change-status" action="<?= site_url('setup/account-types') ?>" method="POST">
                                         <input type="hidden" name="id" value="<?= $row->id ?>">
-                                       
+
                                         <?php if ($row->status === 'open') { ?>
                                             <input type="hidden" name="action" value="close">
                                             <input type="hidden" name="status" value="close">
-                                        <?php }else {?> 
+                                        <?php } else { ?>
                                             <input type="hidden" name="action" value="open">
                                             <input type="hidden" name="status" value="open">
-                                            <?php } ?>
+                                        <?php } ?>
                                         <input type="checkbox" onchange="$('.change-status').trigger('submit')" value="1" <?= $row->status === '1' ? 'checked' : '' ?> data-toggle="toggle" data-onstyle="primary">
                                     </form>
                                     <a href="<?= site_url('setup/account-types') ?>" class="btn btn-info ml-2"><i class="fa fa-edit"></i></a>

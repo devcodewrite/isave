@@ -38,6 +38,19 @@ class User_model extends CI_Model
     }
 
     /**
+     * Delete a record
+     * @param $id
+     * @return Boolean
+     */
+    public function delete(int $id)
+    {
+        $this->db->set(['deleted_at' => date('Y-m-d H:i:s')]);
+        $this->db->where('id', $id);
+       $this->db->update($this->table);
+        return $this->db->affected_rows() > 0;
+    }
+
+    /**
      * Extract only values of only fields in the table
      * @param $data
      * @return Array

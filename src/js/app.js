@@ -29,26 +29,24 @@ window.readURL = function (input) {
   if (input.files && input.files[0]) {
     var reader = new FileReader();
     reader.onload = function (e) {
-      $('.'+$(input).data('target')).attr("src", e.target.result);
+      $("." + $(input).data("target")).attr("src", e.target.result);
     };
     reader.readAsDataURL(input.files[0]);
   }
 };
 
-
-window.changeParam = function(url, param, val) {
+window.changeParam = function (url, param, val) {
   var href = new URL(url);
   href.searchParams.set(param, val);
   return href.toString();
-}
+};
 
 window.formatPeopleResult = function (data) {
   if (data.loading) {
     return data.text;
   }
   data.getAvatar = function () {
-    
-    if(this.photo_url) return this.photo_url;
+    if (this.photo_url) return this.photo_url;
 
     let imgs = {
       male: `${baseUrl}assets/images/man.png`,
@@ -77,13 +75,17 @@ window.formatPeople2Result = function (data) {
   var $container = $(
     '<div class="select2-result-user py-3" style="display:flex; flex-direction:row; align-items:center">' +
       '<span class="select2-result-user__text text-uppercase">#' +
-      data.text  + ` (${data.ownership==='individual'?data.member_owner:data.association_owner})`+
+      data.text +
+      ` (${
+        data.ownership === "individual"
+          ? data.member_owner
+          : data.association_owner
+      })` +
       "</span>" +
       "</div>"
   );
   return $container;
 };
-
 
 $(".find-account").on("click", function (e) {
   let accNumber = $(this).prev("input").val();
@@ -122,17 +124,17 @@ $(".find-account").on("click", function (e) {
       $(".input-placeholder").text("");
 
       if (d.status === true) {
-         let data = d.data;
-         $("#acc-card-placeholder").hide();
+        let data = d.data;
+        $("#acc-card-placeholder").hide();
         $(".input-placeholder").removeClass("bg-light");
 
         if (data.member.photo_url)
           $(".cus-passport-photo").attr("src", data.member.photo_url);
 
-          if(data.member.identity_card_url){
-            $(".cus-id-card-photo").show();
-            $(".cus-id-card-photo").attr("src", data.member.identity_card_url);
-          }
+        if (data.member.identity_card_url) {
+          $(".cus-id-card-photo").show();
+          $(".cus-id-card-photo").attr("src", data.member.identity_card_url);
+        }
         if (data.acc_number) $(".acc-number").text(data.acc_number);
         if (data.balance) $(".acc-balance").text(`GHS ${data.balance}`);
 
@@ -150,7 +152,10 @@ $(".find-account").on("click", function (e) {
         });
       } else {
         $(".input-placeholder").addClass("bg-light");
-        $(".cus-passport-photo").attr("src", `${baseUrl}assets/images/photo-placeholder.jpeg`);
+        $(".cus-passport-photo").attr(
+          "src",
+          `${baseUrl}assets/images/photo-placeholder.jpeg`
+        );
         $(".cus-id-card-photo").hide();
         $("#acc-card-placeholder").show();
         Swal.fire({
@@ -170,35 +175,111 @@ $(".find-account").on("click", function (e) {
   });
 });
 
-$('.select2-accounts').select2({
-  ajax: {
-    url: `${baseUrl}bankaccounts/select2`,
-        dataType: "json",
-        data: function (params) {
-            params.passbook = $('.select2-passbooks').val();
-            return params;
-        },
-  },
-  allowClear: true,
-  placeholder: "Select an account",
-  selectionCssClass: 'form-select2',
-}).on('select2:select', function (params) {
-   $('.select2-accounts').trigger('change');
-});
+$(".select2-accounts")
+  .select2({
+    ajax: {
+      url: `${baseUrl}bankaccounts/select2`,
+      dataType: "json",
+      data: function (params) {
+        params.passbook = $(".select2-passbooks").val();
+        return params;
+      },
+    },
+    allowClear: true,
+    placeholder: "Select an account",
+    selectionCssClass: "form-select2",
+  })
+  .on("select2:select", function (params) {
+    $(".select2-accounts").trigger("change");
+  });
 
-$('.select2-passbooks').select2({
-  ajax: {
-    url: `${baseUrl}bankaccounts/passbook-select2`,
-        dataType: "json",
-        data: function (params) {
-          params.association_id = $('.select2-associations').val();
-            return params;
+$(".select2-passbooks")
+  .select2({
+    ajax: {
+      url: `${baseUrl}bankaccounts/passbook-select2`,
+      dataType: "json",
+      data: function (params) {
+        params.association_id = $(".select2-associations").val();
+        return params;
+      },
+    },
+    allowClear: true,
+    placeholder: "Search a passbook",
+    selectionCssClass: "form-select2",
+    templateResult: formatPeople2Result,
+  })
+  .on("select2:select", function (params) {
+    $(".select2-passbooks").trigger("change");
+  });
+
+$(".delete").on("click", function (e) {
+  let el = this;
+
+  Swal.fire({
+    icon:'warning',
+    title: "Are you sure ?",
+    text: "Cannot recover this record after deleting.",
+    showDenyButton: true,
+    confirmButtonText: "Yes, delete it!",
+    denyButtonText: `No cancel!`,
+    focusConfirm:true,
+  }).then((result) => {
+    /* Read more about isConfirmed, isDenied below */
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: "Please wait, loading data!",
+        allowOutsideClick: false,
+        showCancelButton: false,
+        didOpen: () => {
+          Swal.showLoading();
         },
-  },
-  allowClear: true,
-  placeholder: "Search a passbook",
-  selectionCssClass: 'form-select2',
-  templateResult: formatPeople2Result,
-}).on('select2:select', function (params) {
-  $('.select2-passbooks').trigger('change');
+      });
+      $.ajax({
+        url: `${$(el).data("url")}/delete/${$(el).data("id")}`,
+        method: "GET",
+        dataType: "json",
+        contentType: "application/json",
+        success: function (d, r) {
+          if (!d || r === "nocontent") {
+            Swal.fire({
+              icon: "error",
+              text: "Malformed form data sumbitted! Please try agian.",
+            });
+            return;
+          }
+          if (typeof d.status !== "boolean" || typeof d.message !== "string") {
+            Swal.fire({
+              icon: "error",
+              text: "Malformed data response! Please try agian.",
+            });
+            return;
+          }
+
+          if (d.status === true) {
+            Swal.close();
+            Swal.fire({
+              icon: "success",
+              text: d.message,
+            });
+            setTimeout(() => {
+              location.assign($(el).data("url"));
+            }, 500);
+          } else {
+            Swal.fire({
+              icon: "error",
+              text: d.message,
+            });
+          }
+        },
+        error: function (r) {
+          Swal.fire({
+            icon: "error",
+            text: "Unable to submit form! Please try agian.",
+          });
+        },
+      });
+    } else if (result.isDenied) {
+      Swal.fire("Got away safely!", "", "info");
+    }
+  });
 });

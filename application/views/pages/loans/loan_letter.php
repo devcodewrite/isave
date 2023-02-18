@@ -157,5 +157,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/deposits/detail.js?v=' . uniqid()); ?>" defer></script>
+<script src="<?= base_url('assets/js/loans/letter.js?v=' . uniqid()); ?>" defer></script>
 <?php app_end(); ?>

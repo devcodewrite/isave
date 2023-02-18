@@ -155,9 +155,10 @@
                             </div>
                         </div>
                         <div class="d-block text-right card-footer">
-                            <a href="<?= site_url('bankaccounts/' . $account->id . '/edit') ?>" class="btn btn-info btn-lg">Modify</a>
-                            <button class="btn btn-warning btn-lg suspend">Suspend</button>
-                            <button class="btn btn-danger btn-lg">Close</button>
+                            <a href="<?= site_url('bankaccounts/' . $account->id . '/edit') ?>" class="btn btn-primary btn-lg">Modify</a>
+                            <button class="btn btn-info btn-lg suspend">Suspend</button>
+                            <button class="btn btn-warning btn-lg close-acc">Close</button>
+                            <button class="btn btn-danger btn-lg delete" data-url="<?=site_url('bankaccounts') ?>" data-id="<?=$account->id ?>">Delete</button>
                         </div>
                     </div>
                     <?php if (intval($account->accType->is_loan_acc) === 1) { ?>

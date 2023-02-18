@@ -147,6 +147,7 @@
                                 <th>#Acc No.</th>
                                 <th>Pas.B</th>
                                 <th>Balance</th>
+                                <th>Action</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -161,9 +162,15 @@
                                 $row->accType = $this->acctype->find($row->acc_type_id);
                             ?>
                                 <tr>
-                                    <td><a href="<?= site_url('bankaccounts/' . $row->id) ?>" class="btn btn-link"><?= $row->accType->label ?> (<?= $row->acc_number ?>)</a></td>
+                                    <td><?= $row->accType->label ?> (<?= $row->acc_number ?>)</td>
                                     <td><?= $row->passbook ?></td>
                                     <td><?= "0.00" ?></td>
+                                    <td>
+                                        <div class="d-flex">
+                                        <a href="<?= site_url('bankaccounts/' . $row->id) ?>" class="btn btn-icon"><i class="fa fa-eye"></i></a>
+                                        <button data-id="<?= $row->acc_number ?>" class="btn btn-icon edit"><i class="fa fa-edit"></i></button>
+                                        </div>
+                                    </td>
                                     <td class="py-1"><span class="alert <?= $alerts[$row->status] ?> text-uppercase"><?= $row->status ?></span></td>
                                 </tr>
                             <?php  } ?>
@@ -173,6 +180,7 @@
                                 <th>#Acc No.</th>
                                 <th>Pas.B</th>
                                 <th>Balance</th>
+                                <th>Action</th>
                                 <th>Status</th>
                             </tr>
                         </tfoot>
@@ -185,14 +193,68 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= site_url('assets/js/customers/detail.js?v=5') ?>" defer></script>
+<script src="<?= site_url('assets/js/customers/detail.js?v=6') ?>" defer></script>
 <?php app_end(); ?>
 
-<form action="<?=site_url('bankaccounts/store') ?>" class="modal fade" id="newAccount" method="post" tabindex="-1" role="dialog" aria-hidden="true">
+<form action="<?= site_url('bankaccounts/store') ?>" class="modal fade" id="newAccount" method="post" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title text-uppercase" id="exampleModalLabel">New Account Form</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="ownership" value="individual">
+                <input type="hidden" name="_method" value="post">
+                <input type="hidden" name="member_id" value="<?= $member->id ?>">
+
+                <div class="form-group">
+                    <label for="passbook">Passbook No.</label>
+                    <input name="passbook" id="passbook" placeholder="Enter passbook no." type="number" value="<?= isset($account) ? $account->passbook : "" ?>" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="name">Account Name</label>
+                    <div>
+                        <input type="text" class="form-control" name="name" value="<?= isset($account) ? $account->name : "" ?>" placeholder="Account name" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="acc_type_id">Account type</label>
+                            <select name="acc_type_id" class="form-control select2-account-types" required>
+                                <option value=""></option>
+                                <?php foreach ($accountTypes as $row) { ?>
+                                    <option value="<?= $row->id; ?>" <?= isset($account) ? ($account->acc_type_id === $row->id ? 'selected' : '') : '' ?> data-type="<?= $row->type; ?>"><?= $row->label; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="stamp_amount">Amount per stamp</label>
+                            <div>
+                                <input type="number" class="form-control stamps2" name="stamp_amount" placeholder="Enter amount per stamp" <?= isset($account) ? (empty($account->stamp_amount) ? 'disabled' : '') : 'disabled' ?> />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Create Account</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<form action="<?= site_url('bankaccounts/update') ?>" class="modal fade" id="editAccount" method="post" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-uppercase" id="exampleModalLabel">Edit Account Form</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

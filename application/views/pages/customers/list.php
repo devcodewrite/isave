@@ -103,7 +103,7 @@
     <div class="main-card mb-3 card">
         <div class="card-body">
             <div class="d-flex align-items-end row px-3">
-                <div>
+                <div class="col-md-4">
                     <label for="from">From</label>
                     <div class="form-group">
                         <input type="date" name="date_from" id="date-from" class="form-control">

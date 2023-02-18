@@ -262,7 +262,7 @@
                             </a>
                             <ul>
                                 <li>
-                                    <a href="<?= site_url('setup/account-types') ?>" class="<?= get_nav_status1('setup/account-types') ?>">
+                                    <a href="<?= site_url('acctypes/create') ?>" class="<?= get_nav_status1('acctypes/create') ?>">
                                         <i class="metismenu-icon"></i> Account Types
                                     </a>
                                 </li>

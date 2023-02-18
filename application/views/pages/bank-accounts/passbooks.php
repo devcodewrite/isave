@@ -37,6 +37,7 @@
                 <thead class="text-uppercase">
                     <tr>
                         <th>#No.</th>
+                        <th>Association</th>
                         <th>Owner</th>
                         <th>Balance</th>
                         <th>Accounts</th>
@@ -46,6 +47,7 @@
                 <tfoot class="text-uppercase">
                     <tr>
                         <th>#No.</th>
+                        <th>Association</th>
                         <th>Owner</th>
                         <th>Balance</th>
                         <th>Accounts</th>

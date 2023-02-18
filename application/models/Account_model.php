@@ -49,6 +49,19 @@ class Account_model extends CI_Model
     }
 
     /**
+     * Delete a record
+     * @param $id
+     * @return Boolean
+     */
+    public function delete(int $id)
+    {
+        $this->db->set(['deleted_at' => date('Y-m-d H:i:s')]);
+        $this->db->where('id', $id);
+       $this->db->update($this->table);
+        return $this->db->affected_rows() > 0;
+    }
+
+    /**
      * Extract only values of only fields in the table
      * @param $data
      * @return Array
@@ -173,6 +186,8 @@ class Account_model extends CI_Model
             "ifnull(($qselect_sum_deposits) - ($qselect_sum_withdrawals),0) as balance",
             "{$this->table}.member_id",
             "{$this->table}.association_id",
+            "$rtable2.name as association_name",
+            "$rtable2.id as member_association_id",
             "{$this->table}.name",
             "concat($rtable.firstname, ' ', $rtable.lastname) as member_owner",
             "$rtable2.name  as association_owner",
@@ -182,8 +197,8 @@ class Account_model extends CI_Model
             $this->db->select($fields, true)
             ->from($this->table)
             ->join($rtable, "$rtable.id={$this->table}.$col", 'left')
-            ->join($rtable2, "$rtable2.id={$this->table}.$col2", 'left')
             ->join($this->ftable, "{$this->ftable}.$col={$this->table}.$col")
+            ->join($rtable2, "$rtable2.id={$this->ftable}.$col2", 'left')
             ->group_by( $fields = [
                 "{$this->table}.passbook",
                 "{$this->table}.ownership",
