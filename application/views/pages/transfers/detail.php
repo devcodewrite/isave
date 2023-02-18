@@ -87,7 +87,7 @@
                     </div>
                 </div>
                 <div class="d-block text-right card-footer">
-                    <button class="btn btn-danger btn-lg">Delete</button>
+                <button class="btn btn-danger btn-lg delete" data-url="<?=site_url('transfers') ?>" data-id="<?=$transfer->id ?>">Delete</button>
                 </div>
             </div>
         </div>

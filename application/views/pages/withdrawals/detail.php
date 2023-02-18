@@ -69,7 +69,7 @@
                 </div>
                 <div class="d-block text-right card-footer">
                     <a href="<?=site_url('withdrawals/'.$withdrawal->id.'/edit') ?>" class="btn btn-info btn-lg">Modify</a>
-                    <button class="btn btn-danger btn-lg">Delete</button>
+                    <button class="btn btn-danger btn-lg delete" data-url="<?=site_url('withdrawals') ?>" data-id="<?=$withdrawal->id ?>">Delete</button>
                 </div>
             </div>
         </div>

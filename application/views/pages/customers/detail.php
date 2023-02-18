@@ -46,7 +46,7 @@
                                 <div tabindex="-1" class="dropdown-divider"></div>
                                 <div class="p-3 text-right">
                                     <button class="mr-2 btn-shadow btn-sm btn btn-warning">Close</button>
-                                    <button class="mr-2 btn-shadow btn-sm btn btn-danger">Delete</button>
+                                    <button class="btn btn-danger btn-lg delete" data-url="<?=site_url('customers') ?>" data-id="<?=$member->id ?>">Delete</button>
                                 </div>
                             </div>
                         </div>

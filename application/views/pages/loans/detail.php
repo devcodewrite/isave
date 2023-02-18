@@ -136,7 +136,7 @@
 
                                 <?php if ($loan->appl_status !== 'disbursed') { ?>
                                     <a href="<?= site_url('loans/' . $loan->id . '/edit') ?>" class="btn btn-warning btn-lg">Modify</a>
-                                    <button class="btn btn-danger btn-lg delete" data-id="<?= $loan->id ?>">Delete</button>
+                                    <button class="btn btn-danger btn-lg delete" data-url="<?=site_url('loans') ?>" data-id="<?=$loan->id ?>">Delete</button>
                                 <?php } ?>
                                 <button onclick="location.reload()" class="btn btn-link">Refresh</button>
                             </div>

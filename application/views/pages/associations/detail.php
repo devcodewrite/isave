@@ -155,6 +155,7 @@
                         <div class="d-block text-right card-footer">
                             <a href="<?= site_url('associations/' . $association->id . '/edit') ?>" class="btn btn-info btn-lg">Modify</a>
                             <button class="btn btn-warning btn-lg">Close</button>
+                            <button class="btn btn-danger btn-lg delete" data-url="<?=site_url('associations') ?>" data-id="<?=$association->id ?>">Delete</button>
                         </div>
                     </div>
                     <div class="tab-pane" id="tab-eg9-1" role="tabpanel">
