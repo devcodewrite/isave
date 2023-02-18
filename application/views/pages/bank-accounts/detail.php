@@ -145,6 +145,17 @@
                                         </p>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
+                                        <p class="col-6 text-black-50">Associations</p>
+                                        <p class="col-6 input-placeholder text-black h-5">
+                                            <?php foreach ($member->associations as $row) {
+                                                ?>
+                                                  <a href="<?=site_url('assocations/'.$row->id) ?>" class="btn btn-info"><?= $row->name ?></a>
+                                                <?php
+                                            } ?>
+                                          
+                                        </p>
+                                    </div>
+                                    <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Added by</p>
                                         <p class="col-6 input-placeholder text-blaick">
                                             <?php $user = $this->user->find($account->user_id) ?>

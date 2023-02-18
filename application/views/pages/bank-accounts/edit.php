@@ -41,13 +41,13 @@
                     <div class="main-card mb-3 card">
                         <div class="card-body">
                             <h5 class="card-title">Membership Account Form</h5>
-                            <form class="col-md-10 mx-auto memberAccForm" method="post" action="<?= site_url('bankaccounts/store') ?>" data-redirect-url="<?= site_url('bankaccounts') ?>">
+                            <form class="col-md-10 mx-auto memberAccForm" method="post" action="<?=isset($account)?site_url('bankaccounts/update/'.$account->id):site_url('bankaccounts/store') ?>" data-redirect-url="<?= site_url('bankaccounts') ?>">
                                 <input type="hidden" name="ownership" value="individual">
                                 <?php if (isset($account)) { ?>
-                                    <input type="hidden" name="_method" value="post">
+                                    <input type="hidden" name="_method" value="put">
                                     <input type="hidden" name="id" value="<?= $account->id ?>">
                                 <?php } else { ?>
-                                    <input type="hidden" name="_method" value="put">
+                                    <input type="hidden" name="_method" value="post">
                                 <?php } ?>
                                 <div class="form-group">
                                     <label>Member's association</label>

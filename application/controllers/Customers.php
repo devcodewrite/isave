@@ -21,6 +21,8 @@ class Customers extends MY_Controller
         $member = $this->member->find($id);
         if (!$member) show_404();
 
+        $member->associations = $this->member->associations($member->id);
+        
         $data = [
             'member' => $member,
             'accountTypes' => $this->acctype->all()->get()->result(),

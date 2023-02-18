@@ -46,7 +46,7 @@
                                 <div tabindex="-1" class="dropdown-divider"></div>
                                 <div class="p-3 text-right">
                                     <button class="mr-2 btn-shadow btn-sm btn btn-warning">Close</button>
-                                    <button class="btn btn-danger btn-lg delete" data-url="<?=site_url('customers') ?>" data-id="<?=$member->id ?>">Delete</button>
+                                    <button class="btn btn-danger btn-lg delete" data-url="<?= site_url('customers') ?>" data-id="<?= $member->id ?>">Delete</button>
                                 </div>
                             </div>
                         </div>
@@ -61,9 +61,21 @@
                         <p class="col-6 text-black-50">Customer ID</p>
                         <p class="col-6 text-primary"><?= $member->id ?></p>
                     </div>
+
                     <div class="row text-uppercase mt-2 border-bottom">
                         <p class="col-6 text-black-50">Full Name</p>
                         <p class="col-6 input-placeholder text-black"><?= $member->firstname ?> <?= $member->othername ?> <?= $member->lastname ?> <?= $member->common_name ? "(a.k.a $member->common_name)" : '' ?></p>
+                    </div>
+                    <div class="row text-uppercase mt-3 border-bottom">
+                        <p class="col-6 text-black-50">Associations</p>
+                        <p class="col-6 input-placeholder text-black h-5">
+                            <?php foreach ($member->associations as $row) {
+                            ?>
+                                <a href="<?= site_url('assocations/' . $row->id) ?>" class="btn btn-info"><?= $row->name ?></a>
+                            <?php
+                            } ?>
+
+                        </p>
                     </div>
                     <div class="row text-uppercase mt-2 border-bottom">
                         <p class="col-6 text-black-50">Sex</p>
@@ -167,8 +179,8 @@
                                     <td><?= "0.00" ?></td>
                                     <td>
                                         <div class="d-flex">
-                                        <a href="<?= site_url('bankaccounts/' . $row->id) ?>" class="btn btn-icon"><i class="fa fa-eye"></i></a>
-                                        <button data-id="<?= $row->acc_number ?>" class="btn btn-icon edit"><i class="fa fa-edit"></i></button>
+                                            <a href="<?= site_url('bankaccounts/' . $row->id) ?>" class="btn btn-icon"><i class="fa fa-eye"></i></a>
+                                            <button data-id="<?= $row->acc_number ?>" class="btn btn-icon edit"><i class="fa fa-edit"></i></button>
                                         </div>
                                     </td>
                                     <td class="py-1"><span class="alert <?= $alerts[$row->status] ?> text-uppercase"><?= $row->status ?></span></td>

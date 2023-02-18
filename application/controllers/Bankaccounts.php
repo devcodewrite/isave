@@ -38,9 +38,11 @@ class Bankaccounts extends MY_Controller
 
         $account->balance = $this->account->calBalance($id);
         $account->accType = $this->acctype->find($account->acc_type_id);
+        $member = $this->member->find($account->member_id);
+        $member->associations = $this->member->associations($member->id);
         $data = [
             'account' => $account,
-            'member' => $this->member->find($account->member_id),
+            'member' => $member,
         ];
         $this->load->view('pages/bank-accounts/detail', $data);
     }
