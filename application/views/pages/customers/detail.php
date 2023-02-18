@@ -114,7 +114,7 @@
                 <div class="d-block text-right card-footer">
                     <a href="<?= site_url('customers/' . $member->id . '/edit') ?>" class="btn btn-info btn-lg">Modify</a>
                     <button class="btn btn-warning btn-lg">Close</button>
-                    <button class="btn btn-danger btn-lg delete" data-url="<?=site_url('customers') ?>" data-id="<?=$account->id ?>">Delete</button>
+                    <button class="btn btn-danger btn-lg delete" data-url="<?=site_url('customers') ?>" data-id="<?=$member->id ?>">Delete</button>
                 </div>
             </div>
         </div>
