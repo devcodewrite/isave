@@ -219,20 +219,27 @@
                                 <thead class="text-uppercase">
                                     <tr>
                                         <th>Date</th>
-                                        <th>Withdrawals</th>
-                                        <th>Deposits</th>
-                                        <th>Balance</th>
+                                        <th>Total Deposits</th>
+                                        <th>Total Withdrawals</th>
+                                        <th>Total Balance</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
+                                    <?php foreach ($this->association->transactions($association->id) as $key => $row) { ?>
+                                        <tr>
+                                            <td><?=$row->tdate ?></td>
+                                            <td><?=$row->totalDeposits ?></td>
+                                            <td><?=$row->totalWithdrawals ?></td>
+                                            <td><?=$row->totalBalance ?></td>
+                                        </tr>
+                                  <?php  } ?>
                                 </tbody>
                                 <tfoot class="text-uppercase">
                                     <tr>
-                                        <th>Date</th>
-                                        <th>Withdrawals</th>
-                                        <th>Deposits</th>
-                                        <th>Balance</th>
+                                    <th>Date</th>
+                                        <th>Total Deposits</th>
+                                        <th>Total Withdrawals</th>
+                                        <th>Total Balance</th>
                                     </tr>
                                 </tfoot>
                             </table>

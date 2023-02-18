@@ -69,7 +69,7 @@ class Association_model extends CI_Model
        $this->db->update($this->table);
         return $this->db->affected_rows() > 0;
     }
-    
+
      /**
      * Extract only values of only fields in the table
      * @param $data
@@ -194,7 +194,7 @@ class Association_model extends CI_Model
                     ->get()
                     ->result();
     }
- /**
+    /**
      * Get all withdrawals that belongs to this association id through account
      */
     public function withdrawals(int $id)
@@ -210,39 +210,24 @@ class Association_model extends CI_Model
     }
 
      /**
-     * Get all associations that the association id has
+     * Get all transactions summary that belongs to this association id
      */
-    public function associations(int $id)
+    public function transactions(int $id)
     {
-        $rtable = 'associations';
-        $pivot = 'association_associations';
-        $foreginKey1 = 'association_id';
-        $foreginKey2 = 'association_id';
+        $rtable = 'deposits';
+        $rtable1 = 'withdrawals';
+        $transac_date = "ifnull($rtable.ddate, $rtable1.wdate)";
 
-        return $this->db->select("{$this->table}.*")
+        $totalDeposits = "SUM(ifnull($rtable.amount,0.00))";
+        $totalWithdrawals = "SUM(ifnull($rtable1.amount,0.00))";
+
+        return $this->db->select("$transac_date as tdate, $totalDeposits as totalDeposits, $totalWithdrawals as totalWithdrawals, ($totalDeposits-$totalWithdrawals) as totalBalance")
                     ->from($rtable)
-                    ->join($rtable, "$pivot.$foreginKey1=$rtable.id")
-                    ->join($this->table, "$pivot.$foreginKey2={$this->table}.id")
-                    ->where("{$this->table}.id", $id)
-                    ->where("$rtable.deleted_at =", null)
+                    ->join($rtable1,"$rtable1.wdate=$rtable.ddate", 'left')
+                    //->where(['association_id'=> $id])
+                    ->group_by("$rtable.ddate")
+                    ->group_by("$rtable1.wdate")
                     ->get()
                     ->result();
     }
-
-    /**
-     * Get the identity card type that owner this association id
-     */
-    public function identityCardType(int $id)
-    {
-        $rtable = 'identity_card_types';
-        $col = 'identity_card_type_id';
-        
-        return $this->db->select("$rtable.*")
-                    ->from($rtable)
-                    ->join($this->table, "{$this->table}.$col=$rtable.id")
-                    ->where([$col=> $id])
-                    ->get()
-                    ->row();
-    }
-
 }
