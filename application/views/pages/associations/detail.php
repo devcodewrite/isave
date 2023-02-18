@@ -45,12 +45,12 @@
                         </li>
                         <li class="nav-item">
                             <a data-toggle="tab" href="#tab-eg9-2" class="nav-link">
-                                <div class="widget-number">Withdrawals</div>
+                                <div class="widget-number">Transactions</div>
                                 <div class="tab-subheading">
                                     <span class="pr-2 opactiy-6">
                                         <i class="fa fa-bullhorn"></i>
                                     </span>
-                                    withdrawal
+                                    Summary of all transtraction
                                 </div>
                             </a>
                         </li>
@@ -146,7 +146,7 @@
                                         <p class="col-6 text-black-50">Added by</p>
                                         <p class="col-6 input-placeholder text-blaick">
                                             <?php $user = $this->user->find($association->user_id) ?>
-                                            <?= $user?"$user->firstname $user->lastname":'' ?>
+                                            <?= $user ? "$user->firstname $user->lastname" : '' ?>
                                         </p>
                                     </div>
                                 </div>
@@ -155,24 +155,24 @@
                         <div class="d-block text-right card-footer">
                             <a href="<?= site_url('associations/' . $association->id . '/edit') ?>" class="btn btn-info btn-lg">Modify</a>
                             <button class="btn btn-warning btn-lg">Close</button>
-                            <button class="btn btn-danger btn-lg delete" data-url="<?=site_url('associations') ?>" data-id="<?=$association->id ?>">Delete</button>
+                            <button class="btn btn-danger btn-lg delete" data-url="<?= site_url('associations') ?>" data-id="<?= $association->id ?>">Delete</button>
                         </div>
                     </div>
                     <div class="tab-pane" id="tab-eg9-1" role="tabpanel">
                         <div class="card-body">
                             <div class="row d-none">
                                 <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="member_id">Search a member</label>
-                                    <div>
-                                        <select name="member_id" class="form-control select2-members" required>
-                                            <option value=""></option>
-                                        </select>
+                                    <div class="form-group">
+                                        <label for="member_id">Search a member</label>
+                                        <div>
+                                            <select name="member_id" class="form-control select2-members" required>
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                                </div>
                             </div>
-                            <table style="width: 100%;" id="dt-related-loans" data-association-id="<?=$association->id ?>" class="table table-hover table-striped table-bordered">
+                            <table style="width: 100%;" id="dt-related-loans" data-association-id="<?= $association->id ?>" class="table table-hover table-striped table-bordered">
                                 <thead class="text-uppercase">
                                     <tr>
                                         <th>#ID</th>
@@ -215,32 +215,24 @@
                     </div>
                     <div class="tab-pane" id="tab-eg9-2" role="tabpanel">
                         <div class="card-body">
-                            <table style="width: 100%;" id="dt-related-withdrawals" data-association-id="<?=$association->id ?>" class="table table-hover table-striped table-bordered">
+                            <table style="width: 100%;" id="dt-transactions" data-association-id="<?= $association->id ?>" class="table table-hover table-striped table-bordered">
                                 <thead class="text-uppercase">
                                     <tr>
-                                        <th>#ID</th>
-                                        <th>Association</th>
-                                        <th>Pas.B No.</th>
-                                        <th>Account</th>
-                                        <th>Amount</th>
-                                        <th>Type</th>
-                                        <th>Withdrawer's Name</th>
-                                        <th>Withdrawer's Phone</th>
                                         <th>Date</th>
+                                        <th>Withdrawals</th>
+                                        <th>Deposits</th>
+                                        <th>Balance</th>
                                     </tr>
                                 </thead>
-
+                                <tbody>
+                                    
+                                </tbody>
                                 <tfoot class="text-uppercase">
                                     <tr>
-                                        <th>#ID</th>
-                                        <th>Association</th>
-                                        <th>Pas.B No.</th>
-                                        <th>Account</th>
-                                        <th>Amount</th>
-                                        <th>Type</th>
-                                        <th>Transferor's Name</th>
-                                        <th>Transferor's Phone</th>
                                         <th>Date</th>
+                                        <th>Withdrawals</th>
+                                        <th>Deposits</th>
+                                        <th>Balance</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -248,10 +240,10 @@
                     </div>
                     <div class="tab-pane" id="tab-eg9-3" role="tabpanel">
                         <div class="card-body">
-                            <table style="width: 100%;" id="dt-related-customers" data-association-id="<?=$association->id ?>" class="table table-hover table-striped table-bordered">
+                            <table style="width: 100%;" id="dt-related-customers" data-association-id="<?= $association->id ?>" class="table table-hover table-striped table-bordered">
                                 <thead class="text-uppercase">
                                     <tr>
-                                    <th>#ID</th>
+                                        <th>#ID</th>
                                         <th>First Name</th>
                                         <th>Last Name</th>
                                         <th>Sex</th>
