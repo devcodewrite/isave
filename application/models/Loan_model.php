@@ -10,6 +10,10 @@ class Loan_model extends CI_Model
     {
         if (!$record) return;
         $record['user_id'] = auth()->user()->id;
+
+        if(!$this->account->canTakeLoan($record['account_id'])){
+            return false;
+        }
         $loan = (object)$record;
         $loan->LoanType = $this->loantype->find($record['loan_type_id']);
 

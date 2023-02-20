@@ -69,7 +69,7 @@
                                     <select name="account_id" id="account_id" class="form-control select2-accounts" required>
                                         <option value=""></option>
                                         <?php if (isset($deposit)) { ?>
-                                            <option value="<?= $deposit->account_id ?>" selected><?= $deposit->account->name ?></option>
+                                            <option value="<?= $deposit->account_id ?>" selected><?= $deposit->account->accType->label ?>#<?= $deposit->account->acc_number ?></option>
                                         <?php } ?>
                                     </select>
                                 </div>
@@ -82,10 +82,25 @@
                                     <input type="date" name="ddate" id="ddate" class="form-control" value="<?= isset($deposit) ? $deposit->ddate : '' ?>" required>
                                 </div>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="amount">Amount</label>
                                     <input type="text" name="amount" id="amount" class="form-control" value="<?= isset($deposit) ? $deposit->amount : '' ?>" placeholder="Enter the amount" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Method</label>
+                                    <select name="type" id="type" class="form-control select2-method" required <?=isset($deposit)?(($deposit->type==='transfer'||$deposit->type==='addition')?' readonly ':''):'' ?>>
+                                        <option value=""></option>
+                                        <option value="cash" <?=isset($deposit)?($deposit->type==='cash'?'selected':''):'' ?>>Cash</option>
+                                        <option value="momo" <?=isset($deposit)?($deposit->type==='momo'?'selected':''):'' ?>>Mobile Money Transfer</option>
+                                        <option value="bank_transfer" <?=isset($deposit)?($deposit->type==='bank_transfer'?'selected':''):'' ?>>Bank Transfer</option>
+
+                                        <?php if ((isset($deposit)?$deposit->type==='transfer'||$deposit->type==='addition':false)) { ?>
+                                            <option value="<?= $deposit->type ?>" selected><?= $deposit->type ?></option>
+                                        <?php } ?>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -123,5 +138,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= site_url('assets/js/deposits/edit.js?v=1') ?>" defer></script>
+<script src="<?= site_url('assets/js/deposits/edit.js?v=3') ?>" defer></script>
 <?php app_end(); ?>

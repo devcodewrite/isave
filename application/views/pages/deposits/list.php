@@ -15,7 +15,74 @@
 
         </div>
     </div>
+    <div class="main-card mb-3 card">
+        <div class="card-header">
+            <i class="header-icon lnr-license icon-gradient bg-plum-plate"> </i>Deposit Filter
 
+            <div class="btn-actions-pane-right actions-icon-btn">
+                <a href="<?= site_url('deposits/create') ?>" class="btn btn-primary text-uppercase">
+                    <i class="pe-7s-plus btn-icon-wrapper"></i>
+                    New Deposit
+                </a>
+            </div>
+        </div>
+        <div class="card-body px-5">
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Member's association</label>
+                        <select name="associaton_id" class="form-control select2-associations filter" required>
+                            <option value=""></option>
+                            <?php if (isset($account)) { ?>
+                                <option value="<?= $account->association->id  ?>" selected><?= $account->association->name; ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="position-relative form-group">
+                        <label for="user_id">Account Owner</label>
+                        <select name="member_id" class="form-control select2-members filter" required>
+                            <option value="">Select a member</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="acc_type_id">Account type</label>
+                        <select name="acc_type_id" class="form-control select2-account-types filter" required>
+                            <option value=""></option>
+                            <?php foreach ($accountTypes as $row) { ?>
+                                <option value="<?= $row->id; ?>"><?= $row->label; ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="position-relative form-group">
+                        <label for="ownership">Ownership</label>
+                        <select name="ownership" class="form-control select2-ownership filter" required>
+                            <option value=""></option>
+                            <option value="individual">Individual</option>
+                            <option value="association">Association</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="position-relative form-group">
+                        <label for="status">Status</label>
+                        <select id="status" name="status" class="form-control select2-status filter" required>
+                            <option value="">Select a status</option>
+                            <option value="open">Open</option>
+                            <option value="closed">Closed</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="main-card mb-3 card">
         <div class="card-header">
             <div class="btn-actions-pane-right actions-icon-btn">
@@ -83,5 +150,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/deposits/list.js?v=3') ?>" defer></script>
+<script src="<?= base_url('assets/js/deposits/list.js?v=5') ?>" defer></script>
 <?php app_end(); ?>

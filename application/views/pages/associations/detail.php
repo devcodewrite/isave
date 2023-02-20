@@ -32,7 +32,7 @@
                                 <div class="widget-number">Association</div>
                                 <div class="tab-subheading">
                                     <span class="pr-2 opactiy-6">
-                                        <i class="fa fa-book"></i>
+                                        <?= $association->name; ?>
                                     </span>
                                 </div>
                             </a>
@@ -45,12 +45,12 @@
                         </li>
                         <li class="nav-item">
                             <a data-toggle="tab" href="#tab-eg9-2" class="nav-link">
-                                <div class="widget-number">Transactions</div>
+                                <div class="widget-number">Deposits Summary</div>
                                 <div class="tab-subheading">
                                     <span class="pr-2 opactiy-6">
                                         <i class="fa fa-bullhorn"></i>
                                     </span>
-                                    Summary of all transtraction
+                                    Summary of all deposit transactions
                                 </div>
                             </a>
                         </li>
@@ -160,16 +160,27 @@
                     </div>
                     <div class="tab-pane" id="tab-eg9-1" role="tabpanel">
                         <div class="card-body">
-                            <div class="row d-none">
-                                <div class="col-md-6">
+
+                            <div class="d-flex align-items-end row px-3">
+                                <div>
+                                    <label for="from">From</label>
                                     <div class="form-group">
-                                        <label for="member_id">Search a member</label>
-                                        <div>
-                                            <select name="member_id" class="form-control select2-members" required>
-                                                <option value=""></option>
-                                            </select>
-                                        </div>
+                                        <input type="date" id="" class="form-control transaction-date-from">
                                     </div>
+                                </div>
+                                <div class="ml-3">
+                                    <label for="from">To</label>
+                                    <div class="form-group">
+                                        <input type="date" id="" class="form-control transaction-date-to">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-3 form-group">
+                                    <button class="btn btn-primary transaction-filter">
+                                        <i class="fa fa-filter"></i>
+                                        Filter</button>
+                                    <button class="btn btn-warning ml-2 transaction-filter-clear">
+                                        <i class="fa fa-times"></i>
+                                        Clear</button>
                                 </div>
                             </div>
                             <table style="width: 100%;" id="dt-related-loans" data-association-id="<?= $association->id ?>" class="table table-hover table-striped table-bordered">
@@ -215,31 +226,53 @@
                     </div>
                     <div class="tab-pane" id="tab-eg9-2" role="tabpanel">
                         <div class="card-body">
-                            <table style="width: 100%;" id="dt-transactions" data-association-id="<?= $association->id ?>" class="table table-hover table-striped table-bordered">
+                            <div class="d-flex align-items-end row px-3">
+                                <div>
+                                    <label for="from">From</label>
+                                    <div class="form-group">
+                                        <input type="date" name="date_from" id="transaction-date-from" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="ml-3">
+                                    <label for="from">To</label>
+                                    <div class="form-group">
+                                        <input type="date" name="date_to" id="transaction-date-to" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-3 form-group">
+                                    <button class="btn btn-primary transaction-filter">
+                                        <i class="fa fa-filter"></i>
+                                        Filter</button>
+                                    <button class="btn btn-warning ml-2 transaction-filter-clear">
+                                        <i class="fa fa-times"></i>
+                                        Clear</button>
+                                </div>
+                            </div>
+                            <table style="width: 100%;" id="dt-transactions" class="table table-hover table-striped table-bordered">
                                 <thead class="text-uppercase">
                                     <tr>
                                         <th>Date</th>
-                                        <th>Total Deposits</th>
-                                        <th>Total Withdrawals</th>
-                                        <th>Total Balance</th>
+                                        <th>Cash</th>
+                                        <th>Mobile Money</th>
+                                        <th>Internal Transfer</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($this->association->transactions($association->id) as $key => $row) { ?>
                                         <tr>
-                                            <td><?=$row->tdate ?></td>
-                                            <td><?=$row->totalDeposits ?></td>
-                                            <td><?=$row->totalWithdrawals ?></td>
-                                            <td><?=$row->totalBalance ?></td>
+                                            <td><?= $row->tdate ?></td>
+                                            <td><?= $row->cash_deposits ?></td>
+                                            <td><?= $row->momo_deposits ?></td>
+                                            <td><?= $row->transfer_deposits ?></td>
                                         </tr>
-                                  <?php  } ?>
+                                    <?php  } ?>
                                 </tbody>
                                 <tfoot class="text-uppercase">
                                     <tr>
-                                    <th>Date</th>
-                                        <th>Total Deposits</th>
-                                        <th>Total Withdrawals</th>
-                                        <th>Total Balance</th>
+                                        <th>Date</th>
+                                        <th>Cash</th>
+                                        <th>Mobile Money</th>
+                                        <th>Internal Transfer</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -247,6 +280,107 @@
                     </div>
                     <div class="tab-pane" id="tab-eg9-3" role="tabpanel">
                         <div class="card-body">
+                            <div class="col-12">
+                                <div class="form-row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="sex">Sex</label>
+                                            <select id="sex" name="sex" class="form-control select2 filter" required>
+                                                <option value=""></option>
+                                                <option value="male">Male</option>
+                                                <option value="female">Female</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="marital_status">Marital status</label>
+                                            <select id="marital-status" name="marital_status" class="form-control select2 filter" required>
+                                                <option value=""></option>
+                                                <option value="single">Single</option>
+                                                <option value="married">Married</option>
+                                                <option value="divorced">Divorced</option>
+                                                <option value="widowed">Widowed</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="city">Location/Town/City</label>
+                                            <input name="city" id="city" type="text" class="form-control filter" placeholder="Enter a city">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="settlement">Settlement</label>
+                                            <select id="settlement" name="settlement" class="form-control select2 filter" required>
+                                                <option value="">Select a settlement</option>
+                                                <option value="rural">Rural Area</option>
+                                                <option value="urban">Urban Area</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="association_id">Association</label>
+                                            <select name="association_id" class="form-control select2-associations filter" required>
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="education">Education level</label>
+                                            <select id="education" name="education" class="form-control select2 filter" required>
+                                                <option value="">Select an education level</option>
+                                                <option value="none">None</option>
+                                                <option value="primary">Primary School</option>
+                                                <option value="jhs">Junior High School (JHS)</option>
+                                                <option value="shs">Senior High School (SHS)</option>
+                                                <option value="tertiary">Tertiary Education</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="rstate">Status</label>
+                                            <select id="rstate" name="rstate" class="form-control select2 filter" required>
+                                                <option value=""></option>
+                                                <option value="open">Open</option>
+                                                <option value="closed">Closed</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-end row">
+                                <div class="col-md-4">
+                                    <label for="from">From</label>
+                                    <div class="form-group">
+                                        <input type="date" name="date_from" id="date-from" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="ml-3">
+                                    <label for="from">To</label>
+                                    <div class="form-group">
+                                        <input type="date" name="date_to" id="date-to" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-3 form-group">
+                                    <button class="btn btn-primary filter">
+                                        <i class="fa fa-filter"></i>
+                                        Filter</button>
+                                    <button class="btn btn-warning ml-2 filter-clear">
+                                        <i class="fa fa-times"></i>
+                                        Clear</button>
+                                </div>
+                            </div>
                             <table style="width: 100%;" id="dt-related-customers" data-association-id="<?= $association->id ?>" class="table table-hover table-striped table-bordered">
                                 <thead class="text-uppercase">
                                     <tr>
@@ -287,5 +421,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/associations/detail.js?v=' . uniqid()); ?>" defer></script>
+<script src="<?= base_url('assets/js/associations/detail.js?v=7'); ?>" defer></script>
 <?php app_end(); ?>

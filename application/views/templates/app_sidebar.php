@@ -262,18 +262,13 @@
                             </a>
                             <ul>
                                 <li>
-                                    <a href="<?= site_url('acctypes/create') ?>" class="<?= get_nav_status1('acctypes/create') ?>">
+                                    <a href="<?= site_url('acctypes') ?>" class="<?= get_nav_status1('acctypes') ?>">
                                         <i class="metismenu-icon"></i> Account Types
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="<?= site_url('setup/loan-types') ?>" class="<?= get_nav_status1('setup/loan-types') ?>">
+                                    <a href="<?= site_url('loantypes') ?>" class="<?= get_nav_status1('loantypes') ?>">
                                         <i class="metismenu-icon"></i> Loan Types
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="<?= site_url('setup/id-card-types') ?>" class="<?= get_nav_status1('setup/id-card-types') ?>">
-                                        <i class="metismenu-icon"></i> Identity Card Types
                                     </a>
                                 </li>
                             </ul>

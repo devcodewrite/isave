@@ -43,14 +43,18 @@
                                 <p class="col-6 text-black-50">From PassBook No.</p>
                                 <h4 class="col-6 input-placeholder text-info"><?= $transfer->from_passbook ?></h4>
                             </div>
-                           
+
                             <div class="row text-uppercase mt-3 border-bottom">
                                 <p class="col-6 text-black-50">From Account Name</p>
-                                <p class="col-6 input-placeholder text-primary"><?= $transfer->fromAccount->name ?></p>
+                                <p class="col-6 input-placeholder text-primary">
+                                    <a href="<?= site_url('bankaccounts/' . $transfer->from_account_id) ?>" class="btn btn-link">
+                                        <?= $transfer->fromAccount->name ?>
+                                    </a>
+                                </p>
                             </div>
                             <div class="row text-uppercase mt-3 border-bottom">
                                 <p class="col-6 text-black-50">Transfer Amount</p>
-                                <h4 class="col-6 input-placeholder text-success">GHS <?= number_format($transfer->amount,2) ?></h4>
+                                <h4 class="col-6 input-placeholder text-success">GHS <?= number_format($transfer->amount, 2) ?></h4>
                             </div>
 
                             <div class="row text-uppercase mt-3 border-bottom">
@@ -64,7 +68,11 @@
                             </div>
                             <div class="row text-uppercase mt-3 border-bottom">
                                 <p class="col-6 text-black-50">To Account Name</p>
-                                <p class="col-6 input-placeholder text-primary"><?= $transfer->toAccount->name ?></p>
+                                <p class="col-6 input-placeholder text-primary">
+                                    <a href="<?= site_url('bankaccounts/' . $transfer->to_account_id) ?>" class="btn btn-link">
+                                        <?= $transfer->toAccount->name ?>
+                                    </a>
+                                </p>
                             </div>
                         </div>
                         <div class="col-md-6 px-5">
@@ -87,7 +95,7 @@
                     </div>
                 </div>
                 <div class="d-block text-right card-footer">
-                <button class="btn btn-danger btn-lg delete" data-url="<?=site_url('transfers') ?>" data-id="<?=$transfer->id ?>">Delete</button>
+                    <a class="btn btn-info btn-lg" href="<?= site_url('transfers') ?>">Back to List</a>
                 </div>
             </div>
         </div>

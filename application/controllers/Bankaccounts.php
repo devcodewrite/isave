@@ -70,6 +70,7 @@ class Bankaccounts extends MY_Controller
         $account = $this->account->find($id);
         if (!$account) show_404();
 
+        $account->accType = $this->acctype->find($account->acc_type_id);
         if ($account->ownership === 'individual') {
             $account->member = $this->member->find($account->member_id);
         } else {

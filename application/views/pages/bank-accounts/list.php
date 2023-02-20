@@ -17,7 +17,7 @@
     </div>
     <div class="main-card mb-3 card">
         <div class="card-header">
-            <i class="header-icon lnr-license icon-gradient bg-plum-plate"> </i>Account Table
+            <i class="header-icon lnr-license icon-gradient bg-plum-plate"> </i>Account Filter
 
             <div class="btn-actions-pane-right actions-icon-btn">
                 <a href="<?= site_url('bankaccounts/create') ?>" class="btn btn-primary text-uppercase">

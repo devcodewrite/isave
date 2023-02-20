@@ -118,7 +118,9 @@ class Deposit_model extends CI_Model
         "$rtable.passbook", 
         "$rtable.name as acc_name", 
         "$rtable.acc_number",
-        "$rtable3.name as association_name"];
+        "$rtable3.name as association_name",
+        "$rtable3.id as association_id"
+    ];
         return 
             $this->db->distinct() 
                     ->select($fields, true)

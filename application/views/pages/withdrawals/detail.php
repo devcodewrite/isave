@@ -57,6 +57,17 @@
                                     <?= date('d/m/y', strtotime($withdrawal->wdate)) ?>
                                 </p>
                             </div>
+                    
+                            <div class="row text-uppercase mt-3 border-bottom">
+                                <p class="col-6 text-black-50">Transaction Type</p>
+                                <p class="col-6 input-placeholder text-primary"><?= $withdrawal->type ?></p>
+                            </div>
+
+                            <div class="row text-uppercase mt-3 border-bottom">
+                                <p class="col-6 text-black-50">Narration</p>
+                                <p class="col-6 input-placeholder text-primary"><?= $withdrawal->withdrawer_name ?> <?= $withdrawal->withdrawer_phone ?></p>
+                            </div>
+
                             <div class="row text-uppercase mt-3 border-bottom">
                                 <p class="col-6 text-black-50">Added by</p>
                                 <p class="col-6 input-placeholder text-blaick">

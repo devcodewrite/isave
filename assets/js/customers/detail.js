@@ -106,6 +106,13 @@ form.on("submit", function (e) {
 
 let form2 = $("#editAccount");
 
+$(".select2-method")
+.select2({
+  allowClear: true,
+  placeholder: "Select a method",
+  selectionCssClass: "form-select2",
+});
+
 form2.validate({
     rules: {
       association_id: "required",
@@ -225,7 +232,7 @@ $("#dt-related-accounts").on("click",".edit", function (e) {
             $(`select[name="${item}"]`).val(val).trigger('change');
         }
        }
-       $('#editAccount').addClass('show').removeAttr('aria-hidden').attr('aria-modal', 'true').show();
+      // $('#editAccount').addClass('show').removeAttr('aria-hidden').attr('aria-modal', 'true').show();
       } else {
         Swal.fire({
           icon: "error",

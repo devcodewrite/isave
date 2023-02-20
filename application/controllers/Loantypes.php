@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script allowed');
 
-class Acctypes extends MY_Controller
+class Loantypes extends MY_Controller
 {
      /**
      * Show a list of resources
@@ -11,9 +11,9 @@ class Acctypes extends MY_Controller
     {
 
         $data = [
-            'types' => $this->acctype->all()->get()->result(),
+            'types' => $this->loantype->all()->get()->result(),
         ];
-        $this->load->view('pages/setup/acctypes/list', $data);
+        $this->load->view('pages/setup/loantypes/list', $data);
     }
 
     /**
@@ -22,13 +22,13 @@ class Acctypes extends MY_Controller
      */
     public function view(int $id = null)
     {
-        $type =  $this->acctype->find($id);
+        $type =  $this->loantype->find($id);
         if (!$type) show_404();
 
         $data = [
             'type' => $type,
         ];
-        $this->load->view('pages/setup/acctypes/detail', $data);
+        $this->load->view('pages/setup/loantypes/detail', $data);
     }
 
     /**
@@ -37,14 +37,14 @@ class Acctypes extends MY_Controller
      */
     public function edit(int $id = null)
     {
-        $acctype = $this->acctype->find($id);
-        if (!$acctype) show_404();
+        $loantype = $this->loantype->find($id);
+        if (!$loantype) show_404();
 
         $data = [
-            'type' => $acctype,
-            'types' => $this->acctype->all()->get()->result(),
+            'type' => $loantype,
+            'types' => $this->loantype->all()->get()->result(),
         ];
-        $this->load->view('pages/setup/acctypes/list', $data);
+        $this->load->view('pages/setup/loantypes/list', $data);
     }
 
     /**
@@ -55,7 +55,7 @@ class Acctypes extends MY_Controller
     {
         $record = $this->input->post();
 
-        $type  = $this->acctype->create($record);
+        $type  = $this->loantype->create($record);
         if ($type) {
             $out = [
                 'data' => $type,
@@ -81,7 +81,7 @@ class Acctypes extends MY_Controller
     public function update(int $id = null)
     {
         $record = $this->input->post();
-        $type  = $this->acctype->update($id, $record);
+        $type  = $this->loantype->update($id, $record);
         if ($type) {
             $out = [
                 'data' => $type,
@@ -104,7 +104,7 @@ class Acctypes extends MY_Controller
      */
     public function delete(int $id = null)
     {
-        if ($this->acctype->delete($id)) {
+        if ($this->loantype->delete($id)) {
             $out = [
                 'status' => true,
                 'message' => 'Account type deleted successfully!'

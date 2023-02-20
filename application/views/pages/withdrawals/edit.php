@@ -88,7 +88,6 @@
                                     <input type="text" name="amount" id="amount" class="form-control" value="<?= isset($withdrawal) ? $withdrawal->amount : '' ?>" placeholder="Enter the amount" required>
                                 </div>
                             </div>
-
                         </div>
                         <div class="form-row">
                             <div class="col-md-6">

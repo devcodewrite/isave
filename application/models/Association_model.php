@@ -215,18 +215,24 @@ class Association_model extends CI_Model
     public function transactions(int $id)
     {
         $rtable = 'deposits';
-        $rtable1 = 'withdrawals';
-        $transac_date = "ifnull($rtable.ddate, $rtable1.wdate)";
+        $col = "account_id";
+        $rtable1 = "accounts";
+        $rcol11 = "member_id";
+        $rcol = 'association_id';
 
-        $totalDeposits = "SUM(ifnull($rtable.amount,0.00))";
-        $totalWithdrawals = "SUM(ifnull($rtable1.amount,0.00))";
+        $cashDeposit = "(CASE WHEN $rtable.type='cash' THEN SUM(ifnull($rtable.amount,0.00)) ELSE '' END)";
+        $momoDeposit = "(CASE WHEN $rtable.type='momo' THEN SUM(ifnull($rtable.amount,0.00)) ELSE '' END)";
+        $transferDeposit = "(CASE WHEN $rtable.type='transfer' THEN SUM(ifnull($rtable.amount,0.00)) ELSE '' END)";
 
-        return $this->db->select("$transac_date as tdate, $totalDeposits as totalDeposits, $totalWithdrawals as totalWithdrawals, ($totalDeposits-$totalWithdrawals) as totalBalance")
+        //$bankTransferDeposit = "SUM(ifnull($rtable.amount,0.00))";
+
+        return $this->db->select("ddate as tdate, $cashDeposit as cash_deposits, $momoDeposit as momo_deposits, $transferDeposit as transfer_deposits")
                     ->from($rtable)
-                    ->join($rtable1,"$rtable1.wdate=$rtable.ddate", 'left')
-                    //->where(['association_id'=> $id])
+                    ->join($rtable1, "$rtable1.id=$rtable.$col")
+                    ->join($this->ftable, "{$this->ftable}.$rcol11=$rtable1.$rcol11")
+                    ->join($this->table, "{$this->table}.id={$this->ftable}.$rcol")
+                    ->where("{$this->ftable}.$rcol", $id)
                     ->group_by("$rtable.ddate")
-                    ->group_by("$rtable1.wdate")
                     ->get()
                     ->result();
     }

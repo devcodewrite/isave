@@ -28,6 +28,18 @@ class Associations extends MY_Controller
         $this->load->view('pages/associations/detail', $data);
     }
 
+      /**
+     * Show a resource
+     * html view
+     */
+    public function deposit_summary(int $id = null)
+    {
+        $data = [
+            'association' => $this->association->find($id),
+        ];
+        $this->load->view('pages/associations/transactions', $data);
+    }
+
     /**
      * Show a form page for creating resource
      * html view
