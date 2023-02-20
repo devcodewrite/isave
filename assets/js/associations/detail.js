@@ -321,7 +321,7 @@ $(".nav-link").on("click", function () {
     $(".filter").on(
       "keyup paste select2:select select2:unselect",
       function (params) {
-        table.ajax.reload();
+        customerTable.ajax.reload();
       }
     );
   }, 100);
