@@ -25,8 +25,10 @@ class Deposit_model extends CI_Model
         $data = [];
 
         $user = auth()->user();
-        print_r($records);
-        die;
+       if(!$user){
+            $this->session->set_flashdata('error_message', "Your session has expired!");
+        return false;
+       }
         foreach ($records['account_id'] as $key => $accountId) {
             if(empty($accountId)) continue;
             array_push($data, [

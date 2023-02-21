@@ -107,7 +107,6 @@ class Deposits extends MY_Controller
             ];
         } else {
             $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
-
             $out = [
                 'status' => false,
                 'message' => $error ? $error : "Mass deposit couldn't be created!"
