@@ -23,7 +23,7 @@ class Member_model extends CI_Model
             foreach($record['associations'] as $assoc){
                 $this->association->addMember($assoc, $id);
             }
-           
+        
             $member = $this->find($id);
             $this->uploadPhoto($id);
             $this->uploadPhoto($id,'card','identity_card_url',true,'100%',['w'=>null,'h' => null]);
@@ -44,12 +44,26 @@ class Member_model extends CI_Model
     public function update(int $id, array $record)
     {
         if (!$record) return;
-
+        $record['user_id'] = auth()->user()->id;
         $data = $this->extract($record);
-        $this->db->set($data);
-        $this->db->where('id', $id);
-        $this->db->update($this->table);
-        return $this->find($id);
+
+        if(!isset($record['associations'])){
+            $this->session->set_flashdata('error', 'Select at least one association');
+            return false;
+        }
+
+        if ($this->db->update($this->table, $data, ['id' => $id])) {
+            $this->db->delete('association_members', ['member_id' => $id]);
+            foreach($record['associations'] as $assoc){
+                $this->association->addMember($assoc, $id);
+            }
+            $member = $this->find($id);
+            $this->uploadPhoto($id);
+            $this->uploadPhoto($id,'card','identity_card_url',true,'100%',['w'=>null,'h' => null]);
+            $record['member_id'] = $id;
+            $record['ownership'] = 'individual';
+            return $member;
+        }
     }
 
     /**
