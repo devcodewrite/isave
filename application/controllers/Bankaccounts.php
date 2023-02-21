@@ -232,15 +232,20 @@ class Bankaccounts extends MY_Controller
     {
         $term = trim($this->input->get('term'));
         $passbook = trim($this->input->get('passbook'));
+        $association = trim($this->input->get('association_id'));
         $take = 10;
         $page = $this->input->get('page', true) ? $this->input->get('page', true) : 1;
         $skip = ($page - 1) * $take;
 
-        $total = $this->account->all()->get()->num_rows();
+        $total = $this->account->all()
+            ->where("accounts.passbook", $passbook)
+            ->where("accounts.association_id", $association)
+            ->get()->num_rows();
 
         $records = $this->account->all()->select('accounts.id, concat(acc_types.label, " #",accounts.acc_number) as text', false)
             ->like('accounts.name', $term)
             ->where("accounts.passbook", $passbook)
+            ->where("accounts.association_id", $association)
             ->limit($take, $skip)
             ->get()
             ->result();

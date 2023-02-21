@@ -172,6 +172,7 @@ passbookEls.each((i, el) => {
         dataType: "json",
         data: function (params) {
           params.passbook = $(el).val();
+          params.association_id = $('.select2-associations').val();
           return params;
         },
       },

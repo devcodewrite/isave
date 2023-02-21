@@ -126,7 +126,7 @@
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Association</p>
                                         <p class="col-6 input-placeholder text-black h-5">
-                                            <a href="<?= site_url('assocations/' . $account->association_id) ?>" class="btn btn-info"><?= $account->association->name ?></a>
+                                            <a href="<?= site_url('associations/' . $account->association_id) ?>" class="btn btn-info"><?= $account->association->name ?></a>
                                         </p>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">

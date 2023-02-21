@@ -113,6 +113,12 @@ $(".select2-method")
   selectionCssClass: "form-select2",
 });
 
+$(".select2-associations").select2({
+  allowClear: true,
+  placeholder: "Select an association",
+  selectionCssClass: "form-select2",
+});
+
 form2.validate({
     rules: {
       association_id: "required",
@@ -228,8 +234,13 @@ $("#dt-related-accounts").on("click",".edit", function (e) {
        for (const item in d.data) {
         if (Object.hasOwnProperty.call(d.data, item)) {
             const val = d.data[item];
-            $(`input[name="${item}"]`).val(val); 
-            $(`select[name="${item}"]`).val(val).trigger('change');
+            $(`#editAccount input[name="${item}"]`).val(val); 
+            $(`#editAccount select[name="${item}"]`).val(val).trigger('change');
+            if(item === 'stamp_amount' && (val !== '' || val !== null)){
+              $(`#editAccount input[name="${item}"]`).prop("disabled", false);
+            }else if(item === 'stamp_amount') {
+              $(`#editAccount input[name="${item}"]`).prop("disabled", true);
+            }
         }
        }
       // $('#editAccount').addClass('show').removeAttr('aria-hidden').attr('aria-modal', 'true').show();

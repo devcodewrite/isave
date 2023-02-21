@@ -252,7 +252,7 @@
                                 <thead class="text-uppercase">
                                     <tr>
                                         <th>Date</th>
-                                        <th>Cash</th>
+                                        <th>Cash Deposits</th>
                                         <th>Mobile Money</th>
                                         <th>Internal Transfer</th>
                                     </tr>
@@ -260,7 +260,7 @@
                                 <tbody>
                                     <?php foreach ($this->association->transactions($association->id) as $key => $row) { ?>
                                         <tr>
-                                            <td><?= $row->tdate ?></td>
+                                            <td><a href="<?=site_url('reporting/deposits') ?>?association_id=<?= $association->id ?>&from_date=<?= $row->tdate ?>&to_date=<?= $row->tdate ?>"><?= $row->tdate ?></a></td>
                                             <td><?= $row->cash_deposits ?></td>
                                             <td><?= $row->momo_deposits ?></td>
                                             <td><?= $row->transfer_deposits ?></td>
@@ -270,7 +270,7 @@
                                 <tfoot class="text-uppercase">
                                     <tr>
                                         <th>Date</th>
-                                        <th>Cash</th>
+                                        <th>Cash Deposits</th>
                                         <th>Mobile Money</th>
                                         <th>Internal Transfer</th>
                                     </tr>

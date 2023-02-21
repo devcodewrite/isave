@@ -114,7 +114,7 @@
                 <div class="d-block text-right card-footer">
                     <a href="<?= site_url('customers/' . $member->id . '/edit') ?>" class="btn btn-info btn-lg">Modify</a>
                     <button class="btn btn-warning btn-lg">Close</button>
-                    <button class="btn btn-danger btn-lg delete" data-url="<?=site_url('customers') ?>" data-id="<?=$member->id ?>">Delete</button>
+                    <button class="btn btn-danger btn-lg delete" data-url="<?= site_url('customers') ?>" data-id="<?= $member->id ?>">Delete</button>
                 </div>
             </div>
         </div>
@@ -159,8 +159,9 @@
                             <tr class="text-uppercase">
                                 <th>#Acc No.</th>
                                 <th>Pas.B</th>
-                                <th>Balance</th>
+                                <th>Association</th>
                                 <th>Action</th>
+                                <th>Balance</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -173,18 +174,20 @@
                             ];
                             foreach ($this->member->accounts($member->id) as $key => $row) {
                                 $row->accType = $this->acctype->find($row->acc_type_id);
+                                $row->association = $this->association->find($row->association_id);
                             ?>
                                 <tr>
                                     <td><?= $row->accType->label ?> (<?= $row->acc_number ?>)</td>
                                     <td><?= $row->passbook ?></td>
-                                    <td><?=$this->account->calBalance($row->id) ?></td>
+                                    <td><?= $row->association->name; ?></td>
                                     <td>
                                         <div class="d-flex">
                                             <a href="<?= site_url('bankaccounts/' . $row->id) ?>" class="btn btn-icon"><i class="fa fa-eye"></i></a>
                                             <button data-id="<?= $row->acc_number ?>" class="btn btn-icon edit" data-toggle="modal" data-target="#editAccount"><i class="fa fa-edit"></i></button>
                                         </div>
                                     </td>
-                                    <td class="py-1"><span class="alert <?= $alerts[$row->status] ?> text-uppercase"><?= $row->status ?></span></td>
+                                    <td><?= $this->account->calBalance($row->id) ?><p></p></td>
+                                    <td><span class="alert <?= $alerts[$row->status] ?> text-uppercase"><?= $row->status ?></span></td>
                                 </tr>
                             <?php  } ?>
                         </tbody>
@@ -192,8 +195,9 @@
                             <tr class="text-uppercase">
                                 <th>#Acc No.</th>
                                 <th>Pas.B</th>
-                                <th>Balance</th>
+                                <th>Association</th>
                                 <th>Action</th>
+                                <th>Balance</th>
                                 <th>Status</th>
                             </tr>
                         </tfoot>
@@ -206,7 +210,7 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= site_url('assets/js/customers/detail.js?v=7') ?>" defer></script>
+<script src="<?= site_url('assets/js/customers/detail.js?v=8') ?>" defer></script>
 <?php app_end(); ?>
 
 <form action="<?= site_url('bankaccounts/store') ?>" class="modal fade" id="newAccount" method="post" tabindex="-1" role="dialog" aria-hidden="true">
@@ -222,7 +226,15 @@
                 <input type="hidden" name="ownership" value="individual">
                 <input type="hidden" name="_method" value="post">
                 <input type="hidden" name="member_id" value="<?= $member->id ?>">
-
+                <div class="form-group">
+                    <label>Member's associations</label>
+                    <select name="association_id" class="form-control select2-associations" required>
+                        <option value=""></option>
+                        <?php foreach ($this->member->associations($member->id) as $key => $row) { ?>
+                            <option value="<?= $row->id; ?>"><?= $row->name; ?></option>
+                        <?php  } ?>
+                    </select>
+                </div>
                 <div class="form-group">
                     <label for="passbook">Passbook No.</label>
                     <input name="passbook" id="passbook" placeholder="Enter passbook no." type="number" value="<?= isset($account) ? $account->passbook : "" ?>" class="form-control" required>
@@ -277,6 +289,15 @@
                 <input type="hidden" name="_method" value="post">
                 <input type="hidden" name="member_id" value="<?= $member->id ?>">
 
+                <div class="form-group">
+                    <label>Member's associations</label>
+                    <select name="association_id" class="form-control select2-associations" required>
+                        <option value=""></option>
+                        <?php foreach ($this->member->associations($member->id) as $key => $row) { ?>
+                            <option value="<?= $row->id; ?>"><?= $row->name; ?></option>
+                        <?php  } ?>
+                    </select>
+                </div>
                 <div class="form-group">
                     <label for="passbook">Passbook No.</label>
                     <input name="passbook" id="passbook" placeholder="Enter passbook no." type="number" value="<?= isset($account) ? $account->passbook : "" ?>" class="form-control" required>

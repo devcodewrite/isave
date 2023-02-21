@@ -182,6 +182,7 @@ $(".select2-accounts")
       dataType: "json",
       data: function (params) {
         params.passbook = $(".select2-passbooks").val();
+        params.association_id = $(".select2-associations").val();
         return params;
       },
     },

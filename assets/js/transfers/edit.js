@@ -101,6 +101,7 @@ $('.select2-from-accounts').select2({
         dataType: "json",
         data: function (params) {
             params.passbook = $('.select2-from-passbooks').val();
+            params.association_id = $('#from-association').val();
             return params;
         },
   },
@@ -119,6 +120,7 @@ $('.select2-to-accounts').select2({
         dataType: "json",
         data: function (params) {
             params.passbook = $('.select2-to-passbooks').val();
+            params.association_id = $('#to-association').val();
             return params;
         },
   },
