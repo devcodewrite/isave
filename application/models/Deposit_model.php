@@ -23,7 +23,10 @@ class Deposit_model extends CI_Model
     {
         if (!$records) return;
         $data = [];
+
         $user = auth()->user();
+        print_r($records);
+        die;
         foreach ($records['account_id'] as $key => $accountId) {
             if(empty($accountId)) continue;
             array_push($data, [
