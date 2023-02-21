@@ -37,7 +37,11 @@ class Deposit_model extends CI_Model
             ]);
         }
 
-        if (sizeof($data) === 0) return false;
+        if (sizeof($data) === 0){
+            $this->session->set_flashdata('error_message', "no records input!");
+            return false;
+        }
+       
         return $this->db->insert_batch($this->table, $data);
     }
 
