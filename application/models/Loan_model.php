@@ -15,11 +15,11 @@ class Loan_model extends CI_Model
             return false;
         }
         $loan = (object)$record;
-        $loan->LoanType = $this->loantype->find($record['loan_type_id']);
+        $loan->accType = $this->loantype->find($record['loan_type_id']);
 
         $interestTotal = 0;
         for ($i = 0; $i < $loan->duration * 4; $i++) {
-            if ($loan->LoanType->rate_type === 'flat_rate') {
+            if ($loan->accType->rate_type === 'flat_rate') {
                 $interestTotal += $this->loan->calcFlatInterest($loan, $i);
             } else {
                 $interestTotal += $this->loan->calcReduceInterest($loan, $i);
@@ -47,10 +47,10 @@ class Loan_model extends CI_Model
         $loan = (object)$record;
 
         if (isset($record['loan_type_id'])) {
-            $loan->LoanType = $this->loantype->find($record['loan_type_id']);
+            $loan->accType = $this->loantype->find($record['loan_type_id']);
             $interestTotal = 0;
             for ($i = 0; $i < $loan->duration * 4; $i++) {
-                if ($loan->LoanType->rate_type === 'flat_rate') {
+                if ($loan->accType->rate_type === 'flat_rate') {
                     $interestTotal += $this->loan->calcFlatInterest($loan, $i);
                 } else {
                     $interestTotal += $this->loan->calcReduceInterest($loan, $i);

@@ -75,17 +75,6 @@
 
                                 </div>
                             </div>
-                            <div class="col-md-8">
-                                <div class="position-relative form-group">
-                                    <label for="loan_type_id">Loan type</label>
-                                    <select name="loan_type_id" class="form-control select2-loan-types" required>
-                                        <option value=""></option>
-                                        <?php foreach ($loanTypes as $row) { ?>
-                                            <option value="<?= $row->id; ?>"><?= $row->label; ?>@<?= str_replace('_', ' ', $row->rate_type); ?></option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                            </div>
                         </div>
                         <div class="form-row">
                             <div class="col-md-4">

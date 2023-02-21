@@ -87,12 +87,12 @@
                                         <?php } ?>
                                     </p>
                                     <p>
-                                        Your requested <i class="text-uppercase"><?= $loan->LoanType->label ?></i> loan of <b>GHS <?= number_format($loan->principal_amount, 2) ?></b> has been granted for a
+                                        Your requested <i class="text-uppercase"><?= $loan->accType->label ?></i> of <b>GHS <?= number_format($loan->principal_amount, 2) ?></b> has been granted for a
                                         period of <b><?= $loan->duration ?> months</b> at an interest rate of <b><?= $loan->rate * 100 ?>% </b> with repayment starting from <b><?= date('l, jS F, Y', strtotime($loan->payin_start_date)) ?></b>
                                         to <b><?= date('l, jS F, Y', strtotime($loan->payin_start_date . " + $loan->duration month",)) ?></b>.
                                     </p>
                                     <h5>Repayment Terms</h5>
-                                    <p class="text-black-50 text-uppercase">Intreset Calaculations for <?= str_replace('_', ' ', $loan->LoanType->rate_type) ?> in <?=$loan->duration*4 ?> weeks</p>
+                                    <p class="text-black-50 text-uppercase">Intreset Calaculations for <?= str_replace('_', ' ', $loan->accType->rate_type) ?> in <?=$loan->duration*4 ?> weeks</p>
                                     <table class="table table-bordered">
                                         <thead>
                                             <th>Repayment Date</th>
@@ -110,7 +110,7 @@
                                                 <tr>
                                                     <td><?= date('D, jS M, Y', strtotime($loan->payin_start_date . " + $i week")) ?></td>
                                                     <td><?= number_format($this->loan->calcPrincipal($loan), 2) ?></td>
-                                                    <?php if ($loan->LoanType->rate_type === 'flat_rate') { 
+                                                    <?php if ($loan->accType->rate_type === 'flat_rate') { 
                                                          $interest = $this->loan->calcFlatInterest($loan, $i);
                                                          $interestTotal += $interest;
                                                          $totalAmount = $this->loan->calcPrincipal($loan)+$interest;

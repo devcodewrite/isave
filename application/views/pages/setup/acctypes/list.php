@@ -34,36 +34,49 @@
                             <input type="text" class="form-control" name="label" placeholder="Enter label" value="<?= isset($type) ? $type->label : "" ?>" required />
                         </div>
                     </div>
-                    <div class="col-md-3 vtype <?=isset($type)?($type->is_loan_acc === '0'?'':'d-none'):'' ?>">
+                    <div class="col-md-3 vtype <?= isset($type) ? ($type->is_loan_acc === '0' ? '' : 'd-none') : '' ?>">
                         <div class="form-group">
                             <label for="type">Value type</label>
-                            <select id="actype" name="type" class="form-control" required>
+                            <select id="actype" name="type" class="form-control select2" required>
                                 <option value="">Select a type</option>
-                                <option value="stamp" <?=isset($type)?($type->type==='stamp'?'selected':''):'' ?>>Stamps</option>
-                                <option value="amount" <?=isset($type)?($type->type==='amount'?'selected':''):'' ?>>Amount</option>
+                                <option value="stamp" <?= isset($type) ? ($type->type === 'stamp' ? 'selected' : '') : '' ?>>Stamps</option>
+                                <option value="amount" <?= isset($type) ? ($type->type === 'amount' ? 'selected' : '') : '' ?>>Amount</option>
                             </select>
                         </div>
                     </div>
 
-                    <div class="col-md-3 amount <?=isset($type)?($type->type==='amount'&&$type->is_loan_acc === '0'?'':'d-none'):'d-none' ?>">
+                    <div class="col-md-3 amount <?= isset($type) ? ($type->type === 'amount' && $type->is_loan_acc === '0' ? '' : 'd-none') : 'd-none' ?>">
                         <div class="form-group">
                             <label for="stamp_amount">Stamp Amount</label>
                             <input type="number" class="form-control" id="stamp-amount" name="stamp_amount" placeholder="Enter amount per stamp" value="<?= isset($type) ? $type->stamp_amount : "" ?>" />
                         </div>
                     </div>
-                    <div class="col-md-3 rate <?= isset($type) ? ($type->is_investment === '1' ? '' : 'd-none') :'' ?>">
+                    <div class="col-md-3 rate <?= isset($type) ? ($type->is_investment === '1' ? '' : 'd-none') : '' ?>">
                         <div class="form-group">
                             <label for="interest">Interest Rate</label>
                             <input type="number" class="form-control" id="interest" name="interest_rate" placeholder="Enter the rate" value="<?= isset($type) ? $type->interest_rate : "" ?>" min="0" max="1" />
                         </div>
                     </div>
-                    <div class="col-md-3 limit <?= isset($type) ? ($type->is_loan_acc === '1' ? '' : 'd-none') :'d-none' ?>">
+
+                </div>
+                <div class="form-row">
+                    <div class="col-md-3  ratetype <?= isset($type) ? ($type->is_loan_acc === '1' ? '' : 'd-none') : 'd-none' ?>">
+                        <div class="form-group">
+                            <label for="type">Rate type</label>
+                            <select name="rate_type" class="form-control select2" required>
+                                <option value="">Select a type</option>
+                                <option value="flat_rate" <?= isset($type) ? ($type->rate_type === 'flat_rate' ? 'selected' : '') : '' ?>>Flat Rate</option>
+                                <option value="reducing_balance" <?= isset($type) ? ($type->rate_type === 'reducing_balance' ? 'selected' : '') : '' ?>>Reducing Balance</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3 limit <?= isset($type) ? ($type->is_loan_acc === '1' ? '' : 'd-none') : 'd-none' ?>">
                         <div class="form-group">
                             <label for="interest">Lower limit</label>
                             <input type="number" class="form-control" id="lower_limit" name="lower_limit" placeholder="Enter the lower limit" value="<?= isset($type) ? $type->lower_limit : "" ?>" />
                         </div>
                     </div>
-                    <div class="col-md-3 limit <?= isset($type) ? ($type->is_loan_acc === '1' ? '' : 'd-none') :'d-none' ?>">
+                    <div class="col-md-3 limit <?= isset($type) ? ($type->is_loan_acc === '1' ? '' : 'd-none') : 'd-none' ?>">
                         <div class="form-group">
                             <label for="interest">Upper limit</label>
                             <input type="number" class="form-control" id="lower_limit" name="upper_limit" placeholder="Enter the upper limit" value="<?= isset($type) ? $type->upper_limit : "" ?>" />
@@ -79,7 +92,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <input type="checkbox" class="" id="is_investment" name="is_investment" value="1" <?= isset($type) ? ($type->is_investment === '1' ? 'checked' : '') : "checked" ?> />
+                            <input type="checkbox" class="" id="is_investment" name="is_investment" value="1" <?= isset($type) ? ($type->is_investment === '1' ? 'checked' : '') : "" ?> />
                             <label for="is_investment">For Investments</label>
                         </div>
                     </div>
@@ -127,13 +140,13 @@
                             <td><?= $row->id ?></td>
                             <td><?= $row->label ?></td>
                             <td><?= $row->type ?></td>
-                            <td><?= $row->interest_rate?($row->interest_rate*100).'%':'' ?></td>
+                            <td><?= $row->interest_rate ? ($row->interest_rate * 100) . '%' : '' ?></td>
                             <td><?= $row->lower_limit ?></td>
                             <td><?= $row->upper_limit ?></td>
                             <td><?= $row->created_at ?></td>
                             <td>
                                 <div class="d-flex">
-                                    <form id="change-status-<?=$row->id ?>" action="<?= site_url('acctypes/update/'.$row->id) ?>" method="POST">
+                                    <form id="change-status-<?= $row->id ?>" action="<?= site_url('acctypes/update/' . $row->id) ?>" method="POST">
                                         <input type="hidden" name="id" value="<?= $row->id ?>">
 
                                         <?php if ($row->status === 'open') { ?>
@@ -141,10 +154,10 @@
                                         <?php } else { ?>
                                             <input type="hidden" name="status" value="open">
                                         <?php } ?>
-                                        <input onchange="changeStatus('change-status-<?=$row->id ?>')" type="checkbox" value="1" <?= $row->status === 'open' ? 'checked' : '' ?>  data-toggle="toggle" data-onstyle="primary">
+                                        <input onchange="changeStatus('change-status-<?= $row->id ?>')" type="checkbox" value="1" <?= $row->status === 'open' ? 'checked' : '' ?> data-toggle="toggle" data-onstyle="primary">
                                     </form>
-                                    <a href="<?= site_url('acctypes/'.$row->id.'/edit') ?>" class="btn btn-info ml-2"><i class="fa fa-edit"></i></a>
-                                    <a href="<?=site_url('acctypes/delete/'.$row->id) ?>" class="btn btn-danger ml-2 delete-row"><i class="fa fa-trash"></i></a>
+                                    <a href="<?= site_url('acctypes/' . $row->id . '/edit') ?>" class="btn btn-info ml-2"><i class="fa fa-edit"></i></a>
+                                    <a href="<?= site_url('acctypes/delete/' . $row->id) ?>" class="btn btn-danger ml-2 delete-row"><i class="fa fa-trash"></i></a>
                                 </div>
                             </td>
                         </tr>
@@ -152,7 +165,7 @@
                     } ?>
                 </tbody>
                 <tfoot class="text-uppercase">
-                    <tr> 
+                    <tr>
                         <th>#ID</th>
                         <th>Label</th>
                         <th>Value Type</th>
@@ -170,5 +183,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/setup/account-types.js?v=5') ?>" defer></script>
+<script src="<?= base_url('assets/js/setup/account-types.js?v=6') ?>" defer></script>
 <?php app_end(); ?>
