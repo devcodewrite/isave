@@ -119,7 +119,8 @@ class Association_model extends CI_Model
         ];
 
         return 
-            $this->db->select($fields, false)
+            $this->db->distinct()
+                    ->select($fields, false)
                     ->from($this->table)
                     ->where($where);
     }

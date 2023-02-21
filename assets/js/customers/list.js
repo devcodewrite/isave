@@ -104,6 +104,7 @@ $(".select2-associations").select2({
     url:`${baseUrl}associations/select2`,
     dataType: "json",
     data: function (params) {
+      return params;
     },
   },
   allowClear: true,
