@@ -52,13 +52,14 @@
                         <div class="col-md-3 d-flex align-items-end">
                             <div class="form-group">
                                 <label for="ddate">Deposit Date</label>
-                                <input type="date" name="ddate" id="entries" value="1" class="form-control">
+                                <input type="date" onchange="$('#ddate').val($(this).val())" name="ddate" value="<?=date('Y-m-d') ?>" class="form-control">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <form action="<?= site_url('deposits/stores') ?>" method="post" class="col-12 mass-deposit-form">
                             <input type="hidden" name="is_mass" value="1">
+                            <input id="ddate" type="hidden" value="<?=date('Y-m-d') ?>" name="ddate">
                             <table style="width: 100%;" id="dt-mass-deposits" class="table table-hover table-striped table-bordered">
                                 <thead class="text-uppercase">
                                     <tr>

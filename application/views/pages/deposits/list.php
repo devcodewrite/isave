@@ -155,5 +155,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/deposits/list.js?v=5') ?>" defer></script>
+<script src="<?= base_url('assets/js/deposits/list.js?v=6') ?>" defer></script>
 <?php app_end(); ?>

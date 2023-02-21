@@ -78,7 +78,7 @@ $(function () {
         },
       },
     ],
-    // order: [[7, "desc"]],
+    order: [[8, "desc"]],
     columnDefs: [
       {
         orderable: false,
