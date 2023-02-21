@@ -174,12 +174,12 @@
                             ];
                             foreach ($this->member->accounts($member->id) as $key => $row) {
                                 $row->accType = $this->acctype->find($row->acc_type_id);
-                                $row->association = $this->association->find($row->association_id);
+                                $row->association = $this->association->find($row->association_id?$row->association_id:0);
                             ?>
                                 <tr>
                                     <td><?= $row->accType->label ?> (<?= $row->acc_number ?>)</td>
                                     <td><?= $row->passbook ?></td>
-                                    <td><?= $row->association->name; ?></td>
+                                    <td><?= $row->association?$row->association->name:""; ?></td>
                                     <td>
                                         <div class="d-flex">
                                             <a href="<?= site_url('bankaccounts/' . $row->id) ?>" class="btn btn-icon"><i class="fa fa-eye"></i></a>

@@ -22,16 +22,14 @@ class Member_model extends CI_Model
 
             foreach($record['associations'] as $assoc){
                 $this->association->addMember($assoc, $id);
+                $record['association_id'] = $assoc;
+                $this->account->create($record);
             }
-        
             $member = $this->find($id);
             $this->uploadPhoto($id);
             $this->uploadPhoto($id,'card','identity_card_url',true,'100%',['w'=>null,'h' => null]);
             $record['member_id'] = $id;
             $record['ownership'] = 'individual';
-            unset($record['association_id']);
-            $acc = $this->account->create($record);
-            $member->account = $acc;
             return $member;
         }
     }

@@ -38,7 +38,7 @@ class Customers extends MY_Controller
     {
         $data = [
             'id_card_types' => $this->idcardtype->all()->get()->result(),
-            'acc_types' => $this->acctype->all()->get()->result(),
+            'acc_types' => $this->acctype->all()->where(['is_default' => 1])->get()->result(),
         ];
         $this->load->view('pages/customers/edit', $data);
     }
