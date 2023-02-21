@@ -183,9 +183,9 @@ class Associations extends MY_Controller
         $page = $this->input->get('page', true) ? $this->input->get('page', true) : 1;
         $skip = ($page - 1) * $take;
 
-        $total = $this->association->all()->get()->num_rows();
+        $total = $this->association->all()->distinct()->get()->num_rows();
 
-        $records = $this->association->all()->select('id, name as text')
+        $records = $this->association->all()->distinct()->select('id, name as text')
             ->like('name', $term)
             ->limit($take, $skip)
             ->get()

@@ -42,10 +42,17 @@
                         <div class="col-md-3 d-flex align-items-end">
                             <div class="form-group">
                                 <label for="entries">Add Rows</label>
-                                <input type="number" name="rows" id="entries" value="1" class="form-control">
+                                <input type="number" name="rows" id="entries" value="1" min="1" max="50" class="form-control">
                             </div>
                             <div class="form-group ml-2">
                                 <button class="btn btn-primary text-uppercase add-rows">Add</button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 d-flex align-items-end">
+                            <div class="form-group">
+                                <label for="ddate">Deposit Date</label>
+                                <input type="date" name="ddate" id="entries" value="1" class="form-control">
                             </div>
                         </div>
                     </div>
