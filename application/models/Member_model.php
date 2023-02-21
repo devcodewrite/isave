@@ -23,7 +23,11 @@ class Member_model extends CI_Model
             foreach($record['associations'] as $assoc){
                 $this->association->addMember($assoc, $id);
                 $record['association_id'] = $assoc;
-                $this->account->create($record);
+                foreach($this->acctype->where(['is_default'=>1]) as $acctype){
+                    $record['acc_type_id'] = $acctype->id;
+                    $this->account->create($record);
+                }
+                    
             }
             $member = $this->find($id);
             $this->uploadPhoto($id);
