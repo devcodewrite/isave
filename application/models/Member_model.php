@@ -20,6 +20,9 @@ class Member_model extends CI_Model
         if ($this->db->insert($this->table, $data)) {
             $id = $this->db->insert_id();
 
+            $record['member_id'] = $id;
+            $record['ownership'] = 'individual';
+            
             foreach($record['associations'] as $assoc){
                 $this->association->addMember($assoc, $id);
                 $record['association_id'] = $assoc;
@@ -28,8 +31,7 @@ class Member_model extends CI_Model
             $member = $this->find($id);
             $this->uploadPhoto($id);
             $this->uploadPhoto($id,'card','identity_card_url',true,'100%',['w'=>null,'h' => null]);
-            $record['member_id'] = $id;
-            $record['ownership'] = 'individual';
+           
             return $member;
         }
     }
