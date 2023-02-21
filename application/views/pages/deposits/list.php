@@ -86,10 +86,15 @@
     <div class="main-card mb-3 card">
         <div class="card-header">
             <div class="btn-actions-pane-right actions-icon-btn">
-                <a href="<?= site_url('deposits/create') ?>" class="btn btn-primary text-uppercase">
+            <a href="<?= site_url('deposits/mass-create') ?>" class="btn btn-primary text-uppercase">
+                    <i class="pe-7s-plus btn-icon-wrapper"></i>
+                    New Mass Deposit
+                </a>
+                <a href="<?= site_url('deposits/create') ?>" class="btn btn-secondary text-uppercase">
                     <i class="pe-7s-plus btn-icon-wrapper"></i>
                     New Deposit
                 </a>
+
             </div>
         </div>
         <div class="card-body">
