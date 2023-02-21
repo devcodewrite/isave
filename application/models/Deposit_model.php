@@ -33,7 +33,7 @@ class Deposit_model extends CI_Model
                 'depositor_name' => "$user->firstname $user->lastname",
                 'depositor_phone' => $user->phone,
                 'user_id' => $user->id,
-                'ddate' => date('Y-m-d'),
+                'ddate' => (isset($records['ddate'])?$records['ddate']:date('Y-m-d')),
             ]);
         }
 
