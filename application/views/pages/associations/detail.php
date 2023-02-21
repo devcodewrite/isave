@@ -284,6 +284,31 @@
                                 <div class="form-row">
                                     <div class="col-md-4">
                                         <div class="form-group">
+                                            <label for="association_id">Association</label>
+                                            <select name="association_id" class="form-control select2-associations filter" required>
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Passbook NO.</label>
+                                            <select name="passbook" id="passbook" class="form-control select2-passbooks2 filter" required>
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="city">Location/Town/City</label>
+                                            <input name="city" id="city" type="text" class="form-control filter" placeholder="Enter a Location/Town/City">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
                                             <label for="sex">Sex</label>
                                             <select id="sex" name="sex" class="form-control select2 filter" required>
                                                 <option value=""></option>
@@ -293,26 +318,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="marital_status">Marital status</label>
-                                            <select id="marital-status" name="marital_status" class="form-control select2 filter" required>
-                                                <option value=""></option>
-                                                <option value="single">Single</option>
-                                                <option value="married">Married</option>
-                                                <option value="divorced">Divorced</option>
-                                                <option value="widowed">Widowed</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="city">Location/Town/City</label>
-                                            <input name="city" id="city" type="text" class="form-control filter" placeholder="Enter a city">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-row">
+
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="settlement">Settlement</label>
@@ -323,14 +329,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="association_id">Association</label>
-                                            <select name="association_id" class="form-control select2-associations filter" required>
-                                                <option value=""></option>
-                                            </select>
-                                        </div>
-                                    </div>
+
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="education">Education level</label>
@@ -346,6 +345,18 @@
                                     </div>
                                 </div>
                                 <div class="form-row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="marital_status">Marital status</label>
+                                            <select id="marital-status" name="marital_status" class="form-control select2 filter" required>
+                                                <option value=""></option>
+                                                <option value="single">Single</option>
+                                                <option value="married">Married</option>
+                                                <option value="divorced">Divorced</option>
+                                                <option value="widowed">Widowed</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="rstate">Status</label>
@@ -421,5 +432,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/associations/detail.js?v=8'); ?>" defer></script>
+<script src="<?= base_url('assets/js/associations/detail.js?v=11'); ?>" defer></script>
 <?php app_end(); ?>

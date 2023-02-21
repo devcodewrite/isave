@@ -139,6 +139,8 @@ class User_model extends CI_Model
      */
     public function all()
     {
+        $rtable = 'roles';
+        
         $where = ["{$this->table}.deleted_at =" => null];
         $fields = [
             "{$this->table}.id",
@@ -154,6 +156,7 @@ class User_model extends CI_Model
             "{$this->table}.photo_url",
             "{$this->table}.permission_id",
             "{$this->table}.role_id",
+            "$rtable.label as role_label",
             "{$this->table}.rstatus",
             "{$this->table}.created_at",
             "{$this->table}.updated_at",
@@ -162,6 +165,7 @@ class User_model extends CI_Model
         return
             $this->db->select($fields, true)
             ->from($this->table)
+            ->join($rtable, "$rtable.id={$this->table}.role_id")
             ->where($where);
     }
 

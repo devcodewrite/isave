@@ -22,7 +22,7 @@ class Customers extends MY_Controller
         if (!$member) show_404();
 
         $member->associations = $this->member->associations($member->id);
-        
+
         $data = [
             'member' => $member,
             'accountTypes' => $this->acctype->all()->get()->result(),
@@ -81,7 +81,7 @@ class Customers extends MY_Controller
         } else {
             $out = [
                 'status' => false,
-                'message' => $error?$error:"Customer couldn't be created!"
+                'message' => $error ? $error : "Customer couldn't be created!"
             ];
         }
         httpResponseJson($out);
@@ -107,7 +107,7 @@ class Customers extends MY_Controller
         } else {
             $out = [
                 'status' => false,
-                'message' => $error?$error:"Customer data couldn't be update!"
+                'message' => $error ? $error : "Customer data couldn't be update!"
             ];
         }
         httpResponseJson($out);
@@ -145,15 +145,20 @@ class Customers extends MY_Controller
         if ($this->input->get('association_id'))
             $where = array_merge($where, ['association_members.association_id' => $inputs['association_id']]);
 
+        if ($this->input->get('passbook')) {
+            $query->join('accounts', 'accounts.member_id=association_members.member_id');
+            $query->distinct();
+            $where = array_merge($where, ['accounts.passbook' => $inputs['passbook']]);
+        }
         if ($this->input->get('rstate'))
             $where = array_merge($where, ['members.rstate' => $inputs['rstate']]);
 
         if ($this->input->get('city'))
-            $where = array_merge($where, ['members.city' => $inputs['city']]);
-        
+            $query->like('members.city', $inputs['city']);
+
         if ($this->input->get('education'))
             $where = array_merge($where, ['members.education' => $inputs['education']]);
-        
+
         if ($this->input->get('settlement'))
             $where = array_merge($where, ['members.settlement' => $inputs['settlement']]);
 

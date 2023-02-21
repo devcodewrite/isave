@@ -184,8 +184,8 @@
                     </ul>
                 </li>
 
-                <li class="app-sidebar__heading">Financial Reporting</li>
-                <li class="<?= get_nav_status('reporting/income') ?>">
+                <li class="app-sidebar__heading d-none">Financial Reporting</li>
+                <li class="<?= get_nav_status('reporting/income') ?> d-none">
                     <a href="#">
                         <i class="metismenu-icon pe-7s-piggy"></i>Reporting Income
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
@@ -203,8 +203,8 @@
                         </li>
                     </ul>
                 </li>
-                <li class="app-sidebar__heading">Records Reporting</li>
-                <li>
+                <li class="app-sidebar__heading d-none">Records Reporting</li>
+                <li class="d-none">
                     <a href="#">
                         <i class="metismenu-icon pe-7s-light"></i>Deposits
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>

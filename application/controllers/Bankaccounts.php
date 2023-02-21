@@ -73,9 +73,10 @@ class Bankaccounts extends MY_Controller
         $account->accType = $this->acctype->find($account->acc_type_id);
         if ($account->ownership === 'individual') {
             $account->member = $this->member->find($account->member_id);
-        } else {
-            $account->association = $this->member->find($account->association_id);
         }
+        $account->association = null;
+        if ($account->association_id)
+            $account->association = $this->association->find($account->association_id);
 
         $data = [
             'id_card_types' => $this->idcardtype->all()->get()->result(),

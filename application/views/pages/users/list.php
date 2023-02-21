@@ -16,7 +16,7 @@
     </div>
     <div class="main-card mb-3 card">
         <div class="card-header">
-            <i class="header-icon lnr-license icon-gradient bg-plum-plate"> </i>User Table
+            <i class="header-icon lnr-license icon-gradient bg-plum-plate"> </i>User Table Filter
 
             <div class="btn-actions-pane-right actions-icon-btn">
                 <a href="<?= site_url('users/create') ?>" class="btn btn-primary text-uppercase">
@@ -27,46 +27,13 @@
         </div>
         <div class="card-body px-5">
             <div class="form-row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="username">Cluster office address</label>
-                        <div>
-                            <input type="text" class="form-control" id="cluster_office_address" list="clusterOfficeOptions" name="cluster_office_address" placeholder="Enter the address" />
-                            <datalist id="clusterOfficeOptions">
-                                <?php foreach ($clusterOfficeAddresses as $row) { ?>
-                                    <option value="<?= $row->cluster_office_address ?>">
-                                    <?php } ?>
-                            </datalist>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="community">Community</label>
-                        <div>
-                            <input type="text" class="form-control" list="communityOptions" id="community" name="community" placeholder="Enter the community or select one" />
-                            <datalist id="communityOptions">
-                                <?php foreach ($communities as $row) { ?>
-                                    <option value="<?= $row->community ?>">
-                                    <?php } ?>
-                            </datalist>
-                        </div>
-                    </div>
-                </div>
+
             </div>
             <div class="form-row">
-                <div class="col-md-6">
-                    <div class="position-relative form-group">
-                        <label for="status">Assigned User</label>
-                        <select name="status" class="form-control" required>
-                            <option value="">Select a user</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <div class="position-relative form-group">
                         <label for="status">Status</label>
-                        <select name="status" class="form-control" required>
+                        <select id="status" name="status" class="form-control select2 filter" required>
                             <option value="">Select a status</option>
                             <option value="open">Open</option>
                             <option value="closed">Closed</option>
@@ -81,12 +48,12 @@
             <table style="width: 100%;" id="dt-users" class="table table-hover table-striped table-bordered">
                 <thead class="text-uppercase">
                     <tr>
-                        <th>#ID</th>
-                        <th>Name</th>
-                        <th>Community</th>
-                        <th>Cluster Office</th>
-                        <th>Assigned To</th>
-                        <th>Total Members</th>
+                        <th>Username</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Role</th>
                         <th>Status</th>
                         <th>Created On</th>
                     </tr>
@@ -94,12 +61,12 @@
 
                 <tfoot class="text-uppercase">
                     <tr>
-                        <th>#ID</th>
-                        <th>Name</th>
-                        <th>Community</th>
-                        <th>Cluster Office</th>
-                        <th>Assigned To</th>
-                        <th>Total Members</th>
+                        <th>Username</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Role</th>
                         <th>Status</th>
                         <th>Created On</th>
                     </tr>
@@ -111,5 +78,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/users/list.js?v=1') ?>" defer></script>
+<script src="<?= base_url('assets/js/users/list.js?v=2') ?>" defer></script>
 <?php app_end(); ?>

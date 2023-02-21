@@ -51,10 +51,10 @@
                                 <?php } ?>
                                 <div class="form-group">
                                     <label>Member's association</label>
-                                    <select name="associaton_id" class="form-control select2-associations" required>
+                                    <select name="association_id" class="form-control select2-associations" required>
                                         <option value=""></option>
                                         <?php if (isset($account)) { ?>
-                                            <option value="<?= $account->association->id  ?>" selected><?= $account->association->name; ?></option>
+                                            <option value="<?= $account->association_id  ?>" selected><?= $account->association->name; ?></option>
                                         <?php } ?>
                                     </select>
                                 </div>

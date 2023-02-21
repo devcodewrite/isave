@@ -12,6 +12,7 @@ $(function () {
         params.date_to = $('#date-to').val();
         params.marital_status = $('#marital-status').val();
         params.association_id = $('.select2-associations').val();
+        params.passbook = $('.select2-passbooks2').val();
         params.education = $('#education').val();
         params.settlement = $('#settlement').val();
         params.sex = $('#sex').val();
@@ -109,6 +110,25 @@ $(".select2-associations").select2({
   placeholder: "Select an association",
   selectionCssClass: "form-select2",
 });
+
+$(".select2-passbooks2")
+  .select2({
+    ajax: {
+      url: `${baseUrl}bankaccounts/passbook-select2`,
+      dataType: "json",
+      data: function (params) {
+        params.association_id = $(".select2-associations").val()?$(".select2-associations").val():0;
+        return params;
+      },
+    },
+    allowClear: true,
+    placeholder: "Search a passbook",
+    selectionCssClass: "form-select2",
+    templateResult: formatPeople2Result,
+  })
+  .on("select2:select", function (params) {
+    $(".select2-passbooks").trigger("change");
+  });
 
 
 $('.filter').on('keyup paste select2:select select2:unselect', function (params) {
