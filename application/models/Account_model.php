@@ -182,7 +182,7 @@ class Account_model extends CI_Model
             "{$this->table}.ownership",
             "count({$this->table}.id) as accounts",
             "{$this->table}.passbook",
-            "ifnull(($qselect_sum_deposits) - ($qselect_sum_withdrawals),0) as balance",
+            "(ifnull(($qselect_sum_deposits),0) - ifnull(($qselect_sum_withdrawals),0)) as balance",
             "{$this->table}.member_id",
             "{$this->table}.association_id",
             "$rtable2.name as association_name",
