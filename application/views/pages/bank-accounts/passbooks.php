@@ -22,7 +22,38 @@
             </div>
         </div>
     </div>
+    <div class="main-card mb-3 card">
+        <div class="card-header">
+            <i class="header-icon lnr-license icon-gradient bg-plum-plate"> </i>Account Filter
 
+            <div class="btn-actions-pane-right actions-icon-btn">
+                <a href="<?= site_url('bankaccounts/create') ?>" class="btn btn-primary text-uppercase">
+                    <i class="pe-7s-plus btn-icon-wrapper"></i>
+                    New Account
+                </a>
+            </div>
+        </div>
+        <div class="card-body px-5">
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Member's association</label>
+                        <select name="associaton_id" class="form-control select2-associations filter" required>
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="position-relative form-group">
+                        <label for="user_id">Account Owner</label>
+                        <select name="member_id" class="form-control select2-members filter" required>
+                            <option value="">Select a member</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="main-card mb-3 card">
         <div class="card-header">
             <div class="btn-actions-pane-right actions-icon-btn">
@@ -33,6 +64,7 @@
             </div>
         </div>
         <div class="card-body">
+
             <table style="width: 100%;" id="dt-passbooks" class="table table-hover table-striped table-bordered">
                 <thead class="text-uppercase">
                     <tr>

@@ -221,7 +221,18 @@ class Bankaccounts extends MY_Controller
         $draw = $this->input->get('draw', true);
         $inputs = $this->input->get();
 
-        $out = datatable($this->account->passbooks(), $start, $length, $draw, $inputs);
+        $query = $this->account->passbooks();
+        $where = [];
+
+        if ($this->input->get('association_id'))
+            $where = array_merge($where, ['association_members.association_id' => $inputs['association_id']]);
+
+        if ($this->input->get('member_id'))
+            $where = array_merge($where, ['association_members.member_id' => $inputs['member_id']]);
+
+        $query->where($where);
+        
+        $out = datatable($query, $start, $length, $draw, $inputs);
         $out = array_merge($out, [
             'input' => $this->input->get(),
         ]);
