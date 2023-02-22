@@ -63,6 +63,7 @@
                             <table style="width: 100%;" id="dt-mass-deposits" class="table table-hover table-striped table-bordered">
                                 <thead class="text-uppercase">
                                     <tr>
+                                        <th>#</th>
                                         <th>Passbook</th>
                                         <th>Owner</th>
                                         <th>Account</th>
@@ -75,6 +76,7 @@
                                     <?php for ($i = 0; $i < 10; $i++) {
                                     ?>
                                         <tr>
+                                            <td><?=$i+1 ?></td>
                                             <td class="col-2">
                                                 <select name="passbook[]" class="form-control select2-mass-passbooks" data-acc="<?= 'select2-acc' . $i ?>" required>
                                                     <option value=""></option>
@@ -106,6 +108,7 @@
                                 </tbody>
                                 <tfoot class="text-uppercase">
                                     <tr>
+                                        <th>#</th>
                                         <th colspan="3">Totals</th>
                                         <th id="stampTotal">0</th>
                                         <th id="amountTotal">0.00</th>
@@ -125,5 +128,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= site_url('assets/js/deposits/mass.js?v=3') ?>" defer></script>
+<script src="<?= site_url('assets/js/deposits/mass.js?v=7') ?>" defer></script>
 <?php app_end(); ?>
