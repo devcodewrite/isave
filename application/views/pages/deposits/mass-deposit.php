@@ -125,5 +125,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= site_url('assets/js/deposits/mass.js?v=2') ?>" defer></script>
+<script src="<?= site_url('assets/js/deposits/mass.js?v=3') ?>" defer></script>
 <?php app_end(); ?>
