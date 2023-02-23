@@ -87,7 +87,7 @@
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Rate</p>
-                                        <p class="col-6 input-placeholder text-black text-uppercase"><?= $loan->rate * 100 ?>% (<?= str_replace('_', ' ', $loan->account->accType->rate_type) ?>)</p>
+                                        <p class="col-6 input-placeholder text-black text-uppercase"><?= $loan->rate*$loan->duration * 100 ?>% (<?= str_replace('_', ' ', $loan->account->accType->rate_type) ?>)</p>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Account</p>
