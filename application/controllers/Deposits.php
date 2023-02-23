@@ -10,7 +10,7 @@ class Deposits extends MY_Controller
     public function index()
     {
         $data = $this->input->get();
-        
+
         $this->load->view('pages/deposits/list', $data);
     }
 
@@ -179,8 +179,8 @@ class Deposits extends MY_Controller
         if ($this->input->get('member_id'))
             $where = array_merge($where, ['association_members.member_id' => $inputs['member_id']]);
 
-        if ($this->input->get('status'))
-            $where = array_merge($where, ['accounts.staus' => $inputs['status']]);
+        if ($this->input->get('type'))
+            $where = array_merge($where, ['deposits.type' => $inputs['type']]);
 
         if ($this->input->get('ownership'))
             $where = array_merge($where, ['accounts.ownership' => $inputs['ownership']]);

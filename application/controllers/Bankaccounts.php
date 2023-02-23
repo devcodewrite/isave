@@ -197,7 +197,7 @@ class Bankaccounts extends MY_Controller
             $where = array_merge($where, ['association_members.member_id' => $inputs['member_id']]);
 
         if ($this->input->get('status'))
-            $where = array_merge($where, ['accounts.staus' => $inputs['status']]);
+            $where = array_merge($where, ['accounts.status' => $inputs['status']]);
 
         if ($this->input->get('ownership'))
             $where = array_merge($where, ['accounts.ownership' => $inputs['ownership']]);
