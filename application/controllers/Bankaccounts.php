@@ -38,7 +38,7 @@ class Bankaccounts extends MY_Controller
         $account->accType = $this->acctype->find($account->acc_type_id);
         $account->association = $this->association->find($account->association_id);
         $member = null;
-        if($account->ownership === 'indvidual'){
+        if($account->ownership === 'individual'){
             $member = $this->member->find($account->member_id);
             $member->associations = $this->member->associations($member->id);
         }
