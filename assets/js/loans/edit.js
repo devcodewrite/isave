@@ -63,11 +63,6 @@ $("#toggle-use-personal-info").on("change", function (e) {
   }
 });
 
-$(".select2-loan-types").select2({
-  allowClear: true,
-  placeholder: "Select a type",
-  selectionCssClass: "form-select2",
-});
 
 $(".select2-associations").select2({
   ajax: {

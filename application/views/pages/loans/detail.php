@@ -79,7 +79,7 @@
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Interest Amount</p>
-                                        <h5 class="col-6 input-placeholder text-warning">GHS <?= number_format($loan->interest_amount*$loan->duration, 2) ?></h5>
+                                        <h5 class="col-6 input-placeholder text-warning">GHS <?= number_format($loan->interest_amount, 2) ?></h5>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Duration</p>

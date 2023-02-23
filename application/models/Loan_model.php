@@ -163,12 +163,12 @@ class Loan_model extends CI_Model
 
     public function calcReduceInterest($loan, $index = 0)
     {
-        return ($loan->principal_amount - $loan->principal_amount / ($loan->duration * 4) * $index) * $loan->rate / ($loan->duration * 4);
+        return ($loan->principal_amount - $loan->principal_amount / 4* $index) * $loan->rate /4;
     }
 
     public function calcFlatInterest($loan)
     {
-        return ($loan->principal_amount * $loan->rate) / ($loan->duration * 4);
+        return ($loan->principal_amount * $loan->rate) /  4;
     }
     /**
      * Get the association that owner this loan id

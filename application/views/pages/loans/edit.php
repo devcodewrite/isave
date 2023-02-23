@@ -69,7 +69,7 @@
                                     <select name="account_id" id="account_id" class="form-control select2-accounts1" required>
                                         <option value=""></option>
                                         <?php if (isset($loan)) { ?>
-                                            <option value="<?= $loan->account_id ?>" selected><?= $loan->account->name ?></option>
+                                            <option value="<?= $loan->account_id ?>" selected><?= $loan->account->accType->label ?>#<?= $loan->account->acc_number ?></option>
                                         <?php } ?>
                                     </select>
 
