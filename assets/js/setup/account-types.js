@@ -88,7 +88,7 @@ $('.select2').select2({
 });
 
 $("#is_investment").on("change", function (e) {
-  if ($(this).prop("checked") || $(this).prop("checked")) {
+  if ($(this).prop("checked") || $("#is_loan_acc").prop("checked")) {
     $(".rate").removeClass("d-none");
   } else {
     $(".rate").addClass("d-none");
@@ -96,7 +96,7 @@ $("#is_investment").on("change", function (e) {
 });
 
 $("#is_loan_acc").on("change", function (e) {
-  if ($(this).prop("checked") || $(this).prop("checked")) {
+  if ($(this).prop("checked") || $("#is_investment").prop("checked")) {
     $(".rate").removeClass("d-none");
   } else {
     $(".rate").addClass("d-none");
@@ -115,7 +115,7 @@ $("#is_loan_acc").on("change", function (e) {
 });
 
 $("#actype").on("change", function (e) {
-  if ($(this).val() === "amount") {
+  if ($(this).val() === "stamp") {
     $(".amount").removeClass("d-none");
   } else {
     $(".amount").addClass("d-none");

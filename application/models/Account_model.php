@@ -90,6 +90,7 @@ class Account_model extends CI_Model
 
         if ($result) {
             $result->association = $this->association($result->id);
+            $result->accType = $this->acctype->find($result->acc_type_id);
         }
         return $result;
     }
@@ -134,6 +135,7 @@ class Account_model extends CI_Model
             "{$this->table}.stamp_amount",
             "concat({$rtable}.firstname, ' ', {$rtable}.lastname) as member_owner",
             "$rtable2.name  as association_owner",
+            "$rtable3.interest_rate",
             "$rtable3.label  as acc_type",
             "DATE({$this->table}.created_at) as created_at",
         ];
@@ -282,6 +284,7 @@ class Account_model extends CI_Model
             'type',
             '1 as is_credit',
             "ddate as edate",
+            "created_at as creation"
         ];
         $fields1 = [
             'id as ref',
@@ -289,6 +292,7 @@ class Account_model extends CI_Model
             'type',
             '0 as is_credit',
             "wdate as edate",
+            "created_at as creation"
         ];
 
         $rtable = 'deposits';
@@ -307,7 +311,20 @@ class Account_model extends CI_Model
         $qselect_sum_withdrawals = "SELECT SUM(withdrawals.amount) FROM withdrawals WHERE account_id=$id AND wdate <= edate AND id <= ref";
 
 
-        return $this->db->query("SELECT ref, amount,type, is_credit,edate,(ifnull(($qselect_sum_deposits),0.00)-ifnull(($qselect_sum_withdrawals),0.00)) as balance  FROM ($query1 UNION $query2) as x order by edate desc")
+        return $this->db->query("SELECT creation,ref, amount,type, is_credit,edate,(ifnull(($qselect_sum_deposits),0.00)-ifnull(($qselect_sum_withdrawals),0.00)) as balance  FROM ($query1 UNION $query2) as x order by edate asc, creation asc")
+            ->result();
+    }
+
+    public function transactions($from, $to, $where)
+    {
+        $rtable = 'deposits';
+
+        return $this->db->select()
+            ->from($rtable)
+            ->where($where)
+            ->where('ddate >=', $from)
+            ->where('ddate <=', $to)
+            ->get()
             ->result();
     }
 
@@ -358,8 +375,8 @@ class Account_model extends CI_Model
             return false;
         }
 
-        if(!$accType->lower_limit && ($amount < $accType->lower_limit || $amount > $accType->upper_limit) ){
-            $this->session->set_flashdata('error_message', "$account->name has an lower limit of $accType->lower_limit and lower limit of $accType->upper_limit for loan requests!");
+        if($amount < $accType->lower_limit || $amount > $accType->upper_limit ){
+            $this->session->set_flashdata('error_message', "$account->name's account has an lower limit of $accType->lower_limit and upper limit of $accType->upper_limit for loan requests!");
             return false;
         }
 

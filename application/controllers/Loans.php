@@ -75,7 +75,7 @@ class Loans extends MY_Controller
     public function create()
     {
         $data = [
-            'loanTypes' => $this->loantype->all()->get()->result(),
+            
         ];
         $this->load->view('pages/loans/edit', $data);
     }
@@ -86,8 +86,13 @@ class Loans extends MY_Controller
      */
     public function edit(int $id = null)
     {
+        $loan = $this->loan->find($id);
+
+        if (!$loan) show_404();
+        $loan->account = $this->account->find($loan->account_id);
+        
         $data = [
-            'loanTypes' => $this->loantype->all()->get()->result(),
+            'loan' => $loan
         ];
         $this->load->view('pages/loans/edit', $data);
     }
@@ -176,6 +181,7 @@ class Loans extends MY_Controller
      */
     public function delete(int $id = null)
     {
+    
         if ($this->loan->delete($id)) {
             $out = [
                 'status' => true,

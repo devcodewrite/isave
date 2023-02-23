@@ -33,8 +33,8 @@
                         <label>Member's association</label>
                         <select name="associaton_id" class="form-control select2-associations filter" required>
                             <option value=""></option>
-                            <?php if (isset($account)) { ?>
-                                <option value="<?= $account->association->id  ?>" selected><?= $account->association->name; ?></option>
+                            <?php if (isset($association_id)) { ?>
+                                <option value="<?= $association_id  ?>" selected><?= $this->association->find($association_id)->name; ?></option>
                             <?php } ?>
                         </select>
                     </div>
@@ -44,6 +44,11 @@
                         <label for="user_id">Account Owner</label>
                         <select name="member_id" class="form-control select2-members filter" required>
                             <option value="">Select a member</option>
+                            <?php if (isset($member_id)) {
+                                $member = $this->member->find($member_id);
+                            ?>
+                                <option value="<?= $member_id  ?>" selected><?= $member->firstname; ?> <?= $member->othername; ?> <?= $member->lastname; ?></option>
+                            <?php } ?>
                         </select>
                     </div>
                 </div>
@@ -72,11 +77,13 @@
                 </div>
                 <div class="col-md-3">
                     <div class="position-relative form-group">
-                        <label for="status">Status</label>
-                        <select id="status" name="status" class="form-control select2-status filter" required>
-                            <option value="">Select a status</option>
-                            <option value="open">Open</option>
-                            <option value="closed">Closed</option>
+                        <label for="type">Method</label>
+                        <select id="type" name="type" class="form-control select2-method filter" required>
+                            <option value=""></option>
+                            <option value="cash" <?= isset($type) ? ($type === 'cash' ? 'selected' : '') : '' ?>>Cash</option>
+                            <option value="momo" <?= isset($type) ? ($type === 'momo' ? 'selected' : '') : '' ?>>Mobile Money Transfer</option>
+                            <option value="transfer" <?= isset($type) ? ($type === 'transfer' ? 'selected' : '') : '' ?>>Internal Transfer</option>
+
                         </select>
                     </div>
                 </div>
@@ -86,7 +93,7 @@
     <div class="main-card mb-3 card">
         <div class="card-header">
             <div class="btn-actions-pane-right actions-icon-btn">
-            <a href="<?= site_url('deposits/mass-create') ?>" class="btn btn-primary text-uppercase">
+                <a href="<?= site_url('deposits/mass-create') ?>" class="btn btn-primary text-uppercase">
                     <i class="pe-7s-plus btn-icon-wrapper"></i>
                     New Mass Deposit
                 </a>
@@ -102,13 +109,13 @@
                 <div>
                     <label for="from">From</label>
                     <div class="form-group">
-                        <input type="date" name="date_from" id="date-from" class="form-control">
+                        <input type="date" name="date_from" id="date-from" value="<?= isset($from_date) ? $from_date : '' ?>" class="form-control">
                     </div>
                 </div>
                 <div class="ml-3">
                     <label for="from">To</label>
                     <div class="form-group">
-                        <input type="date" name="date_to" id="date-to" class="form-control">
+                        <input type="date" name="date_to" id="date-to" value="<?= isset($to_date) ? $to_date : '' ?>" class="form-control">
                     </div>
                 </div>
                 <div class="col-12 col-md-3 form-group">

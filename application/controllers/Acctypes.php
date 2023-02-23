@@ -81,6 +81,20 @@ class Acctypes extends MY_Controller
     public function update(int $id = null)
     {
         $record = $this->input->post();
+        if(!isset($record['is_investment'])) {
+            $record['is_investment'] = 0;
+        }
+        
+        if(!isset($record['is_loan_acc'])){
+            $record['is_loan_acc'] = 0;
+            $record['lower_limit'] = null;
+            $record['upper_limit'] = null;
+        }
+        
+        if(!isset($record['is_default'])) {
+            $record['is_default'] = 0;
+        }
+        
         $type  = $this->acctype->update($id, $record);
         if ($type) {
             $out = [

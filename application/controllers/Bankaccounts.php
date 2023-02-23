@@ -231,7 +231,7 @@ class Bankaccounts extends MY_Controller
             $where = array_merge($where, ['association_members.member_id' => $inputs['member_id']]);
 
         $query->where($where);
-        
+
         $out = datatable($query, $start, $length, $draw, $inputs);
         $out = array_merge($out, [
             'input' => $this->input->get(),
@@ -248,15 +248,24 @@ class Bankaccounts extends MY_Controller
         $page = $this->input->get('page', true) ? $this->input->get('page', true) : 1;
         $skip = ($page - 1) * $take;
 
+        $where = [];
+
+        if($this->input->get('is_loan_acc') !== null)
+            $where = array_merge($where, ['acc_types.is_loan_acc' => $this->input->get('is_loan_acc')]);
+
         $total = $this->account->all()
+                ->distinct()
+                ->like('accounts.acc_number', $term)
             ->where("accounts.passbook", $passbook)
             ->where("accounts.association_id", $association)
+            ->where($where)
             ->get()->num_rows();
 
-        $records = $this->account->all()->select('accounts.id, concat(acc_types.label, " #",accounts.acc_number) as text', false)
-            ->like('accounts.name', $term)
+        $records = $this->account->all()->distinct()->select('accounts.id, concat(acc_types.label, " #",accounts.acc_number) as text', false)
+            ->like('accounts.acc_number', $term)
             ->where("accounts.passbook", $passbook)
             ->where("accounts.association_id", $association)
+            ->where($where)
             ->limit($take, $skip)
             ->get()
             ->result();

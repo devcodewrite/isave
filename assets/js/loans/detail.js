@@ -179,7 +179,7 @@ function(e){
     Swal.fire({
       icon: "warning",
       title: "Are you sure ?",
-      text: `You want to approve this loan payment.`,
+      text: `You want to approve this loan request.`,
       showCancelButton: true,
      
     }).then((result) => {
@@ -237,7 +237,7 @@ function(e){
     Swal.fire({
       icon: "warning",
       title: "Are you sure ?",
-      text: `You want to cancel this loan approval.`,
+      text: `You want to reject this loan request.`,
       showCancelButton: true,
      
     }).then((result) => {
@@ -304,7 +304,7 @@ function(e){
         }
         $.ajax({
           method: "POST",
-          url: `${baseUrl}payments/delete/${$(this).data('id')}`,
+          url: `${baseUrl}loans/delete/${$(this).data('id')}`,
           dataType: "json",
           cache: false,
           success: function (d, r) {
@@ -330,7 +330,7 @@ function(e){
               });
 
               setTimeout(() => {
-                location.assign(`${baseUrl}loan_payments`);
+                location.assign(`${baseUrl}loans`);
               }, 500);
             } else {
               Swal.fire({

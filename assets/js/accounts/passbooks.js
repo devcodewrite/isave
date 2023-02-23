@@ -47,7 +47,9 @@ $(function () {
           return data.ownership;
         },
       },
-      { data: "balance", name: "accounts.id" },
+      { data: "balance", name: "accounts.id", render:function (data, type, row) {
+          return data < 0 ? `(${Math.abs(data).toFixed(2)})`:data;
+      } },
       { data: "accounts", name: "accounts.id" },
     ],
     columnDefs: [

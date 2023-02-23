@@ -34,7 +34,7 @@
                             <input type="text" class="form-control" name="label" placeholder="Enter label" value="<?= isset($type) ? $type->label : "" ?>" required />
                         </div>
                     </div>
-                    <div class="col-md-3 vtype <?= isset($type) ? ($type->is_loan_acc === '0' ? '' : 'd-none') : '' ?>">
+                    <div class="col-md-3 vtype <?= isset($type) ? ($type->is_loan_acc === '1' ? 'd-none' : '') : '' ?>">
                         <div class="form-group">
                             <label for="type">Value type</label>
                             <select id="actype" name="type" class="form-control select2" required>
@@ -45,13 +45,13 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3 amount <?= isset($type) ? ($type->type === 'amount' && $type->is_loan_acc === '0' ? '' : 'd-none') : 'd-none' ?>">
+                    <div class="col-md-3 amount <?= isset($type) ? ($type->type === 'amount' || $type->is_loan_acc === '1' ? 'd-none' : '') : 'd-none' ?>">
                         <div class="form-group">
                             <label for="stamp_amount">Stamp Amount</label>
                             <input type="number" class="form-control" id="stamp-amount" name="stamp_amount" placeholder="Enter amount per stamp" value="<?= isset($type) ? $type->stamp_amount : "" ?>" />
                         </div>
                     </div>
-                    <div class="col-md-3 rate <?= isset($type) ? ($type->is_investment === '1' ? '' : 'd-none') : '' ?>">
+                    <div class="col-md-3 rate <?= isset($type) ? ($type->is_investment === '1' || $type->is_loan_acc === '1' ? '' : 'd-none') : 'd-none' ?>">
                         <div class="form-group">
                             <label for="interest">Interest Rate</label>
                             <input type="number" class="form-control" id="interest" name="interest_rate" placeholder="Enter the rate" value="<?= isset($type) ? $type->interest_rate : "" ?>" min="0" max="1" />
@@ -126,10 +126,9 @@
                         <th>#ID</th>
                         <th>Label</th>
                         <th>Value Type</th>
-                        <th>Rate</th>
+                        <th>Interest Rate</th>
                         <th>lower Limit</th>
                         <th>Upper Limit</th>
-                        <th>Created On</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -140,10 +139,14 @@
                             <td><?= $row->id ?></td>
                             <td><?= $row->label ?></td>
                             <td><?= $row->type ?></td>
-                            <td><?= $row->interest_rate ? ($row->interest_rate * 100) . '%' : '' ?></td>
+                            <td>
+                                <?= $row->interest_rate ? ($row->interest_rate * 100) . '%' : '' ?>
+                                <?php if($row->is_loan_acc === '1'){ ?>
+                                    <span>[<?=str_replace('_', ' ', $row->rate_type) ?>]</span>
+                                <?php } ?>
+                            </td>
                             <td><?= $row->lower_limit ?></td>
                             <td><?= $row->upper_limit ?></td>
-                            <td><?= $row->created_at ?></td>
                             <td>
                                 <div class="d-flex">
                                     <form id="change-status-<?= $row->id ?>" action="<?= site_url('acctypes/update/' . $row->id) ?>" method="POST">
@@ -169,10 +172,9 @@
                         <th>#ID</th>
                         <th>Label</th>
                         <th>Value Type</th>
-                        <th>Rate</th>
+                        <th>Interest Rate</th>
                         <th>lower Limit</th>
                         <th>Upper Limit</th>
-                        <th>Created On</th>
                         <th>Action</th>
                     </tr>
                 </tfoot>
@@ -183,5 +185,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/setup/account-types.js?v=6') ?>" defer></script>
+<script src="<?= base_url('assets/js/setup/account-types.js?v=8') ?>" defer></script>
 <?php app_end(); ?>

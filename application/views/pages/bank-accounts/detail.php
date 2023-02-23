@@ -47,9 +47,14 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a data-toggle="tab" href="#tab-eg9-5" class="nav-link">
-                                    <div class="widget-number">Repayments</div>
-                                    <div class="tab-subheading">list of loan settlements made.</div>
+                                <a data-toggle="tab" href="#tab-eg9-2" class="nav-link">
+                                    <div class="widget-number text-danger">Transaction Entries</div>
+                                    <div class="tab-subheading">
+                                        <span class="pr-2 opactiy-6">
+                                            <i class="fa fa-bullhorn"></i>
+                                        </span>
+                                        Account transaction entries
+                                    </div>
                                 </a>
                             </li>
                         <?php } else { ?>
@@ -93,7 +98,7 @@
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Account Balance</p>
-                                        <h4 class="col-6 input-placeholder text-success">GHS <?= $account->balance ?></h4>
+                                        <h4 class="col-6 input-placeholder text-success">GHS <?= $account->balance < 0 ? '(' . number_format(abs($account->balance), 2) . ')' : $account->balance ?></h4>
                                     </div>
                                     <div class="row text-uppercase mt-3">
                                         <p class="col-6 text-black-50">Primary Contact</p>
@@ -228,82 +233,8 @@
 
                             </div>
                         </div>
-                        <div class="tab-pane" id="tab-eg9-5" role="tabpanel">
-                            <div class="card-body">
-                                <form action="<?= site_url('payments/store') ?>" class="repaymentForm p-3">
-                                    <input type="hidden" name="_method" value="post">
-                                    <div class="form-row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="date">Date</label>
-                                                <input type="date" name="pdate" class="form-control" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="loan_id">Search a loan</label>
-                                                <div>
-                                                    <select name="loan_id" class="form-control select2-avaliable-loans" required>
-                                                        <option value=""></option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="principal_amount">Principal Amount</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" style="cursor:pointer" onclick="$('#pr-amount').val($(this).text())"><?= number_format($loan->principalBalance, 2) ?></span>
-                                                    </div>
-                                                    <input type="number" id="pr-amount" name="principal_amount" class="form-control" placeholder="Enter the principal amount" required>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="amount">Interest Amount</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" style="cursor:pointer" onclick="$('#in-amount').val($(this).text())"><?= number_format($loan->interestBalance, 2) ?></span>
-                                                    </div>
-                                                    <input type="number" id="in-amount" name="interest_amount" class="form-control" placeholder="Enter the interest amount" required>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <button onclick="$('.repaymentForm').trigger('reset')" type="button" class="btn btn-warning float-right">Reset</button>
-                                            <button class="btn btn-primary float-right mr-3">Add Payment</button>
-                                        </div>
-                                    </div>
-                                </form>
-
-                                <table style="width: 100%;" id="dt-related-settlements" data-loan-id="<?= $loan->id ?>" class="table table-hover table-striped table-bordered">
-                                    <thead class="text-uppercase">
-                                        <tr>
-                                            <th>#Ref</th>
-                                            <th>Date</th>
-                                            <th>Principal Amount</th>
-                                            <th>Interest Amount</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot class="text-uppercase">
-                                        <tr>
-                                            <th>#Ref</th>
-                                            <th>Date</th>
-                                            <th>Principal Amount</th>
-                                            <th>Interest Amount</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                        </div>
-                    <?php } else { ?>
+                       
+                    <?php } ?>
                         <div class="tab-pane" id="tab-eg9-2" role="tabpanel">
                             <div class="card-header d-none">
                                 <div class="btn-actions-pane-right actions-icon-btn">
@@ -343,7 +274,7 @@
                                 <table style="width: 100%;" id="dt-transactions" class="table table-hover table-striped table-bordered">
                                     <thead class="text-uppercase">
                                         <tr>
-                                            <th>Ref#</th>
+                                            <th>#</th>
                                             <th>Date</th>
                                             <th>Transac. Type</th>
                                             <th>Debit</th>
@@ -358,12 +289,12 @@
                                             $transtype = $row->is_credit === '1' ? 'deposits' : 'withdrawals';
                                         ?>
                                             <tr>
-                                                <td class="text-uppercase"><?= $row->ref.substr($transtype, 0, 1) ?></td>
+                                                <td class="text-uppercase"><?= $key + 1 ?></td>
                                                 <td><?= $row->edate ?></td>
                                                 <td class="text-uppercase"><?= str_replace('_', ' ', $row->type) ?></td>
                                                 <td><?= $row->is_credit === '0' ? $row->amount : '' ?></td>
                                                 <td><?= $row->is_credit === '1' ? $row->amount : '' ?></td>
-                                                <td><?= $row->balance ?></td>
+                                                <td><?= $row->balance < 0 ? '(' . number_format(abs($row->balance),2) . ')' : number_format($row->balance,2) ?></td>
                                                 <td></td>
                                                 <td>
                                                     <div class="d-flex">
@@ -376,7 +307,7 @@
                                     </tbody>
                                     <tfoot class="text-uppercase">
                                         <tr>
-                                            <th>Ref#</th>
+                                            <th>#</th>
                                             <th>Date</th>
                                             <th>Transac. Type</th>
                                             <th>Debit</th>
@@ -389,8 +320,6 @@
                                 </table>
                             </div>
                         </div>
-
-                    <?php } ?>
                 </div>
             </div>
         </div>
@@ -411,15 +340,15 @@
                 </button>
             </div>
             <div class="modal-body">
-                <input type="hidden" name="account_id" value="<?=$account->id ?>">
-                <input type="hidden" name="user_id" value="<?=auth()->user()->id ?>">
+                <input type="hidden" name="account_id" value="<?= $account->id ?>">
+                <input type="hidden" name="user_id" value="<?= auth()->user()->id ?>">
                 <input type="hidden" name="withdrawer_name" value="System">
                 <input type="hidden" name="type" value="deduction">
                 <div class="form-row">
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="wdate">Date</label>
-                            <input type="date" name="wdate" id="wdate" value="<?=date('Y-m-d') ?>" class="form-control" required>
+                            <input type="date" name="wdate" id="wdate" value="<?= date('Y-m-d') ?>" class="form-control" required>
                         </div>
                     </div>
                     <div class="col-md-8">

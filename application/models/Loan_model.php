@@ -11,11 +11,11 @@ class Loan_model extends CI_Model
         if (!$record) return;
         $record['user_id'] = auth()->user()->id;
 
-        if(!$this->account->canTakeLoan($record['account_id'])){
+        if (!$this->account->canTakeLoan($record['account_id'], $record['principal_amount'])) {
             return false;
         }
         $loan = (object)$record;
-        $loan->accType = $this->loantype->find($record['loan_type_id']);
+        $loan->accType = $this->account->find($record['account_id'])->accType;
 
         $interestTotal = 0;
         for ($i = 0; $i < $loan->duration * 4; $i++) {
@@ -44,10 +44,16 @@ class Loan_model extends CI_Model
      */
     public function update(int $id, array $record)
     {
-        $loan = (object)$record;
+        $loan =(object)$record;
 
-        if (isset($record['loan_type_id'])) {
-            $loan->accType = $this->loantype->find($record['loan_type_id']);
+        if (isset($record['principal_amount'])) {
+            if (!$this->account->canTakeLoan($record['account_id'], $record['principal_amount'])) {
+                return false;
+            }
+        }
+
+        if (isset($record['account_id'])) {
+            $loan->accType = $this->account->find($record['account_id'])->accType;
             $interestTotal = 0;
             for ($i = 0; $i < $loan->duration * 4; $i++) {
                 if ($loan->accType->rate_type === 'flat_rate') {
@@ -59,19 +65,6 @@ class Loan_model extends CI_Model
             $record['interest_amount'] = $interestTotal;
         }
 
-        if(isset($record['appl_status'])){
-            if($record['appl_status'] === 'disbursed'){
-                $loan = $this->loan->find($id);
-            $this->deposit->create([
-                    'amount' => $loan->principal_amount,
-                    'depositor_name' => 'System',
-                    'type' => 'addition',
-                    'ddate' => date('Y-m-d'),
-                    'account_id' => $loan->account_id,
-                ]);
-            }
-        }
-
         $data = $this->extract($record);
 
         $this->db->set($data);
@@ -81,7 +74,7 @@ class Loan_model extends CI_Model
         return $this->find($id);
     }
 
-       /**
+    /**
      * Delete a record
      * @param $id
      * @return Boolean
@@ -90,10 +83,10 @@ class Loan_model extends CI_Model
     {
         $this->db->set(['deleted_at' => date('Y-m-d H:i:s')]);
         $this->db->where('id', $id);
-       $this->db->update($this->table);
+        $this->db->update($this->table);
         return $this->db->affected_rows() > 0;
     }
-    
+
     /**
      * Extract only values of only fields in the table
      * @param $data
@@ -117,6 +110,7 @@ class Loan_model extends CI_Model
     {
         $where = [
             'id' => $id,
+            'deleted_at' => null,
         ];
         return $this->db->get_where($this->table, $where)->row();
     }
@@ -126,6 +120,7 @@ class Loan_model extends CI_Model
      */
     public function where(array $where)
     {
+        $where = array_merge($where, ["{$this->table}.deleted_at"=>null]);
         return $this->db->get_where($this->table, $where);
     }
 
@@ -154,11 +149,12 @@ class Loan_model extends CI_Model
         ];
         return
             $this->db->select($fields, true)
+            ->from($this->table)
             ->join($rtable, "$rtable.id={$this->table}.$col", 'left')
             ->join($rtable2, "$rtable2.id={$this->table}.$col2", 'left')
             ->join($rtable3, "$rtable3.id=$rtable2.$col3", 'left')
             ->join($rtable4, "$rtable4.id={$this->table}.$col4", 'left')
-            ->from($this->table);
+            ->where("{$this->table}.deleted_at", null);
     }
     public function calcPrincipal($loan)
     {

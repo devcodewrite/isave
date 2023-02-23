@@ -236,7 +236,7 @@
                                 <div class="ml-3">
                                     <label for="from">To</label>
                                     <div class="form-group">
-                                        <input type="date" name="date_to" id="transaction-date-to" class="form-control">
+                                        <input type="date" name="date_to" id="transaction-date-to"  class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-3 form-group">
@@ -260,10 +260,10 @@
                                 <tbody>
                                     <?php foreach ($this->association->transactions($association->id) as $key => $row) { ?>
                                         <tr>
-                                            <td><a href="<?=site_url('reporting/deposits') ?>?association_id=<?= $association->id ?>&from_date=<?= $row->tdate ?>&to_date=<?= $row->tdate ?>"><?= $row->tdate ?></a></td>
-                                            <td><?= $row->cash_deposits ?></td>
-                                            <td><?= $row->momo_deposits ?></td>
-                                            <td><?= $row->transfer_deposits ?></td>
+                                            <td><?= $row->tdate ?></td>
+                                            <td><a href="<?=site_url('deposits') ?>?type=cash&association_id=<?= $association->id ?>&from_date=<?= $row->tdate ?>&to_date=<?= $row->tdate ?>"><?= $row->cash_deposits ?></a></td>
+                                            <td><a href="<?=site_url('deposits') ?>?type=momo&association_id=<?= $association->id ?>&from_date=<?= $row->tdate ?>&to_date=<?= $row->tdate ?>"><?= $row->momo_deposits ?></a></td>
+                                            <td><a href="<?=site_url('deposits') ?>?type=transfer&association_id=<?= $association->id ?>&from_date=<?= $row->tdate ?>&to_date=<?= $row->tdate ?>"><?= $row->transfer_deposits ?></a></td>
                                         </tr>
                                     <?php  } ?>
                                 </tbody>
@@ -432,5 +432,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/associations/detail.js?v=11'); ?>" defer></script>
+<script src="<?= base_url('assets/js/associations/detail.js?v=12'); ?>" defer></script>
 <?php app_end(); ?>

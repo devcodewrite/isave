@@ -9,7 +9,9 @@ class Deposits extends MY_Controller
      */
     public function index()
     {
-        $this->load->view('pages/deposits/list');
+        $data = $this->input->get();
+        
+        $this->load->view('pages/deposits/list', $data);
     }
 
     /**

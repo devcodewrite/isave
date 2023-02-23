@@ -14,7 +14,7 @@ $(function () {
         params.member_id = $(".select2-members").val();
         params.acc_type_id = $(".select2-account-types").val();
         params.ownership = $(".select2-ownership").val();
-        params.status = $("#status").val();
+        params.type = $(".select2-method").val();
       },
     },
     serverSide: true,
@@ -95,6 +95,13 @@ $(function () {
 
 $(".filter").on("click select2:select select2:unselect", function (params) {
   table.ajax.reload();
+});
+
+$(".select2-method")
+.select2({
+  allowClear: true,
+  placeholder: "Select a method",
+  selectionCssClass: "form-select2",
 });
 
 $(".select2-associations").select2({

@@ -51,7 +51,7 @@
                             <div class="row text-uppercase border-bottom">
                                 <p class="col-md-2 text-black-50">Loan ID</p>
                                 <h4 class="col-md-6 text-primary text-left"><?= $loan->id; ?></h4>
-                                <h6 class="col-md-6 text-info text-left"><?= $loan->loanType->label; ?></h6>
+                                <h6 class="col-md-6 text-info text-left"><?= $loan->account->accType->label; ?></h6>
                                 <?php $alerts = [
                                     'pending' => 'alert-warning',
                                     'rejected' => 'alert-danger',
@@ -87,7 +87,7 @@
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Rate</p>
-                                        <p class="col-6 input-placeholder text-black text-uppercase"><?= $loan->rate * 100 ?>% (<?= str_replace('_', ' ', $loan->loanType->rate_type) ?>)</p>
+                                        <p class="col-6 input-placeholder text-black text-uppercase"><?= $loan->rate * 100 ?>% (<?= str_replace('_', ' ', $loan->account->accType->rate_type) ?>)</p>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Account</p>
@@ -126,16 +126,19 @@
                                 </div>
                             </div>
                             <div class="d-block text-right card-footer">
+                            <?php if ($loan->appl_status === 'rejected' && $loan->appl_status !== 'disbursed') { ?>
+                                    <button class="btn btn-warning btn-lg approve" data-id="<?= $loan->id ?>">Approve</button>
+                                <?php } ?>
                                 <?php if ($loan->appl_status === 'pending') { ?>
                                     <button class="btn btn-primary btn-lg approve" data-id="<?= $loan->id ?>">Approve</button>
                                 <?php } else if ($loan->appl_status === 'approved') { ?>
                                     <a href="<?= site_url('loans/print/' . $loan->id) ?>" class="btn btn-info btn-lg">Print Advice Letter</a>
                                     <button class="btn btn-success btn-lg disburse" data-id="<?= $loan->id ?>">Disbursed</button>
-                                    <button class="btn btn-primary btn-lg cancel" data-id="<?= $loan->id ?>">Cancel Approval</button>
+                                    <button class="btn btn-warning btn-lg cancel" data-id="<?= $loan->id ?>">Reject Approval</button>
                                 <?php } ?>
 
                                 <?php if ($loan->appl_status !== 'disbursed') { ?>
-                                    <a href="<?= site_url('loans/' . $loan->id . '/edit') ?>" class="btn btn-warning btn-lg">Modify</a>
+                                    <a href="<?= site_url('loans/' . $loan->id . '/edit') ?>" class="btn btn-primary btn-lg">Modify</a>
                                     <button class="btn btn-danger btn-lg delete" data-url="<?=site_url('loans') ?>" data-id="<?=$loan->id ?>">Delete</button>
                                 <?php } ?>
                                 <button onclick="location.reload()" class="btn btn-link">Refresh</button>
@@ -216,5 +219,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/loans/detail.js?v=1'); ?>" defer></script>
+<script src="<?= base_url('assets/js/loans/detail.js?v=3'); ?>" defer></script>
 <?php app_end(); ?>
