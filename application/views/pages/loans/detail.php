@@ -130,7 +130,7 @@
                                     <button class="btn btn-warning btn-lg approve" data-id="<?= $loan->id ?>">Approve</button>
                                 <?php } ?>
                                 <?php if ($loan->appl_status === 'pending') { ?>
-                                    <button class="btn btn-primary btn-lg approve" data-id="<?= $loan->id ?>">Approve</button>
+                                    <button class="btn btn-success btn-lg approve" data-id="<?= $loan->id ?>">Approve</button>
                                 <?php } else if ($loan->appl_status === 'approved') { ?>
                                     <a href="<?= site_url('loans/print/' . $loan->id) ?>" class="btn btn-info btn-lg">Print Advice Letter</a>
                                     <button class="btn btn-success btn-lg disburse" data-id="<?= $loan->id ?>">Disbursed</button>
