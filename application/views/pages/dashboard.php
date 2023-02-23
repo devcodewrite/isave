@@ -74,11 +74,11 @@
                         </div>
                         <div class="widget-chart-content">
                             <div class="widget-subheading">Cash Deposits</div>
-                            <div class="widget-numbers">1,7M</div>
+                            <div class="widget-numbers">0.00</div>
                             <div class="widget-description opacity-8 text-focus">
                                 <div class="d-inline text-danger pr-1">
                                     <i class="fa fa-angle-down"></i>
-                                    <span class="pl-1">54.1%</span>
+                                    <span class="pl-1">0.0%</span>
                                 </div>
                                 less earnings
                             </div>
@@ -94,12 +94,12 @@
                         </div>
                         <div class="widget-chart-content">
                             <div class="widget-subheading">Invested Dividents</div>
-                            <div class="widget-numbers"><span>9M</span></div>
+                            <div class="widget-numbers"><span>0.00</span></div>
                             <div class="widget-description opacity-8 text-focus">
                                 Grow Rate:
                                 <span class="text-info pl-1">
                                     <i class="fa fa-angle-down"></i>
-                                    <span class="pl-1">14.1%</span>
+                                    <span class="pl-1">0.00%</span>
                                 </span>
                             </div>
                         </div>
@@ -119,7 +119,7 @@
                                 Increased by
                                 <span class="text-warning pl-1">
                                     <i class="fa fa-angle-up"></i>
-                                    <span class="pl-1">7.35%</span>
+                                    <span class="pl-1">0%</span>
                                 </span>
                             </div>
                         </div>
@@ -440,21 +440,7 @@
                                     </div>
                                 </div>
                             </li>
-                            <li class="bg-transparent list-group-item">
-                                <div class="widget-content p-0">
-                                    <div class="widget-content-outer">
-                                        <div class="widget-content-wrapper">
-                                            <div class="widget-content-left">
-                                                <div class="widget-heading">Loan Types</div>
-                                                <div class="widget-subheading">Avaliable loan types</div>
-                                            </div>
-                                            <div class="widget-content-right">
-                                                <div class="widget-numbers text-warning"><?=$this->loantype->all()->count_all_results() ?></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
+                           
                         </ul>
                     </div>
                     <div class="col-md-12 col-lg-4">

@@ -71,7 +71,7 @@
                         <p class="col-6 input-placeholder text-black h-5">
                             <?php foreach ($member->associations as $row) {
                             ?>
-                                <a href="<?= site_url('assocations/' . $row->id) ?>" class="btn btn-info"><?= $row->name ?></a>
+                                <a href="<?= site_url('associations/' . $row->id) ?>" class="btn btn-info"><?= $row->name ?></a>
                             <?php
                             } ?>
 
