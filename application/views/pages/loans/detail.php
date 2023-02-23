@@ -162,7 +162,7 @@
                                             <label for="principal_amount">Principal Amount</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
-                                                    <span class="input-group-text" style="cursor:pointer" onclick="$('#pr-amount').val($(this).text())"><?= number_format($loan->principalBalance, 2) ?></span>
+                                                    <span class="input-group-text" style="cursor:pointer" onclick="$('#pr-amount').val(<?=$loan->principalBalance ?>)"><?= number_format($loan->principalBalance, 2) ?></span>
                                                 </div>
                                                 <input type="number" id="pr-amount" name="principal_amount" class="form-control" placeholder="Enter the principal amount" required>
                                             </div>
@@ -174,7 +174,7 @@
                                             <label for="amount">Interest Amount</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
-                                                    <span class="input-group-text" style="cursor:pointer" onclick="$('#in-amount').val($(this).text())"><?= number_format($loan->interestBalance, 2) ?></span>
+                                                    <span class="input-group-text" style="cursor:pointer" onclick="$('#in-amount').val(<?=$loan->interestBalance ?>)"><?= number_format($loan->interestBalance, 2) ?></span>
                                                 </div>
                                                 <input type="number" id="in-amount" name="interest_amount" class="form-control" placeholder="Enter the interest amount" required>
                                             </div>
