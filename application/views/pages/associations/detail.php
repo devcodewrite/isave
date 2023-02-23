@@ -284,14 +284,6 @@
                                 <div class="form-row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="association_id">Association</label>
-                                            <select name="association_id" class="form-control select2-associations filter" required>
-                                                <option value=""></option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
                                             <label>Passbook NO.</label>
                                             <select name="passbook" id="passbook" class="form-control select2-passbooks2 filter" required>
                                                 <option value=""></option>

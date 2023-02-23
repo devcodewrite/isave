@@ -100,12 +100,14 @@
                                         <p class="col-6 text-black-50">Account Balance</p>
                                         <h4 class="col-6 input-placeholder text-success">GHS <?= $account->balance < 0 ? '(' . number_format(abs($account->balance), 2) . ')' : $account->balance ?></h4>
                                     </div>
-                                    <div class="row text-uppercase mt-3">
-                                        <p class="col-6 text-black-50">Primary Contact</p>
-                                        <p class="col-6 input-placeholder text-black  h-5">
-                                            <a href="tel:<?= $member->primary_phone ?>"><?= $member->primary_phone; ?></a>
-                                        </p>
-                                    </div>
+                                    <?php if ($account->ownership === 'individual') { ?>
+                                        <div class="row text-uppercase mt-3">
+                                            <p class="col-6 text-black-50">Primary Contact</p>
+                                            <p class="col-6 input-placeholder text-black  h-5">
+                                                <a href="tel:<?= $member->primary_phone ?>"><?= $member->primary_phone; ?></a>
+                                            </p>
+                                        </div>
+                                    <?php } ?>
                                 </div>
                                 <div class="col-md-6 px-5">
                                     <div class="row m-5">
@@ -122,12 +124,14 @@
                                             <?= $account->ownership ?>
                                         </p>
                                     </div>
+                                    <?php if ($account->ownership === 'individual') { ?>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Owner's Name</p>
                                         <p class="col-6 input-placeholder text-black h-5">
                                             <?= $member->firstname ?> <?= $member->othername ?> <?= $member->lastname ?>
                                         </p>
                                     </div>
+                                    <?php } ?>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Association</p>
                                         <p class="col-6 input-placeholder text-black h-5">
@@ -233,93 +237,93 @@
 
                             </div>
                         </div>
-                       
+
                     <?php } ?>
-                        <div class="tab-pane" id="tab-eg9-2" role="tabpanel">
-                            <div class="card-header d-none">
-                                <div class="btn-actions-pane-right actions-icon-btn">
-                                    <button type="button" class="btn btn-primary text-uppercase">
-                                        <i class="pe-7s-plus btn-icon-wrapper"></i>
-                                        New Deposit
-                                    </button>
-                                    <button class="btn btn-secondary text-uppercase">
-                                        <i class="pe-7s-plus btn-icon-wrapper"></i>
-                                        New Withdrawal
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="d-flex align-items-end row px-3">
-                                    <div>
-                                        <label for="from">From</label>
-                                        <div class="form-group">
-                                            <input type="date" name="date_from" id="transaction-date-from" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="ml-3">
-                                        <label for="from">To</label>
-                                        <div class="form-group">
-                                            <input type="date" name="date_to" id="transaction-date-to" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-3 form-group">
-                                        <button class="btn btn-primary transaction-filter">
-                                            <i class="fa fa-filter"></i>
-                                            Filter</button>
-                                        <button class="btn btn-warning ml-2 transaction-filter-clear">
-                                            <i class="fa fa-times"></i>
-                                            Clear</button>
-                                    </div>
-                                </div>
-                                <table style="width: 100%;" id="dt-transactions" class="table table-hover table-striped table-bordered">
-                                    <thead class="text-uppercase">
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Date</th>
-                                            <th>Transac. Type</th>
-                                            <th>Debit</th>
-                                            <th>Credit</th>
-                                            <th>Balance</th>
-                                            <th>Account statement</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach ($this->account->entries($account->id) as $key => $row) {
-                                            $transtype = $row->is_credit === '1' ? 'deposits' : 'withdrawals';
-                                        ?>
-                                            <tr>
-                                                <td class="text-uppercase"><?= $key + 1 ?></td>
-                                                <td><?= $row->edate ?></td>
-                                                <td class="text-uppercase"><?= str_replace('_', ' ', $row->type) ?></td>
-                                                <td><?= $row->is_credit === '0' ? $row->amount : '' ?></td>
-                                                <td><?= $row->is_credit === '1' ? $row->amount : '' ?></td>
-                                                <td><?= $row->balance < 0 ? '(' . number_format(abs($row->balance),2) . ')' : number_format($row->balance,2) ?></td>
-                                                <td></td>
-                                                <td>
-                                                    <div class="d-flex">
-                                                        <a href="<?= site_url("$transtype/" . $row->ref) ?>" target="_blank" class="btn btn-icon"><i class="fa fa-eye"></i></a>
-                                                        <a href="<?= site_url("$transtype/$row->ref/edit") ?>" target="_blank" class="btn btn-icon"><i class="fa fa-edit"></i></a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        <?php  } ?>
-                                    </tbody>
-                                    <tfoot class="text-uppercase">
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Date</th>
-                                            <th>Transac. Type</th>
-                                            <th>Debit</th>
-                                            <th>Credit</th>
-                                            <th>Balance</th>
-                                            <th>Account statement</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
+                    <div class="tab-pane" id="tab-eg9-2" role="tabpanel">
+                        <div class="card-header d-none">
+                            <div class="btn-actions-pane-right actions-icon-btn">
+                                <button type="button" class="btn btn-primary text-uppercase">
+                                    <i class="pe-7s-plus btn-icon-wrapper"></i>
+                                    New Deposit
+                                </button>
+                                <button class="btn btn-secondary text-uppercase">
+                                    <i class="pe-7s-plus btn-icon-wrapper"></i>
+                                    New Withdrawal
+                                </button>
                             </div>
                         </div>
+                        <div class="card-body">
+                            <div class="d-flex align-items-end row px-3">
+                                <div>
+                                    <label for="from">From</label>
+                                    <div class="form-group">
+                                        <input type="date" name="date_from" id="transaction-date-from" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="ml-3">
+                                    <label for="from">To</label>
+                                    <div class="form-group">
+                                        <input type="date" name="date_to" id="transaction-date-to" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-3 form-group">
+                                    <button class="btn btn-primary transaction-filter">
+                                        <i class="fa fa-filter"></i>
+                                        Filter</button>
+                                    <button class="btn btn-warning ml-2 transaction-filter-clear">
+                                        <i class="fa fa-times"></i>
+                                        Clear</button>
+                                </div>
+                            </div>
+                            <table style="width: 100%;" id="dt-transactions" class="table table-hover table-striped table-bordered">
+                                <thead class="text-uppercase">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Date</th>
+                                        <th>Transac. Type</th>
+                                        <th>Debit</th>
+                                        <th>Credit</th>
+                                        <th>Balance</th>
+                                        <th>Account statement</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($this->account->entries($account->id) as $key => $row) {
+                                        $transtype = $row->is_credit === '1' ? 'deposits' : 'withdrawals';
+                                    ?>
+                                        <tr>
+                                            <td class="text-uppercase"><?= $key + 1 ?></td>
+                                            <td><?= $row->edate ?></td>
+                                            <td class="text-uppercase"><?= str_replace('_', ' ', $row->type) ?></td>
+                                            <td><?= $row->is_credit === '0' ? $row->amount : '' ?></td>
+                                            <td><?= $row->is_credit === '1' ? $row->amount : '' ?></td>
+                                            <td><?= $row->balance < 0 ? '(' . number_format(abs($row->balance), 2) . ')' : number_format($row->balance, 2) ?></td>
+                                            <td></td>
+                                            <td>
+                                                <div class="d-flex">
+                                                    <a href="<?= site_url("$transtype/" . $row->ref) ?>" target="_blank" class="btn btn-icon"><i class="fa fa-eye"></i></a>
+                                                    <a href="<?= site_url("$transtype/$row->ref/edit") ?>" target="_blank" class="btn btn-icon"><i class="fa fa-edit"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php  } ?>
+                                </tbody>
+                                <tfoot class="text-uppercase">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Date</th>
+                                        <th>Transac. Type</th>
+                                        <th>Debit</th>
+                                        <th>Credit</th>
+                                        <th>Balance</th>
+                                        <th>Account statement</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

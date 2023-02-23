@@ -147,7 +147,7 @@ class Account_model extends CI_Model
             ->join($rtable, "$rtable.id={$this->table}.$col", 'left')
             ->join($rtable2, "$rtable2.id={$this->table}.$col2", 'left')
             ->join($rtable3, "$rtable3.id={$this->table}.$col3", 'left')
-            ->join($this->ftable, "{$this->ftable}.$col={$this->table}.$col")
+            ->join($this->ftable, "{$this->ftable}.$col={$this->table}.$col", 'left')
             ->group_by([
                 "{$this->table}.id",
                 "{$this->table}.name",

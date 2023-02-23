@@ -138,13 +138,9 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="passbook">Passbook No.</label>
-                                    <input name="passbook" id="passbook" placeholder="Enter passbook no." type="number" value="<?= isset($account) ? $account->passbook : "" ?>" class="form-control" required>
-                                </div>
-                                <div class="form-group">
                                     <label for="name">Account Name</label>
                                     <div>
-                                        <input type="text" class="form-control" name="name" value="<?= isset($account) ? $account->name : "" ?>" placeholder="Account name" />
+                                        <input type="text" class="form-control acc-name" name="name" value="<?= isset($account) ? $account->name : "" ?>" placeholder="Account name" />
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -187,5 +183,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= site_url('assets/js/accounts/edit.js?v=6') ?>" defer></script>
+<script src="<?= site_url('assets/js/accounts/edit.js?v=7') ?>" defer></script>
 <?php app_end(); ?>

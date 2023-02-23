@@ -9,13 +9,11 @@ class Bankaccounts extends MY_Controller
      */
     public function index()
     {
-
         $data = [
             'accountTypes' => $this->acctype->all()->get()->result(),
         ];
         $this->load->view('pages/bank-accounts/list', $data);
     }
-
 
     /**
      * Show a list of resources
@@ -38,8 +36,12 @@ class Bankaccounts extends MY_Controller
 
         $account->balance = $this->account->calBalance($id);
         $account->accType = $this->acctype->find($account->acc_type_id);
-        $member = $this->member->find($account->member_id);
-        $member->associations = $this->member->associations($member->id);
+        $account->association = $this->association->find($account->association_id);
+        $member = null;
+        if($account->ownership === 'indvidual'){
+            $member = $this->member->find($account->member_id);
+            $member->associations = $this->member->associations($member->id);
+        }
         $data = [
             'account' => $account,
             'member' => $member,
