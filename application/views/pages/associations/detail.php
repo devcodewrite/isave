@@ -261,9 +261,9 @@
                                     <?php foreach ($this->association->transactions($association->id) as $key => $row) { ?>
                                         <tr>
                                             <td><?= $row->tdate ?></td>
-                                            <td><a href="<?=site_url('deposits') ?>?type=cash&association_id=<?= $association->id ?>&from_date=<?= $row->tdate ?>&to_date=<?= $row->tdate ?>"><?= $row->cash_deposits ?></a></td>
-                                            <td><a href="<?=site_url('deposits') ?>?type=momo&association_id=<?= $association->id ?>&from_date=<?= $row->tdate ?>&to_date=<?= $row->tdate ?>"><?= $row->momo_deposits ?></a></td>
-                                            <td><a href="<?=site_url('deposits') ?>?type=transfer&association_id=<?= $association->id ?>&from_date=<?= $row->tdate ?>&to_date=<?= $row->tdate ?>"><?= $row->transfer_deposits ?></a></td>
+                                            <td><a href="<?=site_url('deposits') ?>?type=cash&association_id=<?= $association->id ?>&from_date=<?= $row->tdate ?>&to_date=<?= $row->tdate ?>"><?= number_format($row->cash_deposits,2) ?></a></td>
+                                            <td><a href="<?=site_url('deposits') ?>?type=momo&association_id=<?= $association->id ?>&from_date=<?= $row->tdate ?>&to_date=<?= $row->tdate ?>"><?= number_format($row->momo_deposits,2) ?></a></td>
+                                            <td><a href="<?=site_url('deposits') ?>?type=transfer&association_id=<?= $association->id ?>&from_date=<?= $row->tdate ?>&to_date=<?= $row->tdate ?>"><?= number_format($row->transfer_deposits,2) ?></a></td>
                                         </tr>
                                     <?php  } ?>
                                 </tbody>
