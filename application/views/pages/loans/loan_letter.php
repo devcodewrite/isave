@@ -88,7 +88,7 @@
                                     </p>
                                     <p>
                                         Your requested <i class="text-uppercase"><?= $loan->account->accType->label ?></i> of <b>GHS <?= number_format($loan->principal_amount, 2) ?></b> has been granted for a
-                                        period of <b><?= $loan->duration ?> months</b> at an interest rate of <b><?= $loan->rate * 100 ?>% </b> with repayment starting from <b><?= date('l, jS F, Y', strtotime($loan->payin_start_date)) ?></b>
+                                        period of <b><?= $loan->duration ?> months</b> at an interest rate of <b><?= $loan->rate*$loan->duration * 100 ?>% </b> with repayment starting from <b><?= date('l, jS F, Y', strtotime($loan->payin_start_date)) ?></b>
                                         to <b><?= date('l, jS F, Y', strtotime($loan->payin_start_date . " + $loan->duration month",)) ?></b>.
                                     </p>
                                     <h5>Repayment Terms</h5>
