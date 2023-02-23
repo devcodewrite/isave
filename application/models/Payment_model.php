@@ -10,8 +10,8 @@ class Payment_model extends CI_Model
     {
         if (!$record) return;
         $record['user_id'] = auth()->user()->id;
-
         $data = $this->extract($record);
+
         if ($this->db->insert($this->table, $data)) {
             $id = $this->db->insert_id();
             return $this->find($id);
@@ -72,18 +72,13 @@ class Payment_model extends CI_Model
      */
     public function all()
     {
-        $rtable = 'loan_types';
-        $col = 'loan_type_id';
-        $rtable2 = 'accounts';
-        $col2 = 'account_id';
-        $rtable3  = 'acc_types';
-        $col3 = 'acc_type_id';
-
+        $rtable = 'loans';
+        $col = 'loan_id';
         $fields =  [
             "{$this->table}.*",
         ];
         return
-            $this->db->select($fields, true)
+            $this->db->select($fields, false)
             ->from($this->table);
     }
 

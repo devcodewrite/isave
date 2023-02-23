@@ -126,10 +126,9 @@ class Payments extends MY_Controller
         $draw = $this->input->get('draw', true);
         $inputs = $this->input->get();
         $query = $this->payment->all();
-
         if($this->input->get('loan_id')){
             $query->where(['loan_id' => $inputs['loan_id']]);
-        }
+       }
         
         $out = datatable($query, $start, $length, $draw, $inputs);
         $out = array_merge($out, [

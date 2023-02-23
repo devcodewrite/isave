@@ -87,7 +87,7 @@
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Rate</p>
-                                        <p class="col-6 input-placeholder text-black text-uppercase"><?= $loan->rate*$loan->duration * 100 ?>% (<?= str_replace('_', ' ', $loan->account->accType->rate_type) ?>)</p>
+                                        <p class="col-6 input-placeholder text-black text-uppercase"><?= $loan->rate * $loan->duration * 100 ?>% (<?= str_replace('_', ' ', $loan->account->accType->rate_type) ?>)</p>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Account</p>
@@ -126,7 +126,7 @@
                                 </div>
                             </div>
                             <div class="d-block text-right card-footer">
-                            <?php if ($loan->appl_status === 'rejected' && $loan->appl_status !== 'disbursed') { ?>
+                                <?php if ($loan->appl_status === 'rejected' && $loan->appl_status !== 'disbursed') { ?>
                                     <button class="btn btn-warning btn-lg approve" data-id="<?= $loan->id ?>">Approve</button>
                                 <?php } ?>
                                 <?php if ($loan->appl_status === 'pending') { ?>
@@ -139,7 +139,7 @@
 
                                 <?php if ($loan->appl_status !== 'disbursed') { ?>
                                     <a href="<?= site_url('loans/' . $loan->id . '/edit') ?>" class="btn btn-primary btn-lg">Modify</a>
-                                    <button class="btn btn-danger btn-lg delete" data-url="<?=site_url('loans') ?>" data-id="<?=$loan->id ?>">Delete</button>
+                                    <button class="btn btn-danger btn-lg delete" data-url="<?= site_url('loans') ?>" data-id="<?= $loan->id ?>">Delete</button>
                                 <?php } ?>
                                 <button onclick="location.reload()" class="btn btn-link">Refresh</button>
                             </div>
@@ -162,7 +162,7 @@
                                             <label for="principal_amount">Principal Amount</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
-                                                    <span class="input-group-text" style="cursor:pointer" onclick="$('#pr-amount').val($(this).text())"><?=number_format($loan->principalBalance,2) ?></span>
+                                                    <span class="input-group-text" style="cursor:pointer" onclick="$('#pr-amount').val($(this).text())"><?= number_format($loan->principalBalance, 2) ?></span>
                                                 </div>
                                                 <input type="number" id="pr-amount" name="principal_amount" class="form-control" placeholder="Enter the principal amount" required>
                                             </div>
@@ -174,7 +174,7 @@
                                             <label for="amount">Interest Amount</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
-                                                    <span class="input-group-text" style="cursor:pointer" onclick="$('#in-amount').val($(this).text())"><?=number_format($loan->interestBalance,2) ?></span>
+                                                    <span class="input-group-text" style="cursor:pointer" onclick="$('#in-amount').val($(this).text())"><?= number_format($loan->interestBalance, 2) ?></span>
                                                 </div>
                                                 <input type="number" id="in-amount" name="interest_amount" class="form-control" placeholder="Enter the interest amount" required>
                                             </div>
@@ -196,15 +196,40 @@
                                         <th>Date</th>
                                         <th>Principal Amount</th>
                                         <th>Interest Amount</th>
+                                        <th>Balance</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
+                                <tbody>
+                                    <?php
+
+                                    $cumPayment = 0;
+                                    foreach ($this->payment->where(['loan_id' => $loan->id])->result() as $key => $row) {
+                                        
+                                        $cumPayment = $cumPayment + $row->principal_amount + $row->interest_amount;
+                                        $balance = $loan->principal_amount + $loan->interest_amount - $cumPayment;
+                                    ?>
+                                        <tr>
+                                            <td class="text-uppercase"><?= $row->id ?></td>
+                                            <td><?= $row->pdate ?></td>
+                                            <td><?= $row->principal_amount ?></td>
+                                            <td><?= $row->interest_amount ?></td>
+                                            <td><?= number_format($balance, 2) ?></td>
+                                            <td>
+                                                <div class="d-flex">
+                                                    <button onclick="deletePayment(this)" data-id="<?=$row->id ?>" class="btn btn-danger ml-2"><i class="fa fa-trash"></i></button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php  } ?>
+                                </tbody>
                                 <tfoot class="text-uppercase">
                                     <tr>
                                         <th>#Ref</th>
                                         <th>Date</th>
                                         <th>Principal Amount</th>
                                         <th>Interest Amount</th>
+                                        <th>Balance</th>
                                         <th>Action</th>
                                     </tr>
                                 </tfoot>
@@ -219,5 +244,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/loans/detail.js?v=3'); ?>" defer></script>
+<script src="<?= base_url('assets/js/loans/detail.js?v=5'); ?>" defer></script>
 <?php app_end(); ?>
