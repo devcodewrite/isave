@@ -220,9 +220,9 @@ class Association_model extends CI_Model
         $rtable1 = "accounts";
         $rcol = "association_id";
 
-        $cashDeposit = "(CASE WHEN $rtable.type='cash' THEN SUM(ifnull($rtable.amount,0.00)) ELSE '' END)";
-        $momoDeposit = "(CASE WHEN $rtable.type='momo' THEN SUM(ifnull($rtable.amount,0.00)) ELSE '' END)";
-        $transferDeposit = "(CASE WHEN $rtable.type='transfer' THEN SUM(ifnull($rtable.amount,0.00)) ELSE '' END)";
+        $cashDeposit = "SUM(ifnull( (CASE WHEN $rtable.type='cash' THEN $rtable.amount ELSE '' END),0.00))";
+        $momoDeposit = "SUM(ifnull( (CASE WHEN $rtable.type='momo' THEN $rtable.amount ELSE '' END),0.00))";
+        $transferDeposit = "SUM(ifnull( (CASE WHEN $rtable.type='transfer' THEN $rtable.amount ELSE '' END),0.00))";
 
         //$bankTransferDeposit = "SUM(ifnull($rtable.amount,0.00))";
 
