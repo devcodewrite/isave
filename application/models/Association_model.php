@@ -218,8 +218,7 @@ class Association_model extends CI_Model
         $rtable = 'deposits';
         $col = "account_id";
         $rtable1 = "accounts";
-        $rcol11 = "member_id";
-        $rcol = 'association_id';
+        $rcol = "association_id";
 
         $cashDeposit = "(CASE WHEN $rtable.type='cash' THEN SUM(ifnull($rtable.amount,0.00)) ELSE '' END)";
         $momoDeposit = "(CASE WHEN $rtable.type='momo' THEN SUM(ifnull($rtable.amount,0.00)) ELSE '' END)";
@@ -230,9 +229,7 @@ class Association_model extends CI_Model
         return $this->db->select("ddate as tdate, $cashDeposit as cash_deposits, $momoDeposit as momo_deposits, $transferDeposit as transfer_deposits")
                     ->from($rtable)
                     ->join($rtable1, "$rtable1.id=$rtable.$col")
-                    ->join($this->ftable, "{$this->ftable}.$rcol11=$rtable1.$rcol11")
-                    ->join($this->table, "{$this->table}.id={$this->ftable}.$rcol")
-                    ->where("{$this->ftable}.$rcol", $id)
+                    ->where("$rtable1.$rcol", $id)
                     ->group_by("$rtable.ddate")
                     ->get()
                     ->result();
