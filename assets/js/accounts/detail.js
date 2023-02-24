@@ -64,9 +64,10 @@ $(function () {
         render: function (data, type, row) {
           if (type === "display") {
             let labels = {
-              pending: "alert-danger",
-              approved: "alert-warning",
-              paid_out: "alert-success",
+              pending: "alert-warning",
+              approved: "alert-info",
+              disbursed: "alert-success",
+              rejected: "alert-danger",
             };
             return `<span class="alert p-1 px-2 text-white border-rounded ${
               labels[data]
@@ -95,9 +96,10 @@ $(function () {
         render: function (data, type, row) {
           if (type === "display") {
             let labels = {
-              not_paid: "alert-danger",
-              started: "alert-warning",
+              not_paid: "alert-warning",
+              started: "alert-info",
               paid: "alert-success",
+              defaulted: "alert-danger",
             };
             return `<span style="font-size:12px;" class="alert p-1 px-2 text-white border-rounded ${
               labels[data]
