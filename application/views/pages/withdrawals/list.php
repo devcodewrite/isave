@@ -124,7 +124,6 @@
                         <th>Account</th>
                         <th>Amount</th>
                         <th>Type</th>
-                        <th>Acc. Statement</th>
                     </tr>
                 </thead>
 
@@ -137,7 +136,6 @@
                         <th>Account</th>
                         <th>Amount</th>
                         <th>Type</th>
-                        <th>Acc. Statement</th>
                     </tr>
                 </tfoot>
             </table>
@@ -147,5 +145,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/withdrawals/list.js?v=9') ?>" defer></script>
+<script src="<?= base_url('assets/js/withdrawals/list.js?v=10') ?>" defer></script>
 <?php app_end(); ?>

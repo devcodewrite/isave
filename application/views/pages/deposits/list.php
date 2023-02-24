@@ -137,7 +137,6 @@
                         <th>Account</th>
                         <th>Amount</th>
                         <th>Type</th>  
-                        <th>Acc. Statement</th>
                     </tr>
                 </thead>
 
@@ -150,7 +149,6 @@
                         <th>Account</th>
                         <th>Amount</th>
                         <th>Type</th>
-                        <th>Acc. Statement</th>
                     </tr>
                 </tfoot>
             </table>
@@ -160,5 +158,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/deposits/list.js?v=11') ?>" defer></script>
+<script src="<?= base_url('assets/js/deposits/list.js?v=12') ?>" defer></script>
 <?php app_end(); ?>

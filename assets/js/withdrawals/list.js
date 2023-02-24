@@ -74,14 +74,7 @@ $(function () {
         render: function (data, type, row) {
           return data.toUpperCase();
         },
-      },
-      {
-        data: "account_statement",
-        name: "account_statement",
-        render: function (data, type, row) {
-          return data?`<a href="${baseUrl}bankaccounts/statements/${data}" >${data}</a>`:'';
-        },
-      },
+      }
     ],
     // order: [[7, "desc"]],
     columnDefs: [
