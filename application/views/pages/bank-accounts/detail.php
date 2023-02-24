@@ -98,7 +98,8 @@
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Account Balance</p>
-                                        <h4 class="col-6 input-placeholder text-success">GHS <?= $account->balance < 0 ? '(' . number_format(abs($account->balance), 2) . ')' : $account->balance ?></h4>
+                                       
+                                        <h4 class="col-6 input-placeholder <?=$account->balance > 0?'text-success':'text-danger'; ?>">GHS <?= $account->balance < 0 ? '(' . number_format(abs($account->balance), 2) . ')' : $account->balance ?></h4>
                                     </div>
                                     <?php if ($account->ownership === 'individual') { ?>
                                         <div class="row text-uppercase mt-3">
