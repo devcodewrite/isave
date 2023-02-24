@@ -83,7 +83,7 @@
                                         </a>
                                     </td>
                                     <td><?= date('d/m/y',strtotime($row->payin_start_date)); ?></td>
-                                    <td><?= $row->last_default_at; ?></td>
+                                    <td><?= date('d/m/y',strtotime($row->last_default_at)); ?></td>
                                     <td><?= $row->last_repayment?date('d/m/y',strtotime($row->last_repayment)):'None'; ?></td>
                                     <td><?= number_format($row->total_arrears, 2) ?></td>
                                     <td><?= number_format($row->totalBalance, 2); ?></td>
