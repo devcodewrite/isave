@@ -148,5 +148,6 @@ $autoload['model'] = array(
     'withdrawal_model' => 'withdrawal',
     'identitycardtype_model' => 'idcardtype',
     'accounttype_model' => 'acctype',
+    'accountstatement_model' => 'accstatement',
     'loantype_model' => 'loantype',
 );

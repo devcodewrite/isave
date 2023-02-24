@@ -60,6 +60,7 @@
                                 <i class="metismenu-icon"></i>List Passbooks
                             </a>
                         </li>
+                       
                     </ul>
                 </li>
                 <li class="<?= get_nav_status('deposits') ?>">
@@ -139,6 +140,11 @@
                             </a>
                         </li>
                         <li>
+                            <a href="<?= site_url('loans/defaults') ?>" class="<?= get_nav_status1('loans/defaults') ?>">
+                                <i class="metismenu-icon"></i>Defaulted Loans
+                            </a>
+                        </li>
+                        <li>
                             <a href="<?= site_url('loans/disbursements') ?>" class="<?= get_nav_status1('loans/disbursements') ?>">
                                 <i class="metismenu-icon"></i>Disbursement Schedule
                             </a>
@@ -179,6 +185,11 @@
                         <li>
                             <a href="<?= site_url('associations') ?>" class="<?= get_nav_status1('associations') ?>">
                                 <i class="metismenu-icon"></i>List Associations
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?= site_url('associations/statements') ?>" class="<?= get_nav_status1('associations/statements') ?>">
+                                <i class="metismenu-icon"></i>E-Cash Statements
                             </a>
                         </li>
                     </ul>
@@ -266,11 +277,7 @@
                                         <i class="metismenu-icon"></i> Account Types
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="<?= site_url('loantypes') ?>" class="<?= get_nav_status1('loantypes') ?>">
-                                        <i class="metismenu-icon"></i> Loan Types
-                                    </a>
-                                </li>
+                              
                             </ul>
                         </li>
                         <li>

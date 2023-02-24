@@ -28,7 +28,43 @@ class Associations extends MY_Controller
         $this->load->view('pages/associations/detail', $data);
     }
 
-      /**
+
+    /**
+     * Show a list of resources
+     * @return string html view
+     */
+    public function statements()
+    {
+        $association_id = $this->input->get('association_id');
+        $association = $this->association->find(($association_id ? $association_id : 0));
+        $id = $this->input->get('id');
+        $statement = $this->association->statements(
+            ['account_statements.id' => $id, 'association_id' => $association_id]
+        )->get()->row();
+
+        if($this->input->post('id')){
+            $this->accstatement->save($this->input->post());
+        }
+
+        $tran = $this->association->transactions(($association_id ? $association_id : 0),['ddate'=>'2023-02-23'])->get()->row();
+
+        if(!$statement) $statement = new stdClass();
+
+        if ($tran) {
+            $statement->id = $tran->tdate;
+            $statement->total_amount = $tran->momo_deposits;
+        }
+        $data = [
+            'association_id' => $association_id,
+            'association' => $association,
+            'id' => $id,
+            'statement' => $statement,
+        ];
+        $this->load->view('pages/associations/statements', $data);
+    }
+
+
+    /**
      * Show a resource
      * html view
      */
@@ -92,7 +128,7 @@ class Associations extends MY_Controller
         } else {
             $out = [
                 'status' => false,
-                'message' => $error?$error:"Association couldn't be created!"
+                'message' => $error ? $error : "Association couldn't be created!"
             ];
         }
         httpResponseJson($out);
@@ -118,7 +154,7 @@ class Associations extends MY_Controller
             $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
             $out = [
                 'status' => false,
-                'message' => $error?$error:"Association couldn't be updated!"
+                'message' => $error ? $error : "Association couldn't be updated!"
             ];
         }
         httpResponseJson($out);
@@ -140,7 +176,7 @@ class Associations extends MY_Controller
             $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
             $out = [
                 'status' => false,
-                'message' => $error?$error:"Association couldn't be deleted!"
+                'message' => $error ? $error : "Association couldn't be deleted!"
             ];
         }
         httpResponseJson($out);
@@ -166,6 +202,28 @@ class Associations extends MY_Controller
 
         if ($this->input->get('community'))
             $where = array_merge($where, ['community' => $inputs['community']]);
+
+        $query->where($where);
+
+        $out = datatable($query, $start, $length, $draw, $inputs);
+        $out = array_merge($out, [
+            'input' => $this->input->get(),
+        ]);
+        httpResponseJson($out);
+    }
+
+    public function statement_datatables()
+    {
+        $start = $this->input->get('start', true);
+        $length = $this->input->get('length', true);
+        $draw = $this->input->get('draw', true);
+        $inputs = $this->input->get();
+
+        $query = $this->association->statements();
+        $where = [];
+
+        if ($this->input->get('association_id'))
+            $where = array_merge($where, ['association_id' => $inputs['association_id']]);
 
         $query->where($where);
 
@@ -217,7 +275,7 @@ class Associations extends MY_Controller
             $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
             $out = [
                 'status' => false,
-                'message' => $error?$error:"Member couldn't be removed!"
+                'message' => $error ? $error : "Member couldn't be removed!"
             ];
         }
         httpResponseJson($out);
@@ -236,7 +294,7 @@ class Associations extends MY_Controller
             $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
             $out = [
                 'status' => false,
-                'message' => $error?$error:"Member couldn't be added!"
+                'message' => $error ? $error : "Member couldn't be added!"
             ];
         }
         httpResponseJson($out);

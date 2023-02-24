@@ -114,9 +114,20 @@
                                                 </span>
                                             </div>
                                         </div>
+
+                                        <?php if ($loan->setl_status === 'defaulted') { ?>
+                                            <div class="row text-uppercase mt-3 border-bottom">
+                                                <p class="col-6 text-black-50">Last Default At</p>
+                                                <p class="col-6 text-danger"><?= date('d/m/y', strtotime($loan->last_default_at)) ?></p>
+                                            </div>
+                                            <div class="row text-uppercase mt-3 border-bottom">
+                                                <p class="col-6 text-black-50">Total Arrears</p>
+                                                <h6 class="col-6 text-info">GHS <?= number_format($loan->total_arrears, 2) ?></h6>
+                                            </div>
+                                        <?php } ?>
                                         <div class="row text-uppercase mt-3 border-bottom">
                                             <p class="col-6 text-black-50">Total Repayment</p>
-                                            <h4 class="col-6 input-placeholder text-warning">GHS <?= number_format($loan->totalPaid, 2) ?></h4>
+                                            <h4 class="col-6 text-warning">GHS <?= number_format($loan->totalPaid, 2) ?></h4>
                                         </div>
                                         <div class="row text-uppercase mt-3 border-bottom">
                                             <p class="col-6 text-black-50">Repayment Balance</p>
@@ -141,6 +152,9 @@
                                     <a href="<?= site_url('loans/' . $loan->id . '/edit') ?>" class="btn btn-primary btn-lg">Modify</a>
                                     <button class="btn btn-danger btn-lg delete" data-url="<?= site_url('loans') ?>" data-id="<?= $loan->id ?>">Delete</button>
                                 <?php } ?>
+                                <?php if ($loan->appl_status === 'disbursed') { ?>
+                                    <a href="<?= site_url('loans/print/' . $loan->id) ?>" class="btn btn-info btn-lg">Print Advice Letter</a>
+                                <?php } ?>
                                 <button onclick="location.reload()" class="btn btn-link">Refresh</button>
                             </div>
                         </div>
@@ -162,7 +176,7 @@
                                             <label for="principal_amount">Principal Amount</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
-                                                    <span class="input-group-text" style="cursor:pointer" onclick="$('#pr-amount').val(<?=$loan->principalBalance ?>)"><?= number_format($loan->principalBalance, 2) ?></span>
+                                                    <span class="input-group-text" style="cursor:pointer" onclick="$('#pr-amount').val(<?= $loan->principalBalance ?>)"><?= number_format($loan->principalBalance, 2) ?></span>
                                                 </div>
                                                 <input type="number" id="pr-amount" name="principal_amount" class="form-control" placeholder="Enter the principal amount" required>
                                             </div>
@@ -174,7 +188,7 @@
                                             <label for="amount">Interest Amount</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
-                                                    <span class="input-group-text" style="cursor:pointer" onclick="$('#in-amount').val(<?=$loan->interestBalance ?>)"><?= number_format($loan->interestBalance, 2) ?></span>
+                                                    <span class="input-group-text" style="cursor:pointer" onclick="$('#in-amount').val(<?= $loan->interestBalance ?>)"><?= number_format($loan->interestBalance, 2) ?></span>
                                                 </div>
                                                 <input type="number" id="in-amount" name="interest_amount" class="form-control" placeholder="Enter the interest amount" required>
                                             </div>
@@ -205,7 +219,7 @@
 
                                     $cumPayment = 0;
                                     foreach ($this->payment->where(['loan_id' => $loan->id])->result() as $key => $row) {
-                                        
+
                                         $cumPayment = $cumPayment + $row->principal_amount + $row->interest_amount;
                                         $balance = $loan->principal_amount + $loan->interest_amount - $cumPayment;
                                     ?>
@@ -217,7 +231,7 @@
                                             <td><?= number_format($balance, 2) ?></td>
                                             <td>
                                                 <div class="d-flex">
-                                                    <button onclick="deletePayment(this)" data-id="<?=$row->id ?>" class="btn btn-danger ml-2"><i class="fa fa-trash"></i></button>
+                                                    <button onclick="deletePayment(this)" data-id="<?= $row->id ?>" class="btn btn-danger ml-2"><i class="fa fa-trash"></i></button>
                                                 </div>
                                             </td>
                                         </tr>

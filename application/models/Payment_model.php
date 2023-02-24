@@ -14,6 +14,7 @@ class Payment_model extends CI_Model
 
         if ($this->db->insert($this->table, $data)) {
             $id = $this->db->insert_id();
+            $this->loan->updateDefaulted($record['loan_id']);
             return $this->find($id);
         }
     }
@@ -82,13 +83,18 @@ class Payment_model extends CI_Model
             ->from($this->table);
     }
 
-    public function sum($where = [], string $select = "principal_amount+interest_amount", $alis="total")
+    public function sum($where = [], string $select = "principal_amount+interest_amount", $alis = "total")
     {
-       return $this->db->select("SUM($select) as $alis")->from($this->table)->where($where)->get();
+        return $this->db->select("SUM($select) as $alis")->from($this->table)->where($where)->get();
     }
 
     public function delete(int $id)
     {
-        return $this->db->delete($this->table,['id' => $id]);
+        $payment = $this->find($id);
+
+        if ($this->db->delete($this->table, ['id' => $id])) {
+            return $this->loan->updateDefaulted($payment->loan_id);
+        }
+        return false;
     }
 }

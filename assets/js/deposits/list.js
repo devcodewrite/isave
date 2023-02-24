@@ -40,6 +40,13 @@ $(function () {
         },
       },
       {
+        data: "ddate",
+        name: "ddate",
+        render: function (data, type, row) {
+          return new Date(data).toDateString();
+        },
+      },
+      {
         data: null,
         name: "associations.name",
         render: function (data, type, row) {
@@ -68,17 +75,15 @@ $(function () {
           return data.toUpperCase();
         },
       },
-      { data: "depositor_name", name: "depositor_name" },
-      { data: "depositor_phone", name: "depositor_phone" },
       {
-        data: "ddate",
-        name: "ddate",
-        render: function (data, type, row) {
-          return new Date(data).toDateString();
+        data: "account_statement",
+        name: "account_statement",
+        render: function (data, type, row) { 
+          return data?`<a href="${baseUrl}bankaccounts/statements/${data}" >${data}</a>`:'';
         },
       },
     ],
-    order: [[8, "desc"]],
+    order: [[1, "desc"]],
     columnDefs: [
       {
         orderable: false,
@@ -97,8 +102,7 @@ $(".filter").on("click select2:select select2:unselect", function (params) {
   table.ajax.reload();
 });
 
-$(".select2-method")
-.select2({
+$(".select2-method").select2({
   allowClear: true,
   placeholder: "Select a method",
   selectionCssClass: "form-select2",

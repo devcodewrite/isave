@@ -106,7 +106,6 @@ $(function () {
           return data;
         },
       },
-      { data: "loanType", name: "loans.loan_type_id" },
       {
         data: null,
         name: "loans.user_id",

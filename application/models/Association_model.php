@@ -213,7 +213,7 @@ class Association_model extends CI_Model
      /**
      * Get all transactions summary that belongs to this association id
      */
-    public function transactions(int $id)
+    public function transactions(int $id, $where=[])
     {
         $rtable = 'deposits';
         $col = "account_id";
@@ -224,14 +224,30 @@ class Association_model extends CI_Model
         $momoDeposit = "SUM(ifnull( (CASE WHEN $rtable.type='momo' THEN $rtable.amount ELSE '' END),0.00))";
         $transferDeposit = "SUM(ifnull( (CASE WHEN $rtable.type='transfer' THEN $rtable.amount ELSE '' END),0.00))";
 
-        //$bankTransferDeposit = "SUM(ifnull($rtable.amount,0.00))";
-
         return $this->db->select("ddate as tdate, $cashDeposit as cash_deposits, $momoDeposit as momo_deposits, $transferDeposit as transfer_deposits")
                     ->from($rtable)
                     ->join($rtable1, "$rtable1.id=$rtable.$col")
                     ->where("$rtable1.$rcol", $id)
-                    ->group_by("$rtable.ddate")
-                    ->get()
-                    ->result();
+                    ->where($where)
+                    ->group_by("$rtable.ddate");
+    }
+
+
+     /**
+     * Get all loans that belongs to this account id through account
+     */
+    public function statements($where = [])
+    {
+        $rcol = "association_id";
+
+        $rtable = 'account_statements';
+        $fields = [
+            "$rtable.*",
+            "{$this->table}.name as association_name",
+        ];
+        return $this->db->select($fields)
+                    ->from($rtable)
+                    ->join($this->table, "{$this->table}.id=$rtable.$rcol")
+                    ->where($where);
     }
 }

@@ -131,28 +131,26 @@
                 <thead class="text-uppercase">
                     <tr>
                         <th>#ID</th>
+                        <th>Date</th>
                         <th>Association</th>
                         <th>Pas.B No.</th>
                         <th>Account</th>
                         <th>Amount</th>
-                        <th>Type</th>
-                        <th>Depositor's Name</th>
-                        <th>Depositor's Phone</th>
-                        <th>Date</th>
+                        <th>Type</th>  
+                        <th>Acc. Statement</th>
                     </tr>
                 </thead>
 
                 <tfoot class="text-uppercase">
                     <tr>
                         <th>#ID</th>
+                        <th>Date</th>
                         <th>Association</th>
                         <th>Pas.B No.</th>
                         <th>Account</th>
                         <th>Amount</th>
                         <th>Type</th>
-                        <th>Depositor's Name</th>
-                        <th>Depositor's Phone</th>
-                        <th>Date</th>
+                        <th>Acc. Statement</th>
                     </tr>
                 </tfoot>
             </table>
@@ -162,5 +160,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/deposits/list.js?v=6') ?>" defer></script>
+<script src="<?= base_url('assets/js/deposits/list.js?v=11') ?>" defer></script>
 <?php app_end(); ?>

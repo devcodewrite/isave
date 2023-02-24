@@ -50,7 +50,7 @@
                                     <span class="pr-2 opactiy-6">
                                         <i class="fa fa-bullhorn"></i>
                                     </span>
-                                    Summary of all deposit transactions
+                                    summary of deposits
                                 </div>
                             </a>
                         </li>
@@ -198,7 +198,6 @@
                                         <th>Disbursement Date</th>
                                         <th>Repay. Date</th>
                                         <th>Repay. Status</th>
-                                        <th>Loan Type</th>
                                         <th>Added by</th>
                                     </tr>
                                 </thead>
@@ -217,7 +216,6 @@
                                         <th>Disbursement Date</th>
                                         <th>Repay. Date</th>
                                         <th>Repay. Status</th>
-                                        <th>Loan Type</th>
                                         <th>Added by</th>
                                     </tr>
                                 </tfoot>
@@ -255,15 +253,23 @@
                                         <th>Cash Deposits</th>
                                         <th>Mobile Money</th>
                                         <th>Internal Transfer</th>
+                                        <th>Account Statement</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($this->association->transactions($association->id) as $key => $row) { ?>
+                                    <?php foreach ($this->association->transactions($association->id)->get()->result() as $key => $row) {
+                                        $stat = $this->association->statements(['account_statements.id'=>$row->tdate,'association_id'=>$association->id])->get()->row();
+                                        ?>
                                         <tr>
                                             <td><?= $row->tdate ?></td>
                                             <td><a href="<?=site_url('deposits') ?>?type=cash&association_id=<?= $association->id ?>&from_date=<?= $row->tdate ?>&to_date=<?= $row->tdate ?>"><?= number_format($row->cash_deposits,2) ?></a></td>
                                             <td><a href="<?=site_url('deposits') ?>?type=momo&association_id=<?= $association->id ?>&from_date=<?= $row->tdate ?>&to_date=<?= $row->tdate ?>"><?= number_format($row->momo_deposits,2) ?></a></td>
                                             <td><a href="<?=site_url('deposits') ?>?type=transfer&association_id=<?= $association->id ?>&from_date=<?= $row->tdate ?>&to_date=<?= $row->tdate ?>"><?= number_format($row->transfer_deposits,2) ?></a></td>
+                                            <td>
+                                               <a href="<?=site_url('associations/statements') ?><?=$stat?"?id=$stat->id&association_id=$association->id":"?id=$row->tdate&association_id=$association->id" ?>" class="btn btn-link"><?= $stat?$stat->id:'' ?></a>
+                                               <a href="<?=site_url('associations/statements') ?><?=$stat?"?id=$stat->id&association_id=$association->id":"?id=$row->tdate&association_id=$association->id" ?>" class="btn btn-icon btn-primary">
+                                               <i class="fa fa-edit"></i></a>
+                                            </td>
                                         </tr>
                                     <?php  } ?>
                                 </tbody>
@@ -273,6 +279,7 @@
                                         <th>Cash Deposits</th>
                                         <th>Mobile Money</th>
                                         <th>Internal Transfer</th>
+                                        <th>Account Statement</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -424,5 +431,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/associations/detail.js?v=12'); ?>" defer></script>
+<script src="<?= base_url('assets/js/associations/detail.js?v=13'); ?>" defer></script>
 <?php app_end(); ?>

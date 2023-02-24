@@ -23,8 +23,7 @@ class Bankaccounts extends MY_Controller
     {
         $this->load->view('pages/bank-accounts/passbooks');
     }
-
-
+    
     /**
      * Show a resource
      * html view

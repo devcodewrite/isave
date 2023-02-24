@@ -39,13 +39,7 @@ $(function () {
           return data.id;
         },
       },
-      {
-        data: "ldate",
-        name: "ldate",
-        render: function (data, type, row) {
-          return new Date(data).toDateString();
-        },
-      },
+      { data: "association_name", name: "associations.name" },
       { data: "passbook", name: "loans.passbook" },
       {
         data: null,
@@ -74,7 +68,7 @@ $(function () {
         data: null,
         name: "loans.rate",
         render: function (data, type, row) {
-          return `${(data.rate* data.duration* 100).toFixed(2)}%`;
+          return `${(data.rate* data.duration* 100).toFixed(0)}%`;
         },
       },
       {
@@ -127,7 +121,6 @@ $(function () {
           return data;
         },
       },
-      { data: "loanType", name: "loans.loan_type_id" },
       {
         data: null,
         name: "loans.user_id",

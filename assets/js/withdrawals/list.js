@@ -6,16 +6,16 @@ $(function () {
       url: baseUrl + "withdrawals/datatables",
       dataType: "json",
       contentType: "application/json",
-      data:function (params) {
-        params.date_range_column = 'wdate';
-        params.date_from = $('#date-from').val();
-        params.date_to = $('#date-to').val();
-        params.association_id = $('.select2-associations').val();
-        params.member_id = $('.select2-members').val();
-        params.acc_type_id = $('.select2-account-types').val();
-        params.ownership = $('.select2-ownership').val();
-        params.status = $('#status').val();
-      }
+      data: function (params) {
+        params.date_range_column = "wdate";
+        params.date_from = $("#date-from").val();
+        params.date_to = $("#date-to").val();
+        params.association_id = $(".select2-associations").val();
+        params.member_id = $(".select2-members").val();
+        params.acc_type_id = $(".select2-account-types").val();
+        params.ownership = $(".select2-ownership").val();
+        params.status = $("#status").val();
+      },
     },
     serverSide: true,
     search: false,
@@ -39,13 +39,23 @@ $(function () {
           return data.id;
         },
       },
-      { data:null, name: "associations.name",
-      render: function (data, type, row) {
-        if (type === "display") {
-          return `<a href="${baseUrl}associations/${data.association_id}" class="btn btn-link">${data.association_name}</a>`;
-        }
-        return data.association_name;
-      }},
+      {
+        data: "wdate",
+        name: "wdate",
+        render: function (data, type, row) {
+          return new Date(data).toDateString();
+        },
+      },
+      {
+        data: null,
+        name: "associations.name",
+        render: function (data, type, row) {
+          if (type === "display") {
+            return `<a href="${baseUrl}associations/${data.association_id}" class="btn btn-link">${data.association_name}</a>`;
+          }
+          return data.association_name;
+        },
+      },
       { data: "passbook", name: "passbook" },
       {
         data: null,
@@ -65,11 +75,13 @@ $(function () {
           return data.toUpperCase();
         },
       },
-      { data: "withdrawer_name", name: "withdrawer_name" },
-      { data: "withdrawer_phone", name: "withdrawer_phone" },
-      { data: "wdate", name: "wdate",  render: function (data, type, row) {
-        return (new Date(data)).toDateString();
-      }},
+      {
+        data: "account_statement",
+        name: "account_statement",
+        render: function (data, type, row) {
+          return data?`<a href="${baseUrl}bankaccounts/statements/${data}" >${data}</a>`:'';
+        },
+      },
     ],
     // order: [[7, "desc"]],
     columnDefs: [
@@ -84,8 +96,8 @@ $(function () {
     table.ajax.reload();
   });
 
-  $('.filter-clear').on('click', function (params) {
-    $('#date-from,#date-to').val('');
+  $(".filter-clear").on("click", function (params) {
+    $("#date-from,#date-to").val("");
     table.ajax.reload();
   });
 });

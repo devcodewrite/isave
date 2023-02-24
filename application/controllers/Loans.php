@@ -72,6 +72,23 @@ class Loans extends MY_Controller
      * Show a form page for creating resource
      * html view
      */
+    public function defaults()
+    {
+        $loans = $this->loan->all()
+                ->where_in('setl_status', ['defaulted', 'not_paid'])
+                ->where('appl_status', 'disbursed')
+                ->get()
+                ->result();
+        $data = [
+            'loans' => $loans,
+        ];
+        $this->load->view('pages/loans/defaults', $data);
+    }
+
+    /**
+     * Show a form page for creating resource
+     * html view
+     */
     public function create()
     {
         $data = [
@@ -90,7 +107,7 @@ class Loans extends MY_Controller
 
         if (!$loan) show_404();
         $loan->account = $this->account->find($loan->account_id);
-        
+
         $data = [
             'loan' => $loan
         ];
@@ -160,6 +177,7 @@ class Loans extends MY_Controller
         $loan = $this->loan->update($id, $record);
         $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
         if ($loan) {
+            $this->loan->updateDefaulted($id);
             $out = [
                 'data' => $loan,
                 'status' => true,
@@ -208,6 +226,10 @@ class Loans extends MY_Controller
 
         if($this->input->get('account_id'))
             $where = array_merge($where, ['loans.account_id' => $inputs['account_id']]);
+
+        if($this->input->get('appl_status'))
+            $where = array_merge($where, ['loans.appl_status' => $inputs['appl_status']]);
+
 
         $query->where($where);
 

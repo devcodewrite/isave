@@ -210,7 +210,6 @@
                                                     <th>Disburs. Date</th>
                                                     <th>Repay. Date</th>
                                                     <th>Repay. Status</th>
-                                                    <th>Loan Type</th>
                                                     <th>Added by</th>
                                                 </tr>
                                             </thead>
@@ -227,7 +226,6 @@
                                                     <th>Disburs. Date</th>
                                                     <th>Repay. Date</th>
                                                     <th>Repay. Status</th>
-                                                    <th>Loan Type</th>
                                                     <th>Added by</th>
                                                 </tr>
                                             </tfoot>

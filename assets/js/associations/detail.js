@@ -122,7 +122,6 @@ loanTable = $("#dt-related-loans").DataTable({
         return data;
       },
     },
-    { data: "loanType", name: "loans.loan_type_id" },
     {
       data: null,
       name: "loans.user_id",
@@ -163,7 +162,6 @@ $.fn.DataTable.ext.search.push(function (settings, data, dataIndex) {
   var min = new Date(minDate.val());
   var max = new Date(maxDate.val());
   var date = new Date(data[0]);
-  console.log(minDate.val());
   if (
     (min <= date && max >= date) ||
     (minDate.val() === "" && maxDate.val() === "")

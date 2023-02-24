@@ -11,6 +11,7 @@ $(function () {
         params.date_range_column = "payout_date";
         params.date_from = $("#date-from").val();
         params.date_to = $("#date-to").val();
+        params.appl_status = 'approved';
       },
     },
     serverSide: true,
@@ -20,13 +21,6 @@ $(function () {
     dom: "lBftip",
     buttons: ["print", "pdf", "excel"],
     columns: [
-      {
-        data: "payout_date",
-        name: "loans.payout_date",
-        render: function (data, type, row) {
-          return new Date(data).toDateString();
-        },
-      },
       {
         data: null,
         name: "loans.id",
@@ -42,7 +36,16 @@ $(function () {
           return data.id;
         },
       },
+      {
+        data: "payout_date",
+        name: "loans.payout_date",
+        render: function (data, type, row) {
+          return new Date(data).toDateString();
+        },
+      },
+      { data: "association_name", name: "associations.name" },
       { data: "passbook", name: "loans.passbook" },
+
       { data: null, name: "loans.account_id",
       render: function(data, type, row) {
         if (type === "display") {
@@ -55,7 +58,6 @@ $(function () {
         return data.account_id;
       },},
       { data: "principal_amount", name: "principal_amount" },
-      { data: "name", name: "accounts.name" },
       { data: "payin_start_date", name: "loans.payin_start_date" },
       {
         data: "appl_status",
@@ -63,9 +65,10 @@ $(function () {
         render: function (data, type, row) {
           if (type === "display") {
             let labels = {
-              pending: "alert-danger",
-              approved: "alert-warning",
-              payout: "alert-success",
+              pending: "alert-warning",
+              approved: "alert-info",
+              disbursed: "alert-success",
+              rejected: "alert-danger",
             };
             return `<span class="alert p-1 px-2 text-white border-rounded ${
               labels[data]
@@ -80,14 +83,16 @@ $(function () {
         render: function (data, type, rows) {
           if (type === "display") {
             let labels = {
-              pending: "btn-warning",
-              approved: "btn-success",
-              payout: "btn-danger",
+              pending: "alert-info",
+              approved: "alert-success",
+              disbursed: "alert-danger",
+              rejected: "alert-warning",
             };
             let icons = {
               pending: "fa-check",
               approved: "fa-money-bill",
-              payout: "fa-times",
+              disbursed: "fa-times",
+              rejected: "fa-check",
             };
 
             return `<button onclick="changeStatus(this)" data-id="${

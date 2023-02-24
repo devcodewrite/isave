@@ -32,6 +32,7 @@ class Loan_model extends CI_Model
         $data['user_id'] = auth()->user()->id;
         if ($this->db->insert($this->table, $data)) {
             $id = $this->db->insert_id();
+            $this->updateDefaulted($id);
             return $this->find($id);
         }
         return false;
@@ -44,7 +45,7 @@ class Loan_model extends CI_Model
      */
     public function update(int $id, array $record)
     {
-        $loan =(object)$record;
+        $loan = (object)$record;
 
         if (isset($record['principal_amount'])) {
             if (!$this->account->canTakeLoan($record['account_id'], $record['principal_amount'])) {
@@ -84,7 +85,7 @@ class Loan_model extends CI_Model
         $this->db->set(['deleted_at' => date('Y-m-d H:i:s')]);
         $this->db->where('id', $id);
         $this->db->update($this->table);
-        return $this->db->affected_rows() > 0;
+        return $this->db->affected_loans() > 0;
     }
 
     /**
@@ -120,7 +121,7 @@ class Loan_model extends CI_Model
      */
     public function where(array $where)
     {
-        $where = array_merge($where, ["{$this->table}.deleted_at"=>null]);
+        $where = array_merge($where, ["{$this->table}.deleted_at" => null]);
         return $this->db->get_where($this->table, $where);
     }
 
@@ -129,33 +130,33 @@ class Loan_model extends CI_Model
      */
     public function all()
     {
-        $rtable = 'loan_types';
-        $col = 'loan_type_id';
         $rtable2 = 'accounts';
         $col2 = 'account_id';
         $rtable3  = 'acc_types';
         $col3 = 'acc_type_id';
         $rtable4  = 'users';
         $col4 = 'user_id';
+        $rtable5 = "associations";
+        $col5 = "association_id";
 
         $fields =  [
             'loans.*',
-            "$rtable.label as loanType",
-            "$rtable.rate_type",
             "$rtable2.acc_number",
             "$rtable2.name",
             "$rtable3.label as accType",
             "concat($rtable4.firstname, ' ', $rtable4.lastname) as user",
+            "$rtable5.name as association_name",
         ];
         return
             $this->db->select($fields, true)
             ->from($this->table)
-            ->join($rtable, "$rtable.id={$this->table}.$col", 'left')
-            ->join($rtable2, "$rtable2.id={$this->table}.$col2", 'left')
+            ->join($rtable2, "$rtable2.id={$this->table}.$col2")
             ->join($rtable3, "$rtable3.id=$rtable2.$col3", 'left')
             ->join($rtable4, "$rtable4.id={$this->table}.$col4", 'left')
+            ->join($rtable5, "$rtable5.id=$rtable2.$col5")
             ->where("{$this->table}.deleted_at", null);
     }
+
     public function calcPrincipal($loan)
     {
         return $loan->principal_amount / ($loan->duration * 4);
@@ -163,7 +164,7 @@ class Loan_model extends CI_Model
 
     public function calcReduceInterest($loan, $index = 0)
     {
-        return ($loan->principal_amount - $loan->principal_amount / 4* $index) * $loan->rate /4;
+        return ($loan->principal_amount - $loan->principal_amount / 4 * $index) * $loan->rate / 4;
     }
 
     public function calcFlatInterest($loan)
@@ -206,5 +207,49 @@ class Loan_model extends CI_Model
     public function sum($where = [], string $select = "principal_amount+interest_amount", $alis = "total")
     {
         return $this->db->select("SUM($select) as $alis")->where($where)->get($this->table);
+    }
+
+    public function updateDefaulted(int $id)
+    {
+        $loan = $this->find($id);
+        $loan->account = $this->account->find($loan->account_id);
+        $loan->totalPaid = $this->payment->sum(['loan_id' => $loan->id])->row('total');
+        $date1 = new DateTime(($loan->last_repayment ? $loan->last_repayment : $loan->payin_start_date));
+
+        $totalAmount = 0;
+        $totalArrears = 0;
+        $lastDefaulted = null;
+        $inDefault = false;
+        for ($i = 0; $i < $loan->duration * 4; $i++) {
+
+            if ($loan->account->accType->rate_type === 'flat_rate') {
+                $totalAmount += $this->loan->calcPrincipal($loan)
+                    + $this->loan->calcFlatInterest($loan, $i);
+            } else {
+                $totalAmount += $this->loan->calcPrincipal($loan)
+                    + $this->loan->calcReduceInterest($loan, $i);
+            }
+
+            $setl = new DateTime($loan->payin_start_date . " + $i week");
+
+            if ($setl > (new DateTime('today'))) {
+                break;
+            }
+
+            if ($setl >= $date1 && $totalAmount > $loan->totalPaid) {
+                $totalArrears = $totalAmount - $loan->totalPaid;
+                $inDefault = true;
+                $lastDefaulted = $setl;
+            }
+        }
+       if($inDefault) {
+        $record =[
+            'setl_status' => 'defaulted',
+            'last_default_at' => $lastDefaulted?$lastDefaulted->format('Y-m-d'):null,
+            'total_arrears' => $totalArrears
+        ];
+            return $this->update($id, $record);
+       }
+       return true;
     }
 }

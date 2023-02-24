@@ -79,7 +79,6 @@
                                                 <th>Date</th>
                                             </tr>
                                         </thead>
-
                                         <tfoot class="text-uppercase">
                                             <tr>
                                                 <th>#ID</th>
