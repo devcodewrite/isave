@@ -55,7 +55,7 @@ $(function () {
         data: null,
         name: "loans.rate",
         render: function (data, type, row) {
-          return `${(data.rate* data.duration* 100).toFixed(2)}%`;
+          return `${(data.rate * data.duration * 100).toFixed(2)}%`;
         },
       },
       {
@@ -150,8 +150,8 @@ $(function () {
     var date = new Date(data[1]);
 
     if (
-      (min <= date && max >= date)||
-      (minDate.val() === '' && maxDate.val() === '')
+      (min <= date && max >= date) ||
+      (minDate.val() === "" && maxDate.val() === "")
     ) {
       return true;
     }
@@ -176,17 +176,174 @@ $(function () {
   });
 });
 
-
 let form2 = $("#newCharge");
 
 form2.validate({
+  rules: {
+    amount: "required",
+    wdate: "required",
+  },
+  messages: {
+    amount: "Please enter the  amount",
+    wdate: "Please choose a date",
+  },
+  errorElement: "em",
+  errorPlacement: function (t, e) {
+    t.addClass("invalid-feedback"),
+      "checkbox" === e.prop("type")
+        ? t.insertAfter(e.nex$("label"))
+        : t.insertAfter(e);
+  },
+  highlight: function (e, i, n) {
+    $(e).addClass("is-invalid").removeClass("is-valid");
+  },
+  unhighlight: function (e, i, n) {
+    $(e).addClass("is-valid").removeClass("is-invalid");
+  },
+});
+
+form2.on("submit", function (e) {
+  e.preventDefault();
+  if (form2.valid() === true) {
+    $.ajax({
+      method: "POST",
+      url: this.getAttribute("action"),
+      data: new FormData(this),
+      enctype: "multipart/form-data",
+      dataType: "json",
+      contentType: false,
+      processData: false,
+      cache: false,
+      success: function (d, r) {
+        if (!d || r === "nocontent") {
+          Swal.fire({
+            icon: "error",
+            text: "Malformed form data sumbitted! Please try agian.",
+          });
+          return;
+        }
+        if (typeof d.status !== "boolean" || typeof d.message !== "string") {
+          Swal.fire({
+            icon: "error",
+            text: "Malformed data response! Please try agian.",
+          });
+          return;
+        }
+
+        if (d.status === true) {
+          Swal.fire({
+            icon: "success",
+            text: d.message,
+          });
+          setTimeout(location.reload(), 500);
+        } else {
+          Swal.fire({
+            icon: "error",
+            text: d.message,
+          });
+        }
+      },
+      error: function (r) {
+        Swal.fire({
+          icon: "error",
+          text: "Unable to submit form! Please try agian.",
+        });
+      },
+    });
+  }
+});
+
+let form3 = $("#newWithdrawal");
+
+form3.validate({
+  rules: {
+    amount: "required",
+    wdate: "required",
+  },
+  messages: {
+    amount: "Please enter the  amount",
+    wdate: "Please choose a date",
+  },
+  errorElement: "em",
+  errorPlacement: function (t, e) {
+    t.addClass("invalid-feedback"),
+      "checkbox" === e.prop("type")
+        ? t.insertAfter(e.nex$("label"))
+        : t.insertAfter(e);
+  },
+  highlight: function (e, i, n) {
+    $(e).addClass("is-invalid").removeClass("is-valid");
+  },
+  unhighlight: function (e, i, n) {
+    $(e).addClass("is-valid").removeClass("is-invalid");
+  },
+});
+
+form3.on("submit", function (e) {
+  e.preventDefault();
+  if (form3.valid() === true) {
+    $.ajax({
+      method: "POST",
+      url: this.getAttribute("action"),
+      data: new FormData(this),
+      enctype: "multipart/form-data",
+      dataType: "json",
+      contentType: false,
+      processData: false,
+      cache: false,
+      success: function (d, r) {
+        if (!d || r === "nocontent") {
+          Swal.fire({
+            icon: "error",
+            text: "Malformed form data sumbitted! Please try agian.",
+          });
+          return;
+        }
+        if (typeof d.status !== "boolean" || typeof d.message !== "string") {
+          Swal.fire({
+            icon: "error",
+            text: "Malformed data response! Please try agian.",
+          });
+          return;
+        }
+
+        if (d.status === true) {
+          Swal.fire({
+            icon: "success",
+            text: d.message,
+          });
+          setTimeout(location.reload(), 500);
+        } else {
+          Swal.fire({
+            icon: "error",
+            text: d.message,
+          });
+        }
+      },
+      error: function (r) {
+        Swal.fire({
+          icon: "error",
+          text: "Unable to submit form! Please try agian.",
+        });
+      },
+    });
+  }
+});
+
+
+
+let form4 = $("#newDeposit");
+
+form4.validate({
     rules: {
       amount: "required",
-      wdate:"required",
+      ddate:"required",
+      depositor_name:'required',
     },
     messages: {
-      amount: "Please enter the  amount",
-      wdate:"Please choose a date",
+      amount: "Please enter the amount",
+      ddate:"Please choose a date",
+      depositor_name: "Please enter the name",
     },
     errorElement: "em",
     errorPlacement: function (t, e) {
@@ -202,9 +359,10 @@ form2.validate({
       $(e).addClass("is-valid").removeClass("is-invalid");
     },
   });
-form2.on("submit", function (e) {
+  
+form4.on("submit", function (e) {
   e.preventDefault();
-  if (form2.valid() === true) {
+  if (form4.valid() === true) {
     $.ajax({
       method: "POST",
       url: this.getAttribute("action"),

@@ -98,8 +98,8 @@
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Account Balance</p>
-                                       
-                                        <h4 class="col-6 input-placeholder <?=$account->balance > 0?'text-success':'text-danger'; ?>">GHS <?= $account->balance < 0 ? '(' . number_format(abs($account->balance), 2) . ')' : $account->balance ?></h4>
+
+                                        <h4 class="col-6 input-placeholder <?= $account->balance > 0 ? 'text-success' : 'text-danger'; ?>">GHS <?= $account->balance < 0 ? '(' . number_format(abs($account->balance), 2) . ')' : $account->balance ?></h4>
                                     </div>
                                     <?php if ($account->ownership === 'individual') { ?>
                                         <div class="row text-uppercase mt-3">
@@ -126,12 +126,12 @@
                                         </p>
                                     </div>
                                     <?php if ($account->ownership === 'individual') { ?>
-                                    <div class="row text-uppercase mt-3 border-bottom">
-                                        <p class="col-6 text-black-50">Owner's Name</p>
-                                        <p class="col-6 input-placeholder text-black h-5">
-                                            <?= $member->firstname ?> <?= $member->othername ?> <?= $member->lastname ?>
-                                        </p>
-                                    </div>
+                                        <div class="row text-uppercase mt-3 border-bottom">
+                                            <p class="col-6 text-black-50">Owner's Name</p>
+                                            <p class="col-6 input-placeholder text-black h-5">
+                                                <?= $member->firstname ?> <?= $member->othername ?> <?= $member->lastname ?>
+                                            </p>
+                                        </div>
                                     <?php } ?>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Association</p>
@@ -154,7 +154,16 @@
                                 <button type="button" data-toggle="modal" data-target="#newCharge" class="btn btn-success btn-lg charge text-uppercase">
                                     <i class="pe-7s-plus btn-icon-wrapper"></i> Add a Charge
                                 </button>
+                                <?php if (intval($account->accType->is_loan_acc) === 0) { ?>
+                                    <button type="button" data-toggle="modal" data-target="#newWithdrawal" class="btn btn-warning btn-lg charge text-uppercase">
+                                        <i class="pe-7s-cash btn-icon-wrapper"></i> Withdraw
+                                    </button>
+                                    <button type="button" data-toggle="modal" data-target="#newDeposit" class="btn btn-primary btn-lg charge text-uppercase">
+                                        <i class="pe-7s-plus btn-icon-wrapper"></i> Deposit
+                                    </button>
+                                <?php } ?>
                             </div>
+
                             <div class="btn-actions-pane-right actions-icon-btn">
                                 <a href="<?= site_url('bankaccounts/' . $account->id . '/edit') ?>" class="btn btn-primary btn-lg">Modify</a>
                                 <button class="btn btn-info btn-lg suspend">Suspend</button>
@@ -169,7 +178,7 @@
                                 <div class="btn-actions-pane-right actions-icon-btn">
                                     <a href="<?= site_url('loans/create') ?>" class="btn btn-primary text-uppercase">
                                         <i class="pe-7s-plus btn-icon-wrapper"></i>
-                                        New Loan
+                                        Request A Loan
                                     </a>
                                 </div>
                             </div>
@@ -345,7 +354,6 @@
             <div class="modal-body">
                 <input type="hidden" name="account_id" value="<?= $account->id ?>">
                 <input type="hidden" name="user_id" value="<?= auth()->user()->id ?>">
-                <input type="hidden" name="withdrawer_name" value="System">
                 <input type="hidden" name="type" value="deduction">
                 <div class="form-row">
                     <div class="col-md-4">
@@ -373,6 +381,102 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary">Charge</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<form action="<?= site_url('withdrawals/store') ?>" class="modal fade" id="newWithdrawal" method="post" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-uppercase" id="exampleModalLabel">New Withdrawal Form</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="account_id" value="<?= $account->id ?>">
+                <input type="hidden" name="user_id" value="<?= auth()->user()->id ?>">
+                <input type="hidden" name="type" value="cash">
+                <div class="form-row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="wdate">Date</label>
+                            <input type="date" name="wdate" id="wdate" value="<?= date('Y-m-d') ?>" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="amount">Amount</label>
+                            <input type="text" name="amount" id="amount" class="form-control" placeholder="Enter the amount" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="amount">Withdrawer's Name</label>
+                            <input type="text" name="withdrawer_name" class="form-control" value="<?=$account->name; ?>" placeholder="Enter withrawer's name" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Withdraw</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<form action="<?= site_url('deposits/store') ?>" class="modal fade" id="newDeposit" method="post" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-uppercase" id="exampleModalLabel">New Deposit Form</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="account_id" value="<?= $account->id ?>">
+                <input type="hidden" name="user_id" value="<?= auth()->user()->id ?>">
+                <input type="hidden" name="type" value="cash">
+                <div class="form-row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="wdate">Date</label>
+                            <input type="date" name="ddate" id="ddate" value="<?= date('Y-m-d') ?>" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="amount">Amount</label>
+                            <input type="text" name="amount" id="amount" class="form-control" placeholder="Enter the amount" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="amount">Depositor's Name</label>
+                            <input type="text" name="depositor_name" class="form-control" value="<?=$account->name; ?>" placeholder="Enter depositor's name" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="amount">Depositor's Phone</label>
+                            <input type="tel" name="depositor_phone" class="form-control" placeholder="Enter depositor's phone">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Deposit</button>
             </div>
         </div>
     </div>

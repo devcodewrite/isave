@@ -28,21 +28,22 @@
                 <div class="card-header">
                     <i class="header-icon lnr-user icon-gradient bg-plum-plate"> </i>Customer Details
                     <div class="btn-actions-pane-right actions-icon-btn">
-                        <button class="btn-icon btn-icon-only btn btn-link">
-                            <i class="pe-7s-edit btn-icon-wrapper"></i>
-                        </button>
+                      
                         <div class="btn-group dropdown">
                             <button type="button" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false" class="btn-icon btn-icon-only btn btn-link">
                                 <i class="pe-7s-menu btn-icon-wrapper"></i>
                             </button>
                             <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-shadow dropdown-menu-right dropdown-menu-hover-link dropdown-menu">
                                 <h6 tabindex="-1" class="dropdown-header">Actions</h6>
+                                <a href="<?= site_url('deposits/create')."?member_id=$member->id" ?>" tabindex="0" class="dropdown-item">Deposit</a>
+                                <a href="<?= site_url('withdrawals/create')."?member_id=$member->id" ?>" tabindex="0" class="dropdown-item">Withdraw</a>
+                                <a href="<?= site_url('transfers/create')."?from_member_id=$member->id" ?>" tabindex="0" class="dropdown-item">Transfer</a>
                                 <button type="button" tabindex="0" class="dropdown-item">
                                     <i class="dropdown-icon lnr-file-empty"></i><span>Print</span>
                                 </button>
-                                <button type="button" tabindex="0" class="dropdown-item">
-                                    <i class="dropdown-icon lnr-book"> </i><span>Modify</span>
-                                </button>
+                                <a href="<?= site_url('customers/' . $member->id . '/edit') ?>" tabindex="0" class="dropdown-item">
+                                <i class="dropdown-icon lnr-book"> </i><span> Modify</a>
+
                                 <div tabindex="-1" class="dropdown-divider"></div>
                                 <div class="p-3 text-right">
                                     <button class="mr-2 btn-shadow btn-sm btn btn-warning">Close</button>
@@ -50,6 +51,8 @@
                                 </div>
                             </div>
                         </div>
+
+                        
                     </div>
                 </div>
                 <div class="card-body p-5">
