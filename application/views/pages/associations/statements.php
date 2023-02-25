@@ -43,20 +43,20 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="name">Statement Date</label>
-                            <input id="id" type="date" class="form-control" name="id" value="<?= isset($statement->id) ? $statement->id : "" ?>" required/>
+                            <input id="id" type="date" class="form-control" name="id" value="<?= isset($statement->id) ? $statement->id : "" ?>" required />
                         </div>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="name">E-cash Amount</label>
+                            <label for="name">Transaction Amount</label>
                             <input type="number" class="form-control" name="total_amount" value="<?= isset($statement->total_amount) ? number_format($statement->total_amount, 2) : "" ?>" placeholder="0.00" readonly required />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="name">Reconcile Amount</label>
+                            <label for="name">E-cash Received</label>
                             <input type="number" class="form-control" name="reconcile_amount" placeholder="Enter reconcile amount" value="<?= isset($statement->reconcile_amount) ? number_format($statement->reconcile_amount, 2) : "" ?>" required />
                         </div>
                     </div>
@@ -99,6 +99,28 @@
                     </div>
                 </div>
             </div>
+            <div class="d-flex align-items-end row px-3">
+                <div>
+                    <label for="from">From</label>
+                    <div class="form-group">
+                        <input type="date" name="date_from" id="date-from" class="form-control">
+                    </div>
+                </div>
+                <div class="ml-3">
+                    <label for="from">To</label>
+                    <div class="form-group">
+                        <input type="date" name="date_to" id="date-to" class="form-control">
+                    </div>
+                </div>
+                <div class="col-12 col-md-3 form-group">
+                    <button class="btn btn-primary filter">
+                        <i class="fa fa-filter"></i>
+                        Filter</button>
+                    <button class="btn btn-warning ml-2 filter-clear">
+                        <i class="fa fa-times"></i>
+                        Clear</button>
+                </div>
+            </div>
             <table style="width: 100%;" id="dt-statements" class="table table-hover table-striped table-bordered">
                 <thead class="text-uppercase">
                     <tr>
@@ -116,8 +138,8 @@
                     <tr>
                         <th>#Ref</th>
                         <th>Association</th>
-                        <th>E-cash</th>
-                        <th>Reconcile Amount</th>
+                        <th>Transac. Amount</th>
+                        <th>E-cash Amount</th>
                         <th>Diff</th>
                         <th>Note</th>
                         <th>Action</th>

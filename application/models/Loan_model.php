@@ -218,8 +218,8 @@ class Loan_model extends CI_Model
 
         $totalAmount = 0;
         $totalArrears = 0;
-        $lastDefaulted = null;
-        $inDefault = false;
+        $lastDayInArrears = null;
+        $inArrears = false;
         for ($i = 0; $i < $loan->duration * 4; $i++) {
 
             if ($loan->account->accType->rate_type === 'flat_rate') {
@@ -238,18 +238,23 @@ class Loan_model extends CI_Model
 
             if ($setl >= $date1 && $totalAmount > $loan->totalPaid) {
                 $totalArrears = $totalAmount - $loan->totalPaid;
-                $inDefault = true;
-                $lastDefaulted = $setl;
+                $inArrears = true;
+                $lastDayInArrears = $setl;
             }
         }
-       if($inDefault) {
-        $record =[
-            'setl_status' => 'defaulted',
-            'last_default_at' => $lastDefaulted?$lastDefaulted->format('Y-m-d'):null,
-            'total_arrears' => $totalArrears
-        ];
+
+        if ($inArrears) {
+            $l = $loan->duration * 4 - 1;
+            $lastDay =  new DateTime($loan->payin_start_date . " + $l week");
+            $record = [
+                'arrears_days' => $lastDayInArrears->diff($date1)->format('%a'),
+                'total_arrears' => $totalArrears
+            ];
+            if ((new DateTime('today')) > $lastDay) {
+                $record = array_merge($record, ['setl_status' => 'defaulted']);
+            }
             return $this->update($id, $record);
-       }
-       return true;
+        }
+        return true;
     }
 }

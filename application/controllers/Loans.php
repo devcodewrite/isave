@@ -75,7 +75,7 @@ class Loans extends MY_Controller
     public function defaults()
     {
         $loans = $this->loan->all()
-                ->where_in('setl_status', ['defaulted', 'not_paid'])
+                ->where('setl_status', 'defaulted')
                 ->where('appl_status', 'disbursed')
                 ->get()
                 ->result();

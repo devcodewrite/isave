@@ -115,14 +115,18 @@
                                             </div>
                                         </div>
 
-                                        <?php if ($loan->setl_status === 'defaulted') { ?>
+                                        <?php if ($loan->arrears_days > 0) { ?>
                                             <div class="row text-uppercase mt-3 border-bottom">
-                                                <p class="col-6 text-black-50">Last Default At</p>
-                                                <p class="col-6 text-danger"><?= date('d/m/y', strtotime($loan->last_default_at)) ?></p>
+                                                <p class="col-6 text-black-50">Days in Arrears</p>
+                                                <p class="col-6 text-danger"><?= $loan->arrears_days ?></p>
                                             </div>
                                             <div class="row text-uppercase mt-3 border-bottom">
                                                 <p class="col-6 text-black-50">Total Arrears</p>
                                                 <h6 class="col-6 text-info">GHS <?= number_format($loan->total_arrears, 2) ?></h6>
+                                            </div>
+                                            <div class="row text-uppercase mt-3 border-bottom">
+                                                <p class="col-6 text-black-50">Last Repayment Date</p>
+                                                <p class="col-6 input-placeholder text-black"><?= date('d/m/y', strtotime($loan->last_repayment)) ?></p>
                                             </div>
                                         <?php } ?>
                                         <div class="row text-uppercase mt-3 border-bottom">
