@@ -68,8 +68,6 @@
                         <tbody>
                             <?php 
                             foreach ($loans as $key => $row) {
-                                $row = $this->loan->updateSettlementStatus($row->id);
-
                                 $row->totalPaid = $this->payment->sum(['loan_id' => $row->id])->row('total');
                                 $row->totalBalance = $this->loan->sum(['id' => $row->id])->row('total') - $row->totalPaid;
                                 $row->account = $this->account->find($row->account_id);

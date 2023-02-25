@@ -74,6 +74,10 @@ class Loans extends MY_Controller
      */
     public function defaults()
     {
+        foreach($this->loan->where(['appl_status'=>'disbursed'])->result() as $row) {
+            $this->loan->updateSettlementStatus($row->id);
+        }
+        
         $loans = $this->loan->all()
                 ->where('setl_status', 'defaulted')
                 ->where('appl_status', 'disbursed')
