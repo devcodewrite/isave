@@ -200,21 +200,16 @@
                     </ul>
                 </li>
 
-                <li class="app-sidebar__heading d-none">Financial Reporting</li>
-                <li class="<?= get_nav_status('reporting/income') ?> d-none">
+                <li class="app-sidebar__heading d-none">Reporting</li>
+                <li class="<?= get_nav_status('reporting') ?>">
                     <a href="#">
-                        <i class="metismenu-icon pe-7s-piggy"></i>Reporting Income
+                        <i class="metismenu-icon pe-7s-piggy"></i>Reporting
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
                     <ul>
                         <li>
-                            <a href="<?= site_url('reporting/income/by-accounts') ?>" class="<?= get_nav_status1('deposits/create') ?>">
-                                <i class="metismenu-icon"></i>Income by accounts
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?= site_url('reporting/income') ?>" class="<?= get_nav_status1('deposits') ?>">
-                                <i class="metismenu-icon"></i>List Deposits
+                            <a href="<?= site_url('reporting/transactions') ?>" class="<?= get_nav_status1('reporting/transactions') ?>">
+                                <i class="metismenu-icon"></i>Reporting Transactions
                             </a>
                         </li>
                     </ul>
