@@ -140,6 +140,11 @@
                             </a>
                         </li>
                         <li>
+                            <a href="<?= site_url('loans/in-arrears') ?>" class="<?= get_nav_status1('loans/in-arrears') ?>">
+                                <i class="metismenu-icon"></i>Loans in Arrears
+                            </a>
+                        </li>
+                        <li>
                             <a href="<?= site_url('loans/defaults') ?>" class="<?= get_nav_status1('loans/defaults') ?>">
                                 <i class="metismenu-icon"></i>Defaulted Loans
                             </a>

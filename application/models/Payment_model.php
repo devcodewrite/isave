@@ -14,7 +14,7 @@ class Payment_model extends CI_Model
 
         if ($this->db->insert($this->table, $data)) {
             $id = $this->db->insert_id();
-            $this->loan->updateDefaulted($record['loan_id']);
+            $this->loan->updateSettlementStatus($record['loan_id']);
             return $this->find($id);
         }
     }
@@ -93,7 +93,7 @@ class Payment_model extends CI_Model
         $payment = $this->find($id);
 
         if ($this->db->delete($this->table, ['id' => $id])) {
-            return $this->loan->updateDefaulted($payment->loan_id);
+            return $this->loan->updateSettlementStatus($payment->loan_id);
         }
         return false;
     }

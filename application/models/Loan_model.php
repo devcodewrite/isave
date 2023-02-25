@@ -32,7 +32,7 @@ class Loan_model extends CI_Model
         $data['user_id'] = auth()->user()->id;
         if ($this->db->insert($this->table, $data)) {
             $id = $this->db->insert_id();
-            $this->updateDefaulted($id);
+            $this->updateSettlementStatus($id);
             return $this->find($id);
         }
         return false;
@@ -209,7 +209,7 @@ class Loan_model extends CI_Model
         return $this->db->select("SUM($select) as $alis")->where($where)->get($this->table);
     }
 
-    public function updateDefaulted(int $id)
+    public function updateSettlementStatus(int $id)
     {
         $loan = $this->find($id);
         $loan->account = $this->account->find($loan->account_id);
@@ -229,9 +229,8 @@ class Loan_model extends CI_Model
                 $totalAmount += $this->loan->calcPrincipal($loan)
                     + $this->loan->calcReduceInterest($loan, $i);
             }
-
             $setl = new DateTime($loan->payin_start_date . " + $i week");
-
+            
             if ($setl > (new DateTime('today'))) {
                 break;
             }

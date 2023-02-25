@@ -118,7 +118,7 @@
                                         <?php if ($loan->arrears_days > 0) { ?>
                                             <div class="row text-uppercase mt-3 border-bottom">
                                                 <p class="col-6 text-black-50">Days in Arrears</p>
-                                                <p class="col-6 text-danger"><?= $loan->arrears_days ?></p>
+                                                <p class="col-6 text-danger"><?= $loan->arrears_days ?> Day(s)</p>
                                             </div>
                                             <div class="row text-uppercase mt-3 border-bottom">
                                                 <p class="col-6 text-black-50">Total Arrears</p>

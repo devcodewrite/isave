@@ -22,6 +22,8 @@ class Loans extends MY_Controller
 
         if(!$loan) show_404();
 
+        $this->loan->updateSettlementStatus($id);
+
         $loan->account = $this->account->find($loan->account_id);
         $loan->owner = $loan->account->ownership==='individual'
                 ?$this->member->find($loan->account->member_id)
@@ -85,6 +87,22 @@ class Loans extends MY_Controller
         $this->load->view('pages/loans/defaults', $data);
     }
 
+    /**
+     * Show a form page for creating resource
+     * html view
+     */
+    public function in_arrears()
+    {
+        $loans = $this->loan->all()
+                ->where('appl_status', 'disbursed')
+                ->where('arrears_days >', 0)
+                ->get()
+                ->result();
+        $data = [
+            'loans' => $loans,
+        ];
+        $this->load->view('pages/loans/in_arrears', $data);
+    }
     /**
      * Show a form page for creating resource
      * html view
@@ -177,7 +195,7 @@ class Loans extends MY_Controller
         $loan = $this->loan->update($id, $record);
         $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
         if ($loan) {
-            $this->loan->updateDefaulted($id);
+            $this->loan->updateSettlementStatus($id);
             $out = [
                 'data' => $loan,
                 'status' => true,
