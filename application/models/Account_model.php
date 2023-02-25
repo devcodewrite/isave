@@ -341,13 +341,11 @@ class Account_model extends CI_Model
         $rtable = 'deposits';
         $query1 = $this->db->select($fields, false)
             ->from($rtable)
-           ->order_by('deposits.created_at', 'asc')
             ->get_compiled_select();
 
         $rtable = 'withdrawals';
         $query2 = $this->db->select($fields1)
             ->from($rtable)
-            ->order_by('withdrawals.created_at', 'asc')
             ->get_compiled_select();
 
         $qselect_sum_deposits = "SELECT SUM(deposits.amount) FROM deposits WHERE created_at <= creation AND id <= ref";
