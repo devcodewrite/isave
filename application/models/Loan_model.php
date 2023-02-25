@@ -245,8 +245,9 @@ class Loan_model extends CI_Model
         if ($inArrears) {
             $l = $loan->duration * 4;
             $lastDay =  new DateTime($loan->payin_start_date . " + $l week");
+            $interval = DateInterval::createFromDateString('1 week');
             $record = [
-                'arrears_days' => $lastDayInArrears->diff($date1)->format('%a'),
+                'arrears_days' => $lastDayInArrears->diff($date1->add($interval))->format('%a'),
                 'total_arrears' => $totalArrears
             ];
             if ((new DateTime('today')) > $lastDay) {
