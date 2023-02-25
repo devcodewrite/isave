@@ -69,7 +69,7 @@ loanTable = $("#dt-related-loans").DataTable({
       data: "rate",
       name: "loans.rate",
       render: function (data, type, row) {
-        return `${data * 100}%`;
+        return `${(data.rate* data.duration* 100).toFixed(0)}%`;
       },
     },
     {
