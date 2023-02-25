@@ -212,6 +212,7 @@ class Loan_model extends CI_Model
     public function updateSettlementStatus(int $id)
     {
         $loan = $this->find($id);
+        if(!$loan) return false;
         $loan->account = $this->account->find($loan->account_id);
         $loan->totalPaid = $this->payment->sum(['loan_id' => $loan->id])->row('total');
         $date1 = new DateTime(($loan->last_repayment ? $loan->last_repayment : $loan->payin_start_date));

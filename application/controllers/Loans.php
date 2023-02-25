@@ -18,11 +18,9 @@ class Loans extends MY_Controller
      */
     public function view(int $id = null)
     {
-        $loan = $this->loan->find($id);
+        $loan =  $this->loan->updateSettlementStatus($id);
 
         if(!$loan) show_404();
-
-        $this->loan->updateSettlementStatus($id);
 
         $loan->account = $this->account->find($loan->account_id);
         $loan->owner = $loan->account->ownership==='individual'
