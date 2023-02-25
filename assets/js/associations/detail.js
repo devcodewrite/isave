@@ -295,12 +295,13 @@ $(".customer-filter-clear").on("click", function (params) {
   $("#customer-date-from,#customer-date-to").val("");
   customerTable.ajax.reload();
 });
-let slapplied = false;
 
 $(".nav-link").on("click", function () {
-  if (slapplied) return;
   setTimeout(function () {
-    slapplied = true;
+    if($('.select2').hasClass('select2-hidden-accessible')){
+      $('.select2').select2('destroy');
+      $(".select2-associations").select2('destroy');
+    }
     $(".select2").select2({
       allowClear: true,
       placeholder: "Select an option",
