@@ -126,7 +126,7 @@
                                             </div>
                                             <div class="row text-uppercase mt-3 border-bottom">
                                                 <p class="col-6 text-black-50">Last Repayment Date</p>
-                                                <p class="col-6 input-placeholder text-black"><?= date('d/m/y', strtotime($loan->last_repayment)) ?></p>
+                                                <p class="col-6 input-placeholder text-black"><?= $loan->last_repayment?date('d/m/y', strtotime($loan->last_repayment)):'None' ?></p>
                                             </div>
                                         <?php } ?>
                                         <div class="row text-uppercase mt-3 border-bottom">
