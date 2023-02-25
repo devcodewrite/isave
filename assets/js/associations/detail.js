@@ -299,8 +299,8 @@ let slapplied = false;
 
 $(".nav-link").on("click", function () {
   if (slapplied) return;
-  slapplied = true;
   setTimeout(function () {
+    slapplied = true;
     $(".select2").select2({
       allowClear: true,
       placeholder: "Select an option",

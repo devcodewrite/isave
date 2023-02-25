@@ -30,7 +30,7 @@
             <div class="form-row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Member's association</label>
+                        <label>Association</label>
                         <select name="associaton_id" class="form-control select2-associations filter" required>
                             <option value=""></option>
                             <?php if (isset($account)) { ?>
