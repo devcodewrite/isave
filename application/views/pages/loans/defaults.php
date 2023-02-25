@@ -67,7 +67,6 @@
                         </thead>
                         <tbody>
                             <?php 
-                            $inDefault = false;
                             foreach ($loans as $key => $row) {
                                 $row->totalPaid = $this->payment->sum(['loan_id' => $row->id])->row('total');
                                 $row->totalBalance = $this->loan->sum(['id' => $row->id])->row('total') - $row->totalPaid;
