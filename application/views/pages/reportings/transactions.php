@@ -8,8 +8,8 @@
                 <div class="page-title-icon">
                     <i class="pe-7s-notebook icon-gradient bg-happy-itmeo"></i>
                 </div>
-                <div>Account Details
-                    <div class="page-title-subheading">Account details.</div>
+                <div>Reporting Transactions
+                    <div class="page-title-subheading">Reporting transactions.</div>
                 </div>
             </div>
             <div class="page-title-actions">
@@ -29,7 +29,7 @@
                     <ul class="nav nav-justified">
                         <li class="nav-item">
                             <a data-toggle="tab" href="#tab-eg9-0" class="active nav-link">
-                                <div class="widget-number">Account</div>
+                                <div class="widget-number">Reporting</div>
                                 <div class="tab-subheading">
                                     <span class="pr-2 opactiy-6">
                                         <i class="fa fa-book"></i>
@@ -53,7 +53,7 @@
                                         <span class="pr-2 opactiy-6">
                                             <i class="fa fa-bullhorn"></i>
                                         </span>
-                                        Account transaction entries
+                                        Reporting transaction entries
                                     </div>
                                 </a>
                             </li>
@@ -65,7 +65,7 @@
                                         <span class="pr-2 opactiy-6">
                                             <i class="fa fa-bullhorn"></i>
                                         </span>
-                                        Account transaction entries
+                                        Reporting transaction entries
                                     </div>
                                 </a>
                             </li>
@@ -79,7 +79,7 @@
                             <div class="row">
                                 <div class="col-md-6 px-5">
                                     <div class="row text-uppercase text-center border-bottom">
-                                        <p class="col-12 text-black-50">Account Number</p>
+                                        <p class="col-12 text-black-50">Reporting Number</p>
                                         <h4 class="col-12 text-primary"><?= $account->acc_number ?></h4>
                                         <p class="col-12"><span class="alert alert-success text-uppercase float-right">Open</span></p>
                                     </div>
@@ -89,17 +89,17 @@
                                     </div>
 
                                     <div class="row text-uppercase mt-3 border-bottom">
-                                        <p class="col-6 text-black-50">Account Type</p>
+                                        <p class="col-6 text-black-50">Reporting Type</p>
                                         <p class="col-6 input-placeholder text-info"><?= $account->accType->label ?></p>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
-                                        <p class="col-6 text-black-50">Account Name</p>
+                                        <p class="col-6 text-black-50">Reporting Name</p>
                                         <p class="col-6 input-placeholder text-primary"><?= $account->name ?></p>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
-                                        <p class="col-6 text-black-50">Account Balance</p>
+                                        <p class="col-6 text-black-50">Reporting Balance</p>
 
-                                        <h4 class="col-6 input-placeholder <?= $account->balance >= 0 ? 'text-success' : 'text-danger'; ?>">GHS <?= $account->balance < 0 ? '(' . number_format(abs($account->balance), 2) . ')' : $account->balance ?></h4>
+                                        <h4 class="col-6 input-placeholder <?= $account->balance > 0 ? 'text-success' : 'text-danger'; ?>">GHS <?= $account->balance < 0 ? '(' . number_format(abs($account->balance), 2) . ')' : $account->balance ?></h4>
                                     </div>
                                     <?php if ($account->ownership === 'individual') { ?>
                                         <div class="row text-uppercase mt-3">
@@ -120,7 +120,7 @@
                                         </p>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
-                                        <p class="col-6 text-black-50">Account Ownership</p>
+                                        <p class="col-6 text-black-50">Reporting Ownership</p>
                                         <p class="col-6 input-placeholder text-blaick">
                                             <?= $account->ownership ?>
                                         </p>
@@ -292,7 +292,7 @@
                                         <th>Debit</th>
                                         <th>Credit</th>
                                         <th>Balance</th>
-                                        <th>Account statement</th>
+                                        <th>Reporting statement</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -325,7 +325,7 @@
                                         <th>Debit</th>
                                         <th>Credit</th>
                                         <th>Balance</th>
-                                        <th>Account statement</th>
+                                        <th>Reporting statement</th>
                                         <th>Action</th>
                                     </tr>
                                 </tfoot>

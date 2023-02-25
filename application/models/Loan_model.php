@@ -256,6 +256,6 @@ class Loan_model extends CI_Model
             }
             return $this->update($id, $record);
         }
-        return true;
+        return $loan;
     }
 }

@@ -10,7 +10,7 @@ loanTable = $("#dt-related-loans").DataTable({
       params.date_range_column = "ldate";
       params.date_from = $("#loan-date-from").val();
       params.date_to = $("#loan-date-to").val();
-      params.association_id = $(".select2-associations").val();
+      params.association_id = $('#dt-related-loans').data('association-id');
     },
   },
   serverSide: true,

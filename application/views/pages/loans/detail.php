@@ -95,6 +95,12 @@
                                             <?= $loan->account->name; ?> (<?= $loan->account->acc_number; ?>)
                                         </a>
                                     </div>
+                                    <div class="row text-uppercase mt-3 border-bottom">
+                                        <p class="col-6 text-black-50">Association</p>
+                                        <a href="<?= site_url('associations/' . $loan->account->association_id) ?>" class="col-6 input-placeholder text-black">
+                                            <?= $loan->account->association->name; ?>
+                                        </a>
+                                    </div>
                                 </div>
                                 <div class="col-md-6 pl-5">
                                     <div class="row text-uppercase mt-3 border-bottom">
