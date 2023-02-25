@@ -72,7 +72,7 @@
                                 $account = $this->account->find(intval($row->account_id1));
                             ?>
                                 <tr>
-                                    <td class="text-uppercase"><?=$row->creation ?></td>
+                                    <td class="text-uppercase"><?=$key+1 ?></td>
                                     <td><?= $row->edate ?></td>
                                     <td><?=$account?$account->name:''; ?></td>
                                     <td class="text-uppercase"><?= str_replace('_', ' ', $row->type) ?></td>
