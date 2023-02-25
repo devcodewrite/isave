@@ -300,22 +300,11 @@ $(".nav-link").on("click", function () {
   setTimeout(function () {
     if($('.select2').hasClass('select2-hidden-accessible')){
       $('.select2').select2('destroy');
-      $(".select2-associations").select2('destroy');
+      $(".select2-passbooks2").select2('destroy');
     }
     $(".select2").select2({
       allowClear: true,
       placeholder: "Select an option",
-      selectionCssClass: "form-select2",
-    });
-
-    $(".select2-associations").select2({
-      ajax: {
-        url: `${baseUrl}associations/select2`,
-        dataType: "json",
-        data: function (params) {},
-      },
-      allowClear: true,
-      placeholder: "Select an association",
       selectionCssClass: "form-select2",
     });
 
