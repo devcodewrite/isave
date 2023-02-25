@@ -230,7 +230,7 @@ class Loan_model extends CI_Model
                     + $this->loan->calcReduceInterest($loan, $i);
             }
             $setl = new DateTime($loan->payin_start_date . " + $i week");
-            
+
             if ($setl > (new DateTime('today'))) {
                 break;
             }
@@ -243,7 +243,7 @@ class Loan_model extends CI_Model
         }
 
         if ($inArrears) {
-            $l = $loan->duration * 4 - 1;
+            $l = $loan->duration * 4;
             $lastDay =  new DateTime($loan->payin_start_date . " + $l week");
             $record = [
                 'arrears_days' => $lastDayInArrears->diff($date1)->format('%a'),
