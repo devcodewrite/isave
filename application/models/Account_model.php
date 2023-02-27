@@ -320,6 +320,7 @@ class Account_model extends CI_Model
         $fields = [
             'id as ref',
             'amount',
+            'deposits.account_id as account_id1',
             'type',
             'depositor_name as narration',
             '1 as is_credit',
