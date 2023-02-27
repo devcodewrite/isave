@@ -326,7 +326,6 @@ class Account_model extends CI_Model
             '1 as is_credit',
             "ddate as edate",
             "created_at as creation",
-            'id as dref',
         ];
         $fields1 = [
             'id as ref',
@@ -337,7 +336,6 @@ class Account_model extends CI_Model
             '0 as is_credit',
             "wdate as edate",
             "created_at as creation",
-            'id as wref',
         ];
 
         $rtable = 'deposits';
