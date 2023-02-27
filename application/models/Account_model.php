@@ -329,6 +329,7 @@ class Account_model extends CI_Model
         $fields1 = [
             'id as ref',
             'amount',
+            'withdrawals.account_id as account_id1',
             'type',
             'withdrawer_name as narration',
             '0 as is_credit',
