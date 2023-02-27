@@ -353,8 +353,9 @@ class Account_model extends CI_Model
         $qselect_sum_deposits = "SELECT SUM(deposits.amount) FROM deposits WHERE created_at <= creation AND id <= ref";
         $qselect_sum_withdrawals = "SELECT SUM(withdrawals.amount) FROM withdrawals WHERE  created_at <= creation AND id <= ref";
 
+        $this->db->query("SET @balance:=0;");
 
-        return $this->db->query("SELECT creation,ref,amount,type,narration,is_credit,edate,account_id1,(ifnull(($qselect_sum_deposits),0)-ifnull(($qselect_sum_withdrawals),0)) as balance FROM ($query1 UNION $query2) as x order by ref,creation asc")
+        return $this->db->query("SELECT creation,ref,amount,type,narration,is_credit,edate,account_id1,(CASE WHEN is_credit=1 THEN @balance := @balance + amount ELSE @balance := @balance - amount END) as balance FROM ($query1 UNION $query2) as x order by ref,creation asc")
             ->result();
     }
 
