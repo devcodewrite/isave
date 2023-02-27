@@ -325,7 +325,8 @@ class Account_model extends CI_Model
             'depositor_name as narration',
             '1 as is_credit',
             "ddate as edate",
-            "created_at as creation"
+            "created_at as creation",
+            'id as dref',
         ];
         $fields1 = [
             'id as ref',
@@ -335,7 +336,8 @@ class Account_model extends CI_Model
             'withdrawer_name as narration',
             '0 as is_credit',
             "wdate as edate",
-            "created_at as creation"
+            "created_at as creation",
+            'id as wref',
         ];
 
         $rtable = 'deposits';
@@ -349,10 +351,10 @@ class Account_model extends CI_Model
             ->get_compiled_select();
 
         $qselect_sum_deposits = "SELECT SUM(deposits.amount) FROM deposits WHERE created_at <= creation AND id <= ref";
-        $qselect_sum_withdrawals = "SELECT SUM(withdrawals.amount) FROM withdrawals WHERE created_at <= creation AND id <= ref";
+        $qselect_sum_withdrawals = "SELECT SUM(withdrawals.amount) FROM withdrawals WHERE  created_at <= creation AND id <= ref";
 
 
-        return $this->db->query("SELECT creation,ref,amount,type,narration, is_credit,edate,account_id1,(ifnull(($qselect_sum_deposits),0.00)-ifnull(($qselect_sum_withdrawals),0.00)) as balance FROM (($query1) UNION ($query2)) as x order by creation, ref asc")
+        return $this->db->query("SELECT creation,ref,amount,type,narration,is_credit,edate,account_id1,(ifnull(($qselect_sum_deposits),0)-ifnull(($qselect_sum_withdrawals),0)) as balance FROM ($query1 UNION $query2) as x order by ref,creation asc")
             ->result();
     }
 
