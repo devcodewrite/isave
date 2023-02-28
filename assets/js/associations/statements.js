@@ -18,7 +18,11 @@ $(function () {
     paging: true,
     responsive: !0,
     dom: "lBftip",
-    buttons: ["print", "pdf", "excel"],
+    buttons: [
+      { extend: "print", footer: true },
+      { extend: "pdf", footer: true },
+      { extend: "excel", footer: true },
+    ],
     columns: [
       { data: "id", name: "account_statements.id" },
       {
@@ -53,10 +57,89 @@ $(function () {
         },
       },
       { data: "reconcile_note", name: "reconcile_note" },
-      { data: null, name: "account_statements.id",render:function (data, type, rows) {
-        return `<a href="${baseUrl}associations/statements?id=${data.id}&association_id=${data.association_id}" class="btn btn-icon btn-primary"><i class="fa fa-edit"></i></a>`;
-      } },
+      {
+        data: null,
+        name: "account_statements.id",
+        render: function (data, type, rows) {
+          return `<a href="${baseUrl}associations/statements?id=${data.id}&association_id=${data.association_id}" class="btn btn-icon btn-primary"><i class="fa fa-edit"></i></a>`;
+        },
+      },
     ],
+    footerCallback: function (row, data, start, end, display) {
+      var api = this.api();
+
+      // Remove the formatting to get integer data for summation
+      var intVal = function (i) {
+        return typeof i === "string"
+          ? i.replace(/[\$,]/g, "") * 1
+          : typeof i === "number"
+          ? i
+          : 0;
+      };
+
+      // Total over all pages
+      total = api
+        .column(2)
+        .data()
+        .reduce(function (a, b) {
+          return intVal(a) + intVal(b);
+        }, 0);
+
+      // Total over this page
+      pageTotal = api
+        .column(2, { page: "current" })
+        .data()
+        .reduce(function (a, b) {
+          return intVal(a) + intVal(b);
+        }, 0);
+
+      // Update footer
+      $(api.column(2).footer()).html(
+        pageTotal.toFixed(2) + " (" + total.toFixed(2) + " total)"
+      );
+
+      // Total over all pages
+      total2 = api
+        .column(3)
+        .data()
+        .reduce(function (a, b) {
+          return intVal(a) + intVal(b);
+        }, 0);
+
+      // Total over this page
+      pageTotal2 = api
+        .column(3, { page: "current" })
+        .data()
+        .reduce(function (a, b) {
+          return intVal(a) + intVal(b);
+        }, 0);
+
+      // Update footer
+      $(api.column(3).footer()).html(
+        pageTotal2.toFixed(2) + " (" + total2.toFixed(2) + " total)"
+      );
+
+      // Total over all pages
+      total3 = api
+        .column(4)
+        .data()
+        .reduce(function (a, b) {
+          return intVal(a) + intVal(b);
+        }, 0);
+
+      // Total over this page
+      pageTotal3 = api
+        .column(4, { page: "current" })
+        .data()
+        .reduce(function (a, b) {
+          return intVal(a) + intVal(b);
+        }, 0);
+
+      // Update footer
+      $(api.column(4).footer()).html(
+        pageTotal3.toFixed(2) + " (" + total3.toFixed(2) + " total)"
+      );
+    },
     columnDefs: [
       {
         orderable: false,
@@ -65,8 +148,7 @@ $(function () {
     ],
   });
 
-  $(".select2-associations")
-  .select2({
+  $(".select2-associations").select2({
     ajax: {
       url: `${baseUrl}associations/select2`,
       dataType: "json",

@@ -136,14 +136,15 @@
 
                 <tfoot class="text-uppercase">
                     <tr>
-                        <th>#Ref</th>
-                        <th>Association</th>
-                        <th>Transac. Amount</th>
-                        <th>E-cash Amount</th>
-                        <th>Diff</th>
-                        <th>Note</th>
-                        <th>Action</th>
+                        <th></th>
+                        <th class="text-right">Total</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                     </tr>
+
                 </tfoot>
             </table>
         </div>
