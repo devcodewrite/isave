@@ -120,14 +120,13 @@
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Added by</p>
                                         <p class="col-6 input-placeholder text-blaick">
-                                            <?php $user = $this->user->find($user->user_id) ?>
                                             <?= $user ? "$user->firstname $user->lastname" : '' ?>
                                         </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="d-block text-right card-footer">
                             <a href="<?= site_url('users/' . $user->id . '/edit') ?>" class="btn btn-warning btn-lg">Modify</a>
                             <button class="btn btn-danger btn-lg delete" data-url="<?= site_url('users') ?>" data-id="<?=$user->id ?>">Delete</button>
