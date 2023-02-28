@@ -122,7 +122,10 @@ class User_model extends CI_Model
             'id' => $id,
             "{$this->table}.deleted_at =" => null
         ];
-        return $this->db->get_where($this->table, $where)->row();
+        $user = $this->db->get_where($this->table, $where)->row();
+        $user->role = $this->role->find($user->role_id);
+
+        return $user;
     }
 
     /**
@@ -154,7 +157,6 @@ class User_model extends CI_Model
             "{$this->table}.phone_verified_at",
             "{$this->table}.email_verified_at",
             "{$this->table}.photo_url",
-            "{$this->table}.permission_id",
             "{$this->table}.role_id",
             "$rtable.label as role_label",
             "{$this->table}.rstatus",

@@ -62,6 +62,18 @@
                         </div>
 
                         <div class="form-group">
+                    <label for="role_id">User Role</label>
+                    <div>
+                        <select name="role_id" class="form-control select2-roles" required>
+                            <option value=""></option>
+                            <?php if (isset($user)) { ?>
+                                <option value="<?= $user->role_id ?>"><?= $user->role->label ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                </div>
+
+                        <div class="form-group">
                             <label for="password">Password</label>
                             <div>
                                 <input id="password" type="password" class="form-control" name="password" placeholder="Enter the password" required />

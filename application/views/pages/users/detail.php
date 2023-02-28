@@ -114,8 +114,7 @@
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">User Role</p>
                                         <p class="col-6 input-placeholder text-blaick">
-                                            <?php $role = $this->role->find($user->role_id) ?>
-                                            <?= $role?$role->label:'' ?>
+                                            <?= $user->role?$user->role->label:'' ?>
                                         </p>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
