@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="page-title-actions">
-                <a href="<?= site_url('users') ?>" class="btn-shadow btn btn-info">
+                <a href="<?= site_url('roles') ?>" class="btn-shadow btn btn-info">
                     <span class="btn-icon-wrapper pr-2 opacity-7">
                         <i class="fa fa-arrow-left fa-w-20"></i>
                     </span>
@@ -56,7 +56,7 @@
                             <div class="row">
                                 <div class="col-md-6 p-5">
                                     <div class="row text-uppercase text-center mt-3 border-bottom">
-                                        <p class="col-12 text-black-50">User ID: <span class="text-primary"><?= $user->id ?></span> </p>
+                                        <p class="col-12 text-black-50">User ID: <span class="text-primary"><?= $role->id ?></span> </p>
                                         <p class="col-12">
                                             <?php
                                             $alerts = [
@@ -64,40 +64,40 @@
                                                 'close' => 'alert-danger'
                                             ];
                                             ?>
-                                            <span class="alert <?= $alerts[$user->rstatus] ?> text-uppercase float-right">
-                                                <?= $user->rstatus ?>
+                                            <span class="alert <?= $alerts[$role->rstatus] ?> text-uppercase float-right">
+                                                <?= $role->rstatus ?>
                                             </span>
                                         </p>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Full Name</p>
                                         <p class="col-6 input-placeholder text-black">
-                                            <?= $user->firstname ?> <?= $user->lastname ?>
+                                            <?= $role->firstname ?> <?= $role->lastname ?>
                                         </p>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Sex</p>
                                         <p class="col-6 input-placeholder text-black">
-                                            <?= $user->sex ?>
+                                            <?= $role->sex ?>
                                         </p>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Username</p>
                                         <h5 class="col-6 text-info">
-                                            <?= $user->username ?>
+                                            <?= $role->rolename ?>
                                         </h5>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Email</p>
                                         <p class="col-6 input-placeholder text-blaick">
-                                            <?= $user->email ?>
+                                            <?= $role->email ?>
                                         </p>
                                     </div>
                                     <div class="row text-uppercase mt-3">
                                         <p class="col-6 text-black-50">Contact</p>
                                         <p class="col-6 input-placeholder text-black">
-                                            <a href="tel:<?= $user->phone ?>">
-                                                <?= $user->phone ?>
+                                            <a href="tel:<?= $role->phone ?>">
+                                                <?= $role->phone ?>
                                             </a>
                                         </p>
                                     </div>
@@ -108,29 +108,28 @@
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Created On</p>
                                         <p class="col-6 input-placeholder text-blaick">
-                                            <?= date('d/m/y', strtotime($user->created_at)) ?>
+                                            <?= date('d/m/y', strtotime($role->created_at)) ?>
                                         </p>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">User Role</p>
                                         <p class="col-6 input-placeholder text-blaick">
-                                            <?= $user->role?$user->role->label:'' ?>
+                                            <?= $role->role?$role->role->label:'' ?>
                                         </p>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Added by</p>
                                         <p class="col-6 input-placeholder text-blaick">
-                                            <?php $user = $this->user->find($user->user_id) ?>
-                                            <?= $user?"$user->firstname $user->lastname":'' ?>
+                                            <?php $role = $this->role->find($role->role_id) ?>
+                                            <?= $role?"$role->firstname $role->lastname":'' ?>
                                         </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="d-block text-right card-footer">
-                        <a href="<?=site_url('users/'.$user->id.'/edit') ?>" class="btn btn-warning btn-lg">Modify</a>
-                           
-                    <button class="btn btn-danger btn-lg delete" data-url="<?=site_url('users') ?>" data-id="<?=$user->id ?>">Delete</button>
+                            <button class="btn btn-info btn-lg">Modify</button>
+                            <button class="btn btn-warning btn-lg">Close</button>
                         </div>
                     </div>
                     <div class="tab-pane" id="tab-eg9-1" role="tabpanel">
@@ -232,5 +231,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/users/detail.js?v=1'); ?>" defer></script>
+<script src="<?= base_url('assets/js/roles/detail.js?v=1'); ?>" defer></script>
 <?php app_end(); ?>

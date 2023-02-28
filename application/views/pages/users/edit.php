@@ -64,10 +64,10 @@
                         <div class="form-group">
                     <label for="role_id">User Role</label>
                     <div>
-                        <select name="role_id" class="form-control select2-roles" required>
+                        <select name="role_id" class="form-control select2-role" required>
                             <option value=""></option>
-                            <?php if (isset($user)) { ?>
-                                <option value="<?= $user->role_id ?>"><?= $user->role->label ?></option>
+                            <?php foreach ($roles as $row) { ?>
+                                <option value="<?= $row->id ?>"><?= $row->label ?></option>
                             <?php } ?>
                         </select>
                     </div>
@@ -106,5 +106,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/users/edit.js?v=4') ?>" defer></script>
+<script src="<?= base_url('assets/js/users/edit.js?v=5') ?>" defer></script>
 <?php app_end(); ?>

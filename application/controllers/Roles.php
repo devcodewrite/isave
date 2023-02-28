@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script allowed');
 
-class Users extends MY_Controller
+class Roles extends MY_Controller
 {
     /**
      * Show a list of resources
@@ -9,7 +9,10 @@ class Users extends MY_Controller
      */
     public function index()
     {
-        $this->load->view('pages/users/list');
+        $data = [
+            'roles' => $this->role->all()->get()->result(),
+        ];
+        $this->load->view('pages/roles/list', $data);
     }
 
     /**
@@ -18,13 +21,13 @@ class Users extends MY_Controller
      */
     public function view(int $id = null)
     {
-        $user = $this->user->find($id);
-        if (!$user) show_404();
+        $role = $this->role->find($id);
+        if (!$role) show_404();
 
         $data = [
-            'user' => $user,
+            'role' => $role,
         ];
-        $this->load->view('pages/users/detail', $data);
+        $this->load->view('pages/roles/detail', $data);
     }
 
     /**
@@ -33,10 +36,7 @@ class Users extends MY_Controller
      */
     public function create()
     {
-        $data = [
-            'roles' => $this->role->all()->get()->result(),
-        ];
-        $this->load->view('pages/users/edit', $data);
+        $this->load->view('pages/roles/edit');
     }
 
     /**
@@ -45,13 +45,13 @@ class Users extends MY_Controller
      */
     public function edit(int $id = null)
     {
-        $user = $this->user->find($id);
-        if (!$user) show_404();
+        $role = $this->role->find($id);
+        if (!$role) show_404();
 
         $data = [
-            'user' => $user,
+            'role' => $role,
         ];
-        $this->load->view('pages/users/edit', $data);
+        $this->load->view('pages/roles/edit', $data);
     }
 
     /**
@@ -62,18 +62,18 @@ class Users extends MY_Controller
     {
         $record = $this->input->post();
 
-        $user  = $this->user->create($record);
-        if ($user) {
+        $role  = $this->role->create($record);
+        if ($role) {
             $out = [
-                'data' => $user,
+                'data' => $role,
                 'input' => $record,
                 'status' => true,
-                'message' => 'Users created successfully!'
+                'message' => 'Roles created successfully!'
             ];
         } else {
             $out = [
                 'status' => false,
-                'message' => "Users couldn't be created!"
+                'message' => "Roles couldn't be created!"
             ];
         }
         httpResponseJson($out);
@@ -87,18 +87,18 @@ class Users extends MY_Controller
     {
         $record = $this->input->post();
 
-        $user = $this->user->update($id, $record);
-        if ($user) {
+        $role = $this->role->update($id, $record);
+        if ($role) {
             $out = [
-                'data' => $user,
+                'data' => $role,
                 'input' => $record,
                 'status' => true,
-                'message' => 'User updated successfully!'
+                'message' => 'Role updated successfully!'
             ];
         } else {
             $out = [
                 'status' => false,
-                'message' => "User couldn't be updated!"
+                'message' => "Role couldn't be updated!"
             ];
         }
         httpResponseJson($out);
@@ -111,15 +111,15 @@ class Users extends MY_Controller
     public function delete(int $id = null)
     {
 
-        if ($this->user->delete($id)) {
+        if ($this->role->delete($id)) {
             $out = [
                 'status' => true,
-                'message' => 'User data deleted successfully!'
+                'message' => 'Role data deleted successfully!'
             ];
         } else {
             $out = [
                 'status' => false,
-                'message' => "User data couldn't be deleted!"
+                'message' => "Role data couldn't be deleted!"
             ];
         }
         httpResponseJson($out);
@@ -131,12 +131,12 @@ class Users extends MY_Controller
         $length = $this->input->get('length', true);
         $draw = $this->input->get('draw', true);
         $inputs = $this->input->get();
-        $query = $this->user->all();
+        $query = $this->role->all();
 
         $where = [];
 
         if ($this->input->get('rstatus'))
-            $where = array_merge($where, ['users.rstatus' => $inputs['rstatus']]);
+            $where = array_merge($where, ['roles.rstatus' => $inputs['rstatus']]);
 
         $query->where($where);
 
@@ -145,35 +145,5 @@ class Users extends MY_Controller
             'input' => $this->input->get(),
         ]);
         httpResponseJson($out);
-    }
-
-    public function select2()
-    {
-        $term = trim($this->input->get('term'));
-        $take = 10;
-        $page = $this->input->get('page', true) ? $this->input->get('page', true) : 1;
-        $skip = ($page - 1) * $take;
-
-        $total = $this->user->all()->get()->num_rows();
-
-        $records = $this->user->all()->select('id, concat(firstname," ",ifnull(lastname,""))as text')
-            ->like('firstname', $term)
-            ->or_like('lastname', $term)
-            ->or_like('username', $term)
-            ->limit($take, $skip)
-            ->get()
-            ->result();
-
-        $out = [
-            'results' => $records,
-            'pagination' => [
-                'more' => ($skip + $take < $total),
-                'page' => intval($page),
-                'totalRows' => $total,
-                'totalPages' => intval($total / $take + ($total % $take > 0 ? 1 : 0))
-            ]
-        ];
-
-        return httpResponseJson($out);
     }
 }

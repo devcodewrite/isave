@@ -259,6 +259,25 @@
                     </ul>
                 </li>
 
+                <li class="<?= get_nav_status('roles') ?>">
+                    <a href="#">
+                        <i class="metismenu-icon pe-7s-key"></i>Roles & Permissions
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="<?= site_url('roles/create') ?>" class="<?= get_nav_status1('roles/create') ?>">
+                                <i class="metismenu-icon"></i> New Role
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?= site_url('roles') ?>" class="<?= get_nav_status1('roles') ?>">
+                                <i class="metismenu-icon"></i>List Roles
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li class="app-sidebar__heading">Setup & Settings</li>
                 <li class="<?= get_nav_status('setup') ?>">
                     <a href="#">
