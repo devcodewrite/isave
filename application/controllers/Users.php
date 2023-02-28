@@ -50,6 +50,7 @@ class Users extends MY_Controller
 
         $data = [
             'user' => $user,
+            'roles' => $this->role->all()->get()->result(),
         ];
         $this->load->view('pages/users/edit', $data);
     }
