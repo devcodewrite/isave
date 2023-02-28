@@ -398,7 +398,6 @@
             <div class="modal-body">
                 <input type="hidden" name="account_id" value="<?= $account->id ?>">
                 <input type="hidden" name="user_id" value="<?= auth()->user()->id ?>">
-                <input type="hidden" name="type" value="cash">
                 <div class="form-row">
                     <div class="col-md-4">
                         <div class="form-group">
@@ -417,7 +416,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="amount">Withdrawer's Name</label>
-                            <input type="text" name="withdrawer_name" class="form-control" value="<?=$account->name; ?>" placeholder="Enter withrawer's name" required>
+                            <input type="text" name="withdrawer_name" class="form-control" value="<?= $account->name; ?>" placeholder="Enter withrawer's name" required>
                         </div>
                     </div>
                 </div>
@@ -442,7 +441,6 @@
             <div class="modal-body">
                 <input type="hidden" name="account_id" value="<?= $account->id ?>">
                 <input type="hidden" name="user_id" value="<?= auth()->user()->id ?>">
-                <input type="hidden" name="type" value="cash">
                 <div class="form-row">
                     <div class="col-md-4">
                         <div class="form-group">
@@ -460,8 +458,21 @@
                 <div class="form-row">
                     <div class="col-md-12">
                         <div class="form-group">
+                            <label>Method</label><br>
+                            <select name="type" id="type" class="form-control select2-method" required>
+                                <option value=""></option>
+                                <option value="cash">Cash</option>
+                                <option value="momo">Mobile Money Transfer</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col-md-12">
+                        <div class="form-group">
                             <label for="amount">Depositor's Name</label>
-                            <input type="text" name="depositor_name" class="form-control" value="<?=$account->name; ?>" placeholder="Enter depositor's name" required>
+                            <input type="text" name="depositor_name" class="form-control" value="<?= $account->name; ?>" placeholder="Enter depositor's name" required>
                         </div>
                     </div>
                 </div>

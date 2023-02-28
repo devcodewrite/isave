@@ -151,6 +151,55 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row px-3">
+                                <h5>Association's Group Accounts</h5>
+                                <div class="col-md-12">
+                                    <table style="width: 100%;" id="dt-related-accounts" class="table table-hover table-striped table-bordered">
+                                        <thead>
+                                            <tr class="text-uppercase">
+                                                <th>#Acc No.</th>
+                                                <th>Action</th>
+                                                <th>Balance</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $alerts = [
+                                                'open' => 'alert-success',
+                                                'suspended' => 'alert-warning',
+                                                'close' => 'alert-danger',
+                                            ];
+                                            foreach ($this->association->accounts($association->id) as $key => $row) {
+                                                $row->accType = $this->acctype->find($row->acc_type_id);
+                                                $row->association = $this->association->find($row->association_id ? $row->association_id : 0);
+                                            ?>
+                                                <tr>
+                                                    <td><?= $row->accType->label ?> (<?= $row->acc_number ?>)</td>
+                                                    <td>
+                                                        <div class="d-flex">
+                                                            <a href="<?= site_url('bankaccounts/' . $row->id) ?>" class="btn btn-icon"><i class="fa fa-eye"></i></a>
+                                                            <button data-id="<?= $row->acc_number ?>" class="btn btn-icon edit" data-toggle="modal" data-target="#editAccount"><i class="fa fa-edit"></i></button>
+                                                        </div>
+                                                    </td>
+                                                    <td><?= $this->account->calBalance($row->id) ?><p></p>
+                                                    </td>
+                                                    <td><span class="alert <?= $alerts[$row->status] ?> text-uppercase"><?= $row->status ?></span></td>
+                                                </tr>
+                                            <?php  } ?>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr class="text-uppercase">
+                                                <th>#Acc No.</th>
+                                                <th>Action</th>
+                                                <th>Balance</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+
+                            </div>
                         </div>
                         <div class="d-block text-right card-footer">
                             <a href="<?= site_url('associations/' . $association->id . '/edit') ?>" class="btn btn-info btn-lg">Modify</a>
@@ -160,7 +209,6 @@
                     </div>
                     <div class="tab-pane" id="tab-eg9-1" role="tabpanel">
                         <div class="card-body">
-
                             <div class="d-flex align-items-end row px-3">
                                 <div>
                                     <label for="from">From</label>
@@ -234,7 +282,7 @@
                                 <div class="ml-3">
                                     <label for="from">To</label>
                                     <div class="form-group">
-                                        <input type="date" name="date_to" id="transaction-date-to"  class="form-control">
+                                        <input type="date" name="date_to" id="transaction-date-to" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-3 form-group">
@@ -258,17 +306,17 @@
                                 </thead>
                                 <tbody>
                                     <?php foreach ($this->association->transactions($association->id)->get()->result() as $key => $row) {
-                                        $stat = $this->association->statements(['account_statements.id'=>$row->tdate,'association_id'=>$association->id])->get()->row();
-                                        ?>
+                                        $stat = $this->association->statements(['account_statements.id' => $row->tdate, 'association_id' => $association->id])->get()->row();
+                                    ?>
                                         <tr>
                                             <td><?= $row->tdate ?></td>
-                                            <td><a href="<?=site_url('deposits') ?>?type=cash&association_id=<?= $association->id ?>&from_date=<?= $row->tdate ?>&to_date=<?= $row->tdate ?>"><?= number_format($row->cash_deposits,2) ?></a></td>
-                                            <td><a href="<?=site_url('deposits') ?>?type=momo&association_id=<?= $association->id ?>&from_date=<?= $row->tdate ?>&to_date=<?= $row->tdate ?>"><?= number_format($row->momo_deposits,2) ?></a></td>
-                                            <td><a href="<?=site_url('deposits') ?>?type=transfer&association_id=<?= $association->id ?>&from_date=<?= $row->tdate ?>&to_date=<?= $row->tdate ?>"><?= number_format($row->transfer_deposits,2) ?></a></td>
+                                            <td><a href="<?= site_url('deposits') ?>?type=cash&association_id=<?= $association->id ?>&from_date=<?= $row->tdate ?>&to_date=<?= $row->tdate ?>"><?= number_format($row->cash_deposits, 2) ?></a></td>
+                                            <td><a href="<?= site_url('deposits') ?>?type=momo&association_id=<?= $association->id ?>&from_date=<?= $row->tdate ?>&to_date=<?= $row->tdate ?>"><?= number_format($row->momo_deposits, 2) ?></a></td>
+                                            <td><a href="<?= site_url('deposits') ?>?type=transfer&association_id=<?= $association->id ?>&from_date=<?= $row->tdate ?>&to_date=<?= $row->tdate ?>"><?= number_format($row->transfer_deposits, 2) ?></a></td>
                                             <td>
-                                               <a href="<?=site_url('associations/statements') ?><?=$stat?"?id=$stat->id&association_id=$association->id":"?id=$row->tdate&association_id=$association->id" ?>" class="btn btn-link"><?= $stat?$stat->id:'' ?></a>
-                                               <a href="<?=site_url('associations/statements') ?><?=$stat?"?id=$stat->id&association_id=$association->id":"?id=$row->tdate&association_id=$association->id" ?>" class="btn btn-icon btn-primary">
-                                               <i class="fa fa-edit"></i></a>
+                                                <a href="<?= site_url('associations/statements') ?><?= $stat ? "?id=$stat->id&association_id=$association->id" : "?id=$row->tdate&association_id=$association->id" ?>" class="btn btn-link"><?= $stat ? $stat->id : '' ?></a>
+                                                <a href="<?= site_url('associations/statements') ?><?= $stat ? "?id=$stat->id&association_id=$association->id" : "?id=$row->tdate&association_id=$association->id" ?>" class="btn btn-icon btn-primary">
+                                                    <i class="fa fa-edit"></i></a>
                                             </td>
                                         </tr>
                                     <?php  } ?>
@@ -431,5 +479,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/associations/detail.js?v=16'); ?>" defer></script>
+<script src="<?= base_url('assets/js/associations/detail.js?v=17'); ?>" defer></script>
 <?php app_end(); ?>

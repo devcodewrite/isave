@@ -279,6 +279,12 @@ form3.validate({
   },
 });
 
+$(".select2-method")
+.select2({
+  allowClear: true,
+  placeholder: "Select a method",
+  selectionCssClass: "form-select2",
+});
 form3.on("submit", function (e) {
   e.preventDefault();
   if (form3.valid() === true) {

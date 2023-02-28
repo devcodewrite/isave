@@ -160,8 +160,8 @@ class Association_model extends CI_Model
 
         return $this->db->select("$rtable.*")
                     ->from($rtable)
-                    ->where(['association_id'=> $id])
-                    ->where("$rtable.deleted_at =", null)
+                    ->where(['association_id'=> $id, 'ownership' => 'association'])
+                    ->where("$rtable.deleted_at", null)
                     ->get()
                     ->result();
     }

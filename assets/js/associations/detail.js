@@ -1,5 +1,11 @@
 let loanTable, transactionTable, customerTable;
 
+$("#dt-related-accounts").DataTable({
+  responsive: !0,
+  dom: "lBftip",
+  buttons: ["print", "pdf", "excel"],
+});
+
 loanTable = $("#dt-related-loans").DataTable({
   responsive: !0,
   ajax: {
