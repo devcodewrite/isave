@@ -158,9 +158,9 @@
                                         <thead>
                                             <tr class="text-uppercase">
                                                 <th>#Acc No.</th>
-                                                <th>Action</th>
                                                 <th>Balance</th>
                                                 <th>Status</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -176,24 +176,24 @@
                                             ?>
                                                 <tr>
                                                     <td><?= $row->accType->label ?> (<?= $row->acc_number ?>)</td>
+                                                    <td><?= $this->account->calBalance($row->id) ?><p></p>
+                                                    </td>
+                                                    <td><span class="alert <?= $alerts[$row->status] ?> text-uppercase"><?= $row->status ?></span></td>
                                                     <td>
                                                         <div class="d-flex">
                                                             <a href="<?= site_url('bankaccounts/' . $row->id) ?>" class="btn btn-icon"><i class="fa fa-eye"></i></a>
                                                             <button data-id="<?= $row->acc_number ?>" class="btn btn-icon edit" data-toggle="modal" data-target="#editAccount"><i class="fa fa-edit"></i></button>
                                                         </div>
                                                     </td>
-                                                    <td><?= $this->account->calBalance($row->id) ?><p></p>
-                                                    </td>
-                                                    <td><span class="alert <?= $alerts[$row->status] ?> text-uppercase"><?= $row->status ?></span></td>
                                                 </tr>
                                             <?php  } ?>
                                         </tbody>
                                         <tfoot>
                                             <tr class="text-uppercase">
                                                 <th>#Acc No.</th>
-                                                <th>Action</th>
                                                 <th>Balance</th>
                                                 <th>Status</th>
+                                                <th>Action</th>
                                             </tr>
                                         </tfoot>
                                     </table>
