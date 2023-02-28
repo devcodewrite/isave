@@ -24,6 +24,7 @@ class Associations extends MY_Controller
     {
         $data = [
             'association' => $this->association->find($id),
+            'accountTypes' => $this->acctype->all()->get()->result(),
         ];
         $this->load->view('pages/associations/detail', $data);
     }

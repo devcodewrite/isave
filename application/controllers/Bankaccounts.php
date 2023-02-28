@@ -23,7 +23,7 @@ class Bankaccounts extends MY_Controller
     {
         $this->load->view('pages/bank-accounts/passbooks');
     }
-    
+
     /**
      * Show a resource
      * html view
@@ -165,8 +165,10 @@ class Bankaccounts extends MY_Controller
             'acc_number' => $this->input->get('acc_number', true)
         ])->row();
         if ($account) {
-            $account->member = $this->member->find($account->member_id);
-            $account->idCardType = $this->idcardtype->find($account->member->identity_card_type_id);
+            if ($account->ownership === 'individual'){
+                $account->member = $this->member->find($account->member_id);
+                $account->idCardType = $this->idcardtype->find($account->member->identity_card_type_id);
+            }
             $account->balance = $this->account->calBalance($account->id);
             $out = [
                 'data' => $account,
