@@ -89,7 +89,7 @@ class Account_model extends CI_Model
         $result = $this->db->get_where($this->table, $where)->row();
 
         if ($result) {
-            $result->association = $this->association($result->id);
+            $result->association = $this->association->find($result->association_id);
             $result->accType = $this->acctype->find($result->acc_type_id);
         }
         return $result;

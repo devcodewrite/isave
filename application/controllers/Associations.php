@@ -46,7 +46,7 @@ class Associations extends MY_Controller
             $this->accstatement->save($this->input->post());
         }
 
-        $tran = $this->association->transactions(($association_id ? $association_id : 0),['ddate'=>'2023-02-23'])->get()->row();
+        $tran = $this->association->transactions(($association_id ? $association_id : 0),['ddate'=>$id])->get()->row();
 
         if(!$statement) $statement = new stdClass();
 

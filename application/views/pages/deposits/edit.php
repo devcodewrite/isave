@@ -49,11 +49,10 @@
                                     </select>
                                 </div>
                             </div>
-
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Passbook NO.</label>
-                                    <select name="passbook" id="passbook" class="form-control select2-passbooks" required>
+                                    <select name="passbook" id="passbook" class="form-control select2-passbooks">
                                         <option value=""></option>
                                         <?php if (isset($deposit)) { ?>
                                             <option value="<?= $deposit->account->passbook ?>" selected><?= $deposit->account->passbook ?></option>

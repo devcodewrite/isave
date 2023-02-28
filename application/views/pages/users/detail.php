@@ -38,30 +38,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a data-toggle="tab" href="#tab-eg9-1" class="nav-link">
-                                <div class="widget-number">Loans</div>
-                                <div class="tab-subheading">Loan</div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a data-toggle="tab" href="#tab-eg9-2" class="nav-link">
-                                <div class="widget-number">Withdrawals</div>
-                                <div class="tab-subheading">
-                                    <span class="pr-2 opactiy-6">
-                                        <i class="fa fa-bullhorn"></i>
-                                    </span>
-                                    withdrawal
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a data-toggle="tab" href="#tab-eg9-3" class="nav-link">
-                                <div class="widget-number">Members</div>
+                                <div class="widget-number">Associations</div>
                                 <div class="tab-subheading">
                                     <span class="pr-2 opactiy-6">
                                         <i class="fa fa-bullhorn"></i>
                                     </span>
-                                    members and leaders
+                                    Assigned associations
                                 </div>
                             </a>
                         </li>
@@ -81,34 +64,40 @@
                                                 'close' => 'alert-danger'
                                             ];
                                             ?>
-                                            <span class="alert <?= $alerts[$user->status] ?> text-uppercase float-right">
-                                                <?= $user->status ?>
+                                            <span class="alert <?= $alerts[$user->rstatus] ?> text-uppercase float-right">
+                                                <?= $user->rstatus ?>
                                             </span>
                                         </p>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
-                                        <p class="col-6 text-black-50">User Name</p>
-                                        <h5 class="col-6 text-info">
-                                            <?= $user->name ?>
-                                        </h5>
-                                    </div>
-                                    <div class="row text-uppercase mt-3 border-bottom">
-                                        <p class="col-6 text-black-50">Community</p>
-                                        <p class="col-6 input-placeholder text-blaick">
-                                            <?= $user->community ?>
+                                        <p class="col-6 text-black-50">Full Name</p>
+                                        <p class="col-6 input-placeholder text-black">
+                                            <?= $user->firstname ?> <?= $user->lastname ?>
                                         </p>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
-                                        <p class="col-6 text-black-50">Assigned Person</p>
+                                        <p class="col-6 text-black-50">Sex</p>
                                         <p class="col-6 input-placeholder text-black">
-                                            <?= $user->assigned_person_name ?>
+                                            <?= $user->sex ?>
+                                        </p>
+                                    </div>
+                                    <div class="row text-uppercase mt-3 border-bottom">
+                                        <p class="col-6 text-black-50">Username</p>
+                                        <h5 class="col-6 text-info">
+                                            <?= $user->username ?>
+                                        </h5>
+                                    </div>
+                                    <div class="row text-uppercase mt-3 border-bottom">
+                                        <p class="col-6 text-black-50">Email</p>
+                                        <p class="col-6 input-placeholder text-blaick">
+                                            <?= $user->email ?>
                                         </p>
                                     </div>
                                     <div class="row text-uppercase mt-3">
                                         <p class="col-6 text-black-50">Contact</p>
                                         <p class="col-6 input-placeholder text-black">
-                                            <a href="tel:<?= $user->assigned_person_phone ?>">
-                                                <?= $user->assigned_person_phone ?>
+                                            <a href="tel:<?= $user->phone ?>">
+                                                <?= $user->phone ?>
                                             </a>
                                         </p>
                                     </div>
@@ -123,30 +112,17 @@
                                         </p>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
-                                        <p class="col-6 text-black-50">Cluster Office Address</p>
+                                        <p class="col-6 text-black-50">User Role</p>
                                         <p class="col-6 input-placeholder text-blaick">
-                                            <?= $user->cluster_office_address ?>
+                                            <?php $role = $this->role->find($user->role_id) ?>
+                                            <?= $role?$role->label:'' ?>
                                         </p>
                                     </div>
-                                    <div class="row text-uppercase mt-3 border-bottom">
-                                        <p class="col-6 text-black-50">User Email</p>
-                                        <p class="col-6 input-placeholder text-blaick">
-                                            <?= $user->email ?>
-                                        </p>
-                                    </div>
-                                    <div class="row text-uppercase mt-3 border-bottom">
-                                        <p class="col-6 text-black-50">Assigned Staff</p>
-                                        <p class="col-6 input-placeholder text-primary">
-                                            <?php $user = $this->user->find($user->assigned_user_id) ?>
-                                            <?= $user?"$user->firstname $user->lastname":'None assigned' ?>
-                                        </p>
-                                    </div>
-
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Added by</p>
                                         <p class="col-6 input-placeholder text-blaick">
                                             <?php $user = $this->user->find($user->user_id) ?>
-                                            <?= "$user->firstname $user->lastname" ?>
+                                            <?= $user?"$user->firstname $user->lastname":'' ?>
                                         </p>
                                     </div>
                                 </div>
