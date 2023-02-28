@@ -129,7 +129,7 @@
                         </div>
                         <div class="d-block text-right card-footer">
                             <a href="<?= site_url('users/' . $user->id . '/edit') ?>" class="btn btn-warning btn-lg">Modify</a>
-                            <button class="btn btn-danger btn-lg delete" data-url="<?= site_url('users') ?>" data-id="<?= $user->id ?>">Delete</button>
+                            <button class="btn btn-danger btn-lg delete" data-url="<?= site_url('users') ?>" data-id="<?=$user->id ?>">Delete</button>
                         </div>
                     </div>
                     <div class="tab-pane" id="tab-eg9-1" role="tabpanel">
