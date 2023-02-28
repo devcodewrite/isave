@@ -46,7 +46,7 @@ class User_model extends CI_Model
     {
         $this->db->set(['deleted_at' => date('Y-m-d H:i:s')]);
         $this->db->where('id', $id);
-       $this->db->update($this->table);
+        $this->db->update($this->table);
         return $this->db->affected_rows() > 0;
     }
 
@@ -123,7 +123,8 @@ class User_model extends CI_Model
             "deleted_at" => null
         ];
         $user = $this->db->get_where($this->table, $where)->row();
-        $user->role = $user?$this->role->find($user->role_id):null;
+        if ($user)
+            $user->role =$this->role->find($user->role_id);
 
         return $user;
     }
@@ -143,7 +144,7 @@ class User_model extends CI_Model
     public function all()
     {
         $rtable = 'roles';
-        
+
         $where = ["{$this->table}.deleted_at =" => null];
         $fields = [
             "{$this->table}.id",
