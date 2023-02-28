@@ -45,7 +45,6 @@ class Associations extends MY_Controller
         if($this->input->post('id')){
             $this->accstatement->save($this->input->post());
         }
-
         $tran = $this->association->transactions(($association_id ? $association_id : 0),['ddate'=>$id])->get()->row();
 
         if(!$statement) $statement = new stdClass();

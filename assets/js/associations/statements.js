@@ -7,7 +7,7 @@ $(function () {
       dataType: "json",
       contentType: "application/json",
       data: function (params) {
-        params.date_range_column = "created_at";
+        params.date_range_column = "id";
         params.date_from = $("#date-from").val();
         params.date_to = $("#date-to").val();
         params.association_id = $(".select2-associations").val();
