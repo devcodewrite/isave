@@ -303,17 +303,19 @@ class Account_model extends CI_Model
         $query1 = $this->db->select($fields, false)
             ->from($rtable)
             ->where('account_id', $id)
+            ->order_by('ddate', 'asc')
             ->get_compiled_select();
 
         $rtable = 'withdrawals';
         $query2 = $this->db->select($fields1)
             ->from($rtable)
             ->where('account_id', $id)
+            ->order_by('wdate', 'asc')
             ->get_compiled_select();
 
         $this->db->query("SET @balance:=0;");
 
-        return $this->db->query("SELECT creation,ref,amount,type,narration,is_credit,edate,account_id1,(CASE WHEN is_credit=1 THEN @balance := @balance + amount ELSE @balance := @balance - amount END) as balance FROM ($query1 UNION $query2) as x order by ref,creation desc")
+        return $this->db->query("SELECT creation,ref,amount,type,narration,is_credit,edate,account_id1,(CASE WHEN is_credit=1 THEN @balance := @balance + amount ELSE @balance := @balance - amount END) as balance FROM (($query1) UNION ($query2)) as x order by ref,creation,edate asc")
             ->result();
     }
 
@@ -343,16 +345,18 @@ class Account_model extends CI_Model
         $rtable = 'deposits';
         $query1 = $this->db->select($fields, false)
             ->from($rtable)
+            ->order_by('ddate', 'asc')
             ->get_compiled_select();
 
         $rtable = 'withdrawals';
         $query2 = $this->db->select($fields1)
             ->from($rtable)
+            ->order_by('wdate', 'asc')
             ->get_compiled_select();
 
         $this->db->query("SET @balance:=0;");
 
-        return $this->db->query("SELECT creation,ref,amount,type,narration,is_credit,edate,account_id1,(CASE WHEN is_credit=1 THEN @balance := @balance + amount ELSE @balance := @balance - amount END) as balance FROM ($query1 UNION $query2) as x order by ref,creation desc")
+        return $this->db->query("SELECT creation,ref,amount,type,narration,is_credit,edate,account_id1,(CASE WHEN is_credit=1 THEN @balance := @balance + amount ELSE @balance := @balance - amount END) as balance FROM (($query1) UNION ($query2)) as x order by ref,creation,edate asc")
             ->result();
     }
 
