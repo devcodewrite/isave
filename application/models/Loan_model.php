@@ -151,7 +151,7 @@ class Loan_model extends CI_Model
             $this->db->select($fields, true)
             ->from($this->table)
             ->join($rtable2, "$rtable2.id={$this->table}.$col2")
-            ->join($rtable3, "$rtable3.id=$rtable2.$col3", 'left')
+            ->join($rtable3, "$rtable3.id=$rtable2.$col3")
             ->join($rtable4, "$rtable4.id={$this->table}.$col4", 'left')
             ->join($rtable5, "$rtable5.id=$rtable2.$col5")
             ->where("{$this->table}.deleted_at", null);
