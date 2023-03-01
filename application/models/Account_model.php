@@ -315,7 +315,7 @@ class Account_model extends CI_Model
 
         $this->db->query("SET @balance:=0;");
 
-        return $this->db->query("SELECT creation,ref,amount,type,narration,is_credit,edate,account_id1,(CASE WHEN is_credit=1 THEN @balance := @balance + amount ELSE @balance := @balance - amount END) as balance FROM (($query1) UNION ($query2)) as x order by ref,creation,edate asc")
+        return $this->db->query("SELECT creation,ref,amount,type,narration,is_credit,edate,account_id1,(CASE WHEN is_credit=1 THEN @balance := @balance + amount ELSE @balance := @balance - amount END) as balance FROM (($query1) UNION ($query2)) as x order by edate,ref,creation asc")
             ->result();
     }
 
@@ -356,7 +356,7 @@ class Account_model extends CI_Model
 
         $this->db->query("SET @balance:=0;");
 
-        return $this->db->query("SELECT creation,ref,amount,type,narration,is_credit,edate,account_id1,(CASE WHEN is_credit=1 THEN @balance := @balance + amount ELSE @balance := @balance - amount END) as balance FROM (($query1) UNION ($query2)) as x order by ref,creation,edate asc")
+        return $this->db->query("SELECT creation,ref,amount,type,narration,is_credit,edate,account_id1,(CASE WHEN is_credit=1 THEN @balance := @balance + amount ELSE @balance := @balance - amount END) as balance FROM (($query1) UNION ($query2)) as x order by edate,ref,creation asc")
             ->result();
     }
 
