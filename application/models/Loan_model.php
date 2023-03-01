@@ -154,7 +154,9 @@ class Loan_model extends CI_Model
             ->join($rtable3, "$rtable3.id=$rtable2.$col3")
             ->join($rtable4, "$rtable4.id={$this->table}.$col4", 'left')
             ->join($rtable5, "$rtable5.id=$rtable2.$col5")
-            ->where("{$this->table}.deleted_at", null);
+            ->where("{$this->table}.deleted_at", null)
+            ->where("$rtable2.deleted_at",null)
+            ->where("$rtable5.deleted_at",null);
     }
 
     public function calcPrincipal($loan)
