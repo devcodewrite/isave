@@ -281,37 +281,39 @@ class Account_model extends CI_Model
         $fields = [
             'id as ref',
             'amount',
+            'deposits.account_id as account_id1',
             'type',
+            'depositor_name as narration',
             '1 as is_credit',
             "ddate as edate",
-            "created_at as creation"
+            "created_at as creation",
         ];
         $fields1 = [
             'id as ref',
             'amount',
+            'withdrawals.account_id as account_id1',
             'type',
+            'withdrawer_name as narration',
             '0 as is_credit',
             "wdate as edate",
-            "created_at as creation"
+            "created_at as creation",
         ];
 
         $rtable = 'deposits';
         $query1 = $this->db->select($fields, false)
             ->from($rtable)
-            ->where(['account_id' => $id])
+            ->where('account_id', $id)
             ->get_compiled_select();
 
         $rtable = 'withdrawals';
         $query2 = $this->db->select($fields1)
             ->from($rtable)
-            ->where(['account_id' => $id])
+            ->where('account_id', $id)
             ->get_compiled_select();
 
-        $qselect_sum_deposits = "SELECT SUM(deposits.amount) FROM deposits WHERE account_id=$id AND ddate <= edate AND id <= ref";
-        $qselect_sum_withdrawals = "SELECT SUM(withdrawals.amount) FROM withdrawals WHERE account_id=$id AND wdate <= edate AND id <= ref";
+        $this->db->query("SET @balance:=0;");
 
-
-        return $this->db->query("SELECT creation,ref, amount,type, is_credit,edate,(ifnull(($qselect_sum_deposits),0.00)-ifnull(($qselect_sum_withdrawals),0.00)) as balance  FROM ($query1 UNION $query2) as x order by edate asc, creation asc")
+        return $this->db->query("SELECT creation,ref,amount,type,narration,is_credit,edate,account_id1,(CASE WHEN is_credit=1 THEN @balance := @balance + amount ELSE @balance := @balance - amount END) as balance FROM ($query1 UNION $query2) as x order by ref,creation asc")
             ->result();
     }
 
@@ -347,9 +349,6 @@ class Account_model extends CI_Model
         $query2 = $this->db->select($fields1)
             ->from($rtable)
             ->get_compiled_select();
-
-        $qselect_sum_deposits = "SELECT SUM(deposits.amount) FROM deposits WHERE created_at <= creation AND id <= ref";
-        $qselect_sum_withdrawals = "SELECT SUM(withdrawals.amount) FROM withdrawals WHERE  created_at <= creation AND id <= ref";
 
         $this->db->query("SET @balance:=0;");
 
