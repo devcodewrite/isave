@@ -91,7 +91,11 @@ class Account_model extends CI_Model
         if ($result) {
             $result->association = $this->association->find($result->association_id);
             $result->accType = $this->acctype->find($result->acc_type_id);
+            if(!$result->accType || !$result->association){
+                return false;
+            }
         }
+
         return $result;
     }
 
