@@ -138,6 +138,10 @@ class Loan_model extends CI_Model
         $col4 = 'user_id';
         $rtable5 = "associations";
         $col5 = "association_id";
+        $rtable6 = "loan_payments";
+        $col6 = "loan_id";
+
+        $balanceQuery = "SELECT SUM($rtable6.principal_amount + $rtable6.interest_amount) FROM $rtable6 WHERE $rtable6.$col6={$this->table}.id";
 
         $fields =  [
             'loans.*',
@@ -146,6 +150,8 @@ class Loan_model extends CI_Model
             "$rtable3.label as accType",
             "concat($rtable4.firstname, ' ', $rtable4.lastname) as user",
             "$rtable5.name as association_name",
+            "($balanceQuery) as total_paid",
+            "(({$this->table}.principal_amount + {$this->table}.interest_amount) - ($balanceQuery)) as total_balance",
         ];
         return
             $this->db->select($fields, true)

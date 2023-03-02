@@ -22,8 +22,17 @@ class Associations extends MY_Controller
      */
     public function view(int $id = null)
     {
+        $association = $this->association->find($id);
+        if(!$association) show_404();
+
+        $loans = $this->loan->all()
+        ->where('appl_status', 'disbursed')
+        ->where('associations.id', $id)
+        ->get()
+        ->result();
         $data = [
-            'association' => $this->association->find($id),
+            'association' => $association,
+            'loans' => $loans,
             'accountTypes' => $this->acctype->all()->get()->result(),
         ];
         $this->load->view('pages/associations/detail', $data);
@@ -54,6 +63,7 @@ class Associations extends MY_Controller
             $statement->id = $tran->tdate;
             $statement->total_amount = $tran->momo_deposits;
         }
+
         $data = [
             'association_id' => $association_id,
             'association' => $association,

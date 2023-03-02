@@ -1,4 +1,4 @@
-let loanTable, transactionTable, customerTable;
+let loanTable, transactionTable, customerTable, settlementTable;
 
 $("#dt-related-accounts").DataTable({
   responsive: !0,
@@ -147,6 +147,20 @@ loanTable = $("#dt-related-loans").DataTable({
     },
   ],
 });
+
+$("#dt-related-loan-balances").DataTable({
+  responsive: !0,
+  dom: "lBftip",
+  buttons: ["print", "pdf", "excel"],
+  order: [[0, "desc"]],
+  columnDefs: [
+    {
+      orderable: false,
+      targets: [],
+    },
+  ],
+});
+
 
 $(".loan-filter").on("click", function (params) {
   loanTable.ajax.reload();

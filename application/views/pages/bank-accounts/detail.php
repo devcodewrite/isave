@@ -292,7 +292,7 @@
                                         <th>Debit</th>
                                         <th>Credit</th>
                                         <th>Balance</th>
-                                        <th>Account statement</th>
+                                        <th>Reconcil. statement</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -325,7 +325,7 @@
                                         <th>Debit</th>
                                         <th>Credit</th>
                                         <th>Balance</th>
-                                        <th>Account statement</th>
+                                        <th>Reconcil. statement</th>
                                         <th>Action</th>
                                     </tr>
                                 </tfoot>
