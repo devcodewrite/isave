@@ -136,7 +136,7 @@ class Account_model extends CI_Model
             "{$this->table}.member_id",
             "{$this->table}.association_id",
             "{$this->table}.acc_number",
-            "{$this->table}.stamp_amount",
+            "$rtable3.stamp_amount",
             "concat({$rtable}.firstname, ' ', {$rtable}.lastname) as member_owner",
             "$rtable2.name  as association_owner",
             "$rtable3.interest_rate",
