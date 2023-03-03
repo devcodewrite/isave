@@ -138,7 +138,7 @@
                         <tr class="text-uppercase">
                             <td><?= $row->id ?></td>
                             <td><?= $row->label ?></td>
-                            <td><?= $row->type ?></td>
+                            <td><?= $row->type ?> <?=$row->type==='stamp'?"($row->stamp_amount)":"" ?></td>
                             <td>
                                 <?= $row->interest_rate ? ($row->interest_rate * 100) . '%' : '' ?>
                                 <?php if($row->is_loan_acc === '1'){ ?>
