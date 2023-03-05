@@ -78,7 +78,7 @@
     </div>
     <div class="main-card mb-3 card">
         <div class="card-body">
-        <div class="d-flex align-items-end row px-3">
+            <div class="d-flex align-items-end row px-3">
                 <div>
                     <label for="from">From</label>
                     <div class="form-group">

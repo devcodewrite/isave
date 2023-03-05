@@ -91,7 +91,7 @@
                                                 </select>
                                             </td>
                                             <td class="col-2">
-                                                <input type="hidden" min="0" value="10" id="stamp_amt<?= $i ?>">
+                                                <input type="hidden" min="0" value="0" id="stamp_amt<?= $i ?>">
                                                 <input onkeyup="$('td #amount<?= $i ?>').val($(this).prev('input').val()*$(this).val())|updateTotal()" id="stamps<?= $i ?>" onchange="$('td #amount<?= $i ?>').val($(this).prev('input').val()*$(this).val())|updateTotal()" id="stamps<?= $i ?>" type="number" name="stamps[]" min="0" class="form-control" data-id="<?= $i ?>" disabled>
                                             </td>
                                             <td class="col-1">
