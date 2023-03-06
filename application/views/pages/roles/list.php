@@ -58,7 +58,7 @@
                     <?php foreach ($roles as $key => $row) {
                     ?>
                         <tr>
-                            <td><?= $row->id; ?></td>
+                            <td><a href="<?=site_url('roles/'.$row->id) ?>" class="btn btn-link"><?= $row->id; ?></a></td>
                             <td><?= $row->label; ?></td>
                             <td>
                                 <form id="change-status-<?= $row->id ?>" action="<?= site_url('roles/update/' . $row->id) ?>" method="POST">

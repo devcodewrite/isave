@@ -11,4 +11,13 @@ class Reporting extends MY_Controller
     {
         $this->load->view('pages/reportings/transactions');
     }
+
+    /**
+     * Show a list of resources
+     * @return string html view
+     */
+    public function loans()
+    {
+        $this->load->view('pages/reportings/loans');
+    }
 }

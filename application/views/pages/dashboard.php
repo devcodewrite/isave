@@ -421,6 +421,7 @@
                                     </div>
                                 </div>
                             </li>
+                           
                         </ul>
                     </div>
                     <div class="col-md-12 col-lg-4">
@@ -435,6 +436,21 @@
                                             </div>
                                             <div class="widget-content-right">
                                                 <div class="widget-numbers text-danger"><?=$this->account->all()->count_all_results() ?></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="bg-transparent list-group-item">
+                                <div class="widget-content p-0">
+                                    <div class="widget-content-outer">
+                                        <div class="widget-content-wrapper">
+                                            <div class="widget-content-left">
+                                                <div class="widget-heading">Loans</div>
+                                                <div class="widget-subheading">Total loans contracted</div>
+                                            </div>
+                                            <div class="widget-content-right">
+                                                <div class="widget-numbers text-primary"><?=$this->loan->all()->count_all_results() ?></div>
                                             </div>
                                         </div>
                                     </div>

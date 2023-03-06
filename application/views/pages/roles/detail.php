@@ -8,8 +8,8 @@
                 <div class="page-title-icon">
                     <i class="pe-7s-notebook icon-gradient bg-happy-itmeo"></i>
                 </div>
-                <div>User Details
-                    <div class="page-title-subheading">User details.</div>
+                <div>Role Details
+                    <div class="page-title-subheading">Role details.</div>
                 </div>
             </div>
             <div class="page-title-actions">
@@ -29,7 +29,7 @@
                     <ul class="nav nav-justified">
                         <li class="nav-item">
                             <a data-toggle="tab" href="#tab-eg9-0" class="active nav-link">
-                                <div class="widget-number">User</div>
+                                <div class="widget-number">Role</div>
                                 <div class="tab-subheading">
                                     <span class="pr-2 opactiy-6">
                                         <i class="fa fa-book"></i>
@@ -39,12 +39,12 @@
                         </li>
                         <li class="nav-item">
                             <a data-toggle="tab" href="#tab-eg9-3" class="nav-link">
-                                <div class="widget-number">Associations</div>
+                                <div class="widget-number">Permissions</div>
                                 <div class="tab-subheading">
                                     <span class="pr-2 opactiy-6">
                                         <i class="fa fa-bullhorn"></i>
                                     </span>
-                                    Assigned associations
+                                    Assigned permissions
                                 </div>
                             </a>
                         </li>
@@ -56,7 +56,7 @@
                             <div class="row">
                                 <div class="col-md-6 p-5">
                                     <div class="row text-uppercase text-center mt-3 border-bottom">
-                                        <p class="col-12 text-black-50">User ID: <span class="text-primary"><?= $role->id ?></span> </p>
+                                        <p class="col-12 text-black-50">Role ID: <span class="text-primary"><?= $role->id ?></span> </p>
                                         <p class="col-12">
                                             <?php
                                             $alerts = [
@@ -64,41 +64,15 @@
                                                 'close' => 'alert-danger'
                                             ];
                                             ?>
-                                            <span class="alert <?= $alerts[$role->rstatus] ?> text-uppercase float-right">
-                                                <?= $role->rstatus ?>
+                                            <span class="alert <?= $alerts[$role->status] ?> text-uppercase float-right">
+                                                <?= $role->status ?>
                                             </span>
                                         </p>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
-                                        <p class="col-6 text-black-50">Full Name</p>
-                                        <p class="col-6 input-placeholder text-black">
-                                            <?= $role->firstname ?> <?= $role->lastname ?>
-                                        </p>
-                                    </div>
-                                    <div class="row text-uppercase mt-3 border-bottom">
-                                        <p class="col-6 text-black-50">Sex</p>
-                                        <p class="col-6 input-placeholder text-black">
-                                            <?= $role->sex ?>
-                                        </p>
-                                    </div>
-                                    <div class="row text-uppercase mt-3 border-bottom">
-                                        <p class="col-6 text-black-50">Username</p>
-                                        <h5 class="col-6 text-info">
-                                            <?= $role->rolename ?>
-                                        </h5>
-                                    </div>
-                                    <div class="row text-uppercase mt-3 border-bottom">
-                                        <p class="col-6 text-black-50">Email</p>
-                                        <p class="col-6 input-placeholder text-blaick">
-                                            <?= $role->email ?>
-                                        </p>
-                                    </div>
-                                    <div class="row text-uppercase mt-3">
-                                        <p class="col-6 text-black-50">Contact</p>
-                                        <p class="col-6 input-placeholder text-black">
-                                            <a href="tel:<?= $role->phone ?>">
-                                                <?= $role->phone ?>
-                                            </a>
+                                        <p class="col-6 text-black-50">Label</p>
+                                        <p class="col-6 text-black">
+                                            <?= $role->label ?>
                                         </p>
                                     </div>
                                 </div>
@@ -112,16 +86,10 @@
                                         </p>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
-                                        <p class="col-6 text-black-50">User Role</p>
-                                        <p class="col-6 input-placeholder text-blaick">
-                                            <?= $role->role?$role->role->label:'' ?>
-                                        </p>
-                                    </div>
-                                    <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Added by</p>
                                         <p class="col-6 input-placeholder text-blaick">
-                                            <?php $role = $this->role->find($role->role_id) ?>
-                                            <?= $role?"$role->firstname $role->lastname":'' ?>
+                                            <?php $user = $this->user->find($role->user_id) ?>
+                                            <?= $user ? "$user->firstname $user->lastname" : '' ?>
                                         </p>
                                     </div>
                                 </div>
@@ -132,96 +100,55 @@
                             <button class="btn btn-warning btn-lg">Close</button>
                         </div>
                     </div>
-                    <div class="tab-pane" id="tab-eg9-1" role="tabpanel">
-                        <div class="card-body">
-                            <table style="width: 100%;" id="dt-related-loans" class="table table-hover table-striped table-bordered">
-                                <thead class="text-uppercase">
-                                    <tr>
-                                        <th>#ID</th>
-                                        <th>User Number</th>
-                                        <th>Amount</th>
-                                        <th>Owner</th>
-                                        <th>Owner's Phone</th>
-                                        <th>Owner's Address</th>
-                                        <th>Date</th>
-                                    </tr>
-                                </thead>
-
-                                <tfoot class="text-uppercase">
-                                    <tr>
-                                        <th>#ID</th>
-                                        <th>User Number</th>
-                                        <th>Amount</th>
-                                        <th>Owner</th>
-                                        <th>Owner's Phone</th>
-                                        <th>Owner's Address</th>
-                                        <th>Date</th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="tab-pane" id="tab-eg9-2" role="tabpanel">
-                        <div class="card-body">
-                            <table style="width: 100%;" id="dt-related-withdrawals" class="table table-hover table-striped table-bordered">
-                                <thead class="text-uppercase">
-                                    <tr>
-                                        <th>#ID</th>
-                                        <th>Amount</th>
-                                        <th>Withdrawn By</th>
-                                        <th>Withdrawer's Phone</th>
-                                        <th>Withdrawer's Address</th>
-                                        <th>Date</th>
-                                    </tr>
-                                </thead>
-
-                                <tfoot class="text-uppercase">
-                                    <tr>
-                                        <th>#ID</th>
-                                        <th>Amount</th>
-                                        <th>Withdrawn By</th>
-                                        <th>Withdrawer's Phone</th>
-                                        <th>Withdrawer's Address</th>
-                                        <th>Date</th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
 
                     <div class="tab-pane" id="tab-eg9-3" role="tabpanel">
                         <div class="card-body">
-                            <table style="width: 100%;" id="dt-related-customers" class="table table-hover table-striped table-bordered">
-                                <thead class="text-uppercase">
+                            <form id="edit-permission" method="post" action="<?= $role->permission ? site_url('permissions/update/' . $role->permission->id) : site_url('permissions/store') ?>" data-redirect-url="<?= site_url('roles/'.$role->id) ?>" >
+                                <input type="hidden" name="id" value="<?=$role->permission?$role->permission->id:'' ?>">
+                                <input type="hidden" name="role_id" <?=$role->id ?>>
+                                <table style="width: 100%;" class="table table-hover table-striped table-bordered">
+                                    <thead class="text-uppercase">
+                                        <tr>
+                                            <th class="col-md-3">Module</th>
+                                            <th class="col-md-2">Permissions</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $perms = ['create', 'view', 'update', 'delete'];
+                                        $rowspan = sizeof($perms);
+                                        
+                                        foreach ($this->perm->modules() as $row) {
+                                            $rolePerm = explode(',',$role->permission->{$row->name});
+                                            
+                                        ?>
+                                            <?php foreach ($perms as $key => $perm) { ?>
+                                                <tr>
+                                                    <?php if ($key === 0) { ?>
+                                                        <td rowspan="<?= $rowspan ?>" class="text-uppercase border"><?= str_replace('_', ' ', $row->name); ?></td>
+                                                    <?php } ?>
+                                                    <td class="text-uppercase"><?= $perm ?></td>
+                                                    <td>
+                                                        <input type="checkbox" name="<?= $row->name; ?>[]" value="<?= $perm ?>"  <?=in_array($perm,$rolePerm)?'checked':'' ?>>
+                                                    </td>
+                                                </tr>
+                                            <?php } ?>
+                                        <?php
+                                        } ?>
+                                    </tbody>
                                     <tr>
-                                        <th>#ID</th>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Sex</th>
-                                        <th>Primary Phone</th>
-                                        <th>ID Number</th>
-                                        <th>Position</th>
-                                        <th>Occupation</th>
-                                        <th>Status</th>
-                                        <th>Created On</th>
+                                        <th>Module</th>
+                                        <th>Permissions</th>
+                                        <th>Action</th>
                                     </tr>
-                                </thead>
-
-                                <tfoot class="text-uppercase">
-                                    <tr>
-                                        <th>#ID</th>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Sex</th>
-                                        <th>Primary Phone</th>
-                                        <th>ID Number</th>
-                                        <th>Position</th>
-                                        <th>Occupation</th>
-                                        <th>Status</th>
-                                        <th>Created On</th>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                                </table>
+                                <div class="row">
+                                    <div class="col-md-12 text-right">
+                                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -231,5 +158,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/roles/detail.js?v=1'); ?>" defer></script>
+<script src="<?= base_url('assets/js/roles/detail.js?v=3'); ?>" defer></script>
 <?php app_end(); ?>

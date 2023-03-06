@@ -58,7 +58,9 @@ class Role_model extends CI_Model
         $where = [
             'id'=> $id,
         ];
-        return $this->db->get_where($this->table,$where)->row();
+        $role = $this->db->get_where($this->table,$where)->row();
+        $role->permission = $this->perm->find($role->permission_id);
+        return $role;
     }
 
      /**
