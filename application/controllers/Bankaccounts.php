@@ -9,9 +9,11 @@ class Bankaccounts extends MY_Controller
      */
     public function index()
     {
-        $this->load->view('pages/bank-accounts/list');
+        $data = [
+            'accountTypes' => $this->acctype->all()->get()->result(),
+        ];
+        $this->load->view('pages/bank-accounts/list', $data);
     }
-
 
     /**
      * Show a list of resources
@@ -21,7 +23,6 @@ class Bankaccounts extends MY_Controller
     {
         $this->load->view('pages/bank-accounts/passbooks');
     }
-
 
     /**
      * Show a resource
@@ -34,9 +35,15 @@ class Bankaccounts extends MY_Controller
 
         $account->balance = $this->account->calBalance($id);
         $account->accType = $this->acctype->find($account->acc_type_id);
+        $account->association = $this->association->find($account->association_id);
+        $member = null;
+        if ($account->ownership === 'individual') {
+            $member = $this->member->find($account->member_id);
+            $member->associations = $this->member->associations($member->id);
+        }
         $data = [
             'account' => $account,
-            'member' => $this->member->find($account->member_id),
+            'member' => $member,
         ];
         $this->load->view('pages/bank-accounts/detail', $data);
     }
@@ -62,14 +69,16 @@ class Bankaccounts extends MY_Controller
     public function edit(int $id = null)
     {
         $account = $this->account->find($id);
-        if(!$account) show_404();
+        if (!$account) show_404();
 
-        if($account->ownership === 'individual'){
+        $account->accType = $this->acctype->find($account->acc_type_id);
+        if ($account->ownership === 'individual') {
             $account->member = $this->member->find($account->member_id);
-        }else {
-             $account->association = $this->member->find($account->association_id);
         }
-       
+        $account->association = null;
+        if ($account->association_id)
+            $account->association = $this->association->find($account->association_id);
+
         $data = [
             'id_card_types' => $this->idcardtype->all()->get()->result(),
             'accountTypes' => $this->acctype->all()->get()->result(),
@@ -99,7 +108,7 @@ class Bankaccounts extends MY_Controller
 
             $out = [
                 'status' => false,
-                'message' => $error?$error:"Account couldn't be created!"
+                'message' => $error ? $error : "Account couldn't be created!"
             ];
         }
         httpResponseJson($out);
@@ -156,8 +165,10 @@ class Bankaccounts extends MY_Controller
             'acc_number' => $this->input->get('acc_number', true)
         ])->row();
         if ($account) {
-            $account->member = $this->member->find($account->member_id);
-            $account->idCardType = $this->idcardtype->find($account->member->identity_card_type_id);
+            if ($account->ownership === 'individual'){
+                $account->member = $this->member->find($account->member_id);
+                $account->idCardType = $this->idcardtype->find($account->member->identity_card_type_id);
+            }
             $account->balance = $this->account->calBalance($account->id);
             $out = [
                 'data' => $account,
@@ -179,8 +190,27 @@ class Bankaccounts extends MY_Controller
         $length = $this->input->get('length', true);
         $draw = $this->input->get('draw', true);
         $inputs = $this->input->get();
+        $query = $this->account->all();
+        $where = [];
 
-        $out = datatable($this->account->all(), $start, $length, $draw, $inputs);
+        if ($this->input->get('association_id'))
+            $where = array_merge($where, ['association_members.association_id' => $inputs['association_id']]);
+
+        if ($this->input->get('member_id'))
+            $where = array_merge($where, ['association_members.member_id' => $inputs['member_id']]);
+
+        if ($this->input->get('status'))
+            $where = array_merge($where, ['accounts.status' => $inputs['status']]);
+
+        if ($this->input->get('ownership'))
+            $where = array_merge($where, ['accounts.ownership' => $inputs['ownership']]);
+
+        if ($this->input->get('acc_type_id'))
+            $where = array_merge($where, ['accounts.acc_type_id' => $inputs['acc_type_id']]);
+
+        $query->where($where);
+
+        $out = datatable($query, $start, $length, $draw, $inputs);
         $out = array_merge($out, [
             'input' => $this->input->get(),
         ]);
@@ -194,7 +224,18 @@ class Bankaccounts extends MY_Controller
         $draw = $this->input->get('draw', true);
         $inputs = $this->input->get();
 
-        $out = datatable($this->account->passbooks(), $start, $length, $draw, $inputs);
+        $query = $this->account->passbooks();
+        $where = [];
+
+        if ($this->input->get('association_id'))
+            $where = array_merge($where, ['association_members.association_id' => $inputs['association_id']]);
+
+        if ($this->input->get('member_id'))
+            $where = array_merge($where, ['association_members.member_id' => $inputs['member_id']]);
+
+        $query->where($where);
+
+        $out = datatable($query, $start, $length, $draw, $inputs);
         $out = array_merge($out, [
             'input' => $this->input->get(),
         ]);
@@ -205,15 +246,29 @@ class Bankaccounts extends MY_Controller
     {
         $term = trim($this->input->get('term'));
         $passbook = trim($this->input->get('passbook'));
+        $association = trim($this->input->get('association_id'));
         $take = 10;
         $page = $this->input->get('page', true) ? $this->input->get('page', true) : 1;
         $skip = ($page - 1) * $take;
 
-        $total = $this->account->all()->get()->num_rows();
+        $where = [];
 
-        $records = $this->account->all()->select('accounts.id, concat(acc_types.label, " #",accounts.acc_number) as text', false)
-            ->like('accounts.name', $term)
+        if ($this->input->get('is_loan_acc') !== null)
+            $where = array_merge($where, ['acc_types.is_loan_acc' => $this->input->get('is_loan_acc')]);
+
+        $total = $this->account->all()
+            ->distinct()
+            ->like('accounts.acc_number', $term)
             ->where("accounts.passbook", $passbook)
+            ->where("accounts.association_id", $association)
+            ->where($where)
+            ->get()->num_rows();
+
+        $records = $this->account->all()->distinct()->select('accounts.id, concat(acc_types.label, " #",accounts.acc_number) as text', false)
+            ->like('accounts.acc_number', $term)
+            ->where("accounts.passbook", $passbook)
+            ->where("accounts.association_id", $association)
+            ->where($where)
             ->limit($take, $skip)
             ->get()
             ->result();

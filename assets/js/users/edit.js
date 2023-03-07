@@ -5,8 +5,8 @@ form.validate({
     firstname: "required",
     lastname: "required",
     username: { required: !0, minlength: 2 },
-    password: { required: !0, minlength: 5 },
-    confirm_password: { required: !0, minlength: 5, equalTo: "#password" },
+    password: {  minlength: 5 },
+    confirm_password: {  minlength: 5, equalTo: "#password" },
     email: { required: !0, email: !0 },
     phone: { required: !0, minlength: 10 },
   },
@@ -46,6 +46,14 @@ form.validate({
     $(e).addClass("is-valid").removeClass("is-invalid");
   },
 });
+
+$(".select2-role")
+.select2({
+  allowClear: true,
+  placeholder: "Select a role",
+  selectionCssClass: "form-select2",
+});
+
 
 form.on("submit", function (e) {
   e.preventDefault();

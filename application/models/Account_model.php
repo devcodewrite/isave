@@ -13,21 +13,20 @@ class Account_model extends CI_Model
         $record['user_id'] = auth()->user()->id;
         $data = $this->extract($record);
         $last = $this->db->select()
-                        ->from($this->table)
-                        ->order_by('id', 'desc')
-                        ->limit(1)
-                        ->get()
-                        ->row();
-        $lastid = $last?$last->id:0;
+            ->from($this->table)
+            ->order_by('id', 'desc')
+            ->limit(1)
+            ->get()
+            ->row();
+        $lastid = $last ? $last->id : 0;
 
-        if($record['ownership'] === 'individual'){
+        if ($record['ownership'] === 'individual') {
             $owner_id = $record['member_id'];
-        }
-        else{
+        } else {
             $owner_id = $record['association_id'];
         }
         $data = array_merge($data, [
-            'acc_number' => date('y').str_pad($owner_id,4,'0',STR_PAD_LEFT).str_pad($lastid+1,4,'0',STR_PAD_LEFT),
+            'acc_number' => date('y') . str_pad($owner_id, 4, '0', STR_PAD_LEFT) . str_pad($lastid + 1, 4, '0', STR_PAD_LEFT),
         ]);
         if ($this->db->insert($this->table, $data)) {
             return $this->find($this->db->insert_id());
@@ -46,6 +45,19 @@ class Account_model extends CI_Model
         $this->db->where('id', $id);
         $this->db->update($this->table);
         return $this->find($id);
+    }
+
+    /**
+     * Delete a record
+     * @param $id
+     * @return Boolean
+     */
+    public function delete(int $id)
+    {
+        $this->db->set(['deleted_at' => date('Y-m-d H:i:s')]);
+        $this->db->where('id', $id);
+        $this->db->update($this->table);
+        return $this->db->affected_rows() > 0;
     }
 
     /**
@@ -76,9 +88,14 @@ class Account_model extends CI_Model
         ];
         $result = $this->db->get_where($this->table, $where)->row();
 
-        if($result){
-            $result->association = $this->association($result->id);
+        if ($result) {
+            $result->association = $this->association->find($result->association_id);
+            $result->accType = $this->acctype->find($result->acc_type_id);
+            if(!$result->accType || !$result->association){
+                return false;
+            }
         }
+
         return $result;
     }
 
@@ -88,7 +105,7 @@ class Account_model extends CI_Model
     public function where(array $where)
     {
         $where = array_merge($where, ["{$this->table}.deleted_at =" => null]);
-        
+
         return $this->db->get_where($this->table, $where);
     }
 
@@ -119,9 +136,10 @@ class Account_model extends CI_Model
             "{$this->table}.member_id",
             "{$this->table}.association_id",
             "{$this->table}.acc_number",
-            "{$this->table}.stamp_amount",
+            "$rtable3.stamp_amount",
             "concat({$rtable}.firstname, ' ', {$rtable}.lastname) as member_owner",
             "$rtable2.name  as association_owner",
+            "$rtable3.interest_rate",
             "$rtable3.label  as acc_type",
             "DATE({$this->table}.created_at) as created_at",
         ];
@@ -133,7 +151,7 @@ class Account_model extends CI_Model
             ->join($rtable, "$rtable.id={$this->table}.$col", 'left')
             ->join($rtable2, "$rtable2.id={$this->table}.$col2", 'left')
             ->join($rtable3, "$rtable3.id={$this->table}.$col3", 'left')
-            ->join($this->ftable, "{$this->ftable}.$col={$this->table}.$col")
+            ->join($this->ftable, "{$this->ftable}.$col={$this->table}.$col", 'left')
             ->group_by([
                 "{$this->table}.id",
                 "{$this->table}.name",
@@ -152,7 +170,7 @@ class Account_model extends CI_Model
             ->where($where);
     }
 
-      /**
+    /**
      * Get all passbooks
      */
     public function passbooks()
@@ -170,9 +188,11 @@ class Account_model extends CI_Model
             "{$this->table}.ownership",
             "count({$this->table}.id) as accounts",
             "{$this->table}.passbook",
-            "ifnull(($qselect_sum_deposits) - ($qselect_sum_withdrawals),0) as balance",
+            "(ifnull(($qselect_sum_deposits),0) - ifnull(($qselect_sum_withdrawals),0)) as balance",
             "{$this->table}.member_id",
             "{$this->table}.association_id",
+            "$rtable2.name as association_name",
+            "$rtable2.id as member_association_id",
             "{$this->table}.name",
             "concat($rtable.firstname, ' ', $rtable.lastname) as member_owner",
             "$rtable2.name  as association_owner",
@@ -182,9 +202,9 @@ class Account_model extends CI_Model
             $this->db->select($fields, true)
             ->from($this->table)
             ->join($rtable, "$rtable.id={$this->table}.$col", 'left')
-            ->join($rtable2, "$rtable2.id={$this->table}.$col2", 'left')
             ->join($this->ftable, "{$this->ftable}.$col={$this->table}.$col")
-            ->group_by( $fields = [
+            ->join($rtable2, "$rtable2.id={$this->ftable}.$col2", 'left')
+            ->group_by($fields = [
                 "{$this->table}.passbook",
                 "{$this->table}.ownership",
                 "{$this->table}.member_id",
@@ -260,26 +280,109 @@ class Account_model extends CI_Model
             ->result();
     }
 
+    public function entries(int $id)
+    {
+        $fields = [
+            'id as ref',
+            'amount',
+            'deposits.account_id as account_id1',
+            'type',
+            'depositor_name as narration',
+            '1 as is_credit',
+            "ddate as edate",
+            "created_at as creation",
+        ];
+        $fields1 = [
+            'id as ref',
+            'amount',
+            'withdrawals.account_id as account_id1',
+            'type',
+            'withdrawer_name as narration',
+            '0 as is_credit',
+            "wdate as edate",
+            "created_at as creation",
+        ];
+
+        $rtable = 'deposits';
+        $query1 = $this->db->select($fields, false)
+            ->from($rtable)
+            ->where('account_id', $id)
+            ->order_by('ddate', 'asc')
+            ->get_compiled_select();
+
+        $rtable = 'withdrawals';
+        $query2 = $this->db->select($fields1)
+            ->from($rtable)
+            ->where('account_id', $id)
+            ->order_by('wdate', 'asc')
+            ->get_compiled_select();
+
+        $this->db->query("SET @balance:=0;");
+
+        return $this->db->query("SELECT creation,ref,amount,type,narration,is_credit,edate,account_id1,(CASE WHEN is_credit=1 THEN @balance := @balance + amount ELSE @balance := @balance - amount END) as balance FROM (($query1) UNION ($query2)) as x order by edate asc, ref asc")
+            ->result();
+    }
+
+    public function transactions()
+    {
+        $fields = [
+            'id as ref',
+            'amount',
+            'deposits.account_id as account_id1',
+            'type',
+            'depositor_name as narration',
+            '1 as is_credit',
+            "ddate as edate",
+            "created_at as creation",
+        ];
+        $fields1 = [
+            'id as ref',
+            'amount',
+            'withdrawals.account_id as account_id1',
+            'type',
+            'withdrawer_name as narration',
+            '0 as is_credit',
+            "wdate as edate",
+            "created_at as creation",
+        ];
+
+        $rtable = 'deposits';
+        $query1 = $this->db->select($fields, false)
+            ->from($rtable)
+            ->order_by('ddate', 'asc')
+            ->get_compiled_select();
+
+        $rtable = 'withdrawals';
+        $query2 = $this->db->select($fields1)
+            ->from($rtable)
+            ->order_by('wdate', 'asc')
+            ->get_compiled_select();
+
+        $this->db->query("SET @balance:=0;");
+
+        return $this->db->query("SELECT creation,ref,amount,type,narration,is_credit,edate,account_id1,(CASE WHEN is_credit=1 THEN @balance := @balance + amount ELSE @balance := @balance - amount END) as balance FROM (($query1) UNION ($query2)) as x order by edate asc, ref asc")
+            ->result();
+    }
+
     public function calBalance(int $id = null)
     {
-        if(!$id)  return;
+        if (!$id)  return;
 
         $qselect_sum_deposits = "SELECT SUM(deposits.amount) FROM deposits WHERE deposits.account_id={$this->table}.id";
         $qselect_sum_withdrawals = "SELECT SUM(withdrawals.amount) FROM withdrawals  WHERE withdrawals.account_id={$this->table}.id";
 
         $query = $this->db->select("ifnull(($qselect_sum_deposits),0) - ifnull(($qselect_sum_withdrawals),0) as total")
-                    ->from($this->table)
-                    ->where("{$this->table}.deleted_at =", null)
-                    ->where("{$this->table}.id", $id)
-                    ->get();
-        if($query) return $query->row('total');
-
+            ->from($this->table)
+            ->where("{$this->table}.deleted_at =", null)
+            ->where("{$this->table}.id", $id)
+            ->get();
+        if ($query) return $query->row('total');
     }
 
     public function canWithdraw(int $id, float $amount)
     {
         $account = $this->find($id);
-        if($this->calBalance($id) < $amount ){
+        if ($this->calBalance($id) < $amount) {
             $this->session->set_flashdata('error_message', "$account->name has insufficient balance to make this withdrawals!");
             return false;
         }
@@ -290,8 +393,26 @@ class Account_model extends CI_Model
     public function canTransfer(int $id, float $amount)
     {
         $account = $this->find($id);
-        if($this->calBalance($id) < $amount ){
+        if ($this->calBalance($id) < $amount) {
             $this->session->set_flashdata('error_message', "$account->name has insufficient balance to make this transfer!");
+            return false;
+        }
+
+        return true;
+    }
+
+    public function canTakeLoan(int $id, float $amount)
+    {
+        $account = $this->find($id);
+        $accType = $this->acctype->find($account->acc_type_id);
+
+        if (!$accType->is_loan_acc) {
+            $this->session->set_flashdata('error_message', "$account->name is not loan account!");
+            return false;
+        }
+
+        if($amount < $accType->lower_limit || $amount > $accType->upper_limit ){
+            $this->session->set_flashdata('error_message', "$account->name's account has an lower limit of $accType->lower_limit and upper limit of $accType->upper_limit for loan requests!");
             return false;
         }
 

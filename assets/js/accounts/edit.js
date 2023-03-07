@@ -99,6 +99,8 @@ $(".select2-associations").select2({
   allowClear: true,
   placeholder: "Select an association",
   selectionCssClass: "form-select2",
+}).on('select2:select',function (params) {
+  $('.acc-name').val($(this).text().trim());
 });
 
 $(".select2-members").select2({
@@ -120,7 +122,7 @@ $(".select2-container").css("display", "block");
 
 form.on("submit", function (e) {
   e.preventDefault();
-  if (form.valid() === true) {
+  if ($(this).valid() === true) {
     $.ajax({
       method: "POST",
       url: this.getAttribute("action"),

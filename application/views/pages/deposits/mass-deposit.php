@@ -42,19 +42,28 @@
                         <div class="col-md-3 d-flex align-items-end">
                             <div class="form-group">
                                 <label for="entries">Add Rows</label>
-                                <input type="number" name="rows" id="entries" value="1" class="form-control">
+                                <input type="number" name="rows" id="entries" value="1" min="1" max="50" class="form-control">
                             </div>
                             <div class="form-group ml-2">
                                 <button class="btn btn-primary text-uppercase add-rows">Add</button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 d-flex align-items-end">
+                            <div class="form-group">
+                                <label for="ddate">Deposit Date</label>
+                                <input type="date" onchange="$('#ddate').val($(this).val())" name="ddate" value="<?=date('Y-m-d') ?>" class="form-control">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <form action="<?= site_url('deposits/stores') ?>" method="post" class="col-12 mass-deposit-form">
                             <input type="hidden" name="is_mass" value="1">
+                            <input id="ddate" type="hidden" value="<?=date('Y-m-d') ?>" name="ddate">
                             <table style="width: 100%;" id="dt-mass-deposits" class="table table-hover table-striped table-bordered">
                                 <thead class="text-uppercase">
                                     <tr>
+                                        <th>#</th>
                                         <th>Passbook</th>
                                         <th>Owner</th>
                                         <th>Account</th>
@@ -67,6 +76,7 @@
                                     <?php for ($i = 0; $i < 10; $i++) {
                                     ?>
                                         <tr>
+                                            <td><?=$i+1 ?></td>
                                             <td class="col-2">
                                                 <select name="passbook[]" class="form-control select2-mass-passbooks" data-acc="<?= 'select2-acc' . $i ?>" required>
                                                     <option value=""></option>
@@ -81,7 +91,7 @@
                                                 </select>
                                             </td>
                                             <td class="col-2">
-                                                <input type="hidden" min="0" value="10" id="stamp_amt<?= $i ?>">
+                                                <input type="hidden" min="0" value="0" id="stamp_amt<?= $i ?>">
                                                 <input onkeyup="$('td #amount<?= $i ?>').val($(this).prev('input').val()*$(this).val())|updateTotal()" id="stamps<?= $i ?>" onchange="$('td #amount<?= $i ?>').val($(this).prev('input').val()*$(this).val())|updateTotal()" id="stamps<?= $i ?>" type="number" name="stamps[]" min="0" class="form-control" data-id="<?= $i ?>" disabled>
                                             </td>
                                             <td class="col-1">
@@ -98,6 +108,7 @@
                                 </tbody>
                                 <tfoot class="text-uppercase">
                                     <tr>
+                                        <th>#</th>
                                         <th colspan="3">Totals</th>
                                         <th id="stampTotal">0</th>
                                         <th id="amountTotal">0.00</th>
@@ -117,5 +128,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= site_url('assets/js/deposits/mass.js?v=1') ?>" defer></script>
+<script src="<?= site_url('assets/js/deposits/mass.js?v=7') ?>" defer></script>
 <?php app_end(); ?>

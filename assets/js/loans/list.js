@@ -11,6 +11,11 @@ $(function () {
         params.date_range_column = "ldate";
         params.date_from = $("#date-from").val();
         params.date_to = $("#date-to").val();
+        params.association_id = $('.select2-associations').val();
+        params.member_id = $('.select2-members').val();
+        params.acc_type_id = $('.select2-account-types').val();
+        params.ownership = $('.select2-ownership').val();
+        params.status = $('#status').val();
       },
     },
     serverSide: true,
@@ -34,13 +39,7 @@ $(function () {
           return data.id;
         },
       },
-      {
-        data: "ldate",
-        name: "ldate",
-        render: function (data, type, row) {
-          return new Date(data).toDateString();
-        },
-      },
+      { data: "association_name", name: "associations.name" },
       { data: "passbook", name: "loans.passbook" },
       {
         data: null,
@@ -66,10 +65,10 @@ $(function () {
         },
       },
       {
-        data: "rate",
+        data: null,
         name: "loans.rate",
         render: function (data, type, row) {
-          return `${data * 100}%`;
+          return `${(data.rate* data.duration* 100).toFixed(0)}%`;
         },
       },
       {
@@ -122,7 +121,6 @@ $(function () {
           return data;
         },
       },
-      { data: "loanType", name: "loans.loan_type_id" },
       {
         data: null,
         name: "loans.user_id",
@@ -151,4 +149,46 @@ $(function () {
     $("#date-from,#date-to").val("");
     table.ajax.reload();
   });
+});
+
+
+
+$(".select2-associations").select2({
+  ajax: {
+    url: `${baseUrl}associations/select2`,
+    dataType: "json",
+    data: function (params) {
+      return params;
+    },
+  },
+  allowClear: true,
+  placeholder: "Select an association",
+  selectionCssClass: "form-select2",
+});
+
+$(".select2-account-types").select2({
+  allowClear: true,
+  placeholder: "Select an account type",
+  selectionCssClass: "form-select2",
+});
+
+$(".select2-members").select2({
+  ajax: {
+    url: `${baseUrl}customers/select2`,
+    dataType: "json",
+    data: function (params) {
+      params.association_id = $(".select2-associations").val();
+      return params;
+    },
+  },
+  allowClear: true,
+  placeholder: "Select a member",
+  selectionCssClass: "form-select2",
+  templateResult: formatPeopleResult,
+});
+
+$(".select2-status, .select2-ownership").select2({
+  allowClear: true,
+  placeholder: "Select an option",
+  selectionCssClass: "form-select2",
 });

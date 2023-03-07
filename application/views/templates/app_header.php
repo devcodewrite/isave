@@ -1,6 +1,6 @@
 <?php
-    $user = auth()->user();
-    $role = $user ? $this->role->find($user->role_id) : null;
+$user = auth()->user();
+$role = $user ? $this->role->find($user->role_id) : null;
 ?>
 <div class="app-header header-shadow">
     <div class="app-header__logo">
@@ -45,66 +45,7 @@
         </div>
         <div class="app-header-right">
             <div class="header-dots">
-                <div class="dropdown">
-                    <button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="p-0 mr-2 btn btn-link">
-                        <span class="icon-wrapper icon-wrapper-alt rounded-circle">
-                            <span class="icon-wrapper-bg bg-primary"></span>
-                            <i class="icon text-primary ion-android-apps"></i>
-                        </span>
-                    </button>
-                    <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-xl rm-pointers dropdown-menu dropdown-menu-right">
-                        <div class="dropdown-menu-header">
-                            <div class="dropdown-menu-header-inner bg-plum-plate">
-                                <div class="menu-header-image" style="background-image: url('assets/images/dropdown-header/abstract4.jpg');"></div>
-                                <div class="menu-header-content text-white">
-                                    <h5 class="menu-header-title">Quick Acess Panel</h5>
-                                    <h6 class="menu-header-subtitle">Easy access panel</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="grid-menu grid-menu-xl grid-menu-3col">
-                            <div class="no-gutters row">
-                                <div class="col-sm-6 col-xl-4">
-                                    <button class="btn-icon-vertical btn-square btn-transition btn btn-outline-link">
-                                        <i class="pe-7s-world icon-gradient bg-night-fade btn-icon-wrapper btn-icon-lg mb-3"></i> Automation
-                                    </button>
-                                </div>
-                                <div class="col-sm-6 col-xl-4">
-                                    <button class="btn-icon-vertical btn-square btn-transition btn btn-outline-link">
-                                        <i class="pe-7s-piggy icon-gradient bg-night-fade btn-icon-wrapper btn-icon-lg mb-3"> </i> Reports
-                                    </button>
-                                </div>
-                                <div class="col-sm-6 col-xl-4">
-                                    <button class="btn-icon-vertical btn-square btn-transition btn btn-outline-link">
-                                        <i class="pe-7s-config icon-gradient bg-night-fade btn-icon-wrapper btn-icon-lg mb-3"> </i> Settings
-                                    </button>
-                                </div>
-                                <div class="col-sm-6 col-xl-4">
-                                    <button class="btn-icon-vertical btn-square btn-transition btn btn-outline-link">
-                                        <i class="pe-7s-browser icon-gradient bg-night-fade btn-icon-wrapper btn-icon-lg mb-3"> </i> Content
-                                    </button>
-                                </div>
-                                <div class="col-sm-6 col-xl-4">
-                                    <button class="btn-icon-vertical btn-square btn-transition btn btn-outline-link">
-                                        <i class="pe-7s-hourglass icon-gradient bg-night-fade btn-icon-wrapper btn-icon-lg mb-3"></i> Activity
-                                    </button>
-                                </div>
-                                <div class="col-sm-6 col-xl-4">
-                                    <button class="btn-icon-vertical btn-square btn-transition btn btn-outline-link">
-                                        <i class="pe-7s-world icon-gradient bg-night-fade btn-icon-wrapper btn-icon-lg mb-3"> </i> Contacts
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <ul class="nav flex-column">
-                            <li class="nav-item-divider nav-item"></li>
-                            <li class="nav-item-btn text-center nav-item">
-                                <button class="btn-shadow btn btn-primary btn-sm">Follow-ups</button>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="dropdown">
+                <div class="dropdown d-none">
                     <button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="p-0 mr-2 btn btn-link">
                         <span class="icon-wrapper icon-wrapper-alt rounded-circle">
                             <span class="icon-wrapper-bg bg-danger"></span>
@@ -512,7 +453,7 @@
                                                             <img width="42" class="rounded-circle" src="<?= $this->setting->toAvatar($user->photo_url, $user); ?>" alt="">
                                                         </div>
                                                         <div class="widget-content-left">
-                                                            <div class="widget-heading"><?=$user->firstname ?> <?=$user->lastname ?></div>
+                                                            <div class="widget-heading"><?= $user->firstname ?> <?= $user->lastname ?></div>
                                                             <div class="widget-subheading opacity-8"><?= $role ? $role->label : '' ?></div>
                                                         </div>
                                                         <div class="widget-content-right mr-2">

@@ -60,6 +60,7 @@
                                 <i class="metismenu-icon"></i>List Passbooks
                             </a>
                         </li>
+                       
                     </ul>
                 </li>
                 <li class="<?= get_nav_status('deposits') ?>">
@@ -139,6 +140,16 @@
                             </a>
                         </li>
                         <li>
+                            <a href="<?= site_url('loans/in-arrears') ?>" class="<?= get_nav_status1('loans/in-arrears') ?>">
+                                <i class="metismenu-icon"></i>Loans in Arrears
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?= site_url('loans/defaults') ?>" class="<?= get_nav_status1('loans/defaults') ?>">
+                                <i class="metismenu-icon"></i>Defaulted Loans
+                            </a>
+                        </li>
+                        <li>
                             <a href="<?= site_url('loans/disbursements') ?>" class="<?= get_nav_status1('loans/disbursements') ?>">
                                 <i class="metismenu-icon"></i>Disbursement Schedule
                             </a>
@@ -181,30 +192,35 @@
                                 <i class="metismenu-icon"></i>List Associations
                             </a>
                         </li>
+                        <li>
+                            <a href="<?= site_url('associations/statements') ?>" class="<?= get_nav_status1('associations/statements') ?>">
+                                <i class="metismenu-icon"></i>E-Cash Statements
+                            </a>
+                        </li>
                     </ul>
                 </li>
 
-                <li class="app-sidebar__heading">Financial Reporting</li>
-                <li class="<?= get_nav_status('reporting/income') ?>">
+                <li class="app-sidebar__heading d-none">Reporting</li>
+                <li class="<?= get_nav_status('reporting') ?>">
                     <a href="#">
-                        <i class="metismenu-icon pe-7s-piggy"></i>Reporting Income
+                        <i class="metismenu-icon pe-7s-piggy"></i>Reporting
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
                     <ul>
                         <li>
-                            <a href="<?= site_url('reporting/income/by-accounts') ?>" class="<?= get_nav_status1('deposits/create') ?>">
-                                <i class="metismenu-icon"></i>Income by accounts
+                            <a href="<?= site_url('reporting/transactions') ?>" class="<?= get_nav_status1('reporting/transactions') ?>">
+                                <i class="metismenu-icon"></i>Reporting Transactions
                             </a>
                         </li>
                         <li>
-                            <a href="<?= site_url('reporting/income') ?>" class="<?= get_nav_status1('deposits') ?>">
-                                <i class="metismenu-icon"></i>List Deposits
+                            <a href="<?= site_url('reporting/loan-transactions') ?>" class="<?= get_nav_status1('reporting/loan-transactions') ?>">
+                                <i class="metismenu-icon"></i>Reporting Loan Transac.
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li class="app-sidebar__heading">Records Reporting</li>
-                <li>
+                <li class="app-sidebar__heading d-none">Records Reporting</li>
+                <li class="d-none">
                     <a href="#">
                         <i class="metismenu-icon pe-7s-light"></i>Deposits
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
@@ -248,6 +264,25 @@
                     </ul>
                 </li>
 
+                <li class="<?= get_nav_status('roles') ?>">
+                    <a href="#">
+                        <i class="metismenu-icon pe-7s-key"></i>Roles & Permissions
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="<?= site_url('roles/create') ?>" class="<?= get_nav_status1('roles/create') ?>">
+                                <i class="metismenu-icon"></i> New Role
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?= site_url('roles') ?>" class="<?= get_nav_status1('roles') ?>">
+                                <i class="metismenu-icon"></i>List Roles
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li class="app-sidebar__heading">Setup & Settings</li>
                 <li class="<?= get_nav_status('setup') ?>">
                     <a href="#">
@@ -262,20 +297,11 @@
                             </a>
                             <ul>
                                 <li>
-                                    <a href="<?= site_url('setup/account-types') ?>" class="<?= get_nav_status1('setup/account-types') ?>">
+                                    <a href="<?= site_url('acctypes') ?>" class="<?= get_nav_status1('acctypes') ?>">
                                         <i class="metismenu-icon"></i> Account Types
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="<?= site_url('setup/loan-types') ?>" class="<?= get_nav_status1('setup/loan-types') ?>">
-                                        <i class="metismenu-icon"></i> Loan Types
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="<?= site_url('setup/id-card-types') ?>" class="<?= get_nav_status1('setup/id-card-types') ?>">
-                                        <i class="metismenu-icon"></i> Identity Card Types
-                                    </a>
-                                </li>
+                              
                             </ul>
                         </li>
                         <li>

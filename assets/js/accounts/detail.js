@@ -1,4 +1,4 @@
-let loanTable, depositTable, transferTable, withdrawalTable;
+let loanTable, depositTable, transactionTable, withdrawalTable;
 
 $(function () {
   loanTable = $("#dt-related-loans").DataTable({
@@ -52,10 +52,10 @@ $(function () {
         },
       },
       {
-        data: "rate",
+        data: null,
         name: "loans.rate",
         render: function (data, type, row) {
-          return `${data * 100}%`;
+          return `${(data.rate * data.duration * 100).toFixed(2)}%`;
         },
       },
       {
@@ -64,9 +64,10 @@ $(function () {
         render: function (data, type, row) {
           if (type === "display") {
             let labels = {
-              pending: "alert-danger",
-              approved: "alert-warning",
-              paid_out: "alert-success",
+              pending: "alert-warning",
+              approved: "alert-info",
+              disbursed: "alert-success",
+              rejected: "alert-danger",
             };
             return `<span class="alert p-1 px-2 text-white border-rounded ${
               labels[data]
@@ -95,9 +96,10 @@ $(function () {
         render: function (data, type, row) {
           if (type === "display") {
             let labels = {
-              not_paid: "alert-danger",
-              started: "alert-warning",
+              not_paid: "alert-warning",
+              started: "alert-info",
               paid: "alert-success",
+              defaulted: "alert-danger",
             };
             return `<span style="font-size:12px;" class="alert p-1 px-2 text-white border-rounded ${
               labels[data]
@@ -106,7 +108,6 @@ $(function () {
           return data;
         },
       },
-      { data: "loanType", name: "loans.loan_type_id" },
       {
         data: null,
         name: "loans.user_id",
@@ -136,240 +137,282 @@ $(function () {
     loanTable.ajax.reload();
   });
 
-  // withdrawals
+  var minDate, maxDate;
 
-  withdrawalTable = $("#dt-related-withdrawals").DataTable({
-    ajax: {
-      url: baseUrl + "withdrawals/datatables",
-      dataType: "json",
-      contentType: "application/json",
-      data: function (params) {
-        params.date_range_column = "wdate";
-        params.date_from = $("#withdrawal-date-from").val();
-        params.date_to = $("#withdrawal-date-to").val();
-        params.account_id = $("#dt-related-withdrawals").data("account-id");
-      },
-    },
-    serverSide: true,
-    search: false,
-    paging: true,
+  // Create date inputs
+  minDate = $("#transaction-date-from");
+
+  maxDate = $("#transaction-date-to");
+
+  $.fn.DataTable.ext.search.push(function (settings, data, dataIndex) {
+    var min = new Date(minDate.val());
+    var max = new Date(maxDate.val());
+    var date = new Date(data[1]);
+
+    if (
+      (min <= date && max >= date) ||
+      (minDate.val() === "" && maxDate.val() === "")
+    ) {
+      return true;
+    }
+    return false;
+  });
+
+  // transactions
+  transactionTable = $("#dt-transactions").DataTable({
     responsive: !0,
     dom: "lBftip",
     buttons: ["print", "pdf", "excel"],
-    columns: [
-      {
-        data: null,
-        name: "withdrawals.id",
-        render: function (data, type, row) {
-          if (type === "display") {
-            let d =
-              `<div class="d-flex align-items-center">` +
-              `<a href="${baseUrl}withdrawals/${data.id}" class="p-1 ml-1 btn btn-link float-right">${data.id}</a>` +
-              `</div>`;
-
-            return d;
-          }
-          return data.id;
-        },
-      },
-      { data: "amount", name: "withdrawals.amount", render:function (data,type,row) {
-        
-        return Number.parseFloat(data).toFixed(2);
-      }},
-      {
-        data: "type",
-        name: "withdrawals.type",
-        render: function (data, type, row) {
-          return data.toUpperCase();
-        },
-      },
-      { data: "withdrawer_name", name: "withdrawer_name" },
-      { data: "withdrawer_phone", name: "withdrawer_phone" },
-      {
-        data: "wdate",
-        name: "wdate",
-        render: function (data, type, row) {
-          return new Date(data).toDateString();
-        },
-      },
-    ],
-    // order: [[7, "desc"]],
-    columnDefs: [
-      {
-        orderable: false,
-        //targets: [4],
-      },
-    ],
+    order: [[0, "desc"]],
   });
 
-  $(".withdrawal-filter").on("click", function (params) {
-    withdrawalTable.ajax.reload();
+  $(".transaction-filter").on("click", function (params) {
+    transactionTable.draw();
   });
 
-  $(".withdrawal-filter-clear").on("click", function (params) {
-    $("#withdrawal-date-from,#withdrawal-date-to").val("");
-    withdrawalTable.ajax.reload();
+  $(".transaction-filter-clear").on("click", function (params) {
+    $("#transaction-date-from,#transaction-date-to").val("");
+    transactionTable.draw();
   });
+});
 
-  // deposits
+let form2 = $("#newCharge");
 
-  table = $("#dt-related-deposits").DataTable({
-    ajax: {
-      url: baseUrl + "deposits/datatables",
+form2.validate({
+  rules: {
+    amount: "required",
+    wdate: "required",
+  },
+  messages: {
+    amount: "Please enter the  amount",
+    wdate: "Please choose a date",
+  },
+  errorElement: "em",
+  errorPlacement: function (t, e) {
+    t.addClass("invalid-feedback"),
+      "checkbox" === e.prop("type")
+        ? t.insertAfter(e.nex$("label"))
+        : t.insertAfter(e);
+  },
+  highlight: function (e, i, n) {
+    $(e).addClass("is-invalid").removeClass("is-valid");
+  },
+  unhighlight: function (e, i, n) {
+    $(e).addClass("is-valid").removeClass("is-invalid");
+  },
+});
+
+form2.on("submit", function (e) {
+  e.preventDefault();
+  if (form2.valid() === true) {
+    $.ajax({
+      method: "POST",
+      url: this.getAttribute("action"),
+      data: new FormData(this),
+      enctype: "multipart/form-data",
       dataType: "json",
-      contentType: "application/json",
-      data: function (params) {
-        params.date_range_column = "ddate";
-        params.date_from = $("#deposit-date-from").val();
-        params.date_to = $("#deposit-date-to").val();
-        params.account_id = $("#dt-related-deposits").data("account-id");
-      },
-    },
-    serverSide: true,
-    search: false,
-    paging: true,
-    responsive: !0,
-    dom: "lBftip",
-    buttons: ["print", "pdf", "excel"],
-    columns: [
-      {
-        data: null,
-        name: "deposits.id",
-        render: function (data, type, row) {
-          if (type === "display") {
-            let d =
-              `<div class="d-flex align-items-center">` +
-              `<a href="${baseUrl}deposits/${data.id}" class="p-1 ml-1 btn btn-link float-right">${data.id}</a>` +
-              `</div>`;
+      contentType: false,
+      processData: false,
+      cache: false,
+      success: function (d, r) {
+        if (!d || r === "nocontent") {
+          Swal.fire({
+            icon: "error",
+            text: "Malformed form data sumbitted! Please try agian.",
+          });
+          return;
+        }
+        if (typeof d.status !== "boolean" || typeof d.message !== "string") {
+          Swal.fire({
+            icon: "error",
+            text: "Malformed data response! Please try agian.",
+          });
+          return;
+        }
 
-            return d;
-          }
-          return data.id;
-        },
-      },
-      { data: "amount", name: "deposits.amount", render:function (data,type,row) {
-        
-        return Number.parseFloat(data).toFixed(2);
-      } },
-      {
-        data: "type",
-        name: "deposits.type",
-        render: function (data, type, row) {
-          return data.toUpperCase();
-        },
-      },
-      { data: "depositor_name", name: "depositor_name" },
-      { data: "depositor_phone", name: "depositor_phone" },
-      {
-        data: "ddate",
-        name: "ddate",
-        render: function (data, type, row) {
-          return new Date(data).toDateString();
-        },
-      },
-    ],
-    // order: [[7, "desc"]],
-    columnDefs: [
-      {
-        orderable: false,
-        //targets: [4],
-      },
-    ],
-  });
-  $(".deposit-filter").on("click", function (params) {
-    depositTable.ajax.reload();
-  });
-
-  $(".deposit-filter-clear").on("click", function (params) {
-    $("#deposit-date-from,#deposit-date-to").val("");
-    depositTable.ajax.reload();
-  });
-
-  // transfers
-
-  table = $("#dt-related-transfers").DataTable({
-    ajax: {
-      url: baseUrl + "transfers/datatables",
-      dataType: "json",
-      contentType: "application/json",
-      data: function (params) {
-        params.date_range_column = "tdate";
-        params.date_from = $("#transfer-date-from").val();
-        params.date_to = $("#transfer-date-to").val();
-        params.account_id = $("#dt-related-transfers").data("account-id");
-      },
-    },
-    serverSide: true,
-    search: false,
-    paging: true,
-    responsive: !0,
-    dom: "lBftip",
-    buttons: ["print", "pdf", "excel"],
-    columns: [
-      {
-        data: "tdate",
-        name: "tdate",
-        render: function (data, type, row) {
-          return new Date(data).toDateString();
-        },
-      },
-      {
-        data: "amount",
-        name: "amount",
-        render:function (data,type,row) {
-        
-          return Number.parseFloat(data).toFixed(2);
+        if (d.status === true) {
+          Swal.fire({
+            icon: "success",
+            text: d.message,
+          });
+          setTimeout(location.reload(), 500);
+        } else {
+          Swal.fire({
+            icon: "error",
+            text: d.message,
+          });
         }
       },
-      {
-        data: null,
-        name: "transfers.to_account_id",
-        render: function (data, type, row) {
-          if (type === "display") {
-            return `<a href="${data.to_account_id}" class="btn btn-link">${data.to_acc_name} (${data.to_acc_number})</a>`;
-          }
-          return data.to_account_id;
-        },
+      error: function (r) {
+        Swal.fire({
+          icon: "error",
+          text: "Unable to submit form! Please try agian.",
+        });
       },
-      {
-        data: null,
-        name: "transfers.to_passbook",
-        render: function (data, type, row) {
-          if (type === "display") {
-            return `<a href="members/${data.to_member_id}" class="btn btn-link">${data.to_passbook} (${data.to_acc_name})</a>`;
-          }
-          return data.from_passbook;
-        },
-      },
-      {
-        data: null,
-        name: "transfers.to_association_id",
-        render: function (data, type, row) {
-          if (type === "display") {
-            return `<a href="associations/${data.to_association_id}" class="btn btn-link">${data.to_assoc_name}</a>`;
-          }
-          return data.to_association_id;
-        },
-      },
-      {
-        data: "addedby",
-        name: "user_id",
-      },
-    ],
-    // order: [[7, "desc"]],
-    columnDefs: [
-      {
-        orderable: false,
-        //targets: [4],
-      },
-    ],
-  });
-  $(".transfer-filter").on("click", function (params) {
-    transferTable.ajax.reload();
-  });
+    });
+  }
+});
 
-  $(".transfer-filter-clear").on("click", function (params) {
-    $("#transfer-date-from,#transfer-date-to").val("");
-    transferTable.ajax.reload();
+let form3 = $("#newWithdrawal");
+
+form3.validate({
+  rules: {
+    amount: "required",
+    wdate: "required",
+  },
+  messages: {
+    amount: "Please enter the  amount",
+    wdate: "Please choose a date",
+  },
+  errorElement: "em",
+  errorPlacement: function (t, e) {
+    t.addClass("invalid-feedback"),
+      "checkbox" === e.prop("type")
+        ? t.insertAfter(e.nex$("label"))
+        : t.insertAfter(e);
+  },
+  highlight: function (e, i, n) {
+    $(e).addClass("is-invalid").removeClass("is-valid");
+  },
+  unhighlight: function (e, i, n) {
+    $(e).addClass("is-valid").removeClass("is-invalid");
+  },
+});
+
+$(".select2-method")
+.select2({
+  allowClear: true,
+  placeholder: "Select a method",
+  selectionCssClass: "form-select2",
+});
+form3.on("submit", function (e) {
+  e.preventDefault();
+  if (form3.valid() === true) {
+    $.ajax({
+      method: "POST",
+      url: this.getAttribute("action"),
+      data: new FormData(this),
+      enctype: "multipart/form-data",
+      dataType: "json",
+      contentType: false,
+      processData: false,
+      cache: false,
+      success: function (d, r) {
+        if (!d || r === "nocontent") {
+          Swal.fire({
+            icon: "error",
+            text: "Malformed form data sumbitted! Please try agian.",
+          });
+          return;
+        }
+        if (typeof d.status !== "boolean" || typeof d.message !== "string") {
+          Swal.fire({
+            icon: "error",
+            text: "Malformed data response! Please try agian.",
+          });
+          return;
+        }
+
+        if (d.status === true) {
+          Swal.fire({
+            icon: "success",
+            text: d.message,
+          });
+          setTimeout(location.reload(), 500);
+        } else {
+          Swal.fire({
+            icon: "error",
+            text: d.message,
+          });
+        }
+      },
+      error: function (r) {
+        Swal.fire({
+          icon: "error",
+          text: "Unable to submit form! Please try agian.",
+        });
+      },
+    });
+  }
+});
+
+
+
+let form4 = $("#newDeposit");
+
+form4.validate({
+    rules: {
+      amount: "required",
+      ddate:"required",
+      depositor_name:'required',
+    },
+    messages: {
+      amount: "Please enter the amount",
+      ddate:"Please choose a date",
+      depositor_name: "Please enter the name",
+    },
+    errorElement: "em",
+    errorPlacement: function (t, e) {
+      t.addClass("invalid-feedback"),
+        "checkbox" === e.prop("type")
+          ? t.insertAfter(e.nex$("label"))
+          : t.insertAfter(e);
+    },
+    highlight: function (e, i, n) {
+      $(e).addClass("is-invalid").removeClass("is-valid");
+    },
+    unhighlight: function (e, i, n) {
+      $(e).addClass("is-valid").removeClass("is-invalid");
+    },
   });
+  
+form4.on("submit", function (e) {
+  e.preventDefault();
+  if (form4.valid() === true) {
+    $.ajax({
+      method: "POST",
+      url: this.getAttribute("action"),
+      data: new FormData(this),
+      enctype: "multipart/form-data",
+      dataType: "json",
+      contentType: false,
+      processData: false,
+      cache: false,
+      success: function (d, r) {
+        if (!d || r === "nocontent") {
+          Swal.fire({
+            icon: "error",
+            text: "Malformed form data sumbitted! Please try agian.",
+          });
+          return;
+        }
+        if (typeof d.status !== "boolean" || typeof d.message !== "string") {
+          Swal.fire({
+            icon: "error",
+            text: "Malformed data response! Please try agian.",
+          });
+          return;
+        }
+
+        if (d.status === true) {
+          Swal.fire({
+            icon: "success",
+            text: d.message,
+          });
+          setTimeout(location.reload(), 500);
+        } else {
+          Swal.fire({
+            icon: "error",
+            text: d.message,
+          });
+        }
+      },
+      error: function (r) {
+        Swal.fire({
+          icon: "error",
+          text: "Unable to submit form! Please try agian.",
+        });
+      },
+    });
+  }
 });

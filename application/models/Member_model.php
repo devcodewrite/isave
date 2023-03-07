@@ -20,18 +20,18 @@ class Member_model extends CI_Model
         if ($this->db->insert($this->table, $data)) {
             $id = $this->db->insert_id();
 
+            $record['member_id'] = $id;
+            $record['ownership'] = 'individual';
+            
             foreach($record['associations'] as $assoc){
                 $this->association->addMember($assoc, $id);
+                $record['association_id'] = $assoc;
+                $this->account->create($record);
             }
-           
             $member = $this->find($id);
             $this->uploadPhoto($id);
             $this->uploadPhoto($id,'card','identity_card_url',true,'100%',['w'=>null,'h' => null]);
-            $record['member_id'] = $id;
-            $record['ownership'] = 'individual';
-            unset($record['association_id']);
-            $acc = $this->account->create($record);
-            $member->account = $acc;
+           
             return $member;
         }
     }
@@ -44,12 +44,39 @@ class Member_model extends CI_Model
     public function update(int $id, array $record)
     {
         if (!$record) return;
-
+        $record['user_id'] = auth()->user()->id;
         $data = $this->extract($record);
-        $this->db->set($data);
+
+        if(!isset($record['associations'])){
+            $this->session->set_flashdata('error', 'Select at least one association');
+            return false;
+        }
+
+        if ($this->db->update($this->table, $data, ['id' => $id])) {
+            $this->db->delete('association_members', ['member_id' => $id]);
+            foreach($record['associations'] as $assoc){
+                $this->association->addMember($assoc, $id);
+            }
+            $member = $this->find($id);
+            $this->uploadPhoto($id);
+            $this->uploadPhoto($id,'card','identity_card_url',true,'100%',['w'=>null,'h' => null]);
+            $record['member_id'] = $id;
+            $record['ownership'] = 'individual';
+            return $member;
+        }
+    }
+
+    /**
+     * Delete a record
+     * @param $id
+     * @return Boolean
+     */
+    public function delete(int $id)
+    {
+        $this->db->set(['deleted_at' => date('Y-m-d H:i:s')]);
         $this->db->where('id', $id);
-        $this->db->update($this->table);
-        return $this->find($id);
+       $this->db->update($this->table);
+        return $this->db->affected_rows() > 0;
     }
 
     /**

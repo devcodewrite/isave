@@ -100,10 +100,6 @@ $(".select2-users").select2({
   templateResult: formatPeopleResult,
 });
 
-  $('.filter').on('click', function (params) {
-    table.ajax.reload();
-  });
-
   $('.filter-clear').on('click', function (params) {
     $('#date-from,#date-to').val('');
     table.ajax.reload();
@@ -111,6 +107,6 @@ $(".select2-users").select2({
 });
 
 
-$('.filter').on('keyup paste select2:select select2:unselect', function (params) {
+$('.filter').on('click keyup paste select2:select select2:unselect', function (params) {
   table.ajax.reload();
 });

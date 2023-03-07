@@ -10,10 +10,11 @@ class Payment_model extends CI_Model
     {
         if (!$record) return;
         $record['user_id'] = auth()->user()->id;
-
         $data = $this->extract($record);
+
         if ($this->db->insert($this->table, $data)) {
             $id = $this->db->insert_id();
+            $this->loan->updateSettlementStatus($record['loan_id']);
             return $this->find($id);
         }
     }
@@ -72,28 +73,28 @@ class Payment_model extends CI_Model
      */
     public function all()
     {
-        $rtable = 'loan_types';
-        $col = 'loan_type_id';
-        $rtable2 = 'accounts';
-        $col2 = 'account_id';
-        $rtable3  = 'acc_types';
-        $col3 = 'acc_type_id';
-
+        $rtable = 'loans';
+        $col = 'loan_id';
         $fields =  [
             "{$this->table}.*",
         ];
         return
-            $this->db->select($fields, true)
+            $this->db->select($fields, false)
             ->from($this->table);
     }
 
-    public function sum($where = [], string $select = "principal_amount+interest_amount", $alis="total")
+    public function sum($where = [], string $select = "principal_amount+interest_amount", $alis = "total")
     {
-       return $this->db->select("SUM($select) as $alis")->from($this->table)->where($where)->get();
+        return $this->db->select("SUM($select) as $alis")->from($this->table)->where($where)->get();
     }
 
     public function delete(int $id)
     {
-        return $this->db->delete($this->table,['id' => $id]);
+        $payment = $this->find($id);
+
+        if ($this->db->delete($this->table, ['id' => $id])) {
+            return $this->loan->updateSettlementStatus($payment->loan_id);
+        }
+        return false;
     }
 }

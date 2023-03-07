@@ -63,11 +63,6 @@ $("#toggle-use-personal-info").on("change", function (e) {
   }
 });
 
-$(".select2-loan-types").select2({
-  allowClear: true,
-  placeholder: "Select a type",
-  selectionCssClass: "form-select2",
-});
 
 $(".select2-associations").select2({
   ajax: {
@@ -82,6 +77,48 @@ $(".select2-associations").select2({
   placeholder: "Select an association",
   selectionCssClass: "form-select2",
 });
+
+$(".select2-passbooks1")
+  .select2({
+    ajax: {
+      url: `${baseUrl}bankaccounts/passbook-select2`,
+      dataType: "json",
+      data: function (params) {
+        params.association_id = $(".select2-associations").val()?$(".select2-associations").val():0;
+        return params;
+      },
+    },
+    allowClear: true,
+    placeholder: "Search a passbook",
+    selectionCssClass: "form-select2",
+    templateResult: formatPeople2Result,
+  })
+  .on("select2:select", function (params) {
+    $(".select2-passbooks").trigger("change");
+  });
+
+  $(".select2-accounts1")
+  .select2({
+    ajax: {
+      url: `${baseUrl}bankaccounts/select2`,
+      dataType: "json",
+      data: function (params) {
+        params.passbook = $(".select2-passbooks1").val();
+        params.association_id = $(".select2-associations").val();
+        params.is_loan_acc = 1;
+        return params;
+      },
+    },
+    allowClear: true,
+    placeholder: "Select an account",
+    selectionCssClass: "form-select2",
+  })
+  .on("select2:select", function (e) {
+    $("#rate").val(e.params.data.interest_rate);
+  })
+  .on("select2:unselect", function (e) {
+    $("#rate").val("");
+  });
 
 form.on("submit", function (e) {
   e.preventDefault();

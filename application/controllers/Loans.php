@@ -18,7 +18,7 @@ class Loans extends MY_Controller
      */
     public function view(int $id = null)
     {
-        $loan = $this->loan->find($id);
+        $loan =  $this->loan->updateSettlementStatus($id);
 
         if(!$loan) show_404();
 
@@ -26,7 +26,6 @@ class Loans extends MY_Controller
         $loan->owner = $loan->account->ownership==='individual'
                 ?$this->member->find($loan->account->member_id)
                 :$this->association->find($loan->account->association_id);
-        $loan->loanType = $this->loantype->find($loan->loan_type_id);
         $loan->totalPaid = $this->payment->sum(['loan_id'=>$id])->row('total');
         $loan->totalBalance = $this->loan->sum(['id'=>$id])->row('total')-$loan->totalPaid;
         $loan->principalBalance = $this->loan->sum(['id'=>$id], 'principal_amount')->row('total')-$this->payment->sum(['loan_id'=>$id], 'principal_amount')->row('total');
@@ -52,7 +51,7 @@ class Loans extends MY_Controller
         $loan->owner = $loan->account->ownership==='individual'
                 ?$this->member->find($loan->account->member_id)
                 :$this->association->find($loan->account->association_id);
-        $loan->LoanType = $this->loantype->find($loan->loan_type_id);
+        $loan->accType = $this->loantype->find($loan->loan_type_id);
         $data = [
             'loan' => $loan,
         ];
@@ -72,10 +71,47 @@ class Loans extends MY_Controller
      * Show a form page for creating resource
      * html view
      */
+    public function defaults()
+    {
+        foreach($this->loan->where(['appl_status'=>'disbursed'])->result() as $row) {
+            $this->loan->updateSettlementStatus($row->id);
+        }
+        
+        $loans = $this->loan->all()
+                ->where('setl_status', 'defaulted')
+                ->where('appl_status', 'disbursed')
+                ->get()
+                ->result();
+        $data = [
+            'loans' => $loans,
+        ];
+        $this->load->view('pages/loans/defaults', $data);
+    }
+
+    /**
+     * Show a form page for creating resource
+     * html view
+     */
+    public function in_arrears()
+    {
+        $loans = $this->loan->all()
+                ->where('appl_status', 'disbursed')
+                ->where('arrears_days >', 0)
+                ->get()
+                ->result();
+        $data = [
+            'loans' => $loans,
+        ];
+        $this->load->view('pages/loans/in_arrears', $data);
+    }
+    /**
+     * Show a form page for creating resource
+     * html view
+     */
     public function create()
     {
         $data = [
-            'loanTypes' => $this->loantype->all()->get()->result(),
+            
         ];
         $this->load->view('pages/loans/edit', $data);
     }
@@ -86,8 +122,13 @@ class Loans extends MY_Controller
      */
     public function edit(int $id = null)
     {
+        $loan = $this->loan->find($id);
+
+        if (!$loan) show_404();
+        $loan->account = $this->account->find($loan->account_id);
+
         $data = [
-            'loanTypes' => $this->loantype->all()->get()->result(),
+            'loan' => $loan
         ];
         $this->load->view('pages/loans/edit', $data);
     }
@@ -155,6 +196,7 @@ class Loans extends MY_Controller
         $loan = $this->loan->update($id, $record);
         $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
         if ($loan) {
+            $this->loan->updateSettlementStatus($id);
             $out = [
                 'data' => $loan,
                 'status' => true,
@@ -176,6 +218,7 @@ class Loans extends MY_Controller
      */
     public function delete(int $id = null)
     {
+    
         if ($this->loan->delete($id)) {
             $out = [
                 'status' => true,
@@ -202,6 +245,13 @@ class Loans extends MY_Controller
 
         if($this->input->get('account_id'))
             $where = array_merge($where, ['loans.account_id' => $inputs['account_id']]);
+
+        if($this->input->get('association_id'))
+            $where = array_merge($where, ['accounts.association_id' => $inputs['association_id']]);
+
+        if($this->input->get('appl_status'))
+            $where = array_merge($where, ['loans.appl_status' => $inputs['appl_status']]);
+
 
         $query->where($where);
 

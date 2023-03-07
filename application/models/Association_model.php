@@ -57,6 +57,19 @@ class Association_model extends CI_Model
         return $this->find($id);
     }
 
+       /**
+     * Delete a record
+     * @param $id
+     * @return Boolean
+     */
+    public function delete(int $id)
+    {
+        $this->db->set(['deleted_at' => date('Y-m-d H:i:s')]);
+        $this->db->where('id', $id);
+       $this->db->update($this->table);
+        return $this->db->affected_rows() > 0;
+    }
+
      /**
      * Extract only values of only fields in the table
      * @param $data
@@ -106,7 +119,8 @@ class Association_model extends CI_Model
         ];
 
         return 
-            $this->db->select($fields, false)
+            $this->db->distinct()
+                    ->select($fields, false)
                     ->from($this->table)
                     ->where($where);
     }
@@ -146,8 +160,8 @@ class Association_model extends CI_Model
 
         return $this->db->select("$rtable.*")
                     ->from($rtable)
-                    ->where(['association_id'=> $id])
-                    ->where("$rtable.deleted_at =", null)
+                    ->where(['association_id'=> $id, 'ownership' => 'association'])
+                    ->where("$rtable.deleted_at", null)
                     ->get()
                     ->result();
     }
@@ -181,7 +195,7 @@ class Association_model extends CI_Model
                     ->get()
                     ->result();
     }
- /**
+    /**
      * Get all withdrawals that belongs to this association id through account
      */
     public function withdrawals(int $id)
@@ -197,39 +211,43 @@ class Association_model extends CI_Model
     }
 
      /**
-     * Get all associations that the association id has
+     * Get all transactions summary that belongs to this association id
      */
-    public function associations(int $id)
+    public function transactions(int $id, $where=[])
     {
-        $rtable = 'associations';
-        $pivot = 'association_associations';
-        $foreginKey1 = 'association_id';
-        $foreginKey2 = 'association_id';
+        $rtable = 'deposits';
+        $col = "account_id";
+        $rtable1 = "accounts";
+        $rcol = "association_id";
 
-        return $this->db->select("{$this->table}.*")
+        $cashDeposit = "SUM(ifnull( (CASE WHEN $rtable.type='cash' THEN $rtable.amount ELSE '' END),0.00))";
+        $momoDeposit = "SUM(ifnull( (CASE WHEN $rtable.type='momo' THEN $rtable.amount ELSE '' END),0.00))";
+        $transferDeposit = "SUM(ifnull( (CASE WHEN $rtable.type='transfer' THEN $rtable.amount ELSE '' END),0.00))";
+
+        return $this->db->select("ddate as tdate, $cashDeposit as cash_deposits, $momoDeposit as momo_deposits, $transferDeposit as transfer_deposits")
                     ->from($rtable)
-                    ->join($rtable, "$pivot.$foreginKey1=$rtable.id")
-                    ->join($this->table, "$pivot.$foreginKey2={$this->table}.id")
-                    ->where("{$this->table}.id", $id)
-                    ->where("$rtable.deleted_at =", null)
-                    ->get()
-                    ->result();
+                    ->join($rtable1, "$rtable1.id=$rtable.$col")
+                    ->where("$rtable1.$rcol", $id)
+                    ->where($where)
+                    ->group_by("$rtable.ddate");
     }
 
-    /**
-     * Get the identity card type that owner this association id
-     */
-    public function identityCardType(int $id)
-    {
-        $rtable = 'identity_card_types';
-        $col = 'identity_card_type_id';
-        
-        return $this->db->select("$rtable.*")
-                    ->from($rtable)
-                    ->join($this->table, "{$this->table}.$col=$rtable.id")
-                    ->where([$col=> $id])
-                    ->get()
-                    ->row();
-    }
 
+     /**
+     * Get all loans that belongs to this account id through account
+     */
+    public function statements($where = [])
+    {
+        $rcol = "association_id";
+
+        $rtable = 'account_statements';
+        $fields = [
+            "$rtable.*",
+            "{$this->table}.name as association_name",
+        ];
+        return $this->db->select($fields)
+                    ->from($rtable)
+                    ->join($this->table, "{$this->table}.id=$rtable.$rcol")
+                    ->where($where);
+    }
 }

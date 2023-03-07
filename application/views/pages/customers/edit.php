@@ -103,7 +103,7 @@
                                         <div class="col-md-3">
                                             <div class="position-relative form-group">
                                                 <label for="sex">Sex</label>
-                                                <select name="sex" class="form-control select2-sex" required>
+                                                <select name="sex" class="form-control select2-sex">
                                                     <option value="">Select a sex</option>
                                                     <option value="male" <?= isset($member) ? ($member->sex === 'male' ? 'selected' : '') : '' ?>>Male</option>
                                                     <option value="female" <?= isset($member) ? ($member->sex === 'female' ? 'selected' : '') : '' ?>>Female</option>
@@ -114,7 +114,7 @@
                                         <div class="col-md-3">
                                             <div class="position-relative form-group">
                                                 <label for="marital_status">Marital status</label>
-                                                <select name="marital_status" class="form-control select2-marital-status" required>
+                                                <select name="marital_status" class="form-control select2-marital-status">
                                                     <option value="">Select a status</option>
                                                     <option value="single" <?= isset($member) ? ($member->marital_status === 'single' ? 'selected' : '') : '' ?>>Single</option>
                                                     <option value="married" <?= isset($member) ? ($member->marital_status === 'married' ? 'selected' : '') : '' ?>>Married</option>
@@ -126,7 +126,7 @@
                                         <div class="col-md-6">
                                             <div class="position-relative form-group">
                                                 <label for="education">Education level</label>
-                                                <select name="education" class="form-control select2-educations" required>
+                                                <select name="education" class="form-control select2-educations">
                                                     <option value="">Select an education level</option>
                                                     <option value="none" <?= isset($member) ? ($member->education === 'primary' ? 'selected' : '') : '' ?>>None</option>
                                                     <option value="primary" <?= isset($member) ? ($member->education === 'primary' ? 'selected' : '') : '' ?>>Primary School</option>
@@ -168,7 +168,7 @@
                                         <div class="col-md-3">
                                             <div class="position-relative form-group">
                                                 <label for="settlement">Settlement</label>
-                                                <select name="settlement" class="form-control" required>
+                                                <select name="settlement" class="form-control">
                                                     <option value="">Select a settlement</option>
                                                     <option value="rural" <?= isset($member) ? ($member->settlement === 'rural' ? 'selected' : '') : '' ?>>Rural Area</option>
                                                     <option value="urban" <?= isset($member) ? ($member->settlement === 'urban' ? 'selected' : '') : '' ?>>Urban Area</option>
@@ -239,8 +239,8 @@
                                                                 <div class="position-relative form-group">
                                                                     <label for="acc_type_id">Default account</label>
                                                                     <select name="acc_type_id" class="form-control select2-account-types" required>
-                                                                        <option value=""></option>
-                                                                        <?php foreach ($acc_types as $row) { ?>
+                                                                        <?php foreach ($acc_types as $row) { 
+                                                                            ?>
                                                                             <option value="<?= $row->id; ?>"><?= $row->label; ?></option>
                                                                         <?php } ?>
                                                                     </select>
@@ -265,7 +265,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="identity_card_type_id">ID card type</label>
-                                                                <select name="identity_card_type_id" class="form-control select2-id-card-types" required>
+                                                                <select name="identity_card_type_id" class="form-control select2-id-card-types">
                                                                     <option value=""></option>
                                                                     <?php foreach ($id_card_types as $row) { ?>
                                                                         <option value="<?= $row->id; ?>" <?= isset($member) ? ($member->identity_card_type_id === $row->id ? 'selected' : '') : '' ?>><?= $row->label; ?></option>
@@ -276,7 +276,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="identity_card_number">ID card number</label>
-                                                                <input name="identity_card_number" id="identity_card_number" value="<?= isset($member) ? $member->identity_card_number : "" ?>" placeholder="Enter id number" type="text" class="form-control" required>
+                                                                <input name="identity_card_number" id="identity_card_number" value="<?= isset($member) ? $member->identity_card_number : "" ?>" placeholder="Enter id number" type="text" class="form-control">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -326,5 +326,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= site_url('assets/js/customers/edit.js?v=2') ?>" defer></script>
+<script src="<?= site_url('assets/js/customers/edit.js?v=4') ?>" defer></script>
 <?php app_end(); ?>

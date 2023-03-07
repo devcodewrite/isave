@@ -57,6 +57,17 @@
                                     <?= date('d/m/y', strtotime($withdrawal->wdate)) ?>
                                 </p>
                             </div>
+                    
+                            <div class="row text-uppercase mt-3 border-bottom">
+                                <p class="col-6 text-black-50">Transaction Type</p>
+                                <p class="col-6 input-placeholder text-primary"><?= $withdrawal->type ?></p>
+                            </div>
+
+                            <div class="row text-uppercase mt-3 border-bottom">
+                                <p class="col-6 text-black-50">Narration</p>
+                                <p class="col-6 input-placeholder text-primary"><?= $withdrawal->withdrawer_name ?> <?= $withdrawal->withdrawer_phone ?></p>
+                            </div>
+
                             <div class="row text-uppercase mt-3 border-bottom">
                                 <p class="col-6 text-black-50">Added by</p>
                                 <p class="col-6 input-placeholder text-blaick">
@@ -69,7 +80,7 @@
                 </div>
                 <div class="d-block text-right card-footer">
                     <a href="<?=site_url('withdrawals/'.$withdrawal->id.'/edit') ?>" class="btn btn-info btn-lg">Modify</a>
-                    <button class="btn btn-danger btn-lg">Delete</button>
+                    <button class="btn btn-danger btn-lg delete" data-url="<?=site_url('withdrawals') ?>" data-id="<?=$withdrawal->id ?>">Delete</button>
                 </div>
             </div>
         </div>

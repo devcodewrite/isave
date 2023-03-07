@@ -80,7 +80,7 @@
                 <div class="d-block text-right card-footer">
                     <button class="btn btn-primary btn-lg print">Print</button>
                     <a href="<?=site_url('deposits/'.$deposit->id.'/edit') ?>" class="btn btn-warning btn-lg">Modify</a>
-                    <button class="btn btn-danger btn-lg">Delete</button>
+                    <button class="btn btn-danger btn-lg delete" data-url="<?=site_url('deposits') ?>" data-id="<?=$deposit->id ?>">Delete</button>
                 </div>
             </div>
         </div>

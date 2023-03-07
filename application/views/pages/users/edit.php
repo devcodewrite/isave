@@ -27,63 +27,73 @@
             <div class="main-card mb-3 card">
                 <div class="card-body">
                     <h5 class="card-title">User Form</h5>
-                    <form class="editUserForm" method="post" action="<?= isset($user)?site_url('users/update'.$user->id):site_url('users/store') ?>" data-redirect-url="<?= site_url('users') ?>">
+                    <form class="editUserForm" method="post" action="<?= isset($user) ? site_url('users/update/' . $user->id) : site_url('users/store') ?>" data-redirect-url="<?= site_url('users') ?>">
                         <div class="form-group">
                             <label for="firstname">First name</label>
                             <div>
-                                <input type="text" class="form-control" name="firstname" placeholder="Enter firstname" required />
+                                <input type="text" class="form-control" name="firstname" value="<?= isset($user) ? $user->firstname : '' ?>" placeholder="Enter firstname" required />
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="lastname">Last name</label>
                             <div>
-                                <input type="text" class="form-control" name="lastname" placeholder="Enter lastname" required />
+                                <input type="text" class="form-control" name="lastname" value="<?= isset($user) ? $user->lastname : '' ?>" placeholder="Enter lastname" required />
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone number</label>
                             <div>
-                                <input type="tel" class="form-control" name="phone" placeholder="Enter phone number" required />
+                                <input type="tel" class="form-control" name="phone" value="<?= isset($user) ? $user->phone : '' ?>" placeholder="Enter phone number" required />
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="email">Email</label>
                             <div>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter the email" required />
+                                <input type="email" class="form-control" id="email" name="email" value="<?= isset($user) ? $user->email : '' ?>" placeholder="Enter the email" required />
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="username">Username</label>
                             <div>
-                                <input type="text" class="form-control" id="username" name="username" placeholder="Enter the username" required />
+                                <input type="text" class="form-control" id="username" name="username" value="<?= isset($user) ? $user->username : '' ?>" placeholder="Enter the username" required />
                             </div>
                         </div>
 
                         <div class="form-group">
+                            <label for="role_id">User Role</label>
+                            <div>
+                                <select name="role_id" class="form-control select2-role" required>
+                                    <option value=""></option>
+                                    <?php foreach ($roles as $row) { ?>
+                                        <option value="<?= $row->id ?>" <?= isset($user) ? ($row->id === $user->role_id ? 'selected' : '') : '' ?>><?= $row->label ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label for="password">Password</label>
                             <div>
-                                <input id="password" type="password" class="form-control" name="password" placeholder="Enter the password" required />
+                                <input autocomplete="off" id="password" type="password" class="form-control" name="password" placeholder="Enter the password" <?isset($user) ? '':'required' ?> />
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="password">Confirm Password</label>
                             <div>
-                                <input id="confirm_password" type="password" class="form-control" name="confirm_password" placeholder="Confirm password" required />
+                                <input id="confirm_password" type="password" class="form-control" name="confirm_password" placeholder="Confirm password" <?isset($user) ? '':'required' ?> />
                             </div>
                         </div>
-
                         <div class="form-group">
-                        <?php if (isset($user)) { ?>
-                        <a href="<?= site_url('users/' . $user->id) ?>" class="mr-2 btn btn-link btn-sm">Cancel</a>
-                        <button type="submit" class="btn btn-primary text-uppercase">Save Changes</button>
-                    <?php } else { ?>
-                        <button class="mr-2 btn btn-link btn-sm reset">Cancel</button>
-                        <button type="submit" class="btn btn-primary text-uppercase">Create User</button>
-                    <?php } ?>
-                           
+                            <?php if (isset($user)) { ?>
+                                <a href="<?= site_url('users/' . $user->id) ?>" class="mr-2 btn btn-link btn-sm">Cancel</a>
+                                <button type="submit" class="btn btn-primary text-uppercase">Save Changes</button>
+                            <?php } else { ?>
+                                <button class="mr-2 btn btn-link btn-sm reset">Cancel</button>
+                                <button type="submit" class="btn btn-primary text-uppercase">Create User</button>
+                            <?php } ?>
+
                         </div>
                     </form>
                 </div>
@@ -94,5 +104,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/users/edit.js?v=4') ?>" defer></script>
+<script src="<?= base_url('assets/js/users/edit.js?v=5') ?>" defer></script>
 <?php app_end(); ?>

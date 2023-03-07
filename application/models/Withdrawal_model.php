@@ -40,6 +40,16 @@ class Withdrawal_model extends CI_Model
     }
 
     /**
+     * Delete a record
+     * @param $id
+     * @return Boolean
+     */
+    public function delete(int $id)
+    {
+        return $this->db->delete($this->table, ['id' => $id]);
+    }
+
+    /**
      * Extract only values of only fields in the table
      * @param $data
      * @return Array
@@ -91,7 +101,8 @@ class Withdrawal_model extends CI_Model
             "$rtable.passbook",
             "$rtable.name as acc_name",
             "$rtable.acc_number",
-            "$rtable3.name as association_name"
+            "$rtable3.name as association_name",
+            "$rtable3.id as association_id"
         ];
         return
             $this->db->select($fields, true)

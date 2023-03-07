@@ -54,12 +54,12 @@
                     <table style="width: 100%;" id="dt-payouts" class="table table-hover table-striped table-bordered">
                         <thead class="text-uppercase">
                             <tr>
-                                <th>Disbursement Date</th>
                                 <th>#ID</th>
+                                <th>Disbursement Date</th>
+                                <th>Association</th>
                                 <th>Passbook</th>
                                 <th>Account</th>
                                 <th>Amount</th>
-                                <th>Owner</th>
                                 <th>Repayment Start</th>
                                 <th>Status</th>
                                 <th>Action</th>
@@ -68,12 +68,12 @@
 
                         <tfoot class="text-uppercase">
                             <tr>
+                            <th>#ID</th>
                                 <th>Disbursement Date</th>
-                                <th>#ID</th>
+                                <th>Association</th>
                                 <th>Passbook</th>
                                 <th>Account</th>
                                 <th>Amount</th>
-                                <th>Owner</th>
                                 <th>Repayment Start</th>
                                 <th>Status</th>
                                 <th>Action</th>

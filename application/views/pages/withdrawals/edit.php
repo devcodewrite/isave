@@ -66,7 +66,7 @@
                             <div class="col-md-12 border-bottom pb-2">
                                 <div class="form-group">
                                     <label>Account</label>
-                                    <select name="account_id" id="account_id" class="form-control select2-accounts" required>
+                                    <select name="account_id" id="account_id" class="form-control select2-accounts1" required>
                                         <option value=""></option>
                                         <?php if (isset($withdrawal)) { ?>
                                             <option value="<?= $withdrawal->account_id ?>" selected><?= $withdrawal->account->name ?></option>
@@ -88,7 +88,6 @@
                                     <input type="text" name="amount" id="amount" class="form-control" value="<?= isset($withdrawal) ? $withdrawal->amount : '' ?>" placeholder="Enter the amount" required>
                                 </div>
                             </div>
-
                         </div>
                         <div class="form-row">
                             <div class="col-md-6">

@@ -41,20 +41,20 @@
                     <div class="main-card mb-3 card">
                         <div class="card-body">
                             <h5 class="card-title">Membership Account Form</h5>
-                            <form class="col-md-10 mx-auto memberAccForm" method="post" action="<?= site_url('bankaccounts/store') ?>" data-redirect-url="<?= site_url('bankaccounts') ?>">
+                            <form class="col-md-10 mx-auto memberAccForm" method="post" action="<?=isset($account)?site_url('bankaccounts/update/'.$account->id):site_url('bankaccounts/store') ?>" data-redirect-url="<?= site_url('bankaccounts') ?>">
                                 <input type="hidden" name="ownership" value="individual">
                                 <?php if (isset($account)) { ?>
-                                    <input type="hidden" name="_method" value="post">
+                                    <input type="hidden" name="_method" value="put">
                                     <input type="hidden" name="id" value="<?= $account->id ?>">
                                 <?php } else { ?>
-                                    <input type="hidden" name="_method" value="put">
+                                    <input type="hidden" name="_method" value="post">
                                 <?php } ?>
                                 <div class="form-group">
                                     <label>Member's association</label>
-                                    <select name="associaton_id" class="form-control select2-associations" required>
+                                    <select name="association_id" class="form-control select2-associations" required>
                                         <option value=""></option>
                                         <?php if (isset($account)) { ?>
-                                            <option value="<?= $account->association->id  ?>" selected><?= $account->association->name; ?></option>
+                                            <option value="<?= $account->association_id  ?>" selected><?= $account->association->name; ?></option>
                                         <?php } ?>
                                     </select>
                                 </div>
@@ -138,13 +138,9 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="passbook">Passbook No.</label>
-                                    <input name="passbook" id="passbook" placeholder="Enter passbook no." type="number" value="<?= isset($account) ? $account->passbook : "" ?>" class="form-control" required>
-                                </div>
-                                <div class="form-group">
                                     <label for="name">Account Name</label>
                                     <div>
-                                        <input type="text" class="form-control" name="name" value="<?= isset($account) ? $account->name : "" ?>" placeholder="Account name" />
+                                        <input type="text" class="form-control acc-name" name="name" value="<?= isset($account) ? $account->name : "" ?>" placeholder="Account name" />
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -187,5 +183,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= site_url('assets/js/accounts/edit.js?v=4') ?>" defer></script>
+<script src="<?= site_url('assets/js/accounts/edit.js?v=7') ?>" defer></script>
 <?php app_end(); ?>

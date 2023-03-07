@@ -1,11 +1,17 @@
 let table;
 
 $(function () {
-  table = $("#dt-associations").DataTable({
+  table = $("#dt-users").DataTable({
     ajax: {
-      url: baseUrl + "associations/datatables",
+      url: baseUrl + "users/datatables",
       dataType: "json",
       contentType: "application/json",
+      data: function (params) {
+        params.date_range_column = "users.created_at";
+        params.date_from = $("#date-from").val();
+        params.date_to = $("#date-to").val();
+        params.rstatus = $("#status").val();
+      },
     },
     serverSide: true,
     search: false,
@@ -16,12 +22,21 @@ $(function () {
     columns: [
       {
         data: null,
-        name: "id",
+        name: "users.id",
         render: function (data, type, row) {
           if (type === "display") {
+            data.getPhoto = function () {
+              let imgs = {
+                male: `${baseUrl}assets/images/man.png`,
+                female: `${baseUrl}assets/images/woman.png`,
+                other: `${baseUrl}assets/images/user.png`,
+              };
+              return imgs[this.sex ? this.sex : "other"];
+            };
             let d =
-              `<div class="d-flex align-items-center">` +
-              `<a href="${baseUrl}associations/${data.id}" class="p-1 ml-1 btn btn-link float-right">${data.id}</a>` +
+              `<div class="d-flex flex-column-reverse align-items-center">` +
+              `<a href="${baseUrl}users/${data.id}" class="p-1 ml-1 btn btn-link float-right">${data.username}</a>` +
+              `<img height="40" src="${data.getPhoto()}" class="mx-1" />` +
               `</div>`;
 
             return d;
@@ -29,20 +44,20 @@ $(function () {
           return data.id;
         },
       },
-      { data: "name", name: "name" },
-      { data: "community", name: "community" },
-      { data: "cluster_office_address", name: "cluster_office_address" },
-      { data: "assigned_person_name", name: "assigned_person_name" },
+      { data: "phone", name: "phone" },
+      { data: "email", name: "email" },
+      { data: "firstname", name: "firstname" },
+      { data: "lastname", name: "lastname" },
       {
-        data: "totalMembers",
-        name: "id",
+        data: null,
+        name: "role_id",
         render: function (data, type, row) {
-          return data + " members";
+          return data.role_label;
         },
       },
       {
-        data: "status",
-        name: "status",
+        data: "rstatus",
+        name: "rstatus",
         render: function (data, type, row) {
           if (type === "display") {
             let labels = {
@@ -56,14 +71,30 @@ $(function () {
           return data;
         },
       },
-      { data: "created_at", name: "created_at" },
+      { data: "created_at", name: "users.created_at" },
     ],
     //order: [[10, "desc"]],
     columnDefs: [
       {
         orderable: false,
-        targets: [5],
+        targets: [],
       },
     ],
   });
+
+  $('.filter').on('click keyup paste select2:select select2:unselect', function (params) {
+    table.ajax.reload();
+  });
+
+  $(".filter-clear").on("click", function (params) {
+    $("#date-from,#date-to").val("");
+    table.ajax.reload();
+  });
+
+  $(".select2").select2({
+    allowClear: true,
+    placeholder: "Select an option",
+    selectionCssClass: "form-select2",
+  });
+
 });

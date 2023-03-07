@@ -28,7 +28,7 @@ class Account extends MY_Controller
      * Show authenticated user profile update form
      * html view
      */
-    public function profile_update()
+    public function update_profile()
     {
         $this->load->view('pages/account/update-profile');
     }
@@ -37,10 +37,10 @@ class Account extends MY_Controller
      * Update a resource
      * print json Response
      */
-    public function update_profile ()
+    public function update ()
     {
-        $customer  = null;// replace created record object
-        if($customer){
+        $user  = null;// replace created record object
+        if($user){
             $out = [
                 'status' => true,
                 'message' => 'Profile updated successfully!'

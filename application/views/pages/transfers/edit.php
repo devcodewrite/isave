@@ -115,5 +115,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= site_url('assets/js/transfers/edit.js?v=5') ?>" defer></script>
+<script src="<?= site_url('assets/js/transfers/edit.js?v=6') ?>" defer></script>
 <?php app_end(); ?>

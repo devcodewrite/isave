@@ -54,37 +54,35 @@
                         <thead class="text-uppercase">
                             <tr>
                                 <th>#ID</th>
-                                <th>Request Date</th>
+                                <th>Association</th>
                                 <th>Pas.B No.</th>
                                 <th>Account</th>
-                                <th>Principal Amt.</th>
-                                <th>Interest Amt.</th>
+                                <th>Principal</th>
+                                <th>Interest</th>
                                 <th>Duration</th>
                                 <th>Rate</th>
-                                <th>Request Status</th>
-                                <th>Disbursement Date</th>
-                                <th>Repay. Date</th>
+                                <th>Req. Status</th>
+                                <th>Disbursed At</th>
+                                <th>Repay. Start</th>
                                 <th>Repay. Status</th>
-                                <th>Loan Type</th>
                                 <th>Added by</th>
                             </tr>
                         </thead>
 
                         <tfoot class="text-uppercase">
                             <tr>
-                                <th>#ID</th>
-                                <th>Request Date</th>
+                            <th>#ID</th>
+                                <th>Association</th>
                                 <th>Pas.B No.</th>
                                 <th>Account</th>
-                                <th>Principal Amt.</th>
-                                <th>Interest Amt.</th>
+                                <th>Principal</th>
+                                <th>Interest</th>
                                 <th>Duration</th>
                                 <th>Rate</th>
-                                <th>Request Status</th>
-                                <th>Disbursement Date</th>
-                                <th>Repay. Date</th>
+                                <th>Req. Status</th>
+                                <th>Disbursed At</th>
+                                <th>Repay. Start</th>
                                 <th>Repay. Status</th>
-                                <th>Loan Type</th>
                                 <th>Added by</th>
                             </tr>
                         </tfoot>
@@ -96,5 +94,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/loans/list.js?v=9') ?>" defer></script>
+<script src="<?= base_url('assets/js/loans/list.js?v=10') ?>" defer></script>
 <?php app_end(); ?>

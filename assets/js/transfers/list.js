@@ -29,6 +29,9 @@ $(function () {
           {
             data: 'amount',
             name: "amount",
+            render: function (data, type, row) {
+              return data < 0 ? `(${Math.abs(data).toFixed(2)})` : Number.parseFloat(data).toFixed(2);
+            },
           },
           {
             data: null,
@@ -92,9 +95,42 @@ $(function () {
           },
           {
             data: 'addedby',
-            name: "user_id",
+            name: "users.user_id",
           },
         ],
+        footerCallback: function (row, data, start, end, display) {
+          var api = this.api();
+    
+          // Remove the formatting to get integer data for summation
+          var intVal = function (i) {
+            return typeof i === "string"
+              ? i.replace(/[\$,]/g, "") * 1
+              : typeof i === "number"
+              ? i
+              : 0;
+          };
+    
+          // Total over all pages
+          total = api
+            .column(1)
+            .data()
+            .reduce(function (a, b) {
+              return intVal(a) + intVal(b);
+            }, 0);
+    
+          // Total over this page
+          pageTotal = api
+            .column(1, { page: "current" })
+            .data()
+            .reduce(function (a, b) {
+              return intVal(a) + intVal(b);
+            }, 0);
+    
+          // Update footer
+          $(api.column(1).footer()).html(
+            "GHS "+pageTotal.toFixed(2)
+          );
+        },
         // order: [[7, "desc"]],
         columnDefs: [
           {

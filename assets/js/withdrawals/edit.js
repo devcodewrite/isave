@@ -55,6 +55,23 @@ $(".select2-associations").select2({
   selectionCssClass: "form-select2",
 });
 
+$(".select2-accounts1")
+  .select2({
+    ajax: {
+      url: `${baseUrl}bankaccounts/select2`,
+      dataType: "json",
+      data: function (params) {
+        params.passbook = $(".select2-passbooks").val();
+        params.association_id = $(".select2-associations").val();
+        params.is_loan_acc = 0;
+        return params;
+      },
+    },
+    allowClear: true,
+    placeholder: "Select an account",
+    selectionCssClass: "form-select2",
+  });
+
 form.on("submit", function (e) {
   e.preventDefault();
   if (form.valid() === true){

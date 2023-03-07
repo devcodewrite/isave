@@ -6,7 +6,5 @@ $(function () {
     dom: "lBftip",
     buttons: ["print", "pdf", "excel"],
   });
-  $(".print").on("click", function (e) {
-    $(".deposit-slip").printThis();
-  });
+ 
 });

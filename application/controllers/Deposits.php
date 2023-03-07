@@ -9,7 +9,9 @@ class Deposits extends MY_Controller
      */
     public function index()
     {
-        $this->load->view('pages/deposits/list');
+        $data = $this->input->get();
+
+        $this->load->view('pages/deposits/list', $data);
     }
 
     /**
@@ -57,6 +59,7 @@ class Deposits extends MY_Controller
         if (!$deposit) show_404();
 
         $deposit->account = $this->account->find($deposit->account_id);
+        $deposit->account->accType = $this->acctype->find($deposit->account->acc_type_id);
         $data = [
             'deposit' => $deposit,
         ];
@@ -84,7 +87,7 @@ class Deposits extends MY_Controller
 
             $out = [
                 'status' => false,
-                'message' => $error?$error:"Deposit couldn't be created!"
+                'message' => $error ? $error : "Deposit couldn't be created!"
             ];
         }
         httpResponseJson($out);
@@ -106,10 +109,9 @@ class Deposits extends MY_Controller
             ];
         } else {
             $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
-
             $out = [
                 'status' => false,
-                'message' => $error?$error:"Mass deposit couldn't be created!"
+                'message' => $error ? $error : "Mass deposit couldn't be created!"
             ];
         }
         httpResponseJson($out);
@@ -134,7 +136,7 @@ class Deposits extends MY_Controller
         } else {
             $out = [
                 'status' => false,
-                'message' => $error?$error:"Deposit data couldn't be updated!"
+                'message' => $error ? $error : "Deposit data couldn't be updated!"
             ];
         }
         httpResponseJson($out);
@@ -170,6 +172,21 @@ class Deposits extends MY_Controller
         $where = [];
         if ($this->input->get('account_id'))
             $where = array_merge($where, ['deposits.account_id' => $inputs['account_id']]);
+
+        if ($this->input->get('association_id'))
+            $where = array_merge($where, ['association_members.association_id' => $inputs['association_id']]);
+
+        if ($this->input->get('member_id'))
+            $where = array_merge($where, ['association_members.member_id' => $inputs['member_id']]);
+
+        if ($this->input->get('type'))
+            $where = array_merge($where, ['deposits.type' => $inputs['type']]);
+
+        if ($this->input->get('ownership'))
+            $where = array_merge($where, ['accounts.ownership' => $inputs['ownership']]);
+
+        if ($this->input->get('acc_type_id'))
+            $where = array_merge($where, ['accounts.acc_type_id' => $inputs['acc_type_id']]);
 
         $query->where($where);
 

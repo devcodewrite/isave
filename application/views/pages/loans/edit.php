@@ -52,7 +52,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Passbook NO.</label>
-                                    <select name="passbook" id="passbook" class="form-control select2-passbooks" required>
+                                    <select name="passbook" id="passbook" class="form-control select2-passbooks1" required>
                                         <option value=""></option>
                                         <?php if (isset($loan)) { ?>
                                             <option value="<?= $loan->account->passbook ?>" selected><?= $loan->account->passbook ?></option>
@@ -63,27 +63,16 @@
                         </div>
 
                         <div class="form-row mb-3">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Account</label>
-                                    <select name="account_id" id="account_id" class="form-control select2-accounts" required>
+                                    <label>Loan Accounts <sup class="text-danger">*</sup></label>
+                                    <select name="account_id" id="account_id" class="form-control select2-accounts1" required>
                                         <option value=""></option>
                                         <?php if (isset($loan)) { ?>
-                                            <option value="<?= $loan->account_id ?>" selected><?= $loan->account->name ?></option>
+                                            <option value="<?= $loan->account_id ?>" selected><?= $loan->account->accType->label ?>#<?= $loan->account->acc_number ?></option>
                                         <?php } ?>
                                     </select>
 
-                                </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="position-relative form-group">
-                                    <label for="loan_type_id">Loan type</label>
-                                    <select name="loan_type_id" class="form-control select2-loan-types" required>
-                                        <option value=""></option>
-                                        <?php foreach ($loanTypes as $row) { ?>
-                                            <option value="<?= $row->id; ?>"><?= $row->label; ?>@<?= str_replace('_', ' ', $row->rate_type); ?></option>
-                                        <?php } ?>
-                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -105,7 +94,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="amount">Interest Rate</label>
-                                    <input type="number" name="rate" id="rate" class="form-control" value="<?= isset($loan) ? $loan->rate : '' ?>" placeholder="Enter the rate" min="0" required>
+                                    <input type="number" name="rate" id="rate" class="form-control" value="<?= isset($loan) ? $loan->rate : '' ?>" placeholder="Enter the rate" min="0" readonly required>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -148,5 +137,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= site_url('assets/js/loans/edit.js?v=1') ?>" defer></script>
+<script src="<?= site_url('assets/js/loans/edit.js?v=2') ?>" defer></script>
 <?php app_end(); ?>

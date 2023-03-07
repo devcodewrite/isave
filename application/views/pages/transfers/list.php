@@ -64,15 +64,15 @@
 
                 <tfoot class="text-uppercase">
                     <tr>
-                        <th>Date</th>
-                        <th>Amount</th>
-                        <th>From Acc.</th>
-                        <th>To Acc.</th>
-                        <th>From Pas.B</th>
-                        <th>To Pas.B</th>
-                        <th>From Assoc.</th>
-                        <th>To Assoc.</th>
-                        <th>By User</th>
+                        <th>Total</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </tfoot>
             </table>
@@ -82,5 +82,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/transfers/list.js?v=2') ?>" defer></script>
+<script src="<?= base_url('assets/js/transfers/list.js?v=5') ?>" defer></script>
 <?php app_end(); ?>

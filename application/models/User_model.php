@@ -38,6 +38,19 @@ class User_model extends CI_Model
     }
 
     /**
+     * Delete a record
+     * @param $id
+     * @return Boolean
+     */
+    public function delete(int $id)
+    {
+        $this->db->set(['deleted_at' => date('Y-m-d H:i:s')]);
+        $this->db->where('id', $id);
+        $this->db->update($this->table);
+        return $this->db->affected_rows() > 0;
+    }
+
+    /**
      * Extract only values of only fields in the table
      * @param $data
      * @return Array
@@ -107,9 +120,15 @@ class User_model extends CI_Model
 
         $where = [
             'id' => $id,
-            "{$this->table}.deleted_at =" => null
+            "deleted_at" => null
         ];
-        return $this->db->get_where($this->table, $where)->row();
+        $user = $this->db->get_where($this->table, $where)->row();
+        if ($user)
+            $user->role =$this->role->find($user->role_id);
+
+        if(!$user->role) return false;
+        
+        return $user;
     }
 
     /**
@@ -126,6 +145,8 @@ class User_model extends CI_Model
      */
     public function all()
     {
+        $rtable = 'roles';
+
         $where = ["{$this->table}.deleted_at =" => null];
         $fields = [
             "{$this->table}.id",
@@ -139,8 +160,8 @@ class User_model extends CI_Model
             "{$this->table}.phone_verified_at",
             "{$this->table}.email_verified_at",
             "{$this->table}.photo_url",
-            "{$this->table}.permission_id",
             "{$this->table}.role_id",
+            "$rtable.label as role_label",
             "{$this->table}.rstatus",
             "{$this->table}.created_at",
             "{$this->table}.updated_at",
@@ -149,6 +170,7 @@ class User_model extends CI_Model
         return
             $this->db->select($fields, true)
             ->from($this->table)
+            ->join($rtable, "$rtable.id={$this->table}.role_id")
             ->where($where);
     }
 
