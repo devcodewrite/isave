@@ -81,13 +81,13 @@
                                             <?= $user->sex ?>
                                         </p>
                                     </div>
-                                    <div class="row text-uppercase mt-3 border-bottom">
+                                    <div class="row mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Username</p>
                                         <h5 class="col-6 text-info">
                                             <?= $user->username ?>
                                         </h5>
                                     </div>
-                                    <div class="row text-uppercase mt-3 border-bottom">
+                                    <div class="row mt-3 border-bottom">
                                         <p class="col-6 text-black-50">Email</p>
                                         <p class="col-6 input-placeholder text-blaick">
                                             <?= $user->email ?>

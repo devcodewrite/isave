@@ -114,7 +114,7 @@
                         </div>
                         <div class="widget-chart-content">
                             <div class="widget-subheading">Capital Gains</div>
-                            <div class="widget-numbers text-success"><span>$563</span></div>
+                            <div class="widget-numbers text-success"><span>0.00</span></div>
                             <div class="widget-description text-focus">
                                 Increased by
                                 <span class="text-warning pl-1">

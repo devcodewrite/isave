@@ -95,7 +95,7 @@ $(function () {
 
       // Update footer
       $(api.column(2).footer()).html(
-        pageTotal.toFixed(2) + " (" + total.toFixed(2) + " total)"
+        "GHS " + pageTotal.toFixed(2)
       );
 
       // Total over all pages
@@ -116,7 +116,7 @@ $(function () {
 
       // Update footer
       $(api.column(3).footer()).html(
-        pageTotal2.toFixed(2) + " (" + total2.toFixed(2) + " total)"
+        "GHS " +  pageTotal2.toFixed(2)
       );
 
       // Total over all pages
@@ -137,7 +137,7 @@ $(function () {
 
       // Update footer
       $(api.column(4).footer()).html(
-        pageTotal3.toFixed(2) + " (" + total3.toFixed(2) + " total)"
+        "GHS " +  pageTotal3.toFixed(2)
       );
     },
     columnDefs: [
