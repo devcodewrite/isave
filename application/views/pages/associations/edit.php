@@ -82,7 +82,7 @@
                 <div class="form-group">
                     <label for="user_id">Assign a user</label>
                     <div>
-                        <select name="assigned_user_id" class="form-control select2-users" required>
+                        <select name="assigned_user_id" class="form-control select2-users">
                             <option value=""></option>
                             <?php if (isset($association)) { ?>
                                 <option value="<?= $association->assigned_user_id ?>"><?= $association->user->firstname ?> <?= $association->user->lastname ?></option>
