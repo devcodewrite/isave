@@ -74,7 +74,7 @@
                                 <tr>
                                     <td class="text-uppercase"><?=$key+1 ?></td>
                                     <td><?= $row->edate ?></td>
-                                    <td><?=$account?$account->name:''; ?></td>
+                                    <td><?=$account?$account->name:''; ?> (<?=$account?$account->accType->label:''; ?>)</td>
                                     <td class="text-uppercase"><?= str_replace('_', ' ', $row->type) ?></td>
                                     <td><?= $row->is_credit === '0' ? $row->amount : '' ?></td>
                                     <td><?= $row->is_credit === '1' ? $row->amount : '' ?></td>
