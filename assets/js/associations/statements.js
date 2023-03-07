@@ -46,7 +46,7 @@ $(function () {
         data: "reconcile_amount",
         name: "reconcile_amount",
         render: function (data, type, row) {
-          return data < 0 ? `(${Math.abs(data).toFixed(2)})` : data;
+          return data < 0 ? `(${Math.abs(data).toFixed(2)})` : data.toFixed(2);
         },
       },
       {
