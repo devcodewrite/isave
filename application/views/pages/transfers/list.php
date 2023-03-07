@@ -82,5 +82,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/transfers/list.js?v=3') ?>" defer></script>
+<script src="<?= base_url('assets/js/transfers/list.js?v=4') ?>" defer></script>
 <?php app_end(); ?>

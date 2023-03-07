@@ -67,14 +67,20 @@ $(function () {
           return data.acc_number;
         },
       },
-      { data: "amount", name: "withdrawals.amount" },
+      {
+        data: "amount",
+        name: "withdrawals.amount",
+        render: function (data, type, row) {
+          return data < 0 ? `(${Math.abs(data).toFixed(2)})` : data;
+        },
+      },
       {
         data: "type",
         name: "withdrawals.type",
         render: function (data, type, row) {
           return data.toUpperCase();
         },
-      }
+      },
     ],
     footerCallback: function (row, data, start, end, display) {
       var api = this.api();
@@ -105,9 +111,7 @@ $(function () {
         }, 0);
 
       // Update footer
-      $(api.column(5).footer()).html(
-        "GHS "+pageTotal.toFixed(2)
-      );
+      $(api.column(5).footer()).html("GHS " + pageTotal.toFixed(2));
     },
     order: [[1, "desc"]],
     columnDefs: [

@@ -67,7 +67,13 @@ $(function () {
           return data.acc_number;
         },
       },
-      { data: "amount", name: "deposits.amount" },
+      {
+        data: "amount",
+        name: "deposits.amount",
+        render: function (data, type, row) {
+          return data < 0 ? `(${Math.abs(data).toFixed(2)})` : data;
+        },
+      },
       {
         data: "type",
         name: "deposits.type",
@@ -105,9 +111,7 @@ $(function () {
         }, 0);
 
       // Update footer
-      $(api.column(5).footer()).html(
-        "GHS "+pageTotal.toFixed(2)
-      );
+      $(api.column(5).footer()).html("GHS " + pageTotal.toFixed(2));
     },
     order: [[1, "desc"]],
     columnDefs: [
