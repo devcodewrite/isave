@@ -71,7 +71,7 @@ $(function () {
         data: "amount",
         name: "withdrawals.amount",
         render: function (data, type, row) {
-          return data < 0 ? `(${Math.abs(data).toFixed(2)})` : data.toFixed(2);
+          return data < 0 ? `(${Math.abs(data).toFixed(2)})` : Number.parseFloat(data).toFixed(2);
         },
       },
       {
