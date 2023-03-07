@@ -126,6 +126,8 @@ class User_model extends CI_Model
         if ($user)
             $user->role =$this->role->find($user->role_id);
 
+        if(!$user->role) return false;
+        
         return $user;
     }
 

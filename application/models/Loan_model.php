@@ -267,4 +267,56 @@ class Loan_model extends CI_Model
         }
         return $loan;
     }
+
+    public function transactions()
+    {
+        $fields = [
+            'deposits.id as ref',
+            'deposits.amount',
+            'deposits.account_id as account_id1',
+            'deposits.type',
+            'depositor_name as narration',
+            '1 as is_credit',
+            "ddate as edate",
+            "deposits.created_at as creation",
+        ];
+        $fields1 = [
+            'withdrawals.id as ref',
+            'withdrawals.amount',
+            'withdrawals.account_id as account_id1',
+            'withdrawals.type',
+            'withdrawer_name as narration',
+            '0 as is_credit',
+            "wdate as edate",
+            "withdrawals.created_at as creation",
+        ];
+
+        $rtable = 'deposits';
+        $rtable1 = 'accounts';
+        $col1 = 'account_id';
+        $rtable2 = 'acc_types';
+        $col2 = 'acc_type_id';
+
+        $query1 = $this->db->select($fields, false)
+            ->from($rtable)
+            ->join($rtable1, "accounts.id=$rtable.$col1")
+            ->join($rtable2, "acc_types.id=$rtable1.$col2")
+            ->where('is_loan_acc', 1)
+            ->order_by('ddate', 'asc')
+            ->get_compiled_select();
+
+        $rtable = 'withdrawals';
+        $query2 = $this->db->select($fields1)
+            ->from($rtable)
+            ->join($rtable1, "accounts.id=$rtable.$col1")
+            ->join($rtable2, "acc_types.id=$rtable1.$col2")
+            ->where('is_loan_acc', 1)
+            ->order_by('wdate', 'asc')
+            ->get_compiled_select();
+
+        $this->db->query("SET @balance:=0;");
+
+        return $this->db->query("SELECT creation,ref,amount,type,narration,is_credit,edate,account_id1,(CASE WHEN is_credit=1 THEN @balance := @balance + amount ELSE @balance := @balance - amount END) as balance FROM (($query1) UNION ($query2)) as x order by edate asc, ref asc")
+            ->result();
+    }
 }

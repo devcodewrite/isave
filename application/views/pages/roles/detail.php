@@ -96,16 +96,16 @@
                             </div>
                         </div>
                         <div class="d-block text-right card-footer">
-                            <button class="btn btn-info btn-lg">Modify</button>
-                            <button class="btn btn-warning btn-lg">Close</button>
+                            <a href="<?= site_url('roles/' . $role->id . '/edit') ?>" class="btn btn-warning btn-lg">Modify</a>
+                            <button class="btn btn-danger btn-lg delete" data-url="<?= site_url('roles') ?>" data-id="<?= $role->id ?>">Delete</button>
                         </div>
                     </div>
 
                     <div class="tab-pane" id="tab-eg9-3" role="tabpanel">
                         <div class="card-body">
-                            <form id="edit-permission" method="post" action="<?= $role->permission ? site_url('permissions/update/' . $role->permission->id) : site_url('permissions/store') ?>" data-redirect-url="<?= site_url('roles/'.$role->id) ?>" >
-                                <input type="hidden" name="id" value="<?=$role->permission?$role->permission->id:'' ?>">
-                                <input type="hidden" name="role_id" <?=$role->id ?>>
+                            <form id="edit-permission" method="post" action="<?= $role->permission ? site_url('permissions/update/' . $role->permission->id) : site_url('permissions/store') ?>" data-redirect-url="<?= site_url('roles/' . $role->id) ?>">
+                                <input type="hidden" name="id" value="<?= $role->permission ? $role->permission->id : '' ?>">
+                                <input type="hidden" name="role_id" <?= $role->id ?>>
                                 <table style="width: 100%;" class="table table-hover table-striped table-bordered">
                                     <thead class="text-uppercase">
                                         <tr>
@@ -118,22 +118,39 @@
                                         <?php
                                         $perms = ['create', 'view', 'update', 'delete'];
                                         $rowspan = sizeof($perms);
-                                        
+
                                         foreach ($this->perm->modules() as $row) {
-                                            $rolePerm = explode(',',$role->permission->{$row->name});
-                                            
+                                            $rolePerm = explode(',', $role->permission->{$row->name});
                                         ?>
-                                            <?php foreach ($perms as $key => $perm) { ?>
+                                            <?php
+                                            if ($row->name === 'is_admin' || $row->name === 'is_super_admin') {
+                                            ?>
                                                 <tr>
-                                                    <?php if ($key === 0) { ?>
-                                                        <td rowspan="<?= $rowspan ?>" class="text-uppercase border"><?= str_replace('_', ' ', $row->name); ?></td>
-                                                    <?php } ?>
-                                                    <td class="text-uppercase"><?= $perm ?></td>
-                                                    <td>
-                                                        <input type="checkbox" name="<?= $row->name; ?>[]" value="<?= $perm ?>"  <?=in_array($perm,$rolePerm)?'checked':'' ?>>
+                                                    <td class="text-uppercase border"><?= str_replace('_', ' ', $row->name); ?></td>
+                                                    <td colspan="2">
+                                                        <?php if ($role->permission->is_super_admin === '1') { ?>
+                                                            <input type="hidden" name="<?= $row->name; ?>" value="1" <?= $role->permission->{$row->name} === '1' ? 'checked' : '' ?>>
+                                                        <?php } ?>
+                                                        <input type="checkbox" name="<?= $row->name; ?>" value="1" <?= $role->permission->{$row->name} === '1' ? 'checked' : '' ?> <?= $role->permission->is_super_admin === '1' ? 'disabled' : '' ?>>
                                                     </td>
                                                 </tr>
-                                            <?php } ?>
+                                                <?php
+                                            } else {
+                                                foreach ($perms as $key => $perm) { ?>
+                                                    <tr>
+                                                        <?php if ($key === 0) { ?>
+                                                            <td rowspan="<?= $rowspan ?>" class="text-uppercase border"><?= str_replace('_', ' ', $row->name); ?></td>
+                                                        <?php } ?>
+                                                        <td class="text-uppercase"><?= $perm ?></td>
+                                                        <td>
+                                                            <?php if ($role->permission->is_super_admin === '1') { ?>
+                                                                <input type="hidden" name="<?= $row->name; ?>[]" value="<?= $perm ?>" <?= in_array($perm, $rolePerm) ? 'checked' : '' ?>>
+                                                            <?php } ?>
+                                                            <input type="checkbox" name="<?= $row->name; ?>[]" value="<?= $perm ?>" <?= in_array($perm, $rolePerm) ? 'checked' : '' ?> <?= $role->permission->is_super_admin === '1' ? 'disabled' : '' ?>>
+                                                        </td>
+                                                    </tr>
+                                            <?php }
+                                            } ?>
                                         <?php
                                         } ?>
                                     </tbody>

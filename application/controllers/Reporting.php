@@ -16,8 +16,8 @@ class Reporting extends MY_Controller
      * Show a list of resources
      * @return string html view
      */
-    public function loans()
+    public function loan_transactions()
     {
-        $this->load->view('pages/reportings/loans');
+        $this->load->view('pages/reportings/loan_transactions');
     }
 }

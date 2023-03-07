@@ -212,6 +212,11 @@
                                 <i class="metismenu-icon"></i>Reporting Transactions
                             </a>
                         </li>
+                        <li>
+                            <a href="<?= site_url('reporting/loan-transactions') ?>" class="<?= get_nav_status1('reporting/loan-transactions') ?>">
+                                <i class="metismenu-icon"></i>Reporting Loan Transac.
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="app-sidebar__heading d-none">Records Reporting</li>

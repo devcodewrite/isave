@@ -12,6 +12,10 @@ class Role_model extends CI_Model
 
         $data = $this->extract($record);
 
+        $perm = $this->perm->create(['users'=>'','members'=>'']);
+
+        $data['permission_id'] = $perm->id;
+
         if ($this->db->insert($this->table, $data)) {
             $id = $this->db->insert_id();
             return $this->find($id);
@@ -32,7 +36,22 @@ class Role_model extends CI_Model
         return $this->find($id);
     }
 
-     /**
+
+    /**
+     * Delete a record
+     * @param $id
+     * @return Boolean
+     */
+    public function delete(int $id)
+    {
+        $role = $this->find($id);
+        if ($this->perm->delete($role->permission_id))
+            return $this->db->delete($this->table, ['id' => $id]);
+        
+        return false;
+    }
+
+    /**
      * Extract only values of only fields in the table
      * @param $data
      * @return Array
@@ -48,27 +67,30 @@ class Role_model extends CI_Model
         return $filtered;
     }
 
-     /**
+    /**
      * Get role by id
      */
     public function find(int $id)
     {
-        if(!$id) return;
-        
+        if (!$id) return;
+
         $where = [
-            'id'=> $id,
+            'id' => $id,
         ];
-        $role = $this->db->get_where($this->table,$where)->row();
+        $role = $this->db->get_where($this->table, $where)->row();
+        if(!$role) return false;
+
         $role->permission = $this->perm->find($role->permission_id);
+       
         return $role;
     }
 
-     /**
+    /**
      * Get roles by column where cluase
      */
     public function where(array $where)
     {
-        return $this->db->get_where($this->table,$where);
+        return $this->db->get_where($this->table, $where);
     }
 
     /**
@@ -77,12 +99,12 @@ class Role_model extends CI_Model
     public function all()
     {
         $fields = [];
-        return 
+        return
             $this->db->select($fields, true)
-                    ->from($this->table);
+            ->from($this->table);
     }
 
-     /**
+    /**
      * Get all users that belongs to this role id
      */
     public function users(int $id)
@@ -90,10 +112,10 @@ class Role_model extends CI_Model
         $rtable = 'users';
 
         return $this->db->select("$rtable.*")
-                    ->from($rtable)
-                    ->where(['role_id'=> $id])
-                    ->where("$rtable.deleted_at =", null)
-                    ->get()
-                    ->result();
+            ->from($rtable)
+            ->where(['role_id' => $id])
+            ->where("$rtable.deleted_at =", null)
+            ->get()
+            ->result();
     }
 }

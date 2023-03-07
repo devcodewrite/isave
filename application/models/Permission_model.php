@@ -27,12 +27,24 @@ class Permission_model extends CI_Model
         $data = $this->extract($data);
 
         foreach($this->modules() as $row){
+            if($row->name === 'is_super_admin'
+            || $row->name === 'is_admin') continue;
             $data[$row->name] = isset($data[$row->name])?implode(',',$data[$row->name]):'';
         }
         $this->db->set($data);
         $this->db->where('id', $id);
         $this->db->update($this->table);
         return $this->find($id);
+    }
+
+    /**
+     * Delete a record
+     * @param $id
+     * @return Boolean
+     */
+    public function delete(int $id)
+    {
+        return $this->db->delete($this->table, ['id' => $id]);
     }
 
     /**
