@@ -131,7 +131,7 @@
                                                         <?php if ($role->permission->is_super_admin === '1') { ?>
                                                             <input type="hidden" name="<?= $row->name; ?>" value="1" <?= $role->permission->{$row->name} === '1' ? 'checked' : '' ?>>
                                                         <?php } ?>
-                                                        <input type="checkbox" name="<?= $row->name; ?>" value="1" <?= $role->permission->{$row->name} === '1' ? 'checked' : '' ?> <?= $role->permission->is_super_admin === '1' ? 'disabled' : '' ?>>
+                                                        <input type="checkbox" name="<?= $row->name; ?>" value="1" <?= $role->permission->{$row->name} === '1' ? 'checked' : '' ?> <?= $role->permission->is_super_admin === '1'||$row->name==='is_super_admin' ? 'disabled' : '' ?>>
                                                     </td>
                                                 </tr>
                                                 <?php
