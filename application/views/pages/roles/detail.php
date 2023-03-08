@@ -143,7 +143,9 @@
                                                         <?php } ?>
                                                         <td class="text-uppercase"><?= $perm ?></td>
                                                         <td>
-                                                            <?php if ($role->permission->is_super_admin === '1') { ?>
+                                                            <?php
+                                                            if (isset($role->permission->is_super_admin))
+                                                                if ($role->permission->is_super_admin === '1') { ?>
                                                                 <input type="hidden" name="<?= $row->name; ?>[]" value="<?= $perm ?>" <?= in_array($perm, $rolePerm) ? 'checked' : '' ?>>
                                                             <?php } ?>
                                                             <input type="checkbox" name="<?= $row->name; ?>[]" value="<?= $perm ?>" <?= in_array($perm, $rolePerm) ? 'checked' : '' ?> <?= $role->permission->is_super_admin === '1' ? 'disabled' : '' ?>>
