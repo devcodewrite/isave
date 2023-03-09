@@ -123,11 +123,12 @@ class User_model extends CI_Model
             "deleted_at" => null
         ];
         $user = $this->db->get_where($this->table, $where)->row();
-        if ($user)
-            $user->role =$this->role->find($user->role_id);
+        if ($user) {
+            $user->role = $this->role->find($user->role_id);
 
-        if(!$user->role) return false;
-        
+            if (!$user->role) return false;
+        }
+
         return $user;
     }
 
