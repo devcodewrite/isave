@@ -10,7 +10,7 @@ $(function () {
   $.fn.DataTable.ext.search.push(function (settings, data, dataIndex) {
     var min = new Date(minDate.val());
     var max = new Date(maxDate.val());
-    var date = new Date(data[1]);
+    var date = new Date(data[0]);
 
     if (
       (min <= date && max >= date) ||
