@@ -102,7 +102,7 @@ class Account_model extends CI_Model
     /**
      * Get accounts by column where cluase
      */
-    public function where(array $where)
+    public function where(array $where = [])
     {
         $where = array_merge($where, ["{$this->table}.deleted_at =" => null]);
 
@@ -363,6 +363,46 @@ class Account_model extends CI_Model
         return $this->db->query("SELECT creation,ref,amount,type,narration,is_credit,edate,account_id1,(CASE WHEN is_credit=1 THEN @balance := @balance + amount ELSE @balance := @balance - amount END) as balance FROM (($query1) UNION ($query2)) as x order by edate asc, ref asc")
             ->result();
     }
+
+    public function associationTransactions()
+    {
+        $fields = [
+            'associations.name',
+            'SUM(amount) as deposit_amount',
+            '0 as withdrawal_amount',
+            "ddate as edate",
+        ];
+        $fields1 = [
+            'associations.name',
+            '0 as deposit_amount',
+            'SUM(amount) as withdrawal_amount',
+            "wdate as edate"
+        ];
+
+        $rtable = 'deposits';
+        $query1 = $this->db->select($fields, false)
+            ->from($rtable)
+            ->join('accounts', "accounts.id=$rtable.account_id")
+            ->join('associations', "associations.id=accounts.association_id")
+            ->order_by('ddate', 'asc')
+            ->group_by('associations.id')
+            ->group_by('ddate')
+            ->get_compiled_select();
+
+        $rtable = 'withdrawals';
+        $query2 = $this->db->select($fields1)
+            ->from($rtable)
+            ->join('accounts', "accounts.id=$rtable.account_id")
+            ->join('associations', "associations.id=accounts.association_id")
+            ->order_by('wdate', 'asc')
+            ->group_by('associations.id')
+            ->group_by('wdate')
+            ->get_compiled_select();
+
+        return $this->db->query("SELECT name,edate,SUM(ifnull(deposit_amount,0)) as deposit_amount,SUM(ifnull(withdrawal_amount,0)) as withdrawal_amount FROM (($query1) UNION ($query2)) as x group by edate, name order by edate asc")
+            ->result();
+    }
+
 
     public function calBalance(int $id = null)
     {

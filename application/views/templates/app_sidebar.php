@@ -199,7 +199,7 @@
                         </li>
                     </ul>
                 </li>
-
+                <li class="app-sidebar__heading">Reportings</li>
                 <li class="app-sidebar__heading d-none">Reporting</li>
                 <li class="<?= get_nav_status('reporting') ?>">
                     <a href="#">
@@ -208,13 +208,23 @@
                     </a>
                     <ul>
                         <li>
+                            <a href="<?= site_url('reporting/cashbook') ?>" class="<?= get_nav_status1('reporting/cashbook') ?>">
+                                <i class="metismenu-icon"></i>Cashbook Reports
+                            </a>
+                        </li>
+                        <li>
                             <a href="<?= site_url('reporting/transactions') ?>" class="<?= get_nav_status1('reporting/transactions') ?>">
-                                <i class="metismenu-icon"></i>Reporting Transactions
+                                <i class="metismenu-icon"></i>Transaction Reports
                             </a>
                         </li>
                         <li>
                             <a href="<?= site_url('reporting/loan-transactions') ?>" class="<?= get_nav_status1('reporting/loan-transactions') ?>">
-                                <i class="metismenu-icon"></i>Reporting Loan Transac.
+                                <i class="metismenu-icon"></i>Association Report
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?= site_url('reporting/member-refundable-balances') ?>" class="<?= get_nav_status1('reporting/member-refundable-balances') ?>">
+                                <i class="metismenu-icon"></i>Refundable Balance
                             </a>
                         </li>
                     </ul>

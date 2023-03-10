@@ -8,8 +8,8 @@
                 <div class="page-title-icon">
                     <i class="pe-7s-notebook icon-gradient bg-happy-itmeo"></i>
                 </div>
-                <div>Cashbook Report
-                    <div class="page-title-subheading">Reporting transactions and account balance.</div>
+                <div>Reporting Transactions
+                    <div class="page-title-subheading">Reporting transactions.</div>
                 </div>
             </div>
         </div>
@@ -56,33 +56,43 @@
                         <thead class="text-uppercase">
                             <tr>
                                 <th>Date</th>
-                                <th>Association</th>
-                                <th>Deposits</th>
-                                <th>Withdrawals</th>
+                                <th>Account</th>
+                                <th>Acc. Type</th>
+                                <th>Transac. Type</th>
+                                <th>Debit</th>
+                                <th>Credit</th>
                                 <th>Balance</th>
+                                <th>Narration</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($this->account->associationTransactions() as $key => $row) {
-                                $row->balance = $row->deposit_amount - $row->withdrawal_amount;
+                            <?php foreach ($this->account->transactions() as $key => $row) {
+                                $transtype = $row->is_credit === '1' ? 'deposits' : 'withdrawals';
+                                $account = $this->account->find(intval($row->account_id1));
                             ?>
                                 <tr>
                                     <td><?= $row->edate ?></td>
-                                    <td><?= $row->name; ?></td>
-                                    <td><?=number_format($row->deposit_amount,2); ?></td>
-                                    <td><?= number_format($row->withdrawal_amount,2); ?></td>
+                                    <td><?=$account?$account->name:''; ?><br><?=$account->passbook; ?></td>
+                                    <td><?=$account?$account->accType->label:''; ?></td>
+                                    <td class="text-uppercase"><?= str_replace('_', ' ', $row->type) ?></td>
+                                    <td><?= $row->is_credit === '0' ? $row->amount : '' ?></td>
+                                    <td><?= $row->is_credit === '1' ? $row->amount : '' ?></td>
                                     <td><?= $row->balance < 0 ? '(' . number_format(abs($row->balance), 2) . ')' : number_format($row->balance, 2) ?></td>
-                                   
+                                    <td><?=$row->narration ?></td>
+                                    
                                 </tr>
                             <?php  } ?>
                         </tbody>
                         <tfoot class="text-uppercase">
                             <tr>
                                 <th>Date</th>
-                                <th>Association</th>
-                                <th>Deposits</th>
-                                <th>Withdrawals</th>
+                                <th>Account</th>
+                                <th>Acc. Type</th>
+                                <th>Transac. Type</th>
+                                <th>Debit</th>
+                                <th>Credit</th>
                                 <th>Balance</th>
+                                <th>Narration</th>
                             </tr>
                         </tfoot>
                     </table>

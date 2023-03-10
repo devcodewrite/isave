@@ -61,7 +61,12 @@ class Associations extends MY_Controller
 
         if ($tran) {
             $statement->id = $tran->tdate;
-            $statement->total_amount = $tran->momo_deposits;
+            $statement->total_amount = $tran->cash_deposits;
+            $statement->ecash_amount = $tran->momo_deposits;
+        }
+        else{
+            $statement->ecash_amount = 0.00;
+            $statement->id = $id;
         }
 
         $data = [

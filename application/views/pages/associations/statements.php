@@ -57,7 +57,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="name">E-cash Received</label>
-                            <input type="number" class="form-control" name="reconcile_amount" placeholder="Enter reconcile amount" value="<?= isset($statement->reconcile_amount) ? number_format($statement->reconcile_amount, 2) : "" ?>" required />
+                            <input type="number" class="form-control" name="reconcile_amount" placeholder="Enter reconcile amount" value="<?= isset($statement->reconcile_amount) ? number_format($statement->reconcile_amount, 2) :  number_format($statement->ecash_amount, 2) ?>" required />
                         </div>
                     </div>
                 </div>
@@ -72,7 +72,7 @@
             </form>
         </div>
         <div class="card-footer d-block text-right">
-            <button class="btn btn-success btn-lg" onclick="$('.edit-statement').trigger('submit')">Save Changes</button>
+            <button class="btn btn-success btn-lg" onclick="$('.edit-statement').trigger('submit')">Reconcile</button>
         </div>
     </div>
     <div class="main-card mb-3 card">
@@ -126,8 +126,8 @@
                     <tr>
                         <th>#Ref</th>
                         <th>Association</th>
-                        <th>E-cash</th>
                         <th>Reconcile Amount</th>
+                        <th>E-Cash Amount</th>
                         <th>Diff</th>
                         <th>Note</th>
                         <th>Action</th>

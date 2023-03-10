@@ -72,7 +72,7 @@ class Accounttype_model extends CI_Model
      /**
      * Get acc_types by column where cluase
      */
-    public function where(array $where)
+    public function where(array $where = [])
     {
         return $this->db->get_where($this->table,$where);
     }
