@@ -430,8 +430,10 @@ class Account_model extends CI_Model
 
         $query = $this->db->select("SUM(ifnull(($qselect_sum_deposits),0) - ifnull(($qselect_sum_withdrawals),0)) as total")
             ->from($this->table)
+            ->join('acc_types', "acc_types.id={$this->table}.acc_type_id")
             ->where("{$this->table}.deleted_at =", null)
             ->where($where)
+
             ->get();
         if ($query) return $query->row('total');
     }

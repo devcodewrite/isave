@@ -209,17 +209,17 @@
                     <ul>
                         <li>
                             <a href="<?= site_url('reporting/cashbook') ?>" class="<?= get_nav_status1('reporting/cashbook') ?>">
-                                <i class="metismenu-icon"></i>Cashbook Reports
+                                <i class="metismenu-icon"></i>Cashbook Report
                             </a>
                         </li>
                         <li>
                             <a href="<?= site_url('reporting/transactions') ?>" class="<?= get_nav_status1('reporting/transactions') ?>">
-                                <i class="metismenu-icon"></i>Transaction Reports
+                                <i class="metismenu-icon"></i>Transaction Report
                             </a>
                         </li>
                         <li>
                             <a href="<?= site_url('reporting/loan-transactions') ?>" class="<?= get_nav_status1('reporting/loan-transactions') ?>">
-                                <i class="metismenu-icon"></i>Association Report
+                                <i class="metismenu-icon"></i>Loan Transac. Report
                             </a>
                         </li>
                         <li>

@@ -43,51 +43,37 @@
                     <table style="width: 100%;" id="dt-transactions" class="table table-hover table-striped table-bordered">
                         <thead class="text-uppercase">
                             <tr>
-                                <th>#</th>
                                 <th>Date</th>
-                                <th>Account Name</th>
-                                <th>Transac. Type</th>
-                                <th>Debit</th>
-                                <th>Credit</th>
+                                <th>Association</th>
+                                <th>Deposits</th>
+                                <th>Withdrawals</th>
                                 <th>Balance</th>
-                                <th>Narration</th>
-                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($this->loan->transactions() as $key => $row) {
-                                  $transtype = $row->is_credit === '1' ? 'deposits' : 'withdrawals';
-                                  $account = $this->account->find(intval($row->account_id1));
+                            <?php foreach ($this->loan->associationTransactions() as $key => $row) {
+                                $row->balance = $this->account->calBalance2([
+                                    'association_id' => $row->association_id,
+                                    'acc_types.is_loan_acc' => 1
+                                ], $row->edate);
                             ?>
                                 <tr>
-                                    <td class="text-uppercase"><?=$key+1 ?></td>
                                     <td><?= $row->edate ?></td>
-                                    <td><?=$account?$account->name:''; ?> (<?=$account?$account->accType->label:''; ?>)</td>
-                                    <td class="text-uppercase"><?= str_replace('_', ' ', $row->type) ?></td>
-                                    <td><?= $row->is_credit === '0' ? $row->amount : '' ?></td>
-                                    <td><?= $row->is_credit === '1' ? $row->amount : '' ?></td>
+                                    <td><?= $row->name; ?></td>
+                                    <td><?= number_format($row->deposit_amount, 2); ?></td>
+                                    <td><?= number_format($row->withdrawal_amount, 2); ?></td>
                                     <td><?= $row->balance < 0 ? '(' . number_format(abs($row->balance), 2) . ')' : number_format($row->balance, 2) ?></td>
-                                    <td><?=$row->narration ?></td>
-                                    <td>
-                                        <div class="d-flex">
-                                            <a href="<?= site_url("$transtype/" . $row->ref) ?>" target="_blank" class="btn btn-icon"><i class="fa fa-eye"></i></a>
-                                            <a href="<?= site_url("$transtype/$row->ref/edit") ?>" target="_blank" class="btn btn-icon"><i class="fa fa-edit"></i></a>
-                                        </div>
-                                    </td>
+
                                 </tr>
                             <?php  } ?>
                         </tbody>
                         <tfoot class="text-uppercase">
                             <tr>
-                                <th>#</th>
                                 <th>Date</th>
-                                <th>Account Name</th>
-                                <th>Transac. Type</th>
-                                <th>Debit</th>
-                                <th>Credit</th>
+                                <th>Association</th>
+                                <th>Deposits</th>
+                                <th>Withdrawals</th>
                                 <th>Balance</th>
-                                <th>Narration</th>
-                                <th>Action</th>
                             </tr>
                         </tfoot>
                     </table>

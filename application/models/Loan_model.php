@@ -268,6 +268,53 @@ class Loan_model extends CI_Model
         return $loan;
     }
 
+    public function associationTransactions()
+    {
+        $fields = [
+            'associations.name',
+            'associations.id as association_id',
+            'SUM(amount) as deposit_amount',
+            '0 as withdrawal_amount',
+            "ddate as edate",
+        ];
+        $fields1 = [
+            'associations.name',
+            'associations.id as association_id',
+            '0 as deposit_amount',
+            'SUM(amount) as withdrawal_amount',
+            "wdate as edate"
+        ];
+
+        $rtable = 'deposits';
+        $query1 = $this->db->select($fields, false)
+            ->from($rtable)
+            ->join('accounts', "accounts.id=$rtable.account_id")
+            ->join('acc_types', "acc_types.id=accounts.acc_type_id")
+            ->join('associations', "associations.id=accounts.association_id")
+            ->where('accounts.ownership', 'individual')
+            ->where('acc_types.is_loan_acc', 1)
+            ->order_by('ddate', 'asc')
+            ->group_by('associations.id')
+            ->group_by('ddate')
+            ->get_compiled_select();
+
+        $rtable = 'withdrawals';
+        $query2 = $this->db->select($fields1)
+            ->from($rtable)
+            ->join('accounts', "accounts.id=$rtable.account_id")
+            ->join('acc_types', "acc_types.id=accounts.acc_type_id")
+            ->join('associations', "associations.id=accounts.association_id")
+            ->where('accounts.ownership', 'individual')
+            ->where('acc_types.is_loan_acc', 1)
+            ->order_by('wdate', 'asc')
+            ->group_by('associations.id')
+            ->group_by('wdate')
+            ->get_compiled_select();
+
+        return $this->db->query("SELECT name,association_id,edate,SUM(ifnull(deposit_amount,0)) as deposit_amount,SUM(ifnull(withdrawal_amount,0)) as withdrawal_amount FROM (($query1) UNION ($query2)) as x group by edate, name order by edate asc")
+            ->result();
+    }
+
     public function transactions()
     {
         $fields = [
