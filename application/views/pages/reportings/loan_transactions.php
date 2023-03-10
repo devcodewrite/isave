@@ -45,8 +45,8 @@
                             <tr>
                                 <th>Date</th>
                                 <th>Association</th>
-                                <th>Deposits</th>
-                                <th>Withdrawals</th>
+                                <th>Credit</th>
+                                <th>Debit</th>
                                 <th>Balance</th>
                             </tr>
                         </thead>
@@ -71,8 +71,8 @@
                             <tr>
                                 <th>Date</th>
                                 <th>Association</th>
-                                <th>Deposits</th>
-                                <th>Withdrawals</th>
+                                <th>Credit</th>
+                                <th>Debit</th>
                                 <th>Balance</th>
                             </tr>
                         </tfoot>
