@@ -368,12 +368,14 @@ class Account_model extends CI_Model
     {
         $fields = [
             'associations.name',
+            'associations.id as association_id',
             'SUM(amount) as deposit_amount',
             '0 as withdrawal_amount',
             "ddate as edate",
         ];
         $fields1 = [
             'associations.name',
+            'associations.id as association_id',
             '0 as deposit_amount',
             'SUM(amount) as withdrawal_amount',
             "wdate as edate"
@@ -401,7 +403,7 @@ class Account_model extends CI_Model
             ->group_by('wdate')
             ->get_compiled_select();
 
-        return $this->db->query("SELECT name,edate,SUM(ifnull(deposit_amount,0)) as deposit_amount,SUM(ifnull(withdrawal_amount,0)) as withdrawal_amount FROM (($query1) UNION ($query2)) as x group by edate, name order by edate asc")
+        return $this->db->query("SELECT name,association_id,edate,SUM(ifnull(deposit_amount,0)) as deposit_amount,SUM(ifnull(withdrawal_amount,0)) as withdrawal_amount FROM (($query1) UNION ($query2)) as x group by edate, name order by edate asc")
             ->result();
     }
 
@@ -417,6 +419,19 @@ class Account_model extends CI_Model
             ->from($this->table)
             ->where("{$this->table}.deleted_at =", null)
             ->where("{$this->table}.id", $id)
+            ->get();
+        if ($query) return $query->row('total');
+    }
+
+    public function calBalance2($where = [], $date)
+    {
+        $qselect_sum_deposits = "SELECT SUM(deposits.amount) FROM deposits WHERE deposits.account_id={$this->table}.id AND ddate <='$date'";
+        $qselect_sum_withdrawals = "SELECT SUM(withdrawals.amount) FROM withdrawals  WHERE withdrawals.account_id={$this->table}.id AND wdate <='$date'";
+
+        $query = $this->db->select("SUM(ifnull(($qselect_sum_deposits),0) - ifnull(($qselect_sum_withdrawals),0)) as total")
+            ->from($this->table)
+            ->where("{$this->table}.deleted_at =", null)
+            ->where($where)
             ->get();
         if ($query) return $query->row('total');
     }

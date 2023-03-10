@@ -64,7 +64,7 @@
                         </thead>
                         <tbody>
                             <?php foreach ($this->account->associationTransactions() as $key => $row) {
-                                $row->balance = $row->deposit_amount - $row->withdrawal_amount;
+                                $row->balance = $this->account->calBalance2(['association_id'=> $row->association_id],$row->edate);
                             ?>
                                 <tr>
                                     <td><?= $row->edate ?></td>
