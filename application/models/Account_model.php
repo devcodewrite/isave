@@ -381,7 +381,7 @@ class Account_model extends CI_Model
 
         $accumWithdrawals = "(SELECT SUM(amount) FROM $rtable WHERE wdate <= edate AND account_id = w_acc_id)";
       
-        $query3 = "SELECT creation,ref,associationName,name,passbook,accType,amount,type,narration,is_credit,edate,account_id1,(ifnull($accumDeposits,0) - ifnull($accumWithdrawals,0)) as balance FROM (($query1) UNION ($query2)) as x order by ref desc, edate desc";
+        $query3 = "SELECT creation,ref,associationName,name,passbook,accType,amount,type,narration,is_credit,edate,account_id1,(ifnull($accumDeposits,0) - ifnull($accumWithdrawals,0)) as balance FROM (($query1) UNION ($query2)) as x order by edate desc, ref desc";
       
         return $query3;
     }
