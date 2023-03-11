@@ -55,7 +55,7 @@ $(function () {
       { data: "balance" },
       { data: "narration" },
     ],
-    order: [[0, "asc"]],
+    order: [[0, "desc"]],
     columnDefs: [
       {
         orderable: false,
