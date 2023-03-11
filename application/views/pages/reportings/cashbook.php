@@ -34,28 +34,30 @@
                         <div>
                             <label for="from">From</label>
                             <div class="form-group">
-                                <input type="date" name="date_from" id="transaction-date-from" class="form-control">
+                                <input type="date" name="date_from" id="date-from" class="form-control">
                             </div>
                         </div>
                         <div class="ml-3">
                             <label for="from">To</label>
                             <div class="form-group">
-                                <input type="date" name="date_to" id="transaction-date-to" class="form-control">
+                                <input type="date" name="date_to" id="date-to" class="form-control">
                             </div>
                         </div>
                         <div class="col-12 col-md-3 form-group">
-                            <button class="btn btn-primary transaction-filter">
+                            <button class="btn btn-primary filter">
                                 <i class="fa fa-filter"></i>
                                 Filter</button>
-                            <button class="btn btn-warning ml-2 transaction-filter-clear">
+                            <button class="btn btn-warning ml-2 filter-clear">
                                 <i class="fa fa-times"></i>
                                 Clear</button>
                         </div>
                     </div>
-                    <table style="width: 100%;" id="dt-transactions" class="table table-hover table-striped table-bordered">
+                    <table style="width: 100%;" id="dt-cashbook" class="table table-hover table-striped table-bordered">
                         <thead class="text-uppercase">
                             <tr>
+                               
                                 <th>Date</th>
+                                <th>Association</th>
                                 <th>Account</th>
                                 <th>Acc. Type</th>
                                 <th>Transac. Type</th>
@@ -66,26 +68,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($this->account->transactions() as $key => $row) {
-                                $transtype = $row->is_credit === '1' ? 'deposits' : 'withdrawals';
-                                $account = $this->account->find(intval($row->account_id1));
-                            ?>
-                                <tr>
-                                    <td><?= $row->edate ?></td>
-                                    <td><?=$account?$account->name:''; ?><br><?=$account->passbook; ?></td>
-                                    <td><?=$account?$account->accType->label:''; ?></td>
-                                    <td class="text-uppercase"><?= str_replace('_', ' ', $row->type) ?></td>
-                                    <td><?= $row->is_credit === '0' ? $row->amount : '' ?></td>
-                                    <td><?= $row->is_credit === '1' ? $row->amount : '' ?></td>
-                                    <td><?= $row->balance < 0 ? '(' . number_format(abs($row->balance), 2) . ')' : number_format($row->balance, 2) ?></td>
-                                    <td><?=$row->narration ?></td>
-                                    
-                                </tr>
-                            <?php  } ?>
+
                         </tbody>
                         <tfoot class="text-uppercase">
                             <tr>
+                                
                                 <th>Date</th>
+                                <th>Association</th>
                                 <th>Account</th>
                                 <th>Acc. Type</th>
                                 <th>Transac. Type</th>
@@ -103,5 +92,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/reportings/transactions.js?v=' . uniqid()); ?>" defer></script>
+<script src="<?= base_url('assets/js/reportings/cashbook.js?v=' . uniqid()); ?>" defer></script>
 <?php app_end(); ?>

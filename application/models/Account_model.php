@@ -323,45 +323,67 @@ class Account_model extends CI_Model
             ->result();
     }
 
-    public function transactions()
+    public function cashBookQuery($dWhere = [], $wWhere = [])
     {
         $fields = [
-            'id as ref',
-            'amount',
+            'deposits.id as ref',
+            'deposits.amount',
+            'accounts.name',
+            'accounts.passbook',
+            'associations.name as associationName',
+            'acc_types.label as accType',
             'deposits.account_id as account_id1',
-            'type',
+            'deposits.account_id as d_acc_id',
+            '0 as w_acc_id',
+            'deposits.type',
             'depositor_name as narration',
             '1 as is_credit',
             "ddate as edate",
-            "created_at as creation",
+            "deposits.created_at as creation",
         ];
         $fields1 = [
-            'id as ref',
-            'amount',
+            "withdrawals.id as ref",
+            'withdrawals.amount',
+            'accounts.name',
+            'accounts.passbook',
+            'associations.name as associationName',
+            'acc_types.label as accType',
             'withdrawals.account_id as account_id1',
-            'type',
+            'withdrawals.account_id as w_acc_id',
+            '0 as d_acc_id',
+            'withdrawals.type',
             'withdrawer_name as narration',
             '0 as is_credit',
             "wdate as edate",
-            "created_at as creation",
+            "withdrawals.created_at as creation",
         ];
 
         $rtable = 'deposits';
         $query1 = $this->db->select($fields, false)
             ->from($rtable)
+            ->join("accounts", "accounts.id=$rtable.account_id")
+            ->join("associations", "associations.id=accounts.association_id")
+            ->join("acc_types", "acc_types.id=accounts.acc_type_id")
             ->order_by('ddate', 'asc')
+            ->where($dWhere)
             ->get_compiled_select();
-
+        $accumDeposits = "(SELECT SUM(amount) FROM $rtable WHERE ddate <= edate AND account_id = d_acc_id)";
+        
         $rtable = 'withdrawals';
         $query2 = $this->db->select($fields1)
             ->from($rtable)
+            ->join("accounts", "accounts.id=$rtable.account_id")
+            ->join("associations", "associations.id=accounts.association_id")
+            ->join("acc_types", "acc_types.id=accounts.acc_type_id")
+            ->where($wWhere)
             ->order_by('wdate', 'asc')
             ->get_compiled_select();
 
-        $this->db->query("SET @balance:=0;");
-
-        return $this->db->query("SELECT creation,ref,amount,type,narration,is_credit,edate,account_id1,(CASE WHEN is_credit=1 THEN @balance := @balance + amount ELSE @balance := @balance - amount END) as balance FROM (($query1) UNION ($query2)) as x order by edate asc, ref asc")
-            ->result();
+        $accumWithdrawals = "(SELECT SUM(amount) FROM $rtable WHERE wdate <= edate AND account_id = w_acc_id)";
+      
+        $query3 = "SELECT creation,ref,associationName,name,passbook,accType,amount,type,narration,is_credit,edate,account_id1,(ifnull($accumDeposits,0) - ifnull($accumWithdrawals,0)) as balance FROM (($query1) UNION ($query2)) as x order by edate asc, ref asc";
+      
+        return $query3;
     }
 
     public function associationTransactions()
