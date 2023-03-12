@@ -104,20 +104,22 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-row d-none">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="payout_date">Disbursement Date</label>
-                                    <input type="date" name="payout_date" id="payout_date" value="<?= isset($loan) ? $loan->payout_date : '' ?>" class="form-control" required>
+                        <?php if ($this->user->canDisburseLoan(auth()->user()->id)) { ?>
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="payout_date">Disbursement Date</label>
+                                        <input type="date" name="payout_date" id="payout_date" value="<?= isset($loan) ? $loan->payout_date : '' ?>" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="payin_start_date">Repayment Start Date</label>
+                                        <input type="date" name="payin_start_date" id="payin_start_date" value="<?= isset($loan) ? $loan->payin_start_date : '' ?>" class="form-control" required>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="payin_start_date">Repayment Start Date</label>
-                                    <input type="date" name="payin_start_date" id="payin_start_date" value="<?= isset($loan) ? $loan->payin_start_date : '' ?>" class="form-control" required>
-                                </div>
-                            </div>
-                        </div>
+                        <?php } ?>
                     </form>
                 </div>
                 <div class="d-block text-right card-footer">
@@ -128,7 +130,7 @@
                         <button class="mr-2 btn btn-link btn-sm reset">Cancel</button>
                         <button class="btn btn-success btn-lg apply">Apply</button>
                     <?php } ?>
-                   
+
                 </div>
             </div>
         </div>
