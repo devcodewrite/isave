@@ -69,7 +69,7 @@ class Associations extends MY_Controller
         }
         $where = [
             'ddate' => $id,
-            'association_id' => $association_id,
+            'accounts.association_id' => $association_id,
         ];
         $tran = $this->association->transactions($where)->get()->row();
 

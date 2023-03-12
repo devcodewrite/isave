@@ -51,7 +51,6 @@ class Loans extends MY_Controller
         $loan->owner = $loan->account->ownership==='individual'
                 ?$this->member->find($loan->account->member_id)
                 :$this->association->find($loan->account->association_id);
-        $loan->accType = $this->loantype->find($loan->loan_type_id);
         $data = [
             'loan' => $loan,
         ];

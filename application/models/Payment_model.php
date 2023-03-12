@@ -10,6 +10,19 @@ class Payment_model extends CI_Model
     {
         if (!$record) return;
         $record['user_id'] = auth()->user()->id;
+
+        $loan = $this->loan->find($record['loan_id']);
+        if(!$loan) return false;
+        $loan->account = $this->account->find($loan->account_id);
+        if(!$loan->account) return false;
+
+        $record['principal_amount'] = $this->loan->calcPrincipal($loan);
+        if($record['amount'] > $record['principal_amount']){
+            $record['interest_amount'] = $record['amount'] - $record['principal_amount'];
+        }
+        else {
+            $record['principal_amount']  = $record['amount'];
+        }
         $data = $this->extract($record);
 
         if ($this->db->insert($this->table, $data)) {

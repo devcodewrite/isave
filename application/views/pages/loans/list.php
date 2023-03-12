@@ -12,7 +12,6 @@
                     <div class="page-title-subheading">Table of loans and their details.</div>
                 </div>
             </div>
-
         </div>
     </div>
 
