@@ -23,13 +23,13 @@ class Associations extends MY_Controller
     public function view(int $id = null)
     {
         $association = $this->association->find($id);
-        if(!$association) show_404();
+        if (!$association) show_404();
 
         $loans = $this->loan->all()
-        ->where('appl_status', 'disbursed')
-        ->where('associations.id', $id)
-        ->get()
-        ->result();
+            ->where('appl_status', 'disbursed')
+            ->where('associations.id', $id)
+            ->get()
+            ->result();
         $data = [
             'association' => $association,
             'loans' => $loans,
@@ -45,22 +45,34 @@ class Associations extends MY_Controller
      */
     public function statements()
     {
+
         $association_id = $this->input->get('association_id');
         $association = $this->association->find(($association_id ? $association_id : 0));
         $id = $this->input->get('id');
+
+        if ($this->input->get('action') === 'delete') {
+            $where = [
+                'id' => $id,
+                'association_id' => $association_id
+            ];
+
+            $this->accstatement->delete($where);
+            redirect('associations/statements');
+        }
+
         $statement = $this->association->statements(
             ['account_statements.id' => $id, 'association_id' => $association_id]
         )->get()->row();
 
-        if($this->input->post('id')){
+        if ($this->input->post('id')) {
             $this->accstatement->save($this->input->post());
         }
         $where = [
-            'ddate'=>$id, 
+            'ddate' => $id,
             'association_id' => $association_id,
         ];
         $tran = $this->association->transactions($where)->get()->row();
-        
+
         $data = [
             'association_id' => $association_id,
             'association' => $association,

@@ -37,9 +37,9 @@ class Accountstatement_model extends CI_Model
      * @param $id
      * @return Boolean
      */
-    public function delete(string $id)
+    public function delete($where=[])
     {
-        return $this->db->delete($this->table, ['id' => $id]);
+        return $this->db->delete($this->table, $where);
     }
 
     /**
