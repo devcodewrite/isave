@@ -116,10 +116,11 @@
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $perms = ['create', 'view', 'update', 'delete'];
+                                        $perms = ['create', 'view', 'update', 'delete', 'disburse'];
                                         $rowspan = sizeof($perms);
 
                                         foreach ($this->perm->modules() as $row) {
+                                            
                                             $rolePerm = explode(',', $role->permission->{$row->name});
                                         ?>
                                             <?php
@@ -136,7 +137,9 @@
                                                 </tr>
                                                 <?php
                                             } else {
-                                                foreach ($perms as $key => $perm) { ?>
+                                                foreach ($perms as $key => $perm) {
+                                                    if($perm === 'disburse' && $row->name !== 'loans' )continue;
+                                                    ?>
                                                     <tr>
                                                         <?php if ($key === 0) { ?>
                                                             <td rowspan="<?= $rowspan ?>" class="text-uppercase border"><?= str_replace('_', ' ', $row->name); ?></td>

@@ -221,9 +221,9 @@ class Association_model extends CI_Model
         $rtable2 = "associations";
         $col2 = "association_id";
 
-        $cashDeposit = "SUM(ifnull( (CASE WHEN $rtable.type='cash' THEN $rtable.amount ELSE '' END),0.00))";
-        $momoDeposit = "SUM(ifnull( (CASE WHEN $rtable.type='momo' THEN $rtable.amount ELSE '' END),0.00))";
-        $transferDeposit = "SUM(ifnull( (CASE WHEN $rtable.type='transfer' THEN $rtable.amount ELSE '' END),0.00))";
+        $cashDeposit = "SUM(ifnull( (CASE WHEN $rtable.type='cash' THEN $rtable.amount ELSE 0 END),0.00))";
+        $momoDeposit = "SUM(ifnull( (CASE WHEN $rtable.type='momo' THEN $rtable.amount ELSE 0 END),0.00))";
+        $transferDeposit = "SUM(ifnull( (CASE WHEN $rtable.type='transfer' THEN $rtable.amount ELSE 0 END),0.00))";
 
         $fields= [
             "ddate as tdate",
@@ -240,7 +240,6 @@ class Association_model extends CI_Model
                     ->join($rtable2, "$rtable2.id=$rtable1.$col2", 'left')
                     ->where($where)
                     ->group_by("$rtable.ddate")
-                    ->group_by("$rtable2.id")
                     ->group_by('association_id')
                     ->group_by("$rtable2.name");
     }

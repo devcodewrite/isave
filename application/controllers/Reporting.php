@@ -68,6 +68,7 @@ class Reporting extends MY_Controller
                 'wdate >=' => $inputs['date_to'],
             ];
         }
+        
         $query = $this->account->cashBookQuery($where1, $where2);
 
         $out = datatable($query, $start, $length, $draw, $inputs);

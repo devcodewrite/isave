@@ -109,12 +109,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="name">Account Statement</label>
-                        <input type="date" class="form-control filter" name="id" value="<?= $id ? $id : "" ?>" placeholder="Enter ref statement" />
-                    </div>
-                </div>
+                
             </div>
             <div class="d-flex align-items-end row px-3">
                 <div>
