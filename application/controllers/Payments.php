@@ -104,6 +104,7 @@ class Payments extends MY_Controller
      */
     public function delete (int $id = null)
     {
+
         if($this->payment->delete($id)){
             $out = [
                 'status' => true,

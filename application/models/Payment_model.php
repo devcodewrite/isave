@@ -106,6 +106,9 @@ class Payment_model extends CI_Model
         $payment = $this->find($id);
 
         if ($this->db->delete($this->table, ['id' => $id])) {
+            $deposit = $this->deposit->where(['loan_payment_id'=> $payment->id])->row();
+            if($deposit) $this->deposit->delete($deposit->id);
+
             return $this->loan->updateSettlementStatus($payment->loan_id);
         }
         return false;
