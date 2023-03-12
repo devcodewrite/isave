@@ -52,8 +52,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($this->association->transactions()->get()->result() as $key => $row) {
-                                $stat = $this->association->statements(['account_statements.id' => $row->tdate, 'association_id' => $row->association_id])->get()->row();
+                            <?php
+                            $colTotal[0] = 0;
+                            $colTotal[1] = 0;
+                            $colTotal[2] = 0;
+                            foreach ($this->association->transactions()->get()->result() as $key => $row) {
+                                $stat = $this->association->statements([
+                                    'account_statements.id' => $row->tdate,
+                                    'association_id' => $row->association_id
+                                ])
+                                    ->get()
+                                    ->row();
+                                $colTotal[0] += $row->cash_deposits;
+                                $colTotal[1] += $row->momo_deposits;
+                                $colTotal[2] += $row->transfer_deposits;
                             ?>
                                 <tr>
                                     <td><?= $row->tdate ?></td>
@@ -73,9 +85,9 @@
                             <tr>
                                 <th>Date</th>
                                 <th>Association</th>
-                                <th>Cash Deposits</th>
-                                <th>Mobile Money</th>
-                                <th>Internal Transfer</th>
+                                <th>GHS <?= number_format($colTotal[0], 2) ?></th>
+                                <th>GHS <?= number_format($colTotal[1], 2) ?></th>
+                                <th>GHS <?= number_format($colTotal[2], 2) ?></th>
                                 <th>Reconcil. Statement</th>
                             </tr>
                         </tfoot>
