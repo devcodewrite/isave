@@ -55,7 +55,7 @@ transactionTable = $("#dt-transactions").DataTable({
       }, 0);
 
     // Update footer
-    $(api.column(2).footer()).html("page " + pageTotal.toFixed(2) + " (page " +total.toFixed(2)+")");
+    $(api.column(2).footer()).html("page " + pageTotal.toFixed(2) + " (total " +total.toFixed(2)+")");
 
 
     // Total over all pages
