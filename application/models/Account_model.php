@@ -380,7 +380,8 @@ class Account_model extends CI_Model
             ->get_compiled_select();
 
         $accumWithdrawals = "(SELECT SUM(amount) FROM $rtable WHERE wdate <= edate AND account_id = w_acc_id)";
-        $query3 = "SELECT creation,ref,associationName,name,passbook,accType,amount,type,narration,is_credit,edate,account_id1,(ifnull($accumDeposits,0) - ifnull($accumWithdrawals,0)) as balance FROM (($query1) UNION ($query2)) as x order by edate desc, ref desc";
+        $query3 = "SELECT creation,ref,associationName,name,passbook,accType,amount,type,narration,is_credit
+        ,edate,account_id1,(ifnull($accumDeposits,0) - ifnull($accumWithdrawals,0)) as balance FROM (($query1) UNION ($query2)) as x order by edate desc, ref desc";
       
         return $query3;
     }
@@ -459,6 +460,20 @@ class Account_model extends CI_Model
         if ($query) return $query->row('total');
     }
 
+    public function calBalance3($where = [])
+    {
+        $qselect_sum_deposits = "SELECT SUM(deposits.amount) FROM deposits WHERE deposits.account_id={$this->table}.id";
+        $qselect_sum_withdrawals = "SELECT SUM(withdrawals.amount) FROM withdrawals  WHERE withdrawals.account_id={$this->table}.id";
+
+        $query = $this->db->select("SUM(ifnull(($qselect_sum_deposits),0) - ifnull(($qselect_sum_withdrawals),0)) as total")
+            ->from($this->table)
+            ->join('acc_types', "acc_types.id={$this->table}.acc_type_id")
+            ->where("{$this->table}.deleted_at =", null)
+            ->where($where)
+
+            ->get();
+        if ($query) return $query->row('total');
+    }
     public function canWithdraw(int $id, float $amount)
     {
         $account = $this->find($id);

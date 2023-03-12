@@ -164,7 +164,8 @@
                                         <thead>
                                             <tr class="text-uppercase">
                                                 <th>#Acc No.</th>
-                                                <th>Balance</th>
+                                                <th>Cash Balance</th>
+                                                <th>E-Cash Balance</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
@@ -179,11 +180,13 @@
                                             foreach ($this->association->accounts($association->id) as $key => $row) {
                                                 $row->accType = $this->acctype->find($row->acc_type_id);
                                                 $row->association = $this->association->find($row->association_id ? $row->association_id : 0);
+                                                $row->cashBalance = $this->account->calBalance3(['association_id' => $association->id, 'ownership' => 'individual']);
+                                                $row->eCashBalance = $this->account->calBalance($row->id);
                                             ?>
                                                 <tr>
                                                     <td><?= $row->accType->label ?> (<?= $row->acc_number ?>)</td>
-                                                    <td><?= $this->account->calBalance($row->id) ?><p></p>
-                                                    </td>
+                                                    <td><?= $row->cashBalance < 0 ? "(" . number_format(abs($row->cashBalance),2) . ")" : number_format($row->cashBalance,2); ?>
+                                                    <td><?= $row->eCashBalance < 0 ? "(" . number_format(abs($row->eCashBalance),2) . ")" : number_format($row->eCashBalance,2); ?></td>
                                                     <td><span class="alert <?= $alerts[$row->status] ?> text-uppercase"><?= $row->status ?></span></td>
                                                     <td>
                                                         <div class="d-flex">
@@ -197,7 +200,8 @@
                                         <tfoot>
                                             <tr class="text-uppercase">
                                                 <th>#Acc No.</th>
-                                                <th>Balance</th>
+                                                <th>Cash Balance</th>
+                                                <th>E-Cash Balance</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
@@ -302,61 +306,61 @@
                                 </div>
                             </div>
                             <table style="width: 100%;" id="dt-related-loan-balances" class="table table-hover table-striped table-bordered">
-                        <thead class="text-uppercase">
-                            <tr>
-                                <th>#ID</th>
-                                <th>Association</th>
-                                <th>Passbook</th>
-                                <th>Account</th>
-                                <th>Repay. Start</th>
-                                <th>Days in Arrears</th>
-                                <th>Last Payment</th>
-                                <th>Arrears</th>
-                                <th>Balance</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php 
-                            foreach ($loans as $key => $row) {
-                                $loan = $this->loan->updateSettlementStatus($row->id);
-                                $row->arrears_days = $loan->arrears_days;
-                                $row->total_arrears = $loan->total_arrears;
+                                <thead class="text-uppercase">
+                                    <tr>
+                                        <th>#ID</th>
+                                        <th>Association</th>
+                                        <th>Passbook</th>
+                                        <th>Account</th>
+                                        <th>Repay. Start</th>
+                                        <th>Days in Arrears</th>
+                                        <th>Last Payment</th>
+                                        <th>Arrears</th>
+                                        <th>Balance</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    foreach ($loans as $key => $row) {
+                                        $loan = $this->loan->updateSettlementStatus($row->id);
+                                        $row->arrears_days = $loan->arrears_days;
+                                        $row->total_arrears = $loan->total_arrears;
 
-                                $row->totalPaid = $this->payment->sum(['loan_id' => $row->id])->row('total');
-                                $row->totalBalance = $this->loan->sum(['id' => $row->id])->row('total') - $row->totalPaid;
-                                $row->account = $this->account->find($row->account_id);
-                            ?>
-                                <tr>
-                                    <td><a href="<?= site_url('loans/' . $row->id) ?>" class="btn btn-link"><?= $row->id ?></a></td>
-                                    <td><?= $row->association_name ?></td>
-                                    <td><?= $row->passbook ?></td>
-                                    <td>
-                                        <a href="<?= site_url('bankaccounts/' . $row->account_id) ?>" class="btn btn-link">
-                                            <?= $row->name ?><br>(<?= $row->accType ?>)
-                                        </a>
-                                    </td>
-                                    <td><?= date('d/m/y',strtotime($row->payin_start_date)); ?></td>
-                                    <td><?= $row->arrears_days; ?></td>
-                                    <td><?= $row->last_repayment?date('d/m/y',strtotime($row->last_repayment)):'None'; ?></td>
-                                    <td><?= number_format($row->total_arrears, 2) ?></td>
-                                    <td><?= number_format($row->totalBalance, 2); ?></td>
-                                </tr>
-                            <?php } ?>
-                        </tbody>
-                        <tfoot class="text-uppercase">
-                            <tr>
-                                <th>#ID</th>
-                                <th>Association</th>
-                                <th>Passbook</th>
-                                <th>Account</th>
-                                <th>Repay. Start</th>
-                                <th>Days in Arrears</th>
-                                <th>Last Payment</th>
-                                <th>Arrears</th>
-                                <th>Balance</th>
-                            </tr>
-                        </tfoot>
-                    </table>
+                                        $row->totalPaid = $this->payment->sum(['loan_id' => $row->id])->row('total');
+                                        $row->totalBalance = $this->loan->sum(['id' => $row->id])->row('total') - $row->totalPaid;
+                                        $row->account = $this->account->find($row->account_id);
+                                    ?>
+                                        <tr>
+                                            <td><a href="<?= site_url('loans/' . $row->id) ?>" class="btn btn-link"><?= $row->id ?></a></td>
+                                            <td><?= $row->association_name ?></td>
+                                            <td><?= $row->passbook ?></td>
+                                            <td>
+                                                <a href="<?= site_url('bankaccounts/' . $row->account_id) ?>" class="btn btn-link">
+                                                    <?= $row->name ?><br>(<?= $row->accType ?>)
+                                                </a>
+                                            </td>
+                                            <td><?= date('d/m/y', strtotime($row->payin_start_date)); ?></td>
+                                            <td><?= $row->arrears_days; ?></td>
+                                            <td><?= $row->last_repayment ? date('d/m/y', strtotime($row->last_repayment)) : 'None'; ?></td>
+                                            <td><?= number_format($row->total_arrears, 2) ?></td>
+                                            <td><?= number_format($row->totalBalance, 2); ?></td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                                <tfoot class="text-uppercase">
+                                    <tr>
+                                        <th>#ID</th>
+                                        <th>Association</th>
+                                        <th>Passbook</th>
+                                        <th>Account</th>
+                                        <th>Repay. Start</th>
+                                        <th>Days in Arrears</th>
+                                        <th>Last Payment</th>
+                                        <th>Arrears</th>
+                                        <th>Balance</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
                         </div>
                     </div>
                     <div class="tab-pane" id="tab-eg9-2" role="tabpanel">
@@ -394,11 +398,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php 
+                                    <?php
                                     $where = ['accounts.association_id' => $association->id];
                                     $colTotal[0] = 0;
-                                        $colTotal[1] = 0;
-                                        $colTotal[2] = 0;
+                                    $colTotal[1] = 0;
+                                    $colTotal[2] = 0;
                                     foreach ($this->association->transactions($where)->get()->result() as $key => $row) {
                                         $stat = $this->association->statements(['account_statements.id' => $row->tdate, 'association_id' => $association->id])->get()->row();
                                         $colTotal[0] += $row->cash_deposits;
@@ -421,9 +425,9 @@
                                 <tfoot class="text-uppercase">
                                     <tr>
                                         <th>Date</th>
-                                        <th>GHS <?=number_format($colTotal[0],2) ?></th>
-                                        <th>GHS <?=number_format($colTotal[1],2) ?></th>
-                                        <th>GHS <?=number_format($colTotal[2],2) ?></th>
+                                        <th>GHS <?= number_format($colTotal[0], 2) ?></th>
+                                        <th>GHS <?= number_format($colTotal[1], 2) ?></th>
+                                        <th>GHS <?= number_format($colTotal[2], 2) ?></th>
                                         <th>Reconcil. Statement</th>
                                     </tr>
                                 </tfoot>
