@@ -101,7 +101,8 @@ class Role_model extends CI_Model
         $fields = [];
         return
             $this->db->select($fields, true)
-            ->from($this->table);
+            ->from($this->table)
+            ->where('id !=', 6);
     }
 
     /**
