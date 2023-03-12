@@ -213,23 +213,36 @@ class Association_model extends CI_Model
      /**
      * Get all transactions summary that belongs to this association id
      */
-    public function transactions(int $id, $where=[])
+    public function transactions($where=[])
     {
         $rtable = 'deposits';
         $col = "account_id";
         $rtable1 = "accounts";
-        $rcol = "association_id";
+        $rtable2 = "associations";
+        $col2 = "association_id";
 
         $cashDeposit = "SUM(ifnull( (CASE WHEN $rtable.type='cash' THEN $rtable.amount ELSE '' END),0.00))";
         $momoDeposit = "SUM(ifnull( (CASE WHEN $rtable.type='momo' THEN $rtable.amount ELSE '' END),0.00))";
         $transferDeposit = "SUM(ifnull( (CASE WHEN $rtable.type='transfer' THEN $rtable.amount ELSE '' END),0.00))";
 
-        return $this->db->select("ddate as tdate, $cashDeposit as cash_deposits, $momoDeposit as momo_deposits, $transferDeposit as transfer_deposits")
+        $fields= [
+            "ddate as tdate",
+            "$cashDeposit as cash_deposits", 
+            "$momoDeposit as momo_deposits", 
+            "$transferDeposit as transfer_deposits",
+            "association_id",
+            'associations.name as association_name',
+        ];
+
+        return $this->db->select($fields, false)
                     ->from($rtable)
                     ->join($rtable1, "$rtable1.id=$rtable.$col")
-                    ->where("$rtable1.$rcol", $id)
+                    ->join($rtable2, "$rtable2.id=$rtable1.$col2")
                     ->where($where)
-                    ->group_by("$rtable.ddate");
+                    ->group_by("$rtable.ddate")
+                    ->group_by("$rtable2.id")
+                    ->group_by('association_id')
+                    ->group_by("$rtable2.name");
     }
 
 

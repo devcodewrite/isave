@@ -8,8 +8,8 @@
                 <div class="page-title-icon">
                     <i class="pe-7s-notebook icon-gradient bg-happy-itmeo"></i>
                 </div>
-                <div>Cashbook Report
-                    <div class="page-title-subheading">Reporting transactions and account balance.</div>
+                <div>Transaction Report
+                    <div class="page-title-subheading">Reporting association transactions.</div>
                 </div>
             </div>
         </div>
@@ -17,18 +17,6 @@
     <div class="row">
         <div class="col-md-12" style="max-width: calc(100% - 10px);">
             <div class="mb-3 card">
-                <div class="card-header d-none">
-                    <div class="btn-actions-pane-right actions-icon-btn">
-                        <button type="button" class="btn btn-primary text-uppercase">
-                            <i class="pe-7s-plus btn-icon-wrapper"></i>
-                            New Deposit
-                        </button>
-                        <button class="btn btn-secondary text-uppercase">
-                            <i class="pe-7s-plus btn-icon-wrapper"></i>
-                            New Withdrawal
-                        </button>
-                    </div>
-                </div>
                 <div class="card-body">
                     <div class="d-flex align-items-end row px-3">
                         <div>
@@ -57,22 +45,27 @@
                             <tr>
                                 <th>Date</th>
                                 <th>Association</th>
-                                <th>Deposits</th>
-                                <th>Withdrawals</th>
-                                <th>Balance</th>
+                                <th>Cash Deposits</th>
+                                <th>Mobile Money</th>
+                                <th>Internal Transfer</th>
+                                <th>Reconcil. Statement</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($this->account->associationTransactions() as $key => $row) {
-                                $row->balance = $this->account->calBalance2(['association_id'=> $row->association_id],$row->edate);
+                            <?php foreach ($this->association->transactions()->get()->result() as $key => $row) {
+                                $stat = $this->association->statements(['account_statements.id' => $row->tdate, 'association_id' => $row->association_id])->get()->row();
                             ?>
                                 <tr>
-                                    <td><?= $row->edate ?></td>
-                                    <td><?= $row->name; ?></td>
-                                    <td><?=number_format($row->deposit_amount,2); ?></td>
-                                    <td><?= number_format($row->withdrawal_amount,2); ?></td>
-                                    <td><?= $row->balance < 0 ? '(' . number_format(abs($row->balance), 2) . ')' : number_format($row->balance, 2) ?></td>
-                                   
+                                    <td><?= $row->tdate ?></td>
+                                    <th><a href="<?= site_url('associations/' . $row->association_id); ?>" class="btn btn-link"><?= $row->association_name; ?></a></th>
+                                    <td><a href="<?= site_url('deposits') ?>?type=cash&association_id=<?= $row->association_id ?>&from_date=<?= $row->tdate ?>&to_date=<?= $row->tdate ?>"><?= number_format($row->cash_deposits, 2) ?></a></td>
+                                    <td><a href="<?= site_url('deposits') ?>?type=momo&association_id=<?= $row->association_id ?>&from_date=<?= $row->tdate ?>&to_date=<?= $row->tdate ?>"><?= number_format($row->momo_deposits, 2) ?></a></td>
+                                    <td><a href="<?= site_url('deposits') ?>?type=transfer&association_id=<?= $row->association_id ?>&from_date=<?= $row->tdate ?>&to_date=<?= $row->tdate ?>"><?= number_format($row->transfer_deposits, 2) ?></a></td>
+                                    <td>
+                                        <a href="<?= site_url('associations/statements') ?><?= $stat ? "?id=$stat->id&association_id=$row->association_id" : "?id=$row->tdate&association_id=$row->association_id" ?>" class="btn btn-link"><?= $stat ? $stat->id : '' ?></a>
+                                        <a href="<?= site_url('associations/statements') ?><?= $stat ? "?id=$stat->id&association_id=$row->association_id" : "?id=$row->tdate&association_id=$row->association_id" ?>" class="btn btn-icon btn-primary">
+                                            <i class="fa fa-edit"></i></a>
+                                    </td>
                                 </tr>
                             <?php  } ?>
                         </tbody>
@@ -80,9 +73,10 @@
                             <tr>
                                 <th>Date</th>
                                 <th>Association</th>
-                                <th>Deposits</th>
-                                <th>Withdrawals</th>
-                                <th>Balance</th>
+                                <th>Cash Deposits</th>
+                                <th>Mobile Money</th>
+                                <th>Internal Transfer</th>
+                                <th>Reconcil. Statement</th>
                             </tr>
                         </tfoot>
                     </table>

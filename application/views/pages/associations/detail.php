@@ -51,12 +51,12 @@
                         </li>
                         <li class="nav-item">
                             <a data-toggle="tab" href="#tab-eg9-2" class="nav-link">
-                                <div class="widget-number">Deposits Summary</div>
+                                <div class="widget-number">Transaction Summary</div>
                                 <div class="tab-subheading">
                                     <span class="pr-2 opactiy-6">
                                         <i class="fa fa-bullhorn"></i>
                                     </span>
-                                    summary of deposits
+                                    transaction of summary
                                 </div>
                             </a>
                         </li>
@@ -394,7 +394,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($this->association->transactions($association->id)->get()->result() as $key => $row) {
+                                    <?php 
+                                    $where = ['accounts.association_id' => $association->id];
+
+                                    foreach ($this->association->transactions($where)->get()->result() as $key => $row) {
                                         $stat = $this->association->statements(['account_statements.id' => $row->tdate, 'association_id' => $association->id])->get()->row();
                                     ?>
                                         <tr>
