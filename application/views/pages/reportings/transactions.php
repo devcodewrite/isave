@@ -53,9 +53,6 @@
                         </thead>
                         <tbody>
                             <?php
-                            $colTotal[0] = 0;
-                            $colTotal[1] = 0;
-                            $colTotal[2] = 0;
                             foreach ($this->association->transactions()->get()->result() as $key => $row) {
                                 $stat = $this->association->statements([
                                     'account_statements.id' => $row->tdate,
@@ -63,16 +60,13 @@
                                 ])
                                     ->get()
                                     ->row();
-                                $colTotal[0] += $row->cash_deposits;
-                                $colTotal[1] += $row->momo_deposits;
-                                $colTotal[2] += $row->transfer_deposits;
                             ?>
                                 <tr>
                                     <td><?= $row->tdate ?></td>
                                     <th><a href="<?= site_url('associations/' . $row->association_id); ?>" class="btn btn-link"><?= $row->association_name; ?></a></th>
-                                    <td><a href="<?= site_url('deposits') ?>?type=cash&association_id=<?= $row->association_id ?>&from_date=<?= $row->tdate ?>&to_date=<?= $row->tdate ?>"><?= number_format($row->cash_deposits, 2) ?></a></td>
-                                    <td><a href="<?= site_url('deposits') ?>?type=momo&association_id=<?= $row->association_id ?>&from_date=<?= $row->tdate ?>&to_date=<?= $row->tdate ?>"><?= number_format($row->momo_deposits, 2) ?></a></td>
-                                    <td><a href="<?= site_url('deposits') ?>?type=transfer&association_id=<?= $row->association_id ?>&from_date=<?= $row->tdate ?>&to_date=<?= $row->tdate ?>"><?= number_format($row->transfer_deposits, 2) ?></a></td>
+                                    <td><?= number_format($row->cash_deposits, 2) ?></td>
+                                    <td><?= number_format($row->momo_deposits, 2) ?></td>
+                                    <td><?= number_format($row->transfer_deposits, 2) ?></td>
                                     <td>
                                         <a href="<?= site_url('associations/statements') ?><?= $stat ? "?id=$stat->id&association_id=$row->association_id" : "?id=$row->tdate&association_id=$row->association_id" ?>" class="btn btn-link"><?= $stat ? $stat->id : '' ?></a>
                                         <a href="<?= site_url('associations/statements') ?><?= $stat ? "?id=$stat->id&association_id=$row->association_id" : "?id=$row->tdate&association_id=$row->association_id" ?>" class="btn btn-icon btn-primary">
@@ -85,9 +79,9 @@
                             <tr>
                                 <th>Date</th>
                                 <th>Association</th>
-                                <th>GHS <?= number_format($colTotal[0], 2) ?></th>
-                                <th>GHS <?= number_format($colTotal[1], 2) ?></th>
-                                <th>GHS <?= number_format($colTotal[2], 2) ?></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
                                 <th>Reconcil. Statement</th>
                             </tr>
                         </tfoot>
