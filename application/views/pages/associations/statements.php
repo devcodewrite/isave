@@ -52,13 +52,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name">Transaction Amount (Reconciled)</label>
-                                <input type="number" class="form-control" value="<?= isset($statement->total_amount) ? number_format($statement->total_amount, 2) : "" ?>" placeholder="0.00" readonly required />
+                                <input type="number" class="form-control" value="<?= isset($statement->total_amount) ? number_format($statement->total_amount, 2) : "" ?>" placeholder="0.00" readonly />
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name">E-cash Received (Reconciled)</label>
-                                <input type="number" class="form-control" placeholder="Enter reconcile amount" value="<?= isset($statement->reconcile_amount) ? number_format($statement->reconcile_amount, 2) :  '' ?>" required />
+                                <input type="number" class="form-control" placeholder="Enter reconcile amount" value="<?= isset($statement->reconcile_amount) ? number_format($statement->reconcile_amount, 2) :  '' ?>" readonly />
                             </div>
                         </div>
                     </div>
@@ -67,7 +67,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="name">Transaction Amount</label>
-                            <input type="number" class="form-control" name="total_amount" value="<?= isset($tran->cash_deposits) ? number_format($tran->cash_deposits, 2) : "" ?>" placeholder="0.00" readonly required />
+                            <input type="number" class="form-control" name="total_amount" value="<?= isset($tran->cash_deposits) ? number_format($tran->cash_deposits, 2) : "" ?>" placeholder="0.00" required />
                         </div>
                     </div>
                     <div class="col-md-6">

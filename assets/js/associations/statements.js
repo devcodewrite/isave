@@ -61,7 +61,8 @@ $(function () {
         data: null,
         name: "account_statements.id",
         render: function (data, type, rows) {
-          return `<a href="${baseUrl}associations/statements?id=${data.id}&association_id=${data.association_id}" class="btn btn-icon btn-primary"><i class="fa fa-edit"></i></a>`;
+          return `<a href="${baseUrl}associations/statements?id=${data.id}&association_id=${data.association_id}" class="btn btn-icon btn-primary"><i class="fa fa-edit"></i></a>`
+          +`<a href="${baseUrl}associations/statements?action=delete&id=${data.id}&association_id=${data.association_id}" class="btn btn-icon ml-3 btn-warning"><i class="fa fa-trash"></i></a>`;
         },
       },
     ],
