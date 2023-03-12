@@ -10,6 +10,9 @@ class Deposits extends MY_Controller
     public function index()
     {
         $data = $this->input->get();
+        $data = array_merge($data,[
+            'accountTypes' => $this->acctype->all()->get()->result(),
+        ]);
 
         $this->load->view('pages/deposits/list', $data);
     }
