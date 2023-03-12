@@ -15,7 +15,7 @@ $(function () {
         params.member_id = $('.select2-members').val();
         params.acc_type_id = $('.select2-account-types').val();
         params.ownership = $('.select2-ownership').val();
-        params.status = $('#status').val()===''?'pending':$('#status').val();
+        params.status = $('#status').val();
       },
     },
     serverSide: true,

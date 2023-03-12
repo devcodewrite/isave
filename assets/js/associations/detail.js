@@ -17,6 +17,7 @@ loanTable = $("#dt-related-loans").DataTable({
       params.date_from = $("#loan-date-from").val();
       params.date_to = $("#loan-date-to").val();
       params.association_id = $("#dt-related-loans").data("association-id");
+      params.status = 'pending';
     },
   },
   serverSide: true,

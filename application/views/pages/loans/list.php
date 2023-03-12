@@ -93,5 +93,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/loans/list.js?v=11') ?>" defer></script>
+<script src="<?= base_url('assets/js/loans/list.js?v=12') ?>" defer></script>
 <?php app_end(); ?>
