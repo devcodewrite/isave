@@ -67,13 +67,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="name">Transaction Amount</label>
-                            <input type="number" class="form-control" name="total_amount" value="<?= isset($tran) ? number_format($tran->cash_deposits, 2) : "" ?>" placeholder="0.00" required />
+                            <input type="number" class="form-control" name="total_amount" value="<?= isset($tran) ? $tran->cash_deposits : '' ?>" placeholder="0.00" required />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="name">E-cash Received</label>
-                            <input type="number" class="form-control" name="reconcile_amount" placeholder="Enter reconcile amount" value="<?= isset($tran) ? number_format($tran->momo_deposits, 2) :  '' ?>" required />
+                            <input type="number" class="form-control" name="reconcile_amount" placeholder="Enter reconcile amount" value="<?= isset($tran) ?$tran->momo_deposits :  '' ?>" required />
                         </div>
                     </div>
                 </div>
