@@ -80,7 +80,7 @@ transactionTable = $("#dt-transactions").DataTable({
 
     // Total over all pages
     total = api
-      .column(3)
+      .column(4)
       .data()
       .reduce(function (a, b) {
         return intVal(a) + intVal(b);
@@ -88,14 +88,14 @@ transactionTable = $("#dt-transactions").DataTable({
 
     // Total over this page
     pageTotal = api
-      .column(3, { page: "current" })
+      .column(4, { page: "current" })
       .data()
       .reduce(function (a, b) {
         return intVal(a) + intVal(b);
       }, 0);
 
     // Update footer
-    $(api.column(3).footer()).html("Page " + pageTotal.toFixed(2) + " (" +total.toFixed(2)+")");
+    $(api.column(4).footer()).html("Page " + pageTotal.toFixed(2) + " (" +total.toFixed(2)+")");
   },
 });
 
