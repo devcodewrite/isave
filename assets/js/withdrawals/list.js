@@ -62,7 +62,7 @@ $(function () {
         name: "accounts.acc_number",
         render: function (data, type, row) {
           if (type === "display") {
-            return `<a href="${baseUrl}bankaccounts/${data.account_id}" class="btn btn-link">${data.acc_name} (${data.acc_number})</a>`;
+            return `<a href="${baseUrl}bankaccounts/${data.account_id}" class="btn btn-link">${data.acc_name} (${data.accType})</a>`;
           }
           return data.acc_number;
         },

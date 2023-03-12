@@ -145,5 +145,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/withdrawals/list.js?v=14') ?>" defer></script>
+<script src="<?= base_url('assets/js/withdrawals/list.js?v=15') ?>" defer></script>
 <?php app_end(); ?>

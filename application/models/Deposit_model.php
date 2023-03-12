@@ -120,11 +120,14 @@ class Deposit_model extends CI_Model
         $col2 = 'member_id';
         $rtable3 = 'associations';
         $col3 = 'association_id';
+        $rtable4 = "acc_types";
+        $col4 = 'acc_type_id';
 
         $fields = ['deposits.*', 
         "$rtable.passbook", 
         "$rtable.name as acc_name", 
         "$rtable.acc_number",
+        "$rtable4.label as accType",
         "$rtable3.name as association_name",
         "$rtable3.id as association_id"
     ];
@@ -135,7 +138,8 @@ class Deposit_model extends CI_Model
                     ->join($rtable, "$rtable.id={$this->table}.$col")
                     ->join($this->ftable, "{$this->ftable}.$col3=$rtable.$col3", 'left')
                     ->join($rtable2, "$rtable2.id=$rtable.$col2", 'left')
-                    ->join($rtable3, "$rtable3.id=$rtable.$col3");
+                    ->join($rtable3, "$rtable3.id=$rtable.$col3")
+                    ->join($rtable4, "$rtable4.id=$rtable.$col4");
                     
     }
 
