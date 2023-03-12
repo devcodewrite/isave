@@ -104,7 +104,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-row">
+                        <div class="form-row d-none">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="payout_date">Disbursement Date</label>

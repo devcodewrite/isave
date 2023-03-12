@@ -183,27 +183,17 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="principal_amount">Principal Amount</label>
+                                            <label for="principal_amount">Amount</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
-                                                    <span class="input-group-text" style="cursor:pointer" onclick="$('#pr-amount').val(<?= $loan->principalBalance ?>)"><?= number_format($loan->principalBalance, 2) ?></span>
+                                                    <span class="input-group-text" style="cursor:pointer" onclick="$('#pr-amount').val(<?= $loan->principalBalance+$loan->interestBalance ?>)"><?= number_format($loan->principalBalance+$loan->interestBalance, 2) ?></span>
                                                 </div>
-                                                <input type="number" id="pr-amount" name="principal_amount" class="form-control" placeholder="Enter the principal amount" required>
+                                                <input type="number" id="pr-amount" name="amount" class="form-control" placeholder="Enter the amount" required>
                                             </div>
 
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="amount">Interest Amount</label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text" style="cursor:pointer" onclick="$('#in-amount').val(<?= $loan->interestBalance ?>)"><?= number_format($loan->interestBalance, 2) ?></span>
-                                                </div>
-                                                <input type="number" id="in-amount" name="interest_amount" class="form-control" placeholder="Enter the interest amount" required>
-                                            </div>
-                                        </div>
-                                    </div>
+                                   
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">

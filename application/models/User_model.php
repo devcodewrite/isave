@@ -286,4 +286,15 @@ class User_model extends CI_Model
             ->get()
             ->row();
     }
+
+
+    public function canDisburseLoan($id)
+    {
+        $role = $this->find($id)->role;
+        if ($role)
+            return
+                $role->permission->is_admin === '1'
+                ? true : in_array('disburse', explode(',', $role->permission->loans));
+        return false;
+    }
 }

@@ -236,8 +236,8 @@ class Association_model extends CI_Model
 
         return $this->db->select($fields, false)
                     ->from($rtable)
-                    ->join($rtable1, "$rtable1.id=$rtable.$col")
-                    ->join($rtable2, "$rtable2.id=$rtable1.$col2")
+                    ->join($rtable1, "$rtable1.id=$rtable.$col", 'left')
+                    ->join($rtable2, "$rtable2.id=$rtable1.$col2", 'left')
                     ->where($where)
                     ->group_by("$rtable.ddate")
                     ->group_by("$rtable2.id")

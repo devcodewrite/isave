@@ -51,7 +51,7 @@ $(function () {
         if (type === "display") {
           let d =
             `<div class="d-flex align-items-center">` +
-            `<a href="${baseUrl}accounts/${data.account_id}" class="p-1 ml-1 btn btn-link float-right">${data.name}<br>(${data.accType})</a>` +
+            `<a href="${baseUrl}bankaccounts/${data.account_id}" class="p-1 ml-1 btn btn-link float-right">${data.name}<br>(${data.accType})</a>` +
             `</div>`;
           return d;
         }
