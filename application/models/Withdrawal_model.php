@@ -14,7 +14,7 @@ class Withdrawal_model extends CI_Model
         if (!$record) return;
         $record['user_id'] = auth()->user()->id;
 
-        if(!$this->account->canWithdraw($record['account_id'], $record['amount'])){
+        if (!$this->account->canWithdraw($record['account_id'], $record['amount'])) {
             return false;
         }
         $data = $this->extract($record);
@@ -106,10 +106,11 @@ class Withdrawal_model extends CI_Model
         ];
         return
             $this->db->select($fields, true)
-            ->join($rtable, "$rtable.id={$this->table}.$col", 'left')
-            ->join($rtable2, "$rtable2.id=$rtable.$col2", 'left')
-            ->join($this->ftable, "{$this->ftable}.$col2=$rtable.$col2")
-            ->join($rtable3, "$rtable3.id={$this->ftable}.$col3", 'left')
-            ->from($this->table);
+                    ->distinct()
+                    ->from($this->table)
+                    ->join($rtable, "$rtable.id={$this->table}.$col")
+                    ->join($this->ftable, "{$this->ftable}.$col3=$rtable.$col3", 'left')
+                    ->join($rtable2, "$rtable2.id=$rtable.$col2", 'left')
+                    ->join($rtable3, "$rtable3.id=$rtable.$col3");
     }
 }

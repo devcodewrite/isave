@@ -129,13 +129,14 @@ class Deposit_model extends CI_Model
         "$rtable3.id as association_id"
     ];
         return 
-            $this->db->distinct() 
-                    ->select($fields, true)
-                    ->join($rtable, "$rtable.id={$this->table}.$col", 'left')
+            $this->db->select($fields, true)
+                    ->distinct()
+                    ->from($this->table)
+                    ->join($rtable, "$rtable.id={$this->table}.$col")
+                    ->join($this->ftable, "{$this->ftable}.$col3=$rtable.$col3", 'left')
                     ->join($rtable2, "$rtable2.id=$rtable.$col2", 'left')
-                    ->join($this->ftable, "{$this->ftable}.$col2=$rtable.$col2")
-                    ->join($rtable3, "$rtable3.id={$this->ftable}.$col3", 'left')
-                    ->from($this->table);
+                    ->join($rtable3, "$rtable3.id=$rtable.$col3");
+                    
     }
 
     /**
