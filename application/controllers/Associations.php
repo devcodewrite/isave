@@ -68,10 +68,10 @@ class Associations extends MY_Controller
             $this->accstatement->save($this->input->post());
         }
         $where = [
-            'deposits.ddate' => $id,
-            'accounts.association_id' => $association_id,
+            'ddate' => trim($id),
+            'association_id' => trim($association_id),
         ];
-        $tran = $this->association->transactions($where)->get()->row();
+        $tran = $this->association->transactions($where)->limit(1)->get()->row();
 
         $data = [
             'association_id' => $association_id,
