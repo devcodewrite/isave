@@ -24,6 +24,11 @@ class Roles extends MY_Controller
         $role = $this->role->find($id);
         if (!$role) show_404();
 
+        $gate = auth()->can('view','role');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
+
         $data = [
             'role' => $role,
         ];
@@ -36,6 +41,10 @@ class Roles extends MY_Controller
      */
     public function create()
     {
+        $gate = auth()->can('create','role');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
         $this->load->view('pages/roles/edit');
     }
 
@@ -47,6 +56,11 @@ class Roles extends MY_Controller
     {
         $role = $this->role->find($id);
         if (!$role) show_404();
+
+        $gate = auth()->can('update','role');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
 
         $data = [
             'role' => $role,

@@ -24,7 +24,7 @@ class MY_Controller extends CI_Controller
             }
             show_404();
         } else {
-            show_error('Unauthorized Access', 401);
+            show_error('Unauthorized Access', 401, 'Unauthorized Access!');
         }
     }
 }

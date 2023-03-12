@@ -117,7 +117,7 @@
                                     <tbody>
                                         <?php
                                         $perms = ['create', 'view', 'update', 'delete', 'disburse'];
-                                        $rowspan = sizeof($perms);
+                                        $rowspan = sizeof($perms) - 1;
 
                                         foreach ($this->perm->modules() as $row) {
                                             
@@ -138,11 +138,14 @@
                                                 <?php
                                             } else {
                                                 foreach ($perms as $key => $perm) {
-                                                    if($perm === 'disburse' && $row->name !== 'loans' )continue;
+                                                    if($perm === 'disburse' && $row->name !== 'loans' ){
+                                                        continue;
+                                                    }
                                                     ?>
                                                     <tr>
-                                                        <?php if ($key === 0) { ?>
-                                                            <td rowspan="<?= $rowspan ?>" class="text-uppercase border"><?= str_replace('_', ' ', $row->name); ?></td>
+                                                        <?php if ($key === 0) {
+                                                            ?>
+                                                            <td rowspan="<?= $rowspan +($row->name === 'loans'?1:0) ?>" class="text-uppercase border"><?= str_replace('_', ' ', $row->name); ?></td>
                                                         <?php } ?>
                                                         <td class="text-uppercase"><?= $perm ?></td>
                                                         <td>

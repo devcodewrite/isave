@@ -13,6 +13,10 @@ class Acctypes extends MY_Controller
         $data = [
             'types' => $this->acctype->all()->get()->result(),
         ];
+        $gate = auth()->can('create','acctype');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
         $this->load->view('pages/setup/acctypes/list', $data);
     }
 
@@ -24,6 +28,11 @@ class Acctypes extends MY_Controller
     {
         $type =  $this->acctype->find($id);
         if (!$type) show_404();
+
+        $gate = auth()->can('view','acctype');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
 
         $data = [
             'type' => $type,
@@ -39,6 +48,12 @@ class Acctypes extends MY_Controller
     {
         $acctype = $this->acctype->find($id);
         if (!$acctype) show_404();
+
+        $gate = auth()->can('update','acctype');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
+
 
         $data = [
             'type' => $acctype,
@@ -84,7 +99,7 @@ class Acctypes extends MY_Controller
         if(!isset($record['is_investment'])) {
             $record['is_investment'] = 0;
         }
-        
+    
         if(!isset($record['is_loan_acc'])){
             $record['is_loan_acc'] = 0;
             $record['lower_limit'] = null;

@@ -26,6 +26,11 @@ class Deposits extends MY_Controller
         $deposit = $this->deposit->find($id);
         if (!$deposit) show_404();
 
+        $gate = auth()->can('view','deposit');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
+
         $deposit->account = $this->account->find($deposit->account_id);
 
         $data = [
@@ -40,6 +45,11 @@ class Deposits extends MY_Controller
      */
     public function create()
     {
+        $gate = auth()->can('create','deposit');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
+
         $this->load->view('pages/deposits/edit');
     }
     /**
@@ -48,6 +58,11 @@ class Deposits extends MY_Controller
      */
     public function mass_create()
     {
+        $gate = auth()->can('create','deposit');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
+
         $this->load->view('pages/deposits/mass-deposit');
     }
 
@@ -60,6 +75,10 @@ class Deposits extends MY_Controller
     {
         $deposit = $this->deposit->find($id);
         if (!$deposit) show_404();
+        $gate = auth()->can('update','deposit');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
 
         $deposit->account = $this->account->find($deposit->account_id);
         $deposit->account->accType = $this->acctype->find($deposit->account->acc_type_id);

@@ -9,6 +9,11 @@ class Customers extends MY_Controller
      */
     public function index()
     {
+        $gate = auth()->can('viewAny','member');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
+
         $this->load->view('pages/customers/list');
     }
 
@@ -20,6 +25,11 @@ class Customers extends MY_Controller
     {
         $member = $this->member->find($id);
         if (!$member) show_404();
+
+        $gate = auth()->can('view','member');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
 
         $member->associations = $this->member->associations($member->id);
 
@@ -36,10 +46,16 @@ class Customers extends MY_Controller
      */
     public function create()
     {
+        $gate = auth()->can('create','member');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
+
         $data = [
             'id_card_types' => $this->idcardtype->all()->get()->result(),
             'acc_types' => $this->acctype->all()->where(['is_default' => 1])->get()->result(),
         ];
+        
         $this->load->view('pages/customers/edit', $data);
     }
 
@@ -51,6 +67,11 @@ class Customers extends MY_Controller
     {
         $member = $this->member->find($id);
         if (!$member) show_404();
+
+        $gate = auth()->can('update','member');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
 
         $data = [
             'id_card_types' => $this->idcardtype->all()->get()->result(),

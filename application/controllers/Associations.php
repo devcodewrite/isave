@@ -25,6 +25,11 @@ class Associations extends MY_Controller
         $association = $this->association->find($id);
         if (!$association) show_404();
 
+        $gate = auth()->can('view','association');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
+
         $loans = $this->loan->all()
             ->where('appl_status', 'disbursed')
             ->where('associations.id', $id)
@@ -106,6 +111,11 @@ class Associations extends MY_Controller
             'communities' => $this->association->communities(),
             'clusterOfficeAddresses' => $this->association->clusterOffices(),
         ];
+        $gate = auth()->can('create','association');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
+
         $this->load->view('pages/associations/edit', $data);
     }
 
@@ -118,6 +128,10 @@ class Associations extends MY_Controller
         $association = $this->association->find($id);
         if (!$association) show_404();
 
+        $gate = auth()->can('update','association');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
         $association->user = $this->user->find($association->assigned_user_id);
         $data = [
             'association' => $association,

@@ -39,6 +39,37 @@ class Auth_model extends CI_Model
           return true;
      }
 
+     /**
+      * check authenticated user can perform $action on $moduleName
+      */
+     public function can(string $action='', string $moduleName = '', $module = null)
+     {
+          if($action === '' || $moduleName === '') return false;  
+
+          return $this->{$moduleName}->{'can'.ucfirst($action)}(auth()->user(), $module);
+     }
+
+     public function canAny(array $actions = [], string $moduleName = '', $module = null)
+     {
+          if( sizeof($actions) === 0 || $moduleName === '') return false;  
+          foreach ($actions as $key => $action) {
+               $gate = $this->{$moduleName}->{'can'.ucfirst($action)}(auth()->user(), $module); 
+               if($gate->allowed())return $gate;
+          }
+
+          return $this->deny();
+     }
+
+     public function allow(string $message =null)
+     {
+          return new AuthResponse(true, $message);
+     }
+
+     public function deny(string $message =null)
+     {
+          return new AuthResponse(false, $message);
+     }
+
      public function loginUser(string $username, string $pass)
      {
           $where = [
@@ -71,3 +102,23 @@ class Auth_model extends CI_Model
           redirect();
      }
 }
+
+class AuthResponse
+{
+     public $message;
+     protected $status;
+
+     public function __construct(bool $status, $message = null) {
+          $this->status = $status;
+          $this->message = $message;
+     }
+     public function allowed()
+     {
+          return $this->status;
+     }
+     public function denied()
+     {
+          return !$this->status;
+     }
+}
+

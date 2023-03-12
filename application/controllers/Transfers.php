@@ -9,6 +9,10 @@ class Transfers extends MY_Controller
      */
     public function index()
     {
+        $gate = auth()->can('viewAny','transfer');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
         $this->load->view('pages/transfers/list');
     }
 
@@ -20,6 +24,11 @@ class Transfers extends MY_Controller
     {
         $transfer = $this->transfer->find($id);
         if (!$transfer) show_404();
+
+        $gate = auth()->can('view','transfer');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
 
         $transfer->fromAccount = $this->account->find($transfer->from_account_id);
         $transfer->toAccount = $this->account->find($transfer->to_account_id);
@@ -38,6 +47,10 @@ class Transfers extends MY_Controller
      */
     public function create()
     {
+        $gate = auth()->can('create','transfer');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
         $this->load->view('pages/transfers/edit');
     }
 
@@ -49,6 +62,11 @@ class Transfers extends MY_Controller
     {
         $transfer = $this->transfer->find($id);
         if (!$transfer) show_404();
+
+        $gate = auth()->can('update','transfer');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
         $data = [
             'transfer' => $transfer,
         ];

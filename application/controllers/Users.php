@@ -9,6 +9,11 @@ class Users extends MY_Controller
      */
     public function index()
     {
+        $gate = auth()->can('viewAny','user');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
+
         $this->load->view('pages/users/list');
     }
 
@@ -20,6 +25,11 @@ class Users extends MY_Controller
     {
         $user = $this->user->find($id);
         if (!$user) show_404();
+
+        $gate = auth()->can('view','user');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
 
         $data = [
             'user' => $user,
@@ -33,6 +43,11 @@ class Users extends MY_Controller
      */
     public function create()
     {
+        $gate = auth()->can('create','user');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
+
         $data = [
             'roles' => $this->role->all()->get()->result(),
         ];
@@ -47,6 +62,11 @@ class Users extends MY_Controller
     {
         $user = $this->user->find($id);
         if (!$user) show_404();
+
+        $gate = auth()->can('update','user');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
 
         $data = [
             'user' => $user,

@@ -22,6 +22,11 @@ class Loans extends MY_Controller
 
         if(!$loan) show_404();
 
+        $gate = auth()->can('view','loan');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
+
         $loan->account = $this->account->find($loan->account_id);
         $loan->owner = $loan->account->ownership==='individual'
                 ?$this->member->find($loan->account->member_id)
@@ -47,6 +52,11 @@ class Loans extends MY_Controller
 
         if(!$loan) show_404();
 
+        $gate = auth()->can('view','loan');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
+
         $loan->account = $this->account->find($loan->account_id);
         $loan->owner = $loan->account->ownership==='individual'
                 ?$this->member->find($loan->account->member_id)
@@ -63,6 +73,11 @@ class Loans extends MY_Controller
      */
     public function disbursements()
     {
+        $gate = auth()->can('disburse','loan');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
+
         $this->load->view('pages/loans/disbursements');
     }
 
@@ -72,6 +87,11 @@ class Loans extends MY_Controller
      */
     public function defaults()
     {
+        $gate = auth()->can('view','loan');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
+
         foreach($this->loan->where(['appl_status'=>'disbursed'])->result() as $row) {
             $this->loan->updateSettlementStatus($row->id);
         }
@@ -93,6 +113,11 @@ class Loans extends MY_Controller
      */
     public function in_arrears()
     {
+        $gate = auth()->can('view','loan');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
+
         $loans = $this->loan->all()
                 ->where('appl_status', 'disbursed')
                 ->where('arrears_days >', 0)
@@ -109,8 +134,12 @@ class Loans extends MY_Controller
      */
     public function create()
     {
+        $gate = auth()->can('create','loan');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
+
         $data = [
-            
         ];
         $this->load->view('pages/loans/edit', $data);
     }
@@ -122,8 +151,13 @@ class Loans extends MY_Controller
     public function edit(int $id = null)
     {
         $loan = $this->loan->find($id);
-
         if (!$loan) show_404();
+
+        $gate = auth()->can('update','loan');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
+
         $loan->account = $this->account->find($loan->account_id);
 
         $data = [

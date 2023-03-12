@@ -149,5 +149,4 @@ $autoload['model'] = array(
     'identitycardtype_model' => 'idcardtype',
     'accounttype_model' => 'acctype',
     'accountstatement_model' => 'accstatement',
-    'loantype_model' => 'loantype',
 );

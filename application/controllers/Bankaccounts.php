@@ -9,6 +9,11 @@ class Bankaccounts extends MY_Controller
      */
     public function index()
     {
+        $gate = auth()->can('viewAny','account');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
+
         $data = [
             'accountTypes' => $this->acctype->all()->get()->result(),
         ];
@@ -21,6 +26,11 @@ class Bankaccounts extends MY_Controller
      */
     public function passbooks()
     {
+        $gate = auth()->can('viewAny','account');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
+
         $this->load->view('pages/bank-accounts/passbooks');
     }
 
@@ -32,6 +42,11 @@ class Bankaccounts extends MY_Controller
     {
         $account =  $this->account->find($id);
         if (!$account) show_404();
+
+        $gate = auth()->can('view','account');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
 
         $account->balance = $this->account->calBalance($id);
         $account->accType = $this->acctype->find($account->acc_type_id);
@@ -59,6 +74,11 @@ class Bankaccounts extends MY_Controller
             'accountTypes' => $this->acctype->all()->get()->result(),
         ];
 
+        $gate = auth()->can('create','account');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
+
         $this->load->view('pages/bank-accounts/edit', $data);
     }
 
@@ -70,6 +90,11 @@ class Bankaccounts extends MY_Controller
     {
         $account = $this->account->find($id);
         if (!$account) show_404();
+
+        $gate = auth()->can('update','account');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
 
         $account->accType = $this->acctype->find($account->acc_type_id);
         if ($account->ownership === 'individual') {

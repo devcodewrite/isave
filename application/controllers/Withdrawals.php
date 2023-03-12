@@ -9,6 +9,11 @@ class Withdrawals extends MY_Controller
      */
     public function index()
     {
+        $gate = auth()->can('viewAny','withdrawal');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
+
         $data = $this->input->get();
         $data = array_merge($data, [
             'accountTypes' => $this->acctype->all()->get()->result(),
@@ -24,6 +29,12 @@ class Withdrawals extends MY_Controller
     {
         $withdrawal = $this->withdrawal->find($id);
         if (!$withdrawal) show_404();
+
+        $gate = auth()->can('view','withdrawal');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
+
         $withdrawal->account = $this->account->find($withdrawal->account_id);
 
         $data = [
@@ -38,6 +49,11 @@ class Withdrawals extends MY_Controller
      */
     public function create()
     {
+        $gate = auth()->can('create','withdrawal');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
+
         $this->load->view('pages/withdrawals/edit');
     }
 
@@ -49,6 +65,11 @@ class Withdrawals extends MY_Controller
     {
         $withdrawal = $this->withdrawal->find($id);
         if (!$withdrawal) show_404();
+
+        $gate = auth()->can('update','withdrawal');
+        if($gate->denied()){
+           show_error($gate->message, 401, 'An Unathorized Access!');
+        }
 
         $withdrawal->account = $this->account->find($withdrawal->account_id);
         $withdrawal->account->accType = $this->acctype->find($withdrawal->account->acc_type_id);

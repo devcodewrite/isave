@@ -163,69 +163,53 @@ class Transfer_model extends CI_Model
                     ->result();
     }
 
-     /**
-     * Get all deposit that belongs to this deposit id through account
-     */
-    public function transfers(int $id)
-    {
-        $rtable = 'transfers';
-
-        return $this->db->select("$rtable.*")
-                    ->from($rtable)
-                    ->where(['deposit_id'=> $id])
-                    ->where("$rtable.deleted_at =", null)
-                    ->get()
-                    ->result();
-    }
- /**
-     * Get all withdrawals that belongs to this deposit id through account
-     */
-    public function withdrawals(int $id)
-    {
-        $rtable = 'withdrawals';
-
-        return $this->db->select("$rtable.*")
-                    ->from($rtable)
-                    ->where(['deposit_id'=> $id])
-                    ->where("$rtable.deleted_at =", null)
-                    ->get()
-                    ->result();
+    public function canViewAny($user){
+        $role = $this->user->find($user->id)->role;
+        if ($role)
+            return
+                $role->permission->is_admin === '1'
+                ? auth()->allow() : (in_array('view', explode(',', $role->permission->transfers))?auth()->allow()
+                :auth()->deny("You don't have permission to view this recored."));
+        return auth()->deny("You don't have permission to view this recored.");
     }
 
-     /**
-     * Get all associations that the deposit id has
-     */
-    public function associations(int $id)
-    {
-        $rtable = 'associations';
-        $pivot = 'association_transfers';
-        $foreginKey1 = 'association_id';
-        $foreginKey2 = 'deposit_id';
-
-        return $this->db->select("{$this->table}.*")
-                    ->from($rtable)
-                    ->join($rtable, "$pivot.$foreginKey1=$rtable.id")
-                    ->join($this->table, "$pivot.$foreginKey2={$this->table}.id")
-                    ->where("{$this->table}.id", $id)
-                    ->where("$rtable.deleted_at =", null)
-                    ->get()
-                    ->result();
+    public function canView($user, $model){
+        $role = $this->user->find($user->id)->role;
+        if ($role)
+            return
+                $role->permission->is_admin === '1'
+                ? auth()->allow() : (in_array('view', explode(',', $role->permission->transfers))?auth()->allow()
+                :auth()->deny("You don't have permission to view this recored."));
+        return auth()->deny("You don't have permission to view this recored.");
     }
 
-    /**
-     * Get the identity card type that owner this deposit id
-     */
-    public function identityCardType(int $id)
-    {
-        $rtable = 'identity_card_types';
-        $col = 'identity_card_type_id';
-        
-        return $this->db->select("$rtable.*")
-                    ->from($rtable)
-                    ->join($this->table, "{$this->table}.$col=$rtable.id")
-                    ->where([$col=> $id])
-                    ->get()
-                    ->row();
+    public function canCreate($user){
+        $role = $this->user->find($user->id)->role;
+        if ($role)
+            return
+                $role->permission->is_admin === '1'
+                ? auth()->allow() : (in_array('create', explode(',', $role->permission->transfers))?auth()->allow()
+                :auth()->deny("You don't have permission to create this record."));
+        return auth()->deny("You don't have permission to create this record.");
     }
 
+    public function canUpdate($user, $model){
+        $role = $this->user->find($user->id)->role;
+        if ($role)
+            return
+                $role->permission->is_admin === '1'
+                ? auth()->allow() : (in_array('update', explode(',', $role->permission->transfers))?auth()->allow()
+                :auth()->deny("You don't have permission to update this record."));
+        return auth()->deny("You don't have permission to update this record.");
+    }
+
+    public function canDelete($user, $model){
+        $role = $this->user->find($user->id)->role;
+        if ($role)
+            return
+                $role->permission->is_admin === '1'
+                ? auth()->allow() : (in_array('delete', explode(',', $role->permission->transfers))?auth()->allow()
+                :auth()->deny("You don't have permission to delete this record."));
+        return auth()->deny("You don't have permission to delete this record.");
+    }
 }
