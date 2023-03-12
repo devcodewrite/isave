@@ -43,21 +43,37 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="name">Statement Date</label>
-                            <input id="id" type="date" class="form-control" name="id" value="<?= isset($statement->id) ? $statement->id : "" ?>" required />
+                            <input id="id" type="date" class="form-control" name="id" value="<?= isset($id) ? $id : "" ?>" required />
                         </div>
                     </div>
                 </div>
+                <?php if ($statement) { ?>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">Transaction Amount (Reconciled)</label>
+                                <input type="number" class="form-control" value="<?= isset($statement->total_amount) ? number_format($statement->total_amount, 2) : "" ?>" placeholder="0.00" readonly required />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">E-cash Received (Reconciled)</label>
+                                <input type="number" class="form-control" placeholder="Enter reconcile amount" value="<?= isset($statement->reconcile_amount) ? number_format($statement->reconcile_amount, 2) :  '' ?>" required />
+                            </div>
+                        </div>
+                    </div>
+                <?php } ?>
                 <div class="form-row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="name">Transaction Amount</label>
-                            <input type="number" class="form-control" name="total_amount" value="<?= isset($statement->total_amount) ? number_format($statement->total_amount, 2) : "" ?>" placeholder="0.00" readonly required />
+                            <input type="number" class="form-control" name="total_amount" value="<?= isset($tran->cash_deposits) ? number_format($tran->cash_deposits, 2) : "" ?>" placeholder="0.00" readonly required />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="name">E-cash Received</label>
-                            <input type="number" class="form-control" name="reconcile_amount" placeholder="Enter reconcile amount" value="<?= isset($statement->reconcile_amount) ? number_format($statement->reconcile_amount, 2) :  number_format($statement->ecash_amount, 2) ?>" required />
+                            <input type="number" class="form-control" name="reconcile_amount" placeholder="Enter reconcile amount" value="<?= isset($tran->momo_deposits) ? number_format($tran->momo_deposits, 2) :  '' ?>" required />
                         </div>
                     </div>
                 </div>
@@ -72,6 +88,7 @@
             </form>
         </div>
         <div class="card-footer d-block text-right">
+            <a href="<?= site_url('associations/statements')?>" class="btn btn-danger">Cancel</a>
             <button class="btn btn-success btn-lg" onclick="$('.edit-statement').trigger('submit')">Reconcile</button>
         </div>
     </div>

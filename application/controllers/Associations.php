@@ -55,25 +55,18 @@ class Associations extends MY_Controller
         if($this->input->post('id')){
             $this->accstatement->save($this->input->post());
         }
-        $tran = $this->association->transactions(($association_id ? $association_id : 0),['ddate'=>$id])->get()->row();
-
-        if(!$statement) $statement = new stdClass();
-
-        if ($tran) {
-            $statement->id = $tran->tdate;
-            $statement->total_amount = $tran->cash_deposits;
-            $statement->ecash_amount = $tran->momo_deposits;
-        }
-        else{
-            $statement->ecash_amount = 0.00;
-            $statement->id = $id;
-        }
-
+        $where = [
+            'ddate'=>$id, 
+            'association_id' => $association_id,
+        ];
+        $tran = $this->association->transactions($where)->get()->row();
+        
         $data = [
             'association_id' => $association_id,
             'association' => $association,
             'id' => $id,
             'statement' => $statement,
+            'tran' => $tran
         ];
         $this->load->view('pages/associations/statements', $data);
     }

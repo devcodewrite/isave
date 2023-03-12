@@ -140,6 +140,7 @@ $(function () {
         "GHS " +  (pageTotal3<0 ?`(${Math.abs(pageTotal3).toFixed(2)})`:pageTotal3.toFixed(2) )
       );
     },
+     order: [[0, "desc"]],
     columnDefs: [
       {
         orderable: false,
