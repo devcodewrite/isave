@@ -396,11 +396,14 @@
                                 <tbody>
                                     <?php 
                                     $where = ['accounts.association_id' => $association->id];
+                                    $colTotal[0] = 0;
+                                        $colTotal[1] = 0;
+                                        $colTotal[2] = 0;
                                     foreach ($this->association->transactions($where)->get()->result() as $key => $row) {
                                         $stat = $this->association->statements(['account_statements.id' => $row->tdate, 'association_id' => $association->id])->get()->row();
-                                        $colTotal[0] = $row->cash_deposits;
-                                        $colTotal[1] = $row->cash_deposits;
-                                        $colTotal[2] = $row->cash_deposits;
+                                        $colTotal[0] += $row->cash_deposits;
+                                        $colTotal[1] += $row->cash_deposits;
+                                        $colTotal[2] += $row->cash_deposits;
                                     ?>
                                         <tr>
                                             <td><?= $row->tdate ?></td>
@@ -418,9 +421,9 @@
                                 <tfoot class="text-uppercase">
                                     <tr>
                                         <th>Date</th>
-                                        <th>Cash Deposits</th>
-                                        <th>Mobile Money</th>
-                                        <th>Internal Transfer</th>
+                                        <th>GHS <?=number_format($colTotal[0],2) ?></th>
+                                        <th>GHS <?=number_format($colTotal[1],2) ?></th>
+                                        <th>GHS <?=number_format($colTotal[2],2) ?></th>
                                         <th>Reconcil. Statement</th>
                                     </tr>
                                 </tfoot>
@@ -573,7 +576,7 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/associations/detail.js?v=21'); ?>" defer></script>
+<script src="<?= base_url('assets/js/associations/detail.js?v=23'); ?>" defer></script>
 <?php app_end(); ?>
 
 
