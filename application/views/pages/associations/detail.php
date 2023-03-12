@@ -406,8 +406,8 @@
                                     foreach ($this->association->transactions($where)->get()->result() as $key => $row) {
                                         $stat = $this->association->statements(['account_statements.id' => $row->tdate, 'association_id' => $association->id])->get()->row();
                                         $colTotal[0] += $row->cash_deposits;
-                                        $colTotal[1] += $row->cash_deposits;
-                                        $colTotal[2] += $row->cash_deposits;
+                                        $colTotal[1] += $row->momo_deposits;
+                                        $colTotal[2] += $row->transfer_deposits;
                                     ?>
                                         <tr>
                                             <td><?= $row->tdate ?></td>
