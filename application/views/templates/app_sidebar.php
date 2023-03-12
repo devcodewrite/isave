@@ -48,7 +48,7 @@
                         </a>
                         <ul>
                             <?php
-                            if (auth()->can('view', 'account')->allowed()) { ?>
+                            if (auth()->can('create', 'account')->allowed()) { ?>
                                 <li>
                                     <a href="<?= site_url('bankaccounts/create') ?>" class="<?= get_nav_status1('bankaccounts/create') ?>">
                                         <i class="metismenu-icon"></i> New Account
