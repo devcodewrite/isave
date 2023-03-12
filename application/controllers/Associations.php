@@ -71,9 +71,10 @@ class Associations extends MY_Controller
             'ddate' => trim($id),
             'association_id' => trim($association_id),
         ];
-        $tran = $this->association->transactions($where)->get()->results();
+        $tran = $this->association->transactions($where)->get()->result();
 
         print_r($tran); die;
+
         $data = [
             'association_id' => $association_id,
             'association' => $association,
