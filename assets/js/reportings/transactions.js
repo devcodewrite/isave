@@ -55,7 +55,7 @@ transactionTable = $("#dt-transactions").DataTable({
       }, 0);
 
     // Update footer
-    $(api.column(2).footer()).html("Page " + pageTotal.toFixed(2) + " (" +total.toFixed(2)+")");
+    $(api.column(2).footer()).html("page " + pageTotal.toFixed(2) + " (page " +total.toFixed(2)+")");
 
 
     // Total over all pages
@@ -75,7 +75,7 @@ transactionTable = $("#dt-transactions").DataTable({
       }, 0);
 
     // Update footer
-    $(api.column(3).footer()).html("Page " + pageTotal.toFixed(2) + " (" +total.toFixed(2)+")");
+    $(api.column(3).footer()).html("page " + pageTotal.toFixed(2) + " (total " +total.toFixed(2)+")");
 
 
     // Total over all pages
@@ -95,7 +95,7 @@ transactionTable = $("#dt-transactions").DataTable({
       }, 0);
 
     // Update footer
-    $(api.column(4).footer()).html("Page " + pageTotal.toFixed(2) + " (" +total.toFixed(2)+")");
+    $(api.column(4).footer()).html("page " + pageTotal.toFixed(2) + " (total " +total.toFixed(2)+")");
   },
 });
 

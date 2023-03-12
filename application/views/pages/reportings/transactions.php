@@ -75,7 +75,7 @@
                                 </tr>
                             <?php  } ?>
                         </tbody>
-                        <tfoot class="text-uppercase">
+                        <tfoot>
                             <tr>
                                 <th>Date</th>
                                 <th>Association</th>
