@@ -185,8 +185,8 @@
                                             ?>
                                                 <tr>
                                                     <td><?= $row->accType->label ?> (<?= $row->acc_number ?>)</td>
-                                                    <td><?= $row->cashBalance < 0 ? "(" . number_format(abs($row->cashBalance),2) . ")" : number_format($row->cashBalance,2); ?>
-                                                    <td><?= $row->eCashBalance < 0 ? "(" . number_format(abs($row->eCashBalance),2) . ")" : number_format($row->eCashBalance,2); ?></td>
+                                                    <td><?= $row->cashBalance < 0 ? "(" . number_format(abs($row->cashBalance), 2) . ")" : number_format($row->cashBalance, 2); ?>
+                                                    <td><?= $row->eCashBalance < 0 ? "(" . number_format(abs($row->eCashBalance), 2) . ")" : number_format($row->eCashBalance, 2); ?></td>
                                                     <td><span class="alert <?= $alerts[$row->status] ?> text-uppercase"><?= $row->status ?></span></td>
                                                     <td>
                                                         <div class="d-flex">
@@ -392,28 +392,36 @@
                                     <tr>
                                         <th>Date</th>
                                         <th>Cash Deposits</th>
-                                        <th>Mobile Money</th>
+                                        <th>E-Cash Deposit</th>
+                                        <th>Cash Withdrawal</th>
+                                        <th>E-Cash withdrawal</th>
                                         <th>Internal Transfer</th>
                                         <th>Reconcil. Statement</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $where = ['accounts.association_id' => $association->id];
-                                    $colTotal[0] = 0;
-                                    $colTotal[1] = 0;
-                                    $colTotal[2] = 0;
+                                    $where = [
+                                        'accounts.association_id' => $association->id,
+                                        'accounts.ownership' => 'individual'
+                                    ];
                                     foreach ($this->association->transactions($where)->get()->result() as $key => $row) {
                                         $stat = $this->association->statements(['account_statements.id' => $row->tdate, 'association_id' => $association->id])->get()->row();
-                                        $colTotal[0] += $row->cash_deposits;
-                                        $colTotal[1] += $row->momo_deposits;
-                                        $colTotal[2] += $row->transfer_deposits;
+                                        $where = [
+                                            'withdrawals.wdate' => $row->tdate,
+                                            'accounts.association_id' => $row->association_id,
+                                            'accounts.ownership' => 'individual'
+                                        ];
+                                        $row2 = $this->association->transactions2($where)->get()->row();
+
                                     ?>
-                                        <tr>
+                                        <tr data-id="<?= $row->association_id ?>">
                                             <td><?= $row->tdate ?></td>
-                                            <td><a href="<?= site_url('deposits') ?>?type=cash&association_id=<?= $association->id ?>&from_date=<?= $row->tdate ?>&to_date=<?= $row->tdate ?>"><?= number_format($row->cash_deposits, 2) ?></a></td>
-                                            <td><a href="<?= site_url('deposits') ?>?type=momo&association_id=<?= $association->id ?>&from_date=<?= $row->tdate ?>&to_date=<?= $row->tdate ?>"><?= number_format($row->momo_deposits, 2) ?></a></td>
-                                            <td><a href="<?= site_url('deposits') ?>?type=transfer&association_id=<?= $association->id ?>&from_date=<?= $row->tdate ?>&to_date=<?= $row->tdate ?>"><?= number_format($row->transfer_deposits, 2) ?></a></td>
+                                            <td><?= number_format($row->cash_deposits, 2) ?></td>
+                                            <td><?= number_format($row->momo_deposits, 2) ?></td>
+                                            <td><?= $row2 ? number_format($row2->cash_withdrawals, 2) : '0.00'; ?></td>
+                                            <td><?= $row2 ? number_format($row2->momo_withdrawals, 2) : '0.00'; ?></td>
+                                            <td><?= number_format($row->transfer_deposits, 2) ?></td>
                                             <td>
                                                 <a href="<?= site_url('associations/statements') ?><?= $stat ? "?id=$stat->id&association_id=$association->id" : "?id=$row->tdate&association_id=$association->id" ?>" class="btn btn-link"><?= $stat ? $stat->id : '' ?></a>
                                                 <a href="<?= site_url('associations/statements') ?><?= $stat ? "?id=$stat->id&association_id=$association->id" : "?id=$row->tdate&association_id=$association->id" ?>" class="btn btn-icon btn-primary">
@@ -422,12 +430,14 @@
                                         </tr>
                                     <?php  } ?>
                                 </tbody>
-                                <tfoot class="text-uppercase">
+                                <tfoot>
                                     <tr>
                                         <th>Date</th>
-                                        <th>GHS <?= number_format($colTotal[0], 2) ?></th>
-                                        <th>GHS <?= number_format($colTotal[1], 2) ?></th>
-                                        <th>GHS <?= number_format($colTotal[2], 2) ?></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
                                         <th>Reconcil. Statement</th>
                                     </tr>
                                 </tfoot>
@@ -580,7 +590,7 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/associations/detail.js?v=23'); ?>" defer></script>
+<script src="<?= base_url('assets/js/associations/detail.js?v=26'); ?>" defer></script>
 <?php app_end(); ?>
 
 

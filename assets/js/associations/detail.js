@@ -17,7 +17,7 @@ loanTable = $("#dt-related-loans").DataTable({
       params.date_from = $("#loan-date-from").val();
       params.date_to = $("#loan-date-to").val();
       params.association_id = $("#dt-related-loans").data("association-id");
-      params.status = 'pending';
+      params.status = "pending";
     },
   },
   serverSide: true,
@@ -162,7 +162,6 @@ $("#dt-related-loan-balances").DataTable({
   ],
 });
 
-
 $(".loan-filter").on("click", function (params) {
   loanTable.ajax.reload();
 });
@@ -183,7 +182,6 @@ $.fn.DataTable.ext.search.push(function (settings, data, dataIndex) {
   var min = new Date(minDate.val());
   var max = new Date(maxDate.val());
   var date = new Date(data[0]);
-  console.log(minDate.val());
   if (
     (min <= date && max >= date) ||
     (minDate.val() === "" && maxDate.val() === "")
@@ -198,6 +196,158 @@ transactionTable = $("#dt-transactions").DataTable({
   dom: "lBftip",
   buttons: ["print", "pdf", "excel"],
   order: [[0, "desc"]],
+  footerCallback: function (row, data, start, end, display) {
+    var api = this.api();
+
+    // Remove the formatting to get integer data for summation
+    var intVal = function (i) {
+      return typeof i === "string"
+        ? i.replace(/[\$,]/g, "") * 1
+        : typeof i === "number"
+        ? i
+        : 0;
+    };
+
+    // Total over all pages
+    total = api
+      .column(1)
+      .data()
+      .reduce(function (a, b) {
+        return intVal(a) + intVal(b);
+      }, 0);
+
+    // Total over this page
+    pageTotal = api
+      .column(1, { page: "current" })
+      .data()
+      .reduce(function (a, b) {
+        return intVal(a) + intVal(b);
+      }, 0);
+    // Update footer
+    $(api.column(1).footer()).html(
+      "page " + pageTotal.toFixed(2) + " (total " + total.toFixed(2) + ")"
+    );
+
+    // Total over all pages
+    total = api
+      .column(2)
+      .data()
+      .reduce(function (a, b) {
+        return intVal(a) + intVal(b);
+      }, 0);
+
+    // Total over this page
+    pageTotal = api
+      .column(2, { page: "current" })
+      .data()
+      .reduce(function (a, b) {
+        return intVal(a) + intVal(b);
+      }, 0);
+
+    // Update footer
+    $(api.column(2).footer()).html(
+      "page " + pageTotal.toFixed(2) + " (total " + total.toFixed(2) + ")"
+    );
+    // Total over all pages
+    total = api
+      .column(3)
+      .data()
+      .reduce(function (a, b) {
+        return intVal(a) + intVal(b);
+      }, 0);
+
+    // Total over this page
+    pageTotal = api
+      .column(3, { page: "current" })
+      .data()
+      .reduce(function (a, b) {
+        return intVal(a) + intVal(b);
+      }, 0);
+
+    // Update footer
+    $(api.column(3).footer()).html(
+      "page " + pageTotal.toFixed(2) + " (total " + total.toFixed(2) + ")"
+    );
+
+    // Total over all pages
+    total = api
+      .column(4)
+      .data()
+      .reduce(function (a, b) {
+        return intVal(a) + intVal(b);
+      }, 0);
+
+    // Total over this page
+    pageTotal = api
+      .column(4, { page: "current" })
+      .data()
+      .reduce(function (a, b) {
+        return intVal(a) + intVal(b);
+      }, 0);
+
+    // Update footer
+    $(api.column(4).footer()).html(
+      "page " + pageTotal.toFixed(2) + " (total " + total.toFixed(2) + ")"
+    );
+
+    // Total over all pages
+    total = api
+      .column(5)
+      .data()
+      .reduce(function (a, b) {
+        return intVal(a) + intVal(b);
+      }, 0);
+
+    // Total over this page
+    pageTotal = api
+      .column(5, { page: "current" })
+      .data()
+      .reduce(function (a, b) {
+        return intVal(a) + intVal(b);
+      }, 0);
+
+    // Update footer
+    $(api.column(5).footer()).html(
+      "page " + pageTotal.toFixed(2) + " (total " + total.toFixed(2) + ")"
+    );
+  },
+  rowCallback: function (row, data) {
+    $("td:eq(1)", row).html(
+      `<a href="${baseUrl}/deposits?type=cash&association_id=${$(row).data("id")}&from_date=${
+        data[0]
+      }&to_date=${
+        data[0]
+      }" class="btn btn-link">${data[1]}</a>`
+    );
+    $("td:eq(2)", row).html(
+      `<a href="${baseUrl}/deposits?type=momo&association_id=${$(row).data("id")}&from_date=${
+        data[0]
+      }&to_date=${
+        data[0]
+      }" class="btn btn-link">${data[2]}</a>`
+    );
+
+    $("td:eq(3)", row).html(
+      `<a href="${baseUrl}/withdrawals?type=cash&association_id=${$(row).data("id")}&from_date=${
+        data[0]
+      }&to_date=${
+        data[0]
+      }" class="btn btn-link">${data[3]}</a>`
+    );
+
+    $("td:eq(4)", row).html(
+      `<a href="${baseUrl}/withdrawals?type=momo&association_id=${$(row).data("id")}&from_date=${
+        data[0]
+      }" class="btn btn-link">${data[4]}</a>`
+    );
+    $("td:eq(5)", row).html(
+      `<a href="${baseUrl}/transfers?type=transfer&association_id=${$(row).data("id")}&from_date=${
+        data[0]
+      }&to_date=${
+        data[0]
+      }" class="btn btn-link">${data[5]}</a>`
+    );
+  },
 });
 
 $(".transaction-filter-clear").on("click", function (params) {

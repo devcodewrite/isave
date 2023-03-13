@@ -46,14 +46,26 @@
                                 <th>Date</th>
                                 <th>Association</th>
                                 <th>Cash Deposits</th>
-                                <th>Mobile Money</th>
+                                <th>E-Cash Deposit</th>
+                                <th>Cash Withdrawal</th>
+                                <th>E-Cash withdrawal</th>
                                 <th>Internal Transfer</th>
                                 <th>Reconcil. Statement</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            foreach ($this->association->transactions()->get()->result() as $key => $row) {
+                            $where = [
+                                'accounts.ownership' => 'individual'
+                            ];
+                            foreach ($this->association->transactions($where)->get()->result() as $key => $row) {
+                                $where = [
+                                    'withdrawals.wdate' => $row->tdate,
+                                    'accounts.association_id' => $row->association_id,
+                                    'accounts.ownership' => 'individual'
+                                ];
+                                $row2 = $this->association->transactions2($where)->get()->row();
+
                                 $stat = $this->association->statements([
                                     'account_statements.id' => $row->tdate,
                                     'association_id' => $row->association_id
@@ -66,6 +78,8 @@
                                     <th><a href="<?= site_url('associations/' . $row->association_id); ?>" class="btn btn-link"><?= $row->association_name; ?></a></th>
                                     <td><?= number_format($row->cash_deposits, 2) ?></td>
                                     <td><?= number_format($row->momo_deposits, 2) ?></td>
+                                    <td><?= $row2 ? number_format($row2->cash_withdrawals, 2) : '0.00'; ?></td>
+                                    <td><?= $row2 ? number_format($row2->momo_withdrawals, 2) : '0.00'; ?></td>
                                     <td><?= number_format($row->transfer_deposits, 2) ?></td>
                                     <td>
                                         <a href="<?= site_url('associations/statements') ?><?= $stat ? "?id=$stat->id&association_id=$row->association_id" : "?id=$row->tdate&association_id=$row->association_id" ?>" class="btn btn-link"><?= $stat ? $stat->id : '' ?></a>
@@ -79,6 +93,8 @@
                             <tr>
                                 <th>Date</th>
                                 <th>Association</th>
+                                <th></th>
+                                <th></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
