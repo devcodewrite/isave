@@ -403,14 +403,12 @@
                                     <?php
                                     $where = [
                                         'accounts.association_id' => $association->id,
-                                        'accounts.ownership' => 'individual'
                                     ];
                                     foreach ($this->association->transactions($where)->get()->result() as $key => $row) {
                                         $stat = $this->association->statements(['account_statements.id' => $row->tdate, 'association_id' => $association->id])->get()->row();
                                         $where = [
                                             'withdrawals.wdate' => $row->tdate,
                                             'accounts.association_id' => $row->association_id,
-                                            'accounts.ownership' => 'individual'
                                         ];
                                         $row2 = $this->association->transactions2($where)->get()->row();
 

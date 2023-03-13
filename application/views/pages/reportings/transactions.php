@@ -55,14 +55,10 @@
                         </thead>
                         <tbody>
                             <?php
-                            $where = [
-                                'accounts.ownership' => 'individual'
-                            ];
-                            foreach ($this->association->transactions($where)->get()->result() as $key => $row) {
+                            foreach ($this->association->transactions()->get()->result() as $key => $row) {
                                 $where = [
                                     'withdrawals.wdate' => $row->tdate,
                                     'accounts.association_id' => $row->association_id,
-                                    'accounts.ownership' => 'individual'
                                 ];
                                 $row2 = $this->association->transactions2($where)->get()->row();
 
