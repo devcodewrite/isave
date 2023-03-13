@@ -9,9 +9,9 @@ class Customers extends MY_Controller
      */
     public function index()
     {
-        $gate = auth()->can('viewAny','member');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('viewAny', 'member');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $this->load->view('pages/customers/list');
@@ -26,9 +26,9 @@ class Customers extends MY_Controller
         $member = $this->member->find($id);
         if (!$member) show_404();
 
-        $gate = auth()->can('view','member');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('view', 'member');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $member->associations = $this->member->associations($member->id);
@@ -46,16 +46,16 @@ class Customers extends MY_Controller
      */
     public function create()
     {
-        $gate = auth()->can('create','member');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('create', 'member');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $data = [
             'id_card_types' => $this->idcardtype->all()->get()->result(),
             'acc_types' => $this->acctype->all()->where(['is_default' => 1])->get()->result(),
         ];
-        
+
         $this->load->view('pages/customers/edit', $data);
     }
 
@@ -68,9 +68,9 @@ class Customers extends MY_Controller
         $member = $this->member->find($id);
         if (!$member) show_404();
 
-        $gate = auth()->can('update','member');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('update', 'member');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $data = [
@@ -87,22 +87,29 @@ class Customers extends MY_Controller
      */
     public function store()
     {
-        $record = $this->input->post();
-        $member  = $this->member->create($record);
+        $gate = auth()->can('create', 'member');
+        if ($gate->allowed()) {
+            $record = $this->input->post();
+            $member  = $this->member->create($record);
+            $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
 
-        $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
-
-        if ($member) {
-            $out = [
-                'data' => $member,
-                'input' => $this->input->post(),
-                'status' => true,
-                'message' => 'Customer created successfully! ' . $error
-            ];
+            if ($member) {
+                $out = [
+                    'data' => $member,
+                    'input' => $this->input->post(),
+                    'status' => true,
+                    'message' => 'Customer created successfully! ' . $error
+                ];
+            } else {
+                $out = [
+                    'status' => false,
+                    'message' => $error ? $error : "Customer couldn't be created!"
+                ];
+            }
         } else {
             $out = [
                 'status' => false,
-                'message' => $error ? $error : "Customer couldn't be created!"
+                'message' => $gate->message
             ];
         }
         httpResponseJson($out);
@@ -114,21 +121,29 @@ class Customers extends MY_Controller
      */
     public function update(int $id = null)
     {
-        $record = $this->input->post();
-        $member = $this->member->update($id, $record);
-        $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
+        $gate = auth()->can('update', 'member', $this->member->find($id));
+        if ($gate->allowed()) {
+            $record = $this->input->post();
+            $member = $this->member->update($id, $record);
+            $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
 
-        if ($member) {
-            $out = [
-                'data' => $member,
-                'status' => true,
-                'input' => $record,
-                'message' => 'Customer updated successfully! ' . $error
-            ];
+            if ($member) {
+                $out = [
+                    'data' => $member,
+                    'status' => true,
+                    'input' => $record,
+                    'message' => 'Customer updated successfully! ' . $error
+                ];
+            } else {
+                $out = [
+                    'status' => false,
+                    'message' => $error ? $error : "Customer data couldn't be update!"
+                ];
+            }
         } else {
             $out = [
                 'status' => false,
-                'message' => $error ? $error : "Customer data couldn't be update!"
+                'message' => $gate->message
             ];
         }
         httpResponseJson($out);
@@ -140,15 +155,23 @@ class Customers extends MY_Controller
      */
     public function delete(int $id = null)
     {
-        if ($this->member->delete($id)) {
-            $out = [
-                'status' => true,
-                'message' => 'Customer data deleted successfully!'
-            ];
+        $gate = auth()->can('delete', 'member', $this->member->find($id));
+        if ($gate->allowed()) {
+            if ($this->member->delete($id)) {
+                $out = [
+                    'status' => true,
+                    'message' => 'Customer data deleted successfully!'
+                ];
+            } else {
+                $out = [
+                    'status' => false,
+                    'message' => "Customer data couldn't be deleted!"
+                ];
+            }
         } else {
             $out = [
                 'status' => false,
-                'message' => "Customer data couldn't be deleted!"
+                'message' => $gate->message
             ];
         }
         httpResponseJson($out);

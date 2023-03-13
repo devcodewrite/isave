@@ -25,9 +25,9 @@ class Associations extends MY_Controller
         $association = $this->association->find($id);
         if (!$association) show_404();
 
-        $gate = auth()->can('view','association');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('view', 'association');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $loans = $this->loan->all()
@@ -111,9 +111,9 @@ class Associations extends MY_Controller
             'communities' => $this->association->communities(),
             'clusterOfficeAddresses' => $this->association->clusterOffices(),
         ];
-        $gate = auth()->can('create','association');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('create', 'association');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $this->load->view('pages/associations/edit', $data);
@@ -128,9 +128,9 @@ class Associations extends MY_Controller
         $association = $this->association->find($id);
         if (!$association) show_404();
 
-        $gate = auth()->can('update','association');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('update', 'association');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
         $association->user = $this->user->find($association->assigned_user_id);
         $data = [
@@ -147,22 +147,29 @@ class Associations extends MY_Controller
      */
     public function store()
     {
-        $record = $this->input->post();
+        $gate = auth()->can('create', 'association');
+        if ($gate->allowed()) {
+            $record = $this->input->post();
+            $association  = $this->association->create($record);
+            $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
 
-        $association  = $this->association->create($record);
-        $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
-
-        if ($association) {
-            $out = [
-                'data' => $association,
-                'input' => $record,
-                'status' => true,
-                'message' => 'Association created successfully!'
-            ];
+            if ($association) {
+                $out = [
+                    'data' => $association,
+                    'input' => $record,
+                    'status' => true,
+                    'message' => 'Association created successfully!'
+                ];
+            } else {
+                $out = [
+                    'status' => false,
+                    'message' => $error ? $error : "Association couldn't be created!"
+                ];
+            }
         } else {
             $out = [
                 'status' => false,
-                'message' => $error ? $error : "Association couldn't be created!"
+                'message' => $gate->message
             ];
         }
         httpResponseJson($out);
@@ -174,21 +181,29 @@ class Associations extends MY_Controller
      */
     public function update(int $id = null)
     {
-        $record = $this->input->post();
-        $association = $this->association->update($id, $record);
+        $gate = auth()->can('update', 'association', $this->association->find($id));
+        if ($gate->allowed()) {
+            $record = $this->input->post();
+            $association = $this->association->update($id, $record);
 
-        if ($association) {
-            $out = [
-                'data' => $association,
-                'input' => $record,
-                'status' => true,
-                'message' => 'Association updated successfully!'
-            ];
+            if ($association) {
+                $out = [
+                    'data' => $association,
+                    'input' => $record,
+                    'status' => true,
+                    'message' => 'Association updated successfully!'
+                ];
+            } else {
+                $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
+                $out = [
+                    'status' => false,
+                    'message' => $error ? $error : "Association couldn't be updated!"
+                ];
+            }
         } else {
-            $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
             $out = [
                 'status' => false,
-                'message' => $error ? $error : "Association couldn't be updated!"
+                'message' => $gate->message
             ];
         }
         httpResponseJson($out);
@@ -200,17 +215,24 @@ class Associations extends MY_Controller
      */
     public function delete(int $id = null)
     {
-
-        if ($this->association->delete($id)) {
-            $out = [
-                'status' => true,
-                'message' => 'Association deleted successfully!'
-            ];
+        $gate = auth()->can('delete', 'association', $this->association->find($id));
+        if ($gate->allowed()) {
+            if ($this->association->delete($id)) {
+                $out = [
+                    'status' => true,
+                    'message' => 'Association deleted successfully!'
+                ];
+            } else {
+                $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
+                $out = [
+                    'status' => false,
+                    'message' => $error ? $error : "Association couldn't be deleted!"
+                ];
+            }
         } else {
-            $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
             $out = [
                 'status' => false,
-                'message' => $error ? $error : "Association couldn't be deleted!"
+                'message' => $gate->message
             ];
         }
         httpResponseJson($out);

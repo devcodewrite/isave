@@ -10,7 +10,7 @@ class User_model extends CI_Model
         if (!$record) return;
         $record['user_id'] = auth()->user()->id;
 
-        if ($record['password']) $record['password'] = password_hash($record['password'], PASSWORD_DEFAULT);
+        if (!empty($record['password'])) $record['password'] = password_hash($record['password'], PASSWORD_DEFAULT);
 
         $data = $this->extract($record);
 
@@ -28,7 +28,7 @@ class User_model extends CI_Model
     public function update(int $id, array $record)
     {
         if (!$record) return;
-        if ($record['password']) $record['password'] = password_hash($record['password'], PASSWORD_DEFAULT);
+        if (!empty($record['password'])) $record['password'] = password_hash($record['password'], PASSWORD_DEFAULT);
 
         $data = $this->extract($record);
         $this->db->set($data);

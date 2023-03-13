@@ -9,9 +9,9 @@ class Transfers extends MY_Controller
      */
     public function index()
     {
-        $gate = auth()->can('viewAny','transfer');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('viewAny', 'transfer');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
         $this->load->view('pages/transfers/list');
     }
@@ -25,9 +25,9 @@ class Transfers extends MY_Controller
         $transfer = $this->transfer->find($id);
         if (!$transfer) show_404();
 
-        $gate = auth()->can('view','transfer');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('view', 'transfer');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $transfer->fromAccount = $this->account->find($transfer->from_account_id);
@@ -47,9 +47,9 @@ class Transfers extends MY_Controller
      */
     public function create()
     {
-        $gate = auth()->can('create','transfer');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('create', 'transfer');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
         $this->load->view('pages/transfers/edit');
     }
@@ -63,9 +63,9 @@ class Transfers extends MY_Controller
         $transfer = $this->transfer->find($id);
         if (!$transfer) show_404();
 
-        $gate = auth()->can('update','transfer');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('update', 'transfer');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
         $data = [
             'transfer' => $transfer,
@@ -79,22 +79,30 @@ class Transfers extends MY_Controller
      */
     public function store()
     {
-        $record = $this->input->post();
-        $transfer  = $this->transfer->create($record);
+        $gate = auth()->can('create', 'transfer');
+        if ($gate->allowed()) {
+            $record = $this->input->post();
+            $transfer  = $this->transfer->create($record);
 
-        $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
+            $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
 
-        if ($transfer) {
-            $out = [
-                'data' => $transfer,
-                'input' => $record,
-                'status' => true,
-                'message' => 'Transfer made successfully!'
-            ];
+            if ($transfer) {
+                $out = [
+                    'data' => $transfer,
+                    'input' => $record,
+                    'status' => true,
+                    'message' => 'Transfer made successfully!'
+                ];
+            } else {
+                $out = [
+                    'status' => false,
+                    'message' => $error ? $error : "Transfer couldn't be created!"
+                ];
+            }
         } else {
             $out = [
                 'status' => false,
-                'message' => $error?$error:"Transfer couldn't be created!"
+                'message' => $gate->message
             ];
         }
         httpResponseJson($out);
@@ -106,22 +114,30 @@ class Transfers extends MY_Controller
      */
     public function update(int $id = null)
     {
-        $record = $this->input->post();
-        $transfer  = $this->transfer->update($id, $record);
+        $gate = auth()->can('update', 'transfer', $this->transer->find($id));
+        if ($gate->allowed()) {
+            $record = $this->input->post();
+            $transfer  = $this->transfer->update($id, $record);
 
-        $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
+            $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
 
-        if ($transfer) {
-            $out = [
-                'data' => $transfer,
-                'input' => $record,
-                'status' => true,
-                'message' => 'Transfer updated successfully!'
-            ];
+            if ($transfer) {
+                $out = [
+                    'data' => $transfer,
+                    'input' => $record,
+                    'status' => true,
+                    'message' => 'Transfer updated successfully!'
+                ];
+            } else {
+                $out = [
+                    'status' => false,
+                    'message' => $error ? $error : "Transfer couldn't be update! "
+                ];
+            }
         } else {
             $out = [
                 'status' => false,
-                'message' => $error?$error:"Transfer couldn't be update! "
+                'message' => $gate->message
             ];
         }
         httpResponseJson($out);
@@ -133,15 +149,23 @@ class Transfers extends MY_Controller
      */
     public function delete(int $id = null)
     {
-        if ($this->transfer->delete($id)) {
-            $out = [
-                'status' => true,
-                'message' => 'Transfer data deleted successfully!'
-            ];
+        $gate = auth()->can('delete', 'transfer', $this->transer->find($id));
+        if ($gate->allowed()) {
+            if ($this->transfer->delete($id)) {
+                $out = [
+                    'status' => true,
+                    'message' => 'Transfer data deleted successfully!'
+                ];
+            } else {
+                $out = [
+                    'status' => false,
+                    'message' => "Transfer data couldn't be deleted!"
+                ];
+            }
         } else {
             $out = [
                 'status' => false,
-                'message' => "Transfer data couldn't be deleted!"
+                'message' => $gate->message
             ];
         }
         httpResponseJson($out);

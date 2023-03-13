@@ -24,9 +24,9 @@ class Roles extends MY_Controller
         $role = $this->role->find($id);
         if (!$role) show_404();
 
-        $gate = auth()->can('view','role');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('view', 'role');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $data = [
@@ -41,9 +41,9 @@ class Roles extends MY_Controller
      */
     public function create()
     {
-        $gate = auth()->can('create','role');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('create', 'role');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
         $this->load->view('pages/roles/edit');
     }
@@ -57,9 +57,9 @@ class Roles extends MY_Controller
         $role = $this->role->find($id);
         if (!$role) show_404();
 
-        $gate = auth()->can('update','role');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('update', 'role');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $data = [
@@ -74,20 +74,27 @@ class Roles extends MY_Controller
      */
     public function store()
     {
-        $record = $this->input->post();
-
-        $role  = $this->role->create($record);
-        if ($role) {
-            $out = [
-                'data' => $role,
-                'input' => $record,
-                'status' => true,
-                'message' => 'Roles created successfully!'
-            ];
+        $gate = auth()->can('create', 'role');
+        if ($gate->allowed()) {
+            $record = $this->input->post();
+            $role  = $this->role->create($record);
+            if ($role) {
+                $out = [
+                    'data' => $role,
+                    'input' => $record,
+                    'status' => true,
+                    'message' => 'Roles created successfully!'
+                ];
+            } else {
+                $out = [
+                    'status' => false,
+                    'message' => "Roles couldn't be created!"
+                ];
+            }
         } else {
             $out = [
                 'status' => false,
-                'message' => "Roles couldn't be created!"
+                'message' => $gate->message
             ];
         }
         httpResponseJson($out);
@@ -99,20 +106,27 @@ class Roles extends MY_Controller
      */
     public function update(int $id = null)
     {
-        $record = $this->input->post();
-
-        $role = $this->role->update($id, $record);
-        if ($role) {
-            $out = [
-                'data' => $role,
-                'input' => $record,
-                'status' => true,
-                'message' => 'Role updated successfully!'
-            ];
+        $gate = auth()->can('update', 'role', $this->role->find($id));
+        if ($gate->allowed()) {
+            $record = $this->input->post();
+            $role = $this->role->update($id, $record);
+            if ($role) {
+                $out = [
+                    'data' => $role,
+                    'input' => $record,
+                    'status' => true,
+                    'message' => 'Role updated successfully!'
+                ];
+            } else {
+                $out = [
+                    'status' => false,
+                    'message' => "Role couldn't be updated!"
+                ];
+            }
         } else {
             $out = [
                 'status' => false,
-                'message' => "Role couldn't be updated!"
+                'message' => $gate->message
             ];
         }
         httpResponseJson($out);
@@ -124,16 +138,23 @@ class Roles extends MY_Controller
      */
     public function delete(int $id = null)
     {
-
-        if ($this->role->delete($id)) {
-            $out = [
-                'status' => true,
-                'message' => 'Role data deleted successfully!'
-            ];
+        $gate = auth()->can('delete', 'role', $this->role->find($id));
+        if ($gate->allowed()) {
+            if ($this->role->delete($id)) {
+                $out = [
+                    'status' => true,
+                    'message' => 'Role data deleted successfully!'
+                ];
+            } else {
+                $out = [
+                    'status' => false,
+                    'message' => "Role data couldn't be deleted!"
+                ];
+            }
         } else {
             $out = [
                 'status' => false,
-                'message' => "Role data couldn't be deleted!"
+                'message' => $gate->message
             ];
         }
         httpResponseJson($out);

@@ -9,9 +9,9 @@ class Users extends MY_Controller
      */
     public function index()
     {
-        $gate = auth()->can('viewAny','user');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('viewAny', 'user');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $this->load->view('pages/users/list');
@@ -26,9 +26,9 @@ class Users extends MY_Controller
         $user = $this->user->find($id);
         if (!$user) show_404();
 
-        $gate = auth()->can('view','user');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('view', 'user');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $data = [
@@ -43,9 +43,9 @@ class Users extends MY_Controller
      */
     public function create()
     {
-        $gate = auth()->can('create','user');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('create', 'user');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $data = [
@@ -63,9 +63,9 @@ class Users extends MY_Controller
         $user = $this->user->find($id);
         if (!$user) show_404();
 
-        $gate = auth()->can('update','user');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('update', 'user');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $data = [
@@ -81,20 +81,27 @@ class Users extends MY_Controller
      */
     public function store()
     {
-        $record = $this->input->post();
-
-        $user  = $this->user->create($record);
-        if ($user) {
-            $out = [
-                'data' => $user,
-                'input' => $record,
-                'status' => true,
-                'message' => 'Users created successfully!'
-            ];
+        $gate = auth()->can('create', 'user');
+        if ($gate->allowed()) {
+            $record = $this->input->post();
+            $user  = $this->user->create($record);
+            if ($user) {
+                $out = [
+                    'data' => $user,
+                    'input' => $record,
+                    'status' => true,
+                    'message' => 'Users created successfully!'
+                ];
+            } else {
+                $out = [
+                    'status' => false,
+                    'message' => "Users couldn't be created!"
+                ];
+            }
         } else {
             $out = [
                 'status' => false,
-                'message' => "Users couldn't be created!"
+                'message' => $gate->message
             ];
         }
         httpResponseJson($out);
@@ -106,22 +113,30 @@ class Users extends MY_Controller
      */
     public function update(int $id = null)
     {
-        $record = $this->input->post();
-
-        $user = $this->user->update($id, $record);
-        if ($user) {
-            $out = [
-                'data' => $user,
-                'input' => $record,
-                'status' => true,
-                'message' => 'User updated successfully!'
-            ];
+        $gate = auth()->can('update', 'user', $this->user->find($id));
+        if ($gate->allowed()) {
+            $record = $this->input->post();
+            $user = $this->user->update($id, $record);
+            if ($user) {
+                $out = [
+                    'data' => $user,
+                    'input' => $record,
+                    'status' => true,
+                    'message' => 'User updated successfully!'
+                ];
+            } else {
+                $out = [
+                    'status' => false,
+                    'message' => "User couldn't be updated!"
+                ];
+            }
         } else {
             $out = [
                 'status' => false,
-                'message' => "User couldn't be updated!"
+                'message' => $gate->message
             ];
         }
+
         httpResponseJson($out);
     }
 
@@ -131,16 +146,23 @@ class Users extends MY_Controller
      */
     public function delete(int $id = null)
     {
-
-        if ($this->user->delete($id)) {
-            $out = [
-                'status' => true,
-                'message' => 'User data deleted successfully!'
-            ];
+        $gate = auth()->can('delete', 'user', $this->user->find($id));
+        if ($gate->allowed()) {
+            if ($this->user->delete($id)) {
+                $out = [
+                    'status' => true,
+                    'message' => 'User data deleted successfully!'
+                ];
+            } else {
+                $out = [
+                    'status' => false,
+                    'message' => "User data couldn't be deleted!"
+                ];
+            }
         } else {
             $out = [
                 'status' => false,
-                'message' => "User data couldn't be deleted!"
+                'message' => $gate->message
             ];
         }
         httpResponseJson($out);

@@ -258,5 +258,5 @@
 </div>
 <?php app_footer() ?>
 <?php page_end() ?>
-<script src="<?= base_url('assets/js/loans/detail.js?v=5'); ?>" defer></script>
+<script src="<?= base_url('assets/js/loans/detail.js?v=6'); ?>" defer></script>
 <?php app_end(); ?>

@@ -9,9 +9,9 @@ class Bankaccounts extends MY_Controller
      */
     public function index()
     {
-        $gate = auth()->can('viewAny','account');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('viewAny', 'account');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $data = [
@@ -26,9 +26,9 @@ class Bankaccounts extends MY_Controller
      */
     public function passbooks()
     {
-        $gate = auth()->can('viewAny','account');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('viewAny', 'account');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $this->load->view('pages/bank-accounts/passbooks');
@@ -43,9 +43,9 @@ class Bankaccounts extends MY_Controller
         $account =  $this->account->find($id);
         if (!$account) show_404();
 
-        $gate = auth()->can('view','account');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('view', 'account');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $account->balance = $this->account->calBalance($id);
@@ -74,9 +74,9 @@ class Bankaccounts extends MY_Controller
             'accountTypes' => $this->acctype->all()->get()->result(),
         ];
 
-        $gate = auth()->can('create','account');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('create', 'account');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $this->load->view('pages/bank-accounts/edit', $data);
@@ -91,9 +91,9 @@ class Bankaccounts extends MY_Controller
         $account = $this->account->find($id);
         if (!$account) show_404();
 
-        $gate = auth()->can('update','account');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('update', 'account');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $account->accType = $this->acctype->find($account->acc_type_id);
@@ -118,22 +118,29 @@ class Bankaccounts extends MY_Controller
      */
     public function store()
     {
-        $record = $this->input->post();
+        $gate = auth()->can('create', 'account');
+        if ($gate->allowed()) {
+            $record = $this->input->post();
+            $account  = $this->account->create($record);
+            if ($account) {
+                $out = [
+                    'data' => $account,
+                    'input' => $record,
+                    'status' => true,
+                    'message' => 'Account created successfully!'
+                ];
+            } else {
+                $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
 
-        $account  = $this->account->create($record);
-        if ($account) {
-            $out = [
-                'data' => $account,
-                'input' => $record,
-                'status' => true,
-                'message' => 'Account created successfully!'
-            ];
+                $out = [
+                    'status' => false,
+                    'message' => $error ? $error : "Account couldn't be created!"
+                ];
+            }
         } else {
-            $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
-
             $out = [
                 'status' => false,
-                'message' => $error ? $error : "Account couldn't be created!"
+                'message' => $gate->message
             ];
         }
         httpResponseJson($out);
@@ -145,19 +152,27 @@ class Bankaccounts extends MY_Controller
      */
     public function update(int $id = null)
     {
-        $record = $this->input->post();
-        $account  = $this->account->update($id, $record);
-        if ($account) {
-            $out = [
-                'data' => $account,
-                'input' => $record,
-                'status' => true,
-                'message' => 'Account updated successfully!'
-            ];
+        $gate = auth()->can('update', 'account', $this->account->find($id));
+        if ($gate->allowed()) {
+            $record = $this->input->post();
+            $account  = $this->account->update($id, $record);
+            if ($account) {
+                $out = [
+                    'data' => $account,
+                    'input' => $record,
+                    'status' => true,
+                    'message' => 'Account updated successfully!'
+                ];
+            } else {
+                $out = [
+                    'status' => false,
+                    'message' => "Account couldn't be updated!"
+                ];
+            }
         } else {
             $out = [
                 'status' => false,
-                'message' => "Account couldn't be updated!"
+                'message' => $gate->message
             ];
         }
         httpResponseJson($out);
@@ -169,16 +184,23 @@ class Bankaccounts extends MY_Controller
      */
     public function delete(int $id = null)
     {
-        $accounts = null; // replace created record object
-        if ($this->account->delete($id)) {
-            $out = [
-                'status' => true,
-                'message' => 'Account deleted successfully!'
-            ];
+        $gate = auth()->can('delete', 'account', $this->account->find($id));
+        if ($gate->allowed()) {
+            if ($this->account->delete($id)) {
+                $out = [
+                    'status' => true,
+                    'message' => 'Account deleted successfully!'
+                ];
+            } else {
+                $out = [
+                    'status' => false,
+                    'message' => "Account couldn't be deleted!"
+                ];
+            }
         } else {
             $out = [
                 'status' => false,
-                'message' => "Account couldn't be deleted!"
+                'message' => $gate->message
             ];
         }
         httpResponseJson($out);
@@ -190,7 +212,7 @@ class Bankaccounts extends MY_Controller
             'acc_number' => $this->input->get('acc_number', true)
         ])->row();
         if ($account) {
-            if ($account->ownership === 'individual'){
+            if ($account->ownership === 'individual') {
                 $account->member = $this->member->find($account->member_id);
                 $account->idCardType = $this->idcardtype->find($account->member->identity_card_type_id);
             }

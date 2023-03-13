@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script allowed');
 
 class Acctypes extends MY_Controller
 {
-     /**
+    /**
      * Show a list of resources
      * @return string html view
      */
@@ -13,9 +13,9 @@ class Acctypes extends MY_Controller
         $data = [
             'types' => $this->acctype->all()->get()->result(),
         ];
-        $gate = auth()->can('create','acctype');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('create', 'acctype');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
         $this->load->view('pages/setup/acctypes/list', $data);
     }
@@ -29,9 +29,9 @@ class Acctypes extends MY_Controller
         $type =  $this->acctype->find($id);
         if (!$type) show_404();
 
-        $gate = auth()->can('view','acctype');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('view', 'acctype');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $data = [
@@ -49,9 +49,9 @@ class Acctypes extends MY_Controller
         $acctype = $this->acctype->find($id);
         if (!$acctype) show_404();
 
-        $gate = auth()->can('update','acctype');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('update', 'acctype');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
 
@@ -68,22 +68,30 @@ class Acctypes extends MY_Controller
      */
     public function store()
     {
-        $record = $this->input->post();
+        $gate = auth()->can('create', 'acctype');
+        if ($gate->allowed()) {
+            $record = $this->input->post();
+            $type  = $this->acctype->create($record);
 
-        $type  = $this->acctype->create($record);
-        if ($type) {
-            $out = [
-                'data' => $type,
-                'input' => $record,
-                'status' => true,
-                'message' => 'Account type created successfully!'
-            ];
+            if ($type) {
+                $out = [
+                    'data' => $type,
+                    'input' => $record,
+                    'status' => true,
+                    'message' => 'Account type created successfully!'
+                ];
+            } else {
+                $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
+
+                $out = [
+                    'status' => false,
+                    'message' => $error ? $error : "Account type couldn't be created!"
+                ];
+            }
         } else {
-            $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
-
             $out = [
                 'status' => false,
-                'message' => $error ? $error : "Account type couldn't be created!"
+                'message' => $gate->message
             ];
         }
         httpResponseJson($out);
@@ -96,32 +104,39 @@ class Acctypes extends MY_Controller
     public function update(int $id = null)
     {
         $record = $this->input->post();
-        if(!isset($record['is_investment'])) {
+        if (!isset($record['is_investment'])) {
             $record['is_investment'] = 0;
         }
-    
-        if(!isset($record['is_loan_acc'])){
+
+        if (!isset($record['is_loan_acc'])) {
             $record['is_loan_acc'] = 0;
             $record['lower_limit'] = null;
             $record['upper_limit'] = null;
         }
-        
-        if(!isset($record['is_default'])) {
+
+        if (!isset($record['is_default'])) {
             $record['is_default'] = 0;
         }
-        
-        $type  = $this->acctype->update($id, $record);
-        if ($type) {
-            $out = [
-                'data' => $type,
-                'input' => $record,
-                'status' => true,
-                'message' => 'Account type updated successfully!'
-            ];
+        $gate = auth()->can('update', 'acctype', $this->acctype->find($id));
+        if ($gate->allowed()) {
+            $type  = $this->acctype->update($id, $record);
+            if ($type) {
+                $out = [
+                    'data' => $type,
+                    'input' => $record,
+                    'status' => true,
+                    'message' => 'Account type updated successfully!'
+                ];
+            } else {
+                $out = [
+                    'status' => false,
+                    'message' => "Account type couldn't be updated!"
+                ];
+            }
         } else {
             $out = [
                 'status' => false,
-                'message' => "Account type couldn't be updated!"
+                'message' => $gate->message
             ];
         }
         httpResponseJson($out);
@@ -133,15 +148,23 @@ class Acctypes extends MY_Controller
      */
     public function delete(int $id = null)
     {
-        if ($this->acctype->delete($id)) {
-            $out = [
-                'status' => true,
-                'message' => 'Account type deleted successfully!'
-            ];
+        $gate = auth()->can('delete', 'acctype', $this->acctype->find($id));
+        if ($gate->allowed()) {
+            if ($this->acctype->delete($id)) {
+                $out = [
+                    'status' => true,
+                    'message' => 'Account type deleted successfully!'
+                ];
+            } else {
+                $out = [
+                    'status' => false,
+                    'message' => "Account type couldn't be deleted!"
+                ];
+            }
         } else {
             $out = [
                 'status' => false,
-                'message' => "Account type couldn't be deleted!"
+                'message' => $gate->message
             ];
         }
         httpResponseJson($out);

@@ -20,22 +20,22 @@ class Loans extends MY_Controller
     {
         $loan =  $this->loan->updateSettlementStatus($id);
 
-        if(!$loan) show_404();
+        if (!$loan) show_404();
 
-        $gate = auth()->can('view','loan');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('view', 'loan');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $loan->account = $this->account->find($loan->account_id);
-        $loan->owner = $loan->account->ownership==='individual'
-                ?$this->member->find($loan->account->member_id)
-                :$this->association->find($loan->account->association_id);
-        $loan->totalPaid = $this->payment->sum(['loan_id'=>$id])->row('total');
-        $loan->totalBalance = $this->loan->sum(['id'=>$id])->row('total')-$loan->totalPaid;
-        $loan->principalBalance = $this->loan->sum(['id'=>$id], 'principal_amount')->row('total')-$this->payment->sum(['loan_id'=>$id], 'principal_amount')->row('total');
-        $loan->interestBalance = $this->loan->sum(['id'=>$id], 'interest_amount')->row('total')-$this->payment->sum(['loan_id'=>$id], 'interest_amount')->row('total');
-        
+        $loan->owner = $loan->account->ownership === 'individual'
+            ? $this->member->find($loan->account->member_id)
+            : $this->association->find($loan->account->association_id);
+        $loan->totalPaid = $this->payment->sum(['loan_id' => $id])->row('total');
+        $loan->totalBalance = $this->loan->sum(['id' => $id])->row('total') - $loan->totalPaid;
+        $loan->principalBalance = $this->loan->sum(['id' => $id], 'principal_amount')->row('total') - $this->payment->sum(['loan_id' => $id], 'principal_amount')->row('total');
+        $loan->interestBalance = $this->loan->sum(['id' => $id], 'interest_amount')->row('total') - $this->payment->sum(['loan_id' => $id], 'interest_amount')->row('total');
+
         $data = [
             'loan' => $loan,
         ];
@@ -48,19 +48,19 @@ class Loans extends MY_Controller
      */
     public function print(int $id = null)
     {
-         $loan = $this->loan->find($id);
+        $loan = $this->loan->find($id);
 
-        if(!$loan) show_404();
+        if (!$loan) show_404();
 
-        $gate = auth()->can('view','loan');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('view', 'loan');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $loan->account = $this->account->find($loan->account_id);
-        $loan->owner = $loan->account->ownership==='individual'
-                ?$this->member->find($loan->account->member_id)
-                :$this->association->find($loan->account->association_id);
+        $loan->owner = $loan->account->ownership === 'individual'
+            ? $this->member->find($loan->account->member_id)
+            : $this->association->find($loan->account->association_id);
         $data = [
             'loan' => $loan,
         ];
@@ -73,9 +73,9 @@ class Loans extends MY_Controller
      */
     public function disbursements()
     {
-        $gate = auth()->can('disburse','loan');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('disburse', 'loan');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $this->load->view('pages/loans/disbursements');
@@ -87,20 +87,20 @@ class Loans extends MY_Controller
      */
     public function defaults()
     {
-        $gate = auth()->can('view','loan');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('view', 'loan');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
-        foreach($this->loan->where(['appl_status'=>'disbursed'])->result() as $row) {
+        foreach ($this->loan->where(['appl_status' => 'disbursed'])->result() as $row) {
             $this->loan->updateSettlementStatus($row->id);
         }
-        
+
         $loans = $this->loan->all()
-                ->where('setl_status', 'defaulted')
-                ->where('appl_status', 'disbursed')
-                ->get()
-                ->result();
+            ->where('setl_status', 'defaulted')
+            ->where('appl_status', 'disbursed')
+            ->get()
+            ->result();
         $data = [
             'loans' => $loans,
         ];
@@ -113,16 +113,16 @@ class Loans extends MY_Controller
      */
     public function in_arrears()
     {
-        $gate = auth()->can('view','loan');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('view', 'loan');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $loans = $this->loan->all()
-                ->where('appl_status', 'disbursed')
-                ->where('arrears_days >', 0)
-                ->get()
-                ->result();
+            ->where('appl_status', 'disbursed')
+            ->where('arrears_days >', 0)
+            ->get()
+            ->result();
         $data = [
             'loans' => $loans,
         ];
@@ -134,13 +134,12 @@ class Loans extends MY_Controller
      */
     public function create()
     {
-        $gate = auth()->can('create','loan');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('create', 'loan');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
-        $data = [
-        ];
+        $data = [];
         $this->load->view('pages/loans/edit', $data);
     }
 
@@ -153,9 +152,9 @@ class Loans extends MY_Controller
         $loan = $this->loan->find($id);
         if (!$loan) show_404();
 
-        $gate = auth()->can('update','loan');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('update', 'loan');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $loan->account = $this->account->find($loan->account_id);
@@ -172,48 +171,29 @@ class Loans extends MY_Controller
      */
     public function store()
     {
-        $record = $this->input->post();
-        $loan  = $this->loan->create($record);
+        $gate = auth()->can('create', 'loan');
+        if ($gate->allowed()) {
+            $record = $this->input->post();
+            $loan  = $this->loan->create($record);
+            $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
 
-        $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
-
-        if ($loan) {
-            $out = [
-                'data' => $loan,
-                'input' => $this->input->post(),
-                'status' => true,
-                'message' => 'Customer loan created successfully!'
-            ];
+            if ($loan) {
+                $out = [
+                    'data' => $loan,
+                    'input' => $this->input->post(),
+                    'status' => true,
+                    'message' => 'Customer loan created successfully!'
+                ];
+            } else {
+                $out = [
+                    'status' => false,
+                    'message' => $error ? $error : "Customer loan couldn't be created!"
+                ];
+            }
         } else {
             $out = [
                 'status' => false,
-                'message' => $error?$error:"Customer loan couldn't be created!"
-            ];
-        }
-        httpResponseJson($out);
-    }
-
-     /**
-     * Store a resource
-     * print json Response
-     */
-    public function repayment()
-    {
-        $record = $this->input->post();
-        $repayment  = $this->payment->create($record);
-        $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
-
-        if ($repayment) {
-            $out = [
-                'data' => $repayment,
-                'input' => $this->input->post(),
-                'status' => true,
-                'message' => 'Repayment made successfully!'
-            ];
-        } else {
-            $out = [
-                'status' => false,
-                'message' => $error?$error:"Data couldn't be created!"
+                'message' => $gate->message
             ];
         }
         httpResponseJson($out);
@@ -225,21 +205,29 @@ class Loans extends MY_Controller
      */
     public function update(int $id = null)
     {
-        $record = $this->input->post();
-        $loan = $this->loan->update($id, $record);
-        $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
-        if ($loan) {
-            $this->loan->updateSettlementStatus($id);
-            $out = [
-                'data' => $loan,
-                'status' => true,
-                'input' => $this->input->post(),
-                'message' => 'Loan data updated successfully!'
-            ];
+        $gate = auth()->can('update', 'loan', $this->loan->find($id));
+        if ($gate->allowed()) {
+            $record = $this->input->post();
+            $loan = $this->loan->update($id, $record);
+            $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
+            if ($loan) {
+                $this->loan->updateSettlementStatus($id);
+                $out = [
+                    'data' => $loan,
+                    'status' => true,
+                    'input' => $this->input->post(),
+                    'message' => 'Loan data updated successfully!'
+                ];
+            } else {
+                $out = [
+                    'status' => false,
+                    'message' => $error ? $error : "Loan data couldn't be update!"
+                ];
+            }
         } else {
             $out = [
                 'status' => false,
-                'message' => $error?$error:"Loan data couldn't be update!"
+                'message' => $gate->message
             ];
         }
         httpResponseJson($out);
@@ -251,16 +239,23 @@ class Loans extends MY_Controller
      */
     public function delete(int $id = null)
     {
-    
-        if ($this->loan->delete($id)) {
-            $out = [
-                'status' => true,
-                'message' => 'Loan data deleted successfully!'
-            ];
+        $gate = auth()->can('delete', 'loan', $this->loan->find($id));
+        if ($gate->allowed()) {
+            if ($this->loan->delete($id)) {
+                $out = [
+                    'status' => true,
+                    'message' => 'Loan data deleted successfully!'
+                ];
+            } else {
+                $out = [
+                    'status' => false,
+                    'message' => "Loan data couldn't be deleted!"
+                ];
+            }
         } else {
             $out = [
                 'status' => false,
-                'message' => "Loan data couldn't be deleted!"
+                'message' => $gate->message
             ];
         }
         httpResponseJson($out);
@@ -276,13 +271,13 @@ class Loans extends MY_Controller
 
         $where = [];
 
-        if($this->input->get('account_id'))
+        if ($this->input->get('account_id'))
             $where = array_merge($where, ['loans.account_id' => $inputs['account_id']]);
 
-        if($this->input->get('association_id'))
+        if ($this->input->get('association_id'))
             $where = array_merge($where, ['accounts.association_id' => $inputs['association_id']]);
 
-        if($this->input->get('appl_status'))
+        if ($this->input->get('appl_status'))
             $where = array_merge($where, ['loans.appl_status' => $inputs['appl_status']]);
 
 

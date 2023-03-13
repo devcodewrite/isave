@@ -10,7 +10,7 @@ class Deposits extends MY_Controller
     public function index()
     {
         $data = $this->input->get();
-        $data = array_merge($data,[
+        $data = array_merge($data, [
             'accountTypes' => $this->acctype->all()->get()->result(),
         ]);
 
@@ -26,9 +26,9 @@ class Deposits extends MY_Controller
         $deposit = $this->deposit->find($id);
         if (!$deposit) show_404();
 
-        $gate = auth()->can('view','deposit');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('view', 'deposit');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $deposit->account = $this->account->find($deposit->account_id);
@@ -45,9 +45,9 @@ class Deposits extends MY_Controller
      */
     public function create()
     {
-        $gate = auth()->can('create','deposit');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('create', 'deposit');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $this->load->view('pages/deposits/edit');
@@ -58,9 +58,9 @@ class Deposits extends MY_Controller
      */
     public function mass_create()
     {
-        $gate = auth()->can('create','deposit');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('create', 'deposit');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $this->load->view('pages/deposits/mass-deposit');
@@ -75,9 +75,9 @@ class Deposits extends MY_Controller
     {
         $deposit = $this->deposit->find($id);
         if (!$deposit) show_404();
-        $gate = auth()->can('update','deposit');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('update', 'deposit');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $deposit->account = $this->account->find($deposit->account_id);
@@ -145,20 +145,28 @@ class Deposits extends MY_Controller
      */
     public function update(int $id = null)
     {
-        $record = $this->input->post();
-        $deposit = $this->deposit->update($id, $record);
-        $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
+        $gate = auth()->can('update', 'deposit', $this->deposit->find($id));
+        if ($gate->allowed()) {
+            $record = $this->input->post();
+            $deposit = $this->deposit->update($id, $record);
+            $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
 
-        if ($deposit) {
-            $out = [
-                'data' => $deposit,
-                'status' => true,
-                'message' => 'Deposit updated successfully!'
-            ];
+            if ($deposit) {
+                $out = [
+                    'data' => $deposit,
+                    'status' => true,
+                    'message' => 'Deposit updated successfully!'
+                ];
+            } else {
+                $out = [
+                    'status' => false,
+                    'message' => $error ? $error : "Deposit data couldn't be updated!"
+                ];
+            }
         } else {
             $out = [
                 'status' => false,
-                'message' => $error ? $error : "Deposit data couldn't be updated!"
+                'message' => $gate->message
             ];
         }
         httpResponseJson($out);
@@ -170,15 +178,23 @@ class Deposits extends MY_Controller
      */
     public function delete(int $id = null)
     {
-        if ($this->deposit->delete($id)) {
-            $out = [
-                'status' => true,
-                'message' => 'Deposit data deleted successfully!'
-            ];
+        $gate = auth()->can('delete', 'deposit', $this->deposit->find($id));
+        if ($gate->allowed()) {
+            if ($this->deposit->delete($id)) {
+                $out = [
+                    'status' => true,
+                    'message' => 'Deposit data deleted successfully!'
+                ];
+            } else {
+                $out = [
+                    'status' => false,
+                    'message' => "Deposit data couldn't be deleted!"
+                ];
+            }
         } else {
             $out = [
                 'status' => false,
-                'message' => "Deposit data couldn't be deleted!"
+                'message' => $gate->message
             ];
         }
         httpResponseJson($out);

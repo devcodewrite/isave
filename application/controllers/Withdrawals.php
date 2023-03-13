@@ -9,9 +9,9 @@ class Withdrawals extends MY_Controller
      */
     public function index()
     {
-        $gate = auth()->can('viewAny','withdrawal');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('viewAny', 'withdrawal');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $data = $this->input->get();
@@ -30,9 +30,9 @@ class Withdrawals extends MY_Controller
         $withdrawal = $this->withdrawal->find($id);
         if (!$withdrawal) show_404();
 
-        $gate = auth()->can('view','withdrawal');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('view', 'withdrawal');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $withdrawal->account = $this->account->find($withdrawal->account_id);
@@ -49,9 +49,9 @@ class Withdrawals extends MY_Controller
      */
     public function create()
     {
-        $gate = auth()->can('create','withdrawal');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('create', 'withdrawal');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $this->load->view('pages/withdrawals/edit');
@@ -66,9 +66,9 @@ class Withdrawals extends MY_Controller
         $withdrawal = $this->withdrawal->find($id);
         if (!$withdrawal) show_404();
 
-        $gate = auth()->can('update','withdrawal');
-        if($gate->denied()){
-           show_error($gate->message, 401, 'An Unathorized Access!');
+        $gate = auth()->can('update', 'withdrawal');
+        if ($gate->denied()) {
+            show_error($gate->message, 401, 'An Unathorized Access!');
         }
 
         $withdrawal->account = $this->account->find($withdrawal->account_id);
@@ -113,22 +113,32 @@ class Withdrawals extends MY_Controller
     public function update(int $id = null)
     {
         $record = $this->input->post();
-        $withdrawal  = $this->withdrawal->update($id, $record);
-        $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
+        $gate = auth()->can('update', 'withdrawal', $this->withdrawal->find($id));
+        
+        if ($gate->allowed()) {
+            $withdrawal  = $this->withdrawal->update($id, $record);
+            $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
 
-        if ($withdrawal) {
-            $out = [
-                'data' => $withdrawal,
-                'input' => $record,
-                'status' => true,
-                'message' => 'Withdrawal data updated successfully!'
-            ];
+            if ($withdrawal) {
+                $out = [
+                    'data' => $withdrawal,
+                    'input' => $record,
+                    'status' => true,
+                    'message' => 'Withdrawal data updated successfully!'
+                ];
+            } else {
+                $out = [
+                    'status' => false,
+                    'message' => $error ? $error : "Withdrawal couldn't be created!"
+                ];
+            }
         } else {
             $out = [
                 'status' => false,
-                'message' => $error ? $error : "Withdrawal couldn't be created!"
+                'message' => $gate->message
             ];
         }
+
         httpResponseJson($out);
     }
 
@@ -138,17 +148,23 @@ class Withdrawals extends MY_Controller
      */
     public function delete(int $id = null)
     {
-
-        $withdrawal = null;
-        if ($withdrawal) {
-            $out = [
-                'status' => true,
-                'message' => 'Withdrawal deleted successfully!'
-            ];
+        $gate = auth()->can('delete', 'withdrawal', $this->withdrawal->find($id));
+        if ($gate->allowed()) {
+            if ($this->withdrawal->delete($id)) {
+                $out = [
+                    'status' => true,
+                    'message' => 'Withdrawal deleted successfully!'
+                ];
+            } else {
+                $out = [
+                    'status' => false,
+                    'message' => "Withdrawal couldn't be deleted!"
+                ];
+            }
         } else {
             $out = [
                 'status' => false,
-                'message' => "Withdrawal couldn't be deleted!"
+                'message' => $gate->message
             ];
         }
         httpResponseJson($out);

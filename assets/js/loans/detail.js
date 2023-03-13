@@ -466,6 +466,11 @@ form.on("submit", function (e) {
             icon: "success",
             text: d.message,
           });
+        }else {
+          Swal.fire({
+            icon: "error",
+            text: d.message,
+          });
         }
       },
       error: function (r) {
