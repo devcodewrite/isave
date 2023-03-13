@@ -19,7 +19,7 @@ class Account extends MY_Controller
     public function profile()
     {
         $data = [
-            'customer' => null //This is an example replace with actual model
+            'user' => auth()->user()
         ];
         $this->load->view('pages/account/profile', $data);
     }
@@ -30,7 +30,10 @@ class Account extends MY_Controller
      */
     public function update_profile()
     {
-        $this->load->view('pages/account/update-profile');
+        $data = [
+            'user' => auth()->user()
+        ];
+        $this->load->view('pages/account/profile_update', $data);
     }
 
     /**
@@ -39,7 +42,12 @@ class Account extends MY_Controller
      */
     public function update ()
     {
-        $user  = null;// replace created record object
+        $record = $this->input->post(null);
+
+        $user  = $this->user->update(auth()->user()->id, $record);
+        
+        $error = $this->session->flashdata('error_message') . $this->session->flashdata('warning_message');
+
         if($user){
             $out = [
                 'status' => true,
@@ -49,7 +57,7 @@ class Account extends MY_Controller
         else {
             $out = [
                 'status' => false,
-                'message' => "Profile couldn't be updated!"
+                'message' => $error ? $error : "Profile couldn't be updated!"
             ];
         }
         httpResponseJson($out);

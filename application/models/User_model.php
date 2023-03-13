@@ -27,13 +27,17 @@ class User_model extends CI_Model
      */
     public function update(int $id, array $record)
     {
+
         if (!$record) return;
+
         if (!empty($record['password'])) $record['password'] = password_hash($record['password'], PASSWORD_DEFAULT);
 
-        $data = $this->extract($record);
-        $this->db->set($data);
-        $this->db->where('id', $id);
-        $this->db->update($this->table);
+            $data = $this->extract($record);
+            $this->db->set($data);
+            $this->db->where('id', $id);
+            $this->db->update($this->table);
+            $this->uploadPhoto($id);
+        
         return $this->find($id);
     }
 
@@ -71,7 +75,7 @@ class User_model extends CI_Model
      * @param string $field_name
      * @return Boolean
      */
-    public function uploadPhoto($id, string $field_name = 'photo', string $col_name = 'photo_url', $disp_error = true, $scale = '60%', $dim = ['w' => 200, 'h' => '200'])
+    public function uploadPhoto($id, string $field_name = 'photo', string $col_name = 'photo_url', $disp_error = true, $scale = '60%', $dim = ['w' => '100', 'h' => '100'])
     {
         $config['upload_path'] = './uploads/photos/' . $this->table;
         $config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -298,53 +302,58 @@ class User_model extends CI_Model
         return false;
     }
 
-    public function canViewAny($user){
+    public function canViewAny($user)
+    {
         $role = $this->user->find($user->id)->role;
         if ($role)
             return
                 $role->permission->is_admin === '1'
-                ? auth()->allow() : (in_array('view', explode(',', $role->permission->users))?auth()->allow()
-                :auth()->deny("You don't have permission to view this recored."));
+                ? auth()->allow() : (in_array('view', explode(',', $role->permission->users)) ? auth()->allow()
+                    : auth()->deny("You don't have permission to view this recored."));
         return auth()->deny("You don't have permission to view this recored.");
     }
 
-    public function canView($user, $model){
+    public function canView($user, $model)
+    {
         $role = $this->user->find($user->id)->role;
         if ($role)
             return
                 $role->permission->is_admin === '1'
-                ? auth()->allow() : (in_array('view', explode(',', $role->permission->users))?auth()->allow()
-                :auth()->deny("You don't have permission to view this recored."));
+                ? auth()->allow() : (in_array('view', explode(',', $role->permission->users)) ? auth()->allow()
+                    : auth()->deny("You don't have permission to view this recored."));
         return auth()->deny("You don't have permission to view this recored.");
     }
 
-    public function canCreate($user){
+    public function canCreate($user)
+    {
         $role = $this->user->find($user->id)->role;
         if ($role)
             return
                 $role->permission->is_admin === '1'
-                ? auth()->allow() : (in_array('create', explode(',', $role->permission->users))?auth()->allow()
-                :auth()->deny("You don't have permission to create this record."));
+                ? auth()->allow() : (in_array('create', explode(',', $role->permission->users)) ? auth()->allow()
+                    : auth()->deny("You don't have permission to create this record."));
         return auth()->deny("You don't have permission to create this record.");
     }
 
-    public function canUpdate($user, $model){
+    public function canUpdate($user, $model)
+    {
         $role = $this->user->find($user->id)->role;
         if ($role)
             return
                 $role->permission->is_admin === '1'
-                ? auth()->allow() : (in_array('update', explode(',', $role->permission->users))?auth()->allow()
-                :auth()->deny("You don't have permission to update this record."));
+                ? auth()->allow() : (in_array('update', explode(',', $role->permission->users)) ? auth()->allow()
+                    : auth()->deny("You don't have permission to update this record."));
         return auth()->deny("You don't have permission to update this record.");
     }
 
-    public function canDelete($user, $model){
+    public function canDelete($user, $model)
+    {
         $role = $this->user->find($user->id)->role;
         if ($role)
             return
                 $role->permission->is_admin === '1'
-                ? auth()->allow() : (in_array('delete', explode(',', $role->permission->users))?auth()->allow()
-                :auth()->deny("You don't have permission to delete this record."));
+                ? auth()->allow() : (in_array('delete', explode(',', $role->permission->users)) ? auth()->allow()
+                    : auth()->deny("You don't have permission to delete this record."));
         return auth()->deny("You don't have permission to delete this record.");
     }
 }
