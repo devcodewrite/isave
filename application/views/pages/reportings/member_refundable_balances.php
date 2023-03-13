@@ -30,35 +30,6 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-8">
-                            <div style="width:100% !important" class="d-flex">
-                                <div>
-                                    <label for="from">From</label>
-                                    <div class="form-group">
-                                        <input type="date" name="date_from" id="transaction-date-from" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="ml-3">
-                                    <label for="from">To</label>
-                                    <div class="form-group">
-                                        <input type="date" name="date_to" id="transaction-date-to" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="ml-3">
-                                    <div style="padding-top: 30px;" class="form-group">
-                                        <button class="btn btn-primary transaction-filter">
-                                            <i class="fa fa-filter"></i>
-                                            Filter
-                                        </button>
-                                        <button class="btn btn-warning ml-2 transaction-filter-clear">
-                                            <i class="fa fa-times"></i>
-                                            Clear
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
 
                     <table style="width: 100%;" id="dt-transactions" class="table table-hover table-striped table-bordered">
@@ -72,7 +43,7 @@
                                 ?>
                                     <th><?= $col->label ?></th>
                                 <?php } ?>
-                                <th>Total (In GHS)</th>
+                                <th>Total (GHS)</th>
                             </tr>
                         </thead>
                         <tbody>
