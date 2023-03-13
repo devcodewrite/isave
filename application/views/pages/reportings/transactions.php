@@ -76,11 +76,11 @@
                                 <tr>
                                     <td><?= $row->tdate ?></td>
                                     <th><a href="<?= site_url('associations/' . $row->association_id); ?>" class="btn btn-link"><?= $row->association_name; ?></a></th>
-                                    <td><?= number_format($row->cash_deposits, 2) ?></td>
-                                    <td><?= number_format($row->momo_deposits, 2) ?></td>
-                                    <td><?= $row2 ? number_format($row2->cash_withdrawals, 2) : '0.00'; ?></td>
-                                    <td><?= $row2 ? number_format($row2->momo_withdrawals, 2) : '0.00'; ?></td>
-                                    <td><?= number_format($row->transfer_deposits, 2) ?></td>
+                                    <td><?= $row->cash_deposits ?></td>
+                                    <td><?= $row->momo_deposits ?></td>
+                                    <td><?= $row2 ? $row2->cash_withdrawals : '0.00'; ?></td>
+                                    <td><?= $row2 ? $row2->momo_withdrawals: '0.00'; ?></td>
+                                    <td><?= $row->transfer_deposits ?></td>
                                     <td>
                                         <a href="<?= site_url('associations/statements') ?><?= $stat ? "?id=$stat->id&association_id=$row->association_id" : "?id=$row->tdate&association_id=$row->association_id" ?>" class="btn btn-link"><?= $stat ? $stat->id : '' ?></a>
                                         <a href="<?= site_url('associations/statements') ?><?= $stat ? "?id=$stat->id&association_id=$row->association_id" : "?id=$row->tdate&association_id=$row->association_id" ?>" class="btn btn-icon btn-primary">
