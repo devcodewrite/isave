@@ -121,8 +121,8 @@ class Account_model extends CI_Model
         $rtable3 = 'acc_types';
         $col3 = 'acc_type_id';
 
-        $qselect_sum_deposits = "SELECT SUM(deposits.amount) FROM deposits WHERE deposits.account_id={$this->table}.id";
-        $qselect_sum_withdrawals = "SELECT SUM(withdrawals.amount) FROM withdrawals  WHERE withdrawals.account_id={$this->table}.id";
+        $qselect_sum_deposits = "SELECT ifnull(SUM(deposits.amount),0) FROM deposits WHERE deposits.account_id={$this->table}.id";
+        $qselect_sum_withdrawals = "SELECT ifnull(SUM(withdrawals.amount),0) FROM withdrawals  WHERE withdrawals.account_id={$this->table}.id";
 
         $where = ["{$this->table}.deleted_at =" => null];
         $fields = [

@@ -53,7 +53,6 @@
                             if (isset($association)) {
                                 $where = ['accounts.association_id' => $association->id, 'ownership' => 'individual'];
                                 $accounts = $this->account->all()->where($where)->get()->result();
-
                                 foreach ($accounts as $row) {
                                     $rowTotal = 0;
                             ?>
