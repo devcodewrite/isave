@@ -303,7 +303,7 @@ class User_model extends CI_Model
         if ($role)
             return
                 $role->permission->is_admin === '1'
-                ? auth()->allow() : (in_array('view', explode(',', $role->permission->members))?auth()->allow()
+                ? auth()->allow() : (in_array('view', explode(',', $role->permission->users))?auth()->allow()
                 :auth()->deny("You don't have permission to view this recored."));
         return auth()->deny("You don't have permission to view this recored.");
     }
@@ -313,7 +313,7 @@ class User_model extends CI_Model
         if ($role)
             return
                 $role->permission->is_admin === '1'
-                ? auth()->allow() : (in_array('view', explode(',', $role->permission->members))?auth()->allow()
+                ? auth()->allow() : (in_array('view', explode(',', $role->permission->users))?auth()->allow()
                 :auth()->deny("You don't have permission to view this recored."));
         return auth()->deny("You don't have permission to view this recored.");
     }
@@ -323,7 +323,7 @@ class User_model extends CI_Model
         if ($role)
             return
                 $role->permission->is_admin === '1'
-                ? auth()->allow() : (in_array('create', explode(',', $role->permission->members))?auth()->allow()
+                ? auth()->allow() : (in_array('create', explode(',', $role->permission->users))?auth()->allow()
                 :auth()->deny("You don't have permission to create this record."));
         return auth()->deny("You don't have permission to create this record.");
     }
@@ -333,7 +333,7 @@ class User_model extends CI_Model
         if ($role)
             return
                 $role->permission->is_admin === '1'
-                ? auth()->allow() : (in_array('update', explode(',', $role->permission->members))?auth()->allow()
+                ? auth()->allow() : (in_array('update', explode(',', $role->permission->users))?auth()->allow()
                 :auth()->deny("You don't have permission to update this record."));
         return auth()->deny("You don't have permission to update this record.");
     }
@@ -343,7 +343,7 @@ class User_model extends CI_Model
         if ($role)
             return
                 $role->permission->is_admin === '1'
-                ? auth()->allow() : (in_array('delete', explode(',', $role->permission->members))?auth()->allow()
+                ? auth()->allow() : (in_array('delete', explode(',', $role->permission->users))?auth()->allow()
                 :auth()->deny("You don't have permission to delete this record."));
         return auth()->deny("You don't have permission to delete this record.");
     }

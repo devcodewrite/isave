@@ -114,7 +114,9 @@
                                     <div class="row text-uppercase mt-3 border-bottom">
                                         <p class="col-6 text-black-50">User Role</p>
                                         <p class="col-6 input-placeholder text-blaick">
-                                            <?= $user->role ? $user->role->label : '' ?>
+                                            <a href="<?= site_url('roles/' . $user->role->id); ?>">
+                                                <?= $user->role ? $user->role->label : '' ?>
+                                            </a>
                                         </p>
                                     </div>
                                     <div class="row text-uppercase mt-3 border-bottom">
@@ -129,7 +131,7 @@
 
                         <div class="d-block text-right card-footer">
                             <a href="<?= site_url('users/' . $user->id . '/edit') ?>" class="btn btn-warning btn-lg">Modify</a>
-                            <button class="btn btn-danger btn-lg delete" data-url="<?= site_url('users') ?>" data-id="<?=$user->id ?>">Delete</button>
+                            <button class="btn btn-danger btn-lg delete" data-url="<?= site_url('users') ?>" data-id="<?= $user->id ?>">Delete</button>
                         </div>
                     </div>
                     <div class="tab-pane" id="tab-eg9-1" role="tabpanel">
