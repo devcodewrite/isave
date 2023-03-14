@@ -218,7 +218,7 @@ class Account_model extends CI_Model
             "{$this->table}.passbook",
             "{$this->table}.acc_type_id",
             "$rtable3.label  as acc_type",
-            "(ifnull(($qselect_sum_deposits),0) - ifnull(($qselect_sum_withdrawals),0)) as balance",
+            "SUM((ifnull(($qselect_sum_deposits),0) - ifnull(($qselect_sum_withdrawals),0))) as balance",
             "{$this->table}.member_id",
             "{$this->table}.association_id",
             "$rtable2.name as association_name",
