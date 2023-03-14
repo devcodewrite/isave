@@ -212,10 +212,10 @@ class Deposits extends MY_Controller
             $where = array_merge($where, ['deposits.account_id' => $inputs['account_id']]);
 
         if ($this->input->get('association_id'))
-            $where = array_merge($where, ['association_members.association_id' => $inputs['association_id']]);
+            $where = array_merge($where, ['accounts.association_id' => $inputs['association_id']]);
 
         if ($this->input->get('member_id'))
-            $where = array_merge($where, ['association_members.member_id' => $inputs['member_id']]);
+            $where = array_merge($where, ['accounts.member_id' => $inputs['member_id']]);
 
         if ($this->input->get('type'))
             $where = array_merge($where, ['deposits.type' => $inputs['type']]);
@@ -225,6 +225,10 @@ class Deposits extends MY_Controller
 
         if ($this->input->get('acc_type_id'))
             $where = array_merge($where, ['accounts.acc_type_id' => $inputs['acc_type_id']]);
+
+        if ($this->input->get('is_loan_acc') !== null)
+            $where = array_merge($where, ['acc_types.is_loan_acc' => $inputs['is_loan_acc']]);
+
 
         $query->where($where);
 

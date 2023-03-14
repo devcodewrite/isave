@@ -193,6 +193,11 @@
                                         <i class="metismenu-icon"></i>Defaulted Loans
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="<?= site_url('loans/repayments') ?>" class="<?= get_nav_status1('loans/repayments') ?>">
+                                        <i class="metismenu-icon"></i>Loan Repayments
+                                    </a>
+                                </li>
                             <?php } ?>
                             <?php
                             if (auth()->can('disburse', 'loan')->allowed()) { ?>

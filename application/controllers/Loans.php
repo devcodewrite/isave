@@ -128,6 +128,16 @@ class Loans extends MY_Controller
         ];
         $this->load->view('pages/loans/in_arrears', $data);
     }
+
+     /**
+     * Show a list of resources
+     * @return string html view
+     */
+    public function repayments()
+    {
+        $this->load->view('pages/loans/repayments');
+    }
+
     /**
      * Show a form page for creating resource
      * html view

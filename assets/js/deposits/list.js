@@ -15,6 +15,7 @@ $(function () {
         params.acc_type_id = $(".select2-account-types").val();
         params.ownership = $(".select2-ownership").val();
         params.type = $(".select2-method").val();
+        params.is_loan_acc = 0;
       },
     },
     serverSide: true,

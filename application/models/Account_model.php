@@ -431,6 +431,8 @@ class Account_model extends CI_Model
         ];
 
         $rtable = 'deposits';
+        $rtable2 = 'acc_types';
+        $col2 ="acc_type_id";
         $query1 = $this->db->select($fields, false)
             ->from($rtable)
             ->join('accounts', "accounts.id=$rtable.account_id")
