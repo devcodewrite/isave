@@ -52,7 +52,7 @@
                             $grandTotal = 0;
                             if (isset($association)) {
                                 $where = ['accounts.association_id' => $association->id, 'ownership' => 'individual'];
-                                $accounts = $this->account->passbooks2()->where($where)->get()->result();
+                                $accounts = $this->account->passbooks()->where($where)->get()->result();
 
                                 foreach ($accounts as $row) {
                                     $rowTotal = 0;
@@ -60,10 +60,14 @@
                                     <tr>
                                         <td class="text-center"><?= $row->name; ?> <br>[<?= $row->passbook ?>]</td>
                                         <?php foreach ($columns as $i => $col) {
-                                            $rowTotal += ($row->acc_type_id === $col->id ? $row->balance : 0.00);
-                                            $colTotal[$i] += ($row->acc_type_id === $col->id ? $row->balance : 0.00);
+                                            $where['acc_type_id'] = $col->id;
+                                            $where['passbook'] = $row->passbook;
+                                            $pas = $this->account->passbooks2()->where($where)->get()->row();
+                                            $row->balance = $pas?$pas->balance:0.00;
+                                            $rowTotal += $row->balance;
+                                            $colTotal[$i] +=  $row->balance;
                                         ?>
-                                            <td><?= $row->acc_type_id === $col->id ? ($row->balance < 0 ? "(" .number_format(abs($row->balance),2) . ")" :$row->balance) : ''; ?></td>
+                                            <td><?= ($row->balance < 0 ? "(" .number_format(abs($row->balance),2) . ")" :number_format($row->balance,2)); ?></td>
                                         <?php } ?>
                                         <td><?= $rowTotal < 0 ? "(" . number_format(abs($rowTotal), 2) . ")" : number_format($rowTotal, 2) ?></td>
                                     </tr>
