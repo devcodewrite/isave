@@ -62,7 +62,7 @@
                                             $rowTotal += ($row->acc_type_id === $col->id ? $row->balance : 0.00);
                                             $colTotal[$i] += ($row->acc_type_id === $col->id ? $row->balance : 0.00);
                                         ?>
-                                            <td><?= $row->acc_type_id === $col->id ? ($row->balance < 0 ? "(" . number_format(abs($row->balance), 2) . ")" : number_format($row->balance, 2)) : "0.00"; ?></td>
+                                            <td><?= $row->acc_type_id === $col->id ? ($row->balance < 0 ? "(" .abs($row->balance) . ")" :$row->balance) : "0.00"; ?></td>
                                         <?php } ?>
                                         <td><?= $rowTotal < 0 ? "(" . number_format(abs($rowTotal), 2) . ")" : number_format($rowTotal, 2) ?></td>
                                     </tr>
