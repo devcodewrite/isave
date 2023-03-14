@@ -317,14 +317,14 @@ transactionTable = $("#dt-transactions").DataTable({
         data[0]
       }&to_date=${
         data[0]
-      }" class="btn btn-link">${data[1]}</a>`
+      }" class="btn btn-link ${data[1] !== data[2]?'text-danger':''}">${data[1]}</a>`
     );
     $("td:eq(2)", row).html(
       `<a href="${baseUrl}/deposits?type=momo&association_id=${$(row).data("id")}&from_date=${
         data[0]
       }&to_date=${
         data[0]
-      }" class="btn btn-link">${data[2]}</a>`
+      }" class="btn btn-link ${data[1] !== data[2]?'text-danger':''}">${data[2]}</a>`
     );
 
     $("td:eq(3)", row).html(
@@ -332,13 +332,13 @@ transactionTable = $("#dt-transactions").DataTable({
         data[0]
       }&to_date=${
         data[0]
-      }" class="btn btn-link">${data[3]}</a>`
+      }" class="btn btn-link ${data[3] !== data[4]?'text-danger':''}">${data[3]}</a>`
     );
 
     $("td:eq(4)", row).html(
       `<a href="${baseUrl}/withdrawals?type=momo&association_id=${$(row).data("id")}&from_date=${
         data[0]
-      }" class="btn btn-link">${data[4]}</a>`
+      }" class="btn btn-link ${data[3] !== data[4]?'text-danger':''}">${data[4]}</a>`
     );
     $("td:eq(5)", row).html(
       `<a href="${baseUrl}/transfers?type=transfer&association_id=${$(row).data("id")}&from_date=${

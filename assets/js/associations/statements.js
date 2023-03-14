@@ -24,32 +24,13 @@ $(function () {
       { extend: "excel", footer: true },
     ],
     columns: [
-      {
-        data: "id",
-        name: "account_statements.id",
-        render: function (data, type, row) {
-          if (type === "display") {
-            return (
-              `<span class="${
-                row.reconcile_diff !== 0 ? "text-danger" : ""
-              }">` +
-              data +
-              `</span>`
-            );
-          }
-          return data;
-        },
-      },
+      { data: "id", name: "account_statements.id" },
       {
         data: null,
         name: "association_id",
         render: function (data, type, row) {
           if (type === "display") {
-            return `<a href="${baseUrl}associations/${
-              data.association_id
-            }" class="btn btn-link ${
-              data.reconcile_diff !== 0 ? "text-danger" : ""
-            }">${data.association_name}</a>`;
+            return `<a href="${baseUrl}associations/${data.association_id}" class="btn btn-link">${data.association_name}</a>`;
           }
           return data.association_id;
         },
@@ -58,15 +39,6 @@ $(function () {
         data: "total_amount",
         name: "total_amount",
         render: function (data, type, row) {
-          if (type === "display") {
-            return (
-              `<span class="${
-                row.reconcile_diff !== 0 ? "text-danger" : ""
-              }">` +
-              (data < 0 ? `(${Math.abs(data).toFixed(2)})` : data) +
-              `</span>`
-            );
-          }
           return data < 0 ? `(${Math.abs(data).toFixed(2)})` : data;
         },
       },
@@ -74,60 +46,23 @@ $(function () {
         data: "reconcile_amount",
         name: "reconcile_amount",
         render: function (data, type, row) {
-          if (type === "display") {
-            return (
-              `<span class="${
-                row.reconcile_diff !== 0 ? "text-danger" : ""
-              }">` +
-              (data < 0 ? `(${Math.abs(data).toFixed(2)})` : data) +
-              `</span>`
-            );
-          }
-          return data < 0
-            ? `(${Math.abs(data).toFixed(2)})`
-            : Number.parseFloat(data).toFixed(2);
+          return data < 0 ? `(${Math.abs(data).toFixed(2)})` : Number.parseFloat(data).toFixed(2);
         },
       },
       {
         data: "reconcile_diff",
         name: "reconcile_diff",
         render: function (data, type, row) {
-          if (type === "display") {
-            return (
-              `<span class="${
-                row.reconcile_diff !== 0 ? "text-danger" : ""
-              }">` +
-              (data < 0 ? `(${Math.abs(data).toFixed(2)})` : data) +
-              `</span>`
-            );
-          }
           return data < 0 ? `(${Math.abs(data).toFixed(2)})` : data;
         },
       },
-      {
-        data: "reconcile_note",
-        name: "reconcile_note",
-        render: function (data, type, row) {
-          if (type === "display") {
-            return (
-              `<span class="${
-                row.reconcile_diff !== 0 ? "text-danger" : ""
-              }">` +
-              data +
-              `</span>`
-            );
-          }
-          return data;
-        },
-      },
+      { data: "reconcile_note", name: "reconcile_note" },
       {
         data: null,
         name: "account_statements.id",
         render: function (data, type, rows) {
-          return (
-            `<a href="${baseUrl}associations/statements?id=${data.id}&association_id=${data.association_id}" class="btn btn-icon btn-primary"><i class="fa fa-edit"></i></a>` +
-            `<a href="${baseUrl}associations/statements?action=delete&id=${data.id}&association_id=${data.association_id}" class="btn btn-icon ml-3 btn-warning"><i class="fa fa-trash"></i></a>`
-          );
+          return `<a href="${baseUrl}associations/statements?id=${data.id}&association_id=${data.association_id}" class="btn btn-icon btn-primary"><i class="fa fa-edit"></i></a>`
+          +`<a href="${baseUrl}associations/statements?action=delete&id=${data.id}&association_id=${data.association_id}" class="btn btn-icon ml-3 btn-warning"><i class="fa fa-trash"></i></a>`;
         },
       },
     ],
@@ -160,7 +95,9 @@ $(function () {
         }, 0);
 
       // Update footer
-      $(api.column(2).footer()).html("GHS " + pageTotal.toFixed(2));
+      $(api.column(2).footer()).html(
+        "GHS " + pageTotal.toFixed(2)
+      );
 
       // Total over all pages
       total2 = api
@@ -179,7 +116,9 @@ $(function () {
         }, 0);
 
       // Update footer
-      $(api.column(3).footer()).html("GHS " + pageTotal2.toFixed(2));
+      $(api.column(3).footer()).html(
+        "GHS " +  pageTotal2.toFixed(2)
+      );
 
       // Total over all pages
       total3 = api
@@ -199,13 +138,10 @@ $(function () {
 
       // Update footer
       $(api.column(4).footer()).html(
-        "GHS " +
-          (pageTotal3 < 0
-            ? `(${Math.abs(pageTotal3).toFixed(2)})`
-            : pageTotal3.toFixed(2))
+        "GHS " +  (pageTotal3<0 ?`(${Math.abs(pageTotal3).toFixed(2)})`:pageTotal3.toFixed(2) )
       );
     },
-    order: [[0, "desc"]],
+     order: [[0, "desc"]],
     columnDefs: [
       {
         orderable: false,
