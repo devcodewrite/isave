@@ -152,7 +152,6 @@ class Account_model extends CI_Model
             ->join($rtable, "$rtable.id={$this->table}.$col", 'left')
             ->join($rtable2, "$rtable2.id={$this->table}.$col2")
             ->join($rtable3, "$rtable3.id={$this->table}.$col3", 'left')
-            ->join($this->ftable, "{$this->ftable}.$col={$this->table}.$col", 'left')
             ->where($where);
     }
 
@@ -188,8 +187,12 @@ class Account_model extends CI_Model
             $this->db->select($fields, true)
             ->from($this->table)
             ->join($rtable, "$rtable.id={$this->table}.$col", 'left')
-            ->join($this->ftable, "{$this->ftable}.$col={$this->table}.$col")
-            ->join($rtable2, "$rtable2.id={$this->ftable}.$col2", 'left')
+            ->join($rtable2, "$rtable2.id={$this->table}.$col2")
+            ->group_by([
+                "{$this->table}.passbook",
+                "{$this->table}.ownership",
+                "{$this->table}.association_id",
+                ])
             ->where($where);
     }
 
@@ -205,7 +208,7 @@ class Account_model extends CI_Model
         return $this->db->distinct()
             ->select("$rtable.*")
             ->from($rtable)
-            ->join($this->ftable, "{$this->ftable}.$col=$rtable.id")
+            ->join($this->ftable, "{$this->table}.$col=$rtable.id")
             ->join($this->table, "{$this->table}.$col2={$this->ftable}.$col2")
             ->where(["{$this->table}.id" => $id])
             ->where("$rtable.deleted_at =", null)

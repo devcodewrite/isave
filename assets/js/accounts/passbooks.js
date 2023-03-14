@@ -27,7 +27,7 @@ $(function () {
       { data: "passbook", name: "passbook" },
       {
         data: null,
-        name: "association_members.association_id",
+        name: "accounts.association_id",
         render: function (data, type, row) {
           if (type === "display") {
             return data.association_name;

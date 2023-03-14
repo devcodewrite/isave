@@ -241,10 +241,10 @@ class Bankaccounts extends MY_Controller
         $where = [];
 
         if ($this->input->get('association_id'))
-            $where = array_merge($where, ['association_members.association_id' => $inputs['association_id']]);
+            $where = array_merge($where, ['accounts.association_id' => $inputs['association_id']]);
 
         if ($this->input->get('member_id'))
-            $where = array_merge($where, ['association_members.member_id' => $inputs['member_id']]);
+            $where = array_merge($where, ['accounts.member_id' => $inputs['member_id']]);
 
         if ($this->input->get('status'))
             $where = array_merge($where, ['accounts.status' => $inputs['status']]);
@@ -275,10 +275,10 @@ class Bankaccounts extends MY_Controller
         $where = [];
 
         if ($this->input->get('association_id'))
-            $where = array_merge($where, ['association_members.association_id' => $inputs['association_id']]);
+            $where = array_merge($where, ['accounts.association_id' => $inputs['association_id']]);
 
         if ($this->input->get('member_id'))
-            $where = array_merge($where, ['association_members.member_id' => $inputs['member_id']]);
+            $where = array_merge($where, ['accounts.member_id' => $inputs['member_id']]);
 
         $query->where($where);
 
