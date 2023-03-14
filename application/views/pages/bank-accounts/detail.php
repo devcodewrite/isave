@@ -143,7 +143,7 @@
                                         <p class="col-6 text-black-50">Added by</p>
                                         <p class="col-6 input-placeholder text-blaick">
                                             <?php $user = $this->user->find($account->user_id) ?>
-                                            <?= $user?"$user->firstname $user->lastname":'' ?>
+                                            <?= $user ? "$user->firstname $user->lastname" : '' ?>
                                         </p>
                                     </div>
                                 </div>
@@ -151,17 +151,22 @@
                         </div>
                         <div class="card-footer">
                             <div class="btn-actions-pane-left actions-icon-btn">
-                                <button type="button" data-toggle="modal" data-target="#newCharge" class="btn btn-success btn-lg charge text-uppercase">
-                                    <i class="pe-7s-plus btn-icon-wrapper"></i> Add a Charge
-                                </button>
-                                <?php if (intval($account->accType->is_loan_acc) === 0) { ?>
+                                <?php if (intval($account->accType->is_loan_acc) === '0') { ?>
+                                    <button type="button" data-toggle="modal" data-target="#newCharge" class="btn btn-success btn-lg charge text-uppercase">
+                                        <i class="pe-7s-plus btn-icon-wrapper"></i> Add a Charge
+                                    </button>
                                     <button type="button" data-toggle="modal" data-target="#newWithdrawal" class="btn btn-warning btn-lg charge text-uppercase">
                                         <i class="pe-7s-cash btn-icon-wrapper"></i> Withdraw
                                     </button>
                                     <button type="button" data-toggle="modal" data-target="#newDeposit" class="btn btn-primary btn-lg charge text-uppercase">
                                         <i class="pe-7s-plus btn-icon-wrapper"></i> Deposit
                                     </button>
-                                <?php } ?>
+                                <?php }else { ?> 
+                                    <a href="<?= site_url('loans/create') ?>" class="btn btn-primary text-uppercase">
+                                        <i class="pe-7s-plus btn-icon-wrapper"></i>
+                                        Request A Loan
+                                    </a>
+                                    <?php } ?>
                             </div>
 
                             <div class="btn-actions-pane-right actions-icon-btn">

@@ -12,7 +12,16 @@ class Payment_model extends CI_Model
         $record['user_id'] = auth()->user()->id;
 
         $loan = $this->loan->find($record['loan_id']);
-        if(!$loan) return false;
+        if(!$loan){
+            $this->session->set_flashdata('error_message', "Can't make payment for a loan that doesn't exist!");
+        };
+
+        $gate = auth()->can('settle', 'loan', $loan);
+        if($gate->denied()){
+            $this->session->set_flashdata('error_message', $gate->message);
+            return false;
+        }
+
         $loan->account = $this->account->find($loan->account_id);
         if(!$loan->account) return false;
 
@@ -136,6 +145,7 @@ class Payment_model extends CI_Model
 
     public function canCreate($user){
         $role = $this->user->find($user->id)->role;
+
         if ($role)
             return
                 $role->permission->is_admin === '1'

@@ -161,8 +161,8 @@ class Loan_model extends CI_Model
             ->join($rtable4, "$rtable4.id={$this->table}.$col4", 'left')
             ->join($rtable5, "$rtable5.id=$rtable2.$col5")
             ->where("{$this->table}.deleted_at", null)
-            ->where("$rtable2.deleted_at",null)
-            ->where("$rtable5.deleted_at",null);
+            ->where("$rtable2.deleted_at", null)
+            ->where("$rtable5.deleted_at", null);
     }
 
     public function calcPrincipal($loan)
@@ -220,9 +220,9 @@ class Loan_model extends CI_Model
     public function updateSettlementStatus(int $id)
     {
         $loan = $this->find($id);
-        if(!$loan) return false;
+        if (!$loan) return false;
         $loan->account = $this->account->find($loan->account_id);
-        if(!$loan->account) return false;
+        if (!$loan->account) return false;
         $loan->totalPaid = $this->payment->sum(['loan_id' => $loan->id])->row('total');
         $date1 = new DateTime(($loan->last_repayment ? $loan->last_repayment : $loan->payin_start_date));
 
@@ -368,63 +368,77 @@ class Loan_model extends CI_Model
     }
 
 
-    public function canViewAny($user){
+    public function canViewAny($user)
+    {
         $role = $this->user->find($user->id)->role;
         if ($role)
             return
                 $role->permission->is_admin === '1'
-                ? auth()->allow() : (in_array('view', explode(',', $role->permission->loans))?auth()->allow()
-                :auth()->deny("You don't have permission to view this recored."));
+                ? auth()->allow() : (in_array('view', explode(',', $role->permission->loans)) ? auth()->allow()
+                    : auth()->deny("You don't have permission to view this recored."));
         return auth()->deny("You don't have permission to view this recored.");
     }
 
-    public function canView($user, $model){
+    public function canView($user, $model)
+    {
         $role = $this->user->find($user->id)->role;
         if ($role)
             return
                 $role->permission->is_admin === '1'
-                ? auth()->allow() : (in_array('view', explode(',', $role->permission->loans))?auth()->allow()
-                :auth()->deny("You don't have permission to view this recored."));
+                ? auth()->allow() : (in_array('view', explode(',', $role->permission->loans)) ? auth()->allow()
+                    : auth()->deny("You don't have permission to view this recored."));
         return auth()->deny("You don't have permission to view this recored.");
     }
 
-    public function canCreate($user){
+    public function canCreate($user)
+    {
         $role = $this->user->find($user->id)->role;
         if ($role)
             return
                 $role->permission->is_admin === '1'
-                ? auth()->allow() : (in_array('create', explode(',', $role->permission->loans))?auth()->allow()
-                :auth()->deny("You don't have permission to create this record."));
+                ? auth()->allow() : (in_array('create', explode(',', $role->permission->loans)) ? auth()->allow()
+                    : auth()->deny("You don't have permission to create this record."));
         return auth()->deny("You don't have permission to create this record.");
     }
 
-    public function canUpdate($user, $model){
+    public function canUpdate($user, $model)
+    {
         $role = $this->user->find($user->id)->role;
         if ($role)
             return
                 $role->permission->is_admin === '1'
-                ? auth()->allow() : (in_array('update', explode(',', $role->permission->loans))?auth()->allow()
-                :auth()->deny("You don't have permission to update this record."));
+                ? auth()->allow() : (in_array('update', explode(',', $role->permission->loans)) ? auth()->allow()
+                    : auth()->deny("You don't have permission to update this record."));
         return auth()->deny("You don't have permission to update this record.");
     }
 
-    public function canDelete($user, $model){
+    public function canDelete($user, $model)
+    {
         $role = $this->user->find($user->id)->role;
         if ($role)
             return
                 $role->permission->is_admin === '1'
-                ? auth()->allow() : (in_array('delete', explode(',', $role->permission->loans))?auth()->allow()
-                :auth()->deny("You don't have permission to delete this record."));
+                ? auth()->allow() : (in_array('delete', explode(',', $role->permission->loans)) ? auth()->allow()
+                    : auth()->deny("You don't have permission to delete this record."));
         return auth()->deny("You don't have permission to delete this record.");
     }
 
-    public function canDisburse($user, $model){
+    public function canDisburse($user, $model)
+    {
         $role = $this->user->find($user->id)->role;
         if ($role)
             return
                 $role->permission->is_admin === '1'
-                ? auth()->allow() : (in_array('disburse', explode(',', $role->permission->loans))?auth()->allow()
-                :auth()->deny("You don't have permission to disburse loans."));
+                ? auth()->allow() : (in_array('disburse', explode(',', $role->permission->loans)) ? auth()->allow()
+                    : auth()->deny("You don't have permission to disburse loans."));
         return auth()->deny("You don't have permission to disburse loans.");
+    }
+
+    public function canSettle($user, $model)
+    {
+        if ($model->appl_status === 'disbursed')
+            return auth()->allow();
+
+        return auth()->deny("The loan is not disbursed. You can only repay a loan that has been disbursed!");
     }
 }

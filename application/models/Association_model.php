@@ -220,6 +220,8 @@ class Association_model extends CI_Model
         $rtable1 = "accounts";
         $rtable2 = "associations";
         $col2 = "association_id";
+        $rtable3 = "acc_types";
+        $col3 = "acc_type_id";
 
         $cashDeposit = "SUM(ifnull( (CASE WHEN $rtable.type='cash' THEN $rtable.amount ELSE 0 END),0.00))";
         $momoDeposit = "SUM(ifnull( (CASE WHEN $rtable.type='momo' THEN $rtable.amount ELSE 0 END),0.00))";
@@ -236,9 +238,11 @@ class Association_model extends CI_Model
 
         return $this->db->select($fields, false)
                     ->from($rtable)
-                    ->join($rtable1, "$rtable1.id=$rtable.$col", 'left')
+                    ->join($rtable1, "$rtable1.id=$rtable.$col")
                     ->join($rtable2, "$rtable2.id=$rtable1.$col2", 'left')
+                    ->join($rtable3, "$rtable3.id=$rtable1.$col3")
                     ->where($where)
+                    ->where(['is_loan_acc'=> 0,'is_investment'=>0 ])
                     ->group_by("$rtable.ddate")
                     ->group_by('association_id')
                     ->group_by("$rtable2.name");

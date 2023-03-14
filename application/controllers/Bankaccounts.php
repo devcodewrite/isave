@@ -304,7 +304,6 @@ class Bankaccounts extends MY_Controller
             $where = array_merge($where, ['acc_types.is_loan_acc' => $this->input->get('is_loan_acc')]);
 
         $total = $this->account->all()
-            ->distinct()
             ->like('accounts.acc_number', $term)
             ->where("accounts.passbook", $passbook)
             ->where("accounts.association_id", $association)
@@ -347,7 +346,7 @@ class Bankaccounts extends MY_Controller
             ->like('passbook', $term);
 
         if ($association) {
-            $this->db->where('association_members.association_id', $association);
+            $this->db->where('accounts.association_id', $association);
         }
         $records =  $this->db->limit($take, $skip)
             ->get()
