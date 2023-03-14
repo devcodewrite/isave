@@ -196,6 +196,52 @@ class Account_model extends CI_Model
             ->where($where);
     }
 
+     /**
+     * Get all passbooks
+     */
+    public function passbooks2()
+    {
+        $rtable = 'members';
+        $col = 'member_id';
+        $rtable2 = 'associations';
+        $col2 = 'association_id';
+        $rtable3 = 'acc_types';
+        $col3 = 'acc_type_id';
+
+        $qselect_sum_deposits = "SELECT SUM(deposits.amount) FROM deposits WHERE deposits.account_id={$this->table}.id";
+        $qselect_sum_withdrawals = "SELECT SUM(withdrawals.amount) FROM withdrawals  WHERE withdrawals.account_id={$this->table}.id";
+
+        $where = ["{$this->table}.deleted_at =" => null];
+        $fields = [
+            "{$this->table}.ownership",
+            "count({$this->table}.id) as accounts",
+            "{$this->table}.passbook",
+            "{$this->table}.acc_type_id",
+            "$rtable3.label  as acc_type",
+            "(ifnull(($qselect_sum_deposits),0) - ifnull(($qselect_sum_withdrawals),0)) as balance",
+            "{$this->table}.member_id",
+            "{$this->table}.association_id",
+            "$rtable2.name as association_name",
+            "$rtable2.id as member_association_id",
+            "{$this->table}.name",
+            "concat($rtable.firstname, ' ', $rtable.lastname) as member_owner",
+            "$rtable2.name  as association_owner",
+        ];
+
+        return
+            $this->db->select($fields, true)
+            ->from($this->table)
+            ->join($rtable, "$rtable.id={$this->table}.$col", 'left')
+            ->join($rtable2, "$rtable2.id={$this->table}.$col2")
+            ->join($rtable3, "$rtable3.id={$this->table}.$col3", 'left')
+            ->group_by([
+                "{$this->table}.passbook",
+                "{$this->table}.ownership",
+                "{$this->table}.association_id",
+                ])
+            ->where($where);
+    }
+
     /**
      * Get the association that owner this account id
      */
