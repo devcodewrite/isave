@@ -151,7 +151,7 @@
                         </div>
                         <div class="card-footer">
                             <div class="btn-actions-pane-left actions-icon-btn">
-                                <?php if (intval($account->accType->is_loan_acc) === '0') { ?>
+                                <?php if (intval($account->accType->is_loan_acc) === 0) { ?>
                                     <button type="button" data-toggle="modal" data-target="#newCharge" class="btn btn-success btn-lg charge text-uppercase">
                                         <i class="pe-7s-plus btn-icon-wrapper"></i> Add a Charge
                                     </button>
