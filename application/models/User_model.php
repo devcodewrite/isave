@@ -30,8 +30,11 @@ class User_model extends CI_Model
 
         if (!$record) return;
 
-        if (!empty($record['password'])) $record['password'] = password_hash($record['password'], PASSWORD_DEFAULT);
-
+        if (!empty($record['password'])) {
+            $record['password'] = password_hash($record['password'], PASSWORD_DEFAULT);
+        }else{
+            unset($record['password']);
+        }
             $data = $this->extract($record);
             $this->db->set($data);
             $this->db->where('id', $id);

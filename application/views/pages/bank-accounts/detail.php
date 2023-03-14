@@ -143,7 +143,7 @@
                                         <p class="col-6 text-black-50">Added by</p>
                                         <p class="col-6 input-placeholder text-blaick">
                                             <?php $user = $this->user->find($account->user_id) ?>
-                                            <?= "$user->firstname $user->lastname" ?>
+                                            <?= $user?"$user->firstname $user->lastname":'' ?>
                                         </p>
                                     </div>
                                 </div>

@@ -146,27 +146,13 @@ class Account_model extends CI_Model
 
         return
             $this->db
+            ->distinct()
             ->select($fields, true)
             ->from($this->table)
             ->join($rtable, "$rtable.id={$this->table}.$col", 'left')
-            ->join($rtable2, "$rtable2.id={$this->table}.$col2", 'left')
+            ->join($rtable2, "$rtable2.id={$this->table}.$col2")
             ->join($rtable3, "$rtable3.id={$this->table}.$col3", 'left')
             ->join($this->ftable, "{$this->ftable}.$col={$this->table}.$col", 'left')
-            ->group_by([
-                "{$this->table}.id",
-                "{$this->table}.name",
-                "{$this->table}.ownership",
-                "{$this->table}.passbook",
-                "{$this->table}.status",
-                "{$this->table}.acc_type_id",
-                "{$this->table}.member_id",
-                "{$this->table}.association_id",
-                "{$this->table}.acc_number",
-                "{$this->table}.stamp_amount",
-                "$rtable2.name",
-                "$rtable3.label",
-                "{$this->table}.created_at",
-            ])
             ->where($where);
     }
 
@@ -204,15 +190,6 @@ class Account_model extends CI_Model
             ->join($rtable, "$rtable.id={$this->table}.$col", 'left')
             ->join($this->ftable, "{$this->ftable}.$col={$this->table}.$col")
             ->join($rtable2, "$rtable2.id={$this->ftable}.$col2", 'left')
-            ->group_by($fields = [
-                "{$this->table}.passbook",
-                "{$this->table}.ownership",
-                "{$this->table}.member_id",
-                "{$this->table}.association_id",
-                "$rtable.firstname",
-                "$rtable.lastname",
-                "$rtable2.name",
-            ])
             ->where($where);
     }
 
