@@ -238,6 +238,7 @@ class Account_model extends CI_Model
                 "{$this->table}.passbook",
                 "{$this->table}.ownership",
                 "{$this->table}.association_id",
+                "{$this->table}.acc_type_id",
                 ])
             ->where($where);
     }
