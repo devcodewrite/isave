@@ -232,6 +232,8 @@ class Association_model extends CI_Model
             "$cashDeposit as cash_deposits", 
             "$momoDeposit as momo_deposits", 
             "$transferDeposit as transfer_deposits",
+            "0 as cash_withdrawals", 
+            "0 as momo_withdrawals", 
             "association_id",
             'associations.name as association_name',
         ];
@@ -246,6 +248,23 @@ class Association_model extends CI_Model
                     ->group_by("$rtable.ddate")
                     ->group_by('association_id')
                     ->group_by("$rtable2.name");
+    }
+
+    public function transactionDates($where = [])
+    {
+        $query = $this->transactions($where)->get_compiled_select();
+        $query1 = $this->transactions2($where)->get_compiled_select();
+
+        $fields = "tdate,
+        association_id,
+        association_name,
+        SUM(cash_deposits) as cash_deposits, 
+        SUM(momo_deposits) as momo_deposits, 
+        SUM(cash_withdrawals) as cash_withdrawals, 
+        SUM(momo_withdrawals) as momo_withdrawals, 
+        SUM(transfer_deposits) as transfer_deposits
+        ";
+        return $this->db->query("SELECT $fields  FROM (($query) UNION ($query1)) as x group by tdate,association_id");
     }
 
      /**
@@ -267,9 +286,11 @@ class Association_model extends CI_Model
 
         $fields= [
             "wdate as tdate",
+            "0 as cash_deposits", 
+            "0 as momo_deposits", 
+            "0 as transfer_deposits",
             "$cashWithdrawal as cash_withdrawals", 
             "$momoWithdrawal as momo_withdrawals", 
-            "$transferWithdrawal as transfer_withdrawals",
             "association_id",
             'associations.name as association_name',
         ];

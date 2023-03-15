@@ -55,13 +55,7 @@
                         </thead>
                         <tbody>
                             <?php
-                            foreach ($this->association->transactions()->get()->result() as $key => $row) {
-                                $where = [
-                                    'withdrawals.wdate' => $row->tdate,
-                                    'accounts.association_id' => $row->association_id,
-                                ];
-                                $row2 = $this->association->transactions2($where)->get()->row();
-
+                            foreach ($this->association->transactionDates()->result() as $key => $row) {
                                 $stat = $this->association->statements([
                                     'account_statements.id' => $row->tdate,
                                     'association_id' => $row->association_id
@@ -74,8 +68,8 @@
                                     <th><a href="<?= site_url('associations/' . $row->association_id); ?>" class="btn btn-link"><?= $row->association_name; ?></a></th>
                                     <td><?= $row->cash_deposits ?></td>
                                     <td><?= $row->momo_deposits ?></td>
-                                    <td><?= $row2 ? $row2->cash_withdrawals : '0.00'; ?></td>
-                                    <td><?= $row2 ? $row2->momo_withdrawals: '0.00'; ?></td>
+                                    <td><?= $row->cash_withdrawals ?></td>
+                                    <td><?=  $row->momo_withdrawals ?></td>
                                     <td><?= $row->transfer_deposits ?></td>
                                     <td>
                                         <a href="<?= site_url('associations/statements') ?><?= $stat ? "?id=$stat->id&association_id=$row->association_id" : "?id=$row->tdate&association_id=$row->association_id" ?>" class="btn btn-link"><?= $stat ? $stat->id : '' ?></a>

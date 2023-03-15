@@ -404,21 +404,15 @@
                                     $where = [
                                         'accounts.association_id' => $association->id,
                                     ];
-                                    foreach ($this->association->transactions($where)->get()->result() as $key => $row) {
+                                    foreach ($this->association->transactionDates($where)->result() as $key => $row) {
                                         $stat = $this->association->statements(['account_statements.id' => $row->tdate, 'association_id' => $association->id])->get()->row();
-                                        $where = [
-                                            'withdrawals.wdate' => $row->tdate,
-                                            'accounts.association_id' => $row->association_id,
-                                        ];
-                                        $row2 = $this->association->transactions2($where)->get()->row();
-
                                     ?>
                                         <tr data-id="<?= $row->association_id ?>">
                                             <td><?= $row->tdate ?></td>
                                             <td><?= number_format($row->cash_deposits, 2) ?></td>
                                             <td><?= number_format($row->momo_deposits, 2) ?></td>
-                                            <td><?= $row2 ? number_format($row2->cash_withdrawals, 2) : '0.00'; ?></td>
-                                            <td><?= $row2 ? number_format($row2->momo_withdrawals, 2) : '0.00'; ?></td>
+                                            <td><?= number_format($row->cash_withdrawals, 2) ?></td>
+                                            <td><?= number_format($row->momo_withdrawals, 2) ?></td>
                                             <td><?= number_format($row->transfer_deposits, 2) ?></td>
                                             <td>
                                                 <a href="<?= site_url('associations/statements') ?><?= $stat ? "?id=$stat->id&association_id=$association->id" : "?id=$row->tdate&association_id=$association->id" ?>" class="btn btn-link"><?= $stat ? $stat->id : '' ?></a>
